@@ -1,0 +1,152 @@
+*{
+    font-size: calc(10px + 1vmin);
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.logo{
+    justify-self: center;
+    align-self: center;
+    font-size: 3rem;
+    font-weight: 600;
+    color: white;
+    font-family: "roboto";
+}
+.bars-icone{
+    color: white;
+    justify-self: center;
+    align-self: center;
+}
+.times-icone{
+    color: white;
+    justify-self: center;
+    align-self: center;
+}
+.nav-links{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap:2rem;
+    font-family: "roboto";
+}
+.nav-links li {
+    list-style: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 400;
+     text-align: center;
+     color: white;
+     font-family: "roboto";
+     cursor: pointer;
+} 
+
+.nav-get-startd {
+   height: 3.5rem;
+   width: 9.4rem;
+    font-size:1.1rem;
+    background-color: #960256;
+    color: white;
+    font-weight:500;
+    border: none;
+    outline: none;
+    font-family: "roboto";
+    cursor:  pointer;
+}
+
+.navbar-mobile-btn{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    /* padding: 1rem; */
+    font-size: 1.5rem;
+    display: none;
+}
+
+.nav-links-mobile{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    gap:2rem;
+    width: 50%;
+    height: 22rem;
+    font-family: "roboto";
+    background-color: #960256;
+    top: 10%;
+    right: 1%;
+}
+.nav-links-mobile li {
+    list-style: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 400;
+     text-align: center;
+     color: white;
+     font-family: "roboto";
+     cursor: pointer;
+}
+
+
+@media(max-width:1100px){
+
+    .logo{
+        font-size: 2.5rem;
+    }
+    .nav-links{
+        gap:1.5rem;
+        
+    }
+    .nav-links li {
+        font-size: 1rem;
+    } 
+    
+    .nav-get-startd {
+       height: 2.7rem;
+       width: 9rem;
+        font: size 1rem;;
+        background-color: #960256;
+        color: white;
+    }
+    
+
+    
+}
+
+@media(max-width:900px){
+
+    .logo{
+        font-size: 1/8rem;
+    }
+    .nav-links{
+        gap:1rem;
+        
+    }
+    .nav-links li {
+        font-size: .8rem;
+    } 
+    
+    .nav-get-startd {
+        font-size:1rem;
+        background-color: #960256;
+        color: white;
+    }
+    
+
+    
+}
+
+@media(max-width:750px){
+    .navbar-mobile-btn{
+        display: block;
+    }
+    .nav-links{
+        display: none;
+    }
+
+    .nav-get-startd {
+        display: none;
+     }
+}

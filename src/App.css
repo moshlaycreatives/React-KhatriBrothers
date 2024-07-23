@@ -1,0 +1,36 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto, sans-serif",
+}
+
+body{
+  font-family: "Roboto", sans-serif;
+
+}
+
+
+
+/* -------------------------OTP File---------------------- */
+.otpContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+padding: 3rem 20%;
+height: auto;
+
+}
+.otpInput{
+padding: 1rem;
+text-align: center;
+width: 5rem;
+margin-left: 1rem;
+font-size: 2rem;
+}
+
+@media (max-width: 600px) {
+ .otpInput {
+    width: 3rem;
+
+  }
+}

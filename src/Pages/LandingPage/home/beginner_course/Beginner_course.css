@@ -1,0 +1,71 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+.beginner-course-main-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+     /* margin-top: 5rem; */
+     padding: 0 10%;
+}
+.beginner-course-main-div h1{
+    color: #960256;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+.beginner-course-main-div p{
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+.beginner-image-div{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    /* margin: 0 auto; */
+    gap: 2rem;
+}
+.beginner-course-card{
+display: flex;
+flex-direction: column;
+gap: 1rem;
+}
+.beginner-course-card h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.beginner-course-card button{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.beginner-course-card button{
+background-color: white;
+width: 12rem;
+height: 2.8rem;
+border: 1px solid #960256;
+color: #960256;
+}
+.beginner-image-card-image{
+    width: 14.6rem;
+}
+.beginner-course-card-arrow-image{
+    color: #960256;
+}
+
+
+/* media query  */
+@media(max-width:1280px){
+    .beginner-image-div{
+        flex-wrap: wrap;
+        margin: 0 auto;
+    }
+    .beginner-course-main-div{
+        margin: 0 auto;}
+}

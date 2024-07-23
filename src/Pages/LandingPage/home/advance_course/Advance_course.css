@@ -1,0 +1,72 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+.advacne-course-main-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding: 0 10%;
+}
+.advacne-course-main-div h1{
+    color: #960256;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+.advacne-course-main-div p{
+    font-size: 0.9rem;
+    color:grey;
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+.advance-image-div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+}
+.advance-course-card{
+display: flex;
+flex-direction: column;
+gap: 1rem;
+margin: 0 auto;
+}
+.advance-course-card h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.advance-course-card button{
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.advance-course-card button{
+background-color: white;
+width: 12rem;
+height: 2.8rem;
+border: 1px solid #960256;
+color: #960256;
+}
+.advance-image-card-image{
+    width: 20rem;
+}
+.advance-course-card-arrow-image{
+    color: #960256;
+}
+
+
+/* medai query  */
+
+
+@media(max-width:1280px) {
+    .advance-image-div{
+        flex-wrap: wrap;
+    }
+}

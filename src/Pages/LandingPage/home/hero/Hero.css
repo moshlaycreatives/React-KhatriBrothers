@@ -1,0 +1,46 @@
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+.hero-section{
+    width: 100%;
+    background-image: url("./assets/hero/hero.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 2% 10%;
+    height: 90vh;
+}
+.hero-section-text{
+    width: 50%;
+    margin-top: 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.hero-section-text h1{
+    font-size: 4.2rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 1.5rem;
+    font-family: "roboto";
+}
+ .hero-section-text-spam{
+    font-weight: 100;
+    color: white;
+    font-size: 4.2rem;
+
+ }
+.hero-section-text button{
+    height: 3rem;
+   width: 9rem;
+    font-size:1rem;
+    background-color: #960256;
+    color: white;
+    font-weight:500;
+    border: none;
+    outline: none;
+    margin-bottom: 6rem;
+}
