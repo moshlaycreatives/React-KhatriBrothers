@@ -2,7 +2,7 @@ import api from '../../utils/Api'
 
 export const userRegister = (formValues) => async (dispatch) => {
   try {
-    const res = await api.post("/registerUser", formValues);
+    const res = await api.post("/register", formValues);
 
     console.log('Response from API:', res);
 
@@ -43,7 +43,18 @@ export const forgetPassword = ({email}) => async (dispatch) => {
 
 export const verifyPassword = ({ email, forgotPasswordOtp }) => async (dispatch) => {
   try {
-    const res = await api.post("/verifyOTP", { email, forgotPasswordOtp });
+    const res = await api.post("/verifyForgotPasswordOTP", { email, forgotPasswordOtp });
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const resendotpcode = ({ email }) => async (dispatch) => {
+  try {
+    const res = await api.post("/resendOtp", { email });
 
     return res;
   } catch (err) {
@@ -62,6 +73,19 @@ export const resetPassword = ({ email, password, confirmPassword }) => async (di
   }
 };
 
+
+
+export const contactUser = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.post("/createContact", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const getSellers = () => async (dispatch) => {
   try {

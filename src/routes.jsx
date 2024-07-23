@@ -5,7 +5,7 @@ import Password_Confirmation from "./Pages/Authentication_Page/Components/Passwo
 import Change_Password from "./Pages/Authentication_Page/Components/Change_Password";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import AdminMain from '../src/Admin/AdminMain'
+import AdminMain from "../src/Admin/AdminMain";
 import Main from "./Pages/Authentication_Page/Main";
 
 import SingleProduct from "./Pages/ShopPage/SingleProduct";
@@ -23,93 +23,86 @@ import SignUp from "./Pages/Auth/SignUp";
 import SignIn from "./Pages/Authentication_Page/SignIn/SignIn";
 import ForgetPassword from "./Pages/Authentication_Page/ForgetPassword/ForgetPassword";
 import CreatePassword from "./Pages/Authentication_Page/CreatePassword/CreatePassword";
+import OTPConfirmation from "./Pages/Authentication_Page/Components/OTPConfirmation";
+import SetNewPassword from "./Pages/Authentication_Page/Components/SetNewPassword";
 export default function Router() {
+  let element = useRoutes([
+    {
+      path: "/",
+      element: <Landing />,
+    },
 
+    {
+      path: "/about-us",
+      element: <AboutUs />,
+    },
 
+    {
+      path: "/contact-us",
+      element: <ContactUs />,
+    },
 
-    let element = useRoutes([
+    {
+      path: "/sign-up",
+      element: <SignUp />,
+    },
+    {
+      path: "/sign-in",
+      element: <SignIn />,
+    },
+    {
+      path: "/forget-password",
+      element: <ForgetPassword />,
+    },
 
+    {
+      path: "/otp-verification",
+      element: <OTPConfirmation />,
+    },
 
+    {
+      path: "/set-password",
+      element: <SetNewPassword />,
+    },
+    {
+      path: "/advance-course",
+      element: <AdvanceCourseMain />,
+    },
 
-        {
-        path:'/',
-        element : <Landing /> ,
-       },
+    {
+      path: "/begginer-course",
+      element: <BegginerCoursesMain />,
+    },
 
+    {
+      path: "/advance-course-price",
+      element: <AdvanceCoursePriceMain />,
+    },
 
-       {
-        path:'/about-us',
-        element : <AboutUs /> ,
-       },
+    {
+      path: "/begginer-course-price",
+      element: <BegginerCoursePriceMain />,
+    },
 
+    {
+      path: "/blogs",
+      element: <BlogsPageMain />,
+    },
 
-       {
-        path:'/contact-us',
-        element : <ContactUs /> ,
-       },
+    {
+      path: "/blog-detail",
+      element: <BlogDetailPage />,
+    },
 
-       {
-        path:'/sign-up',
-        element : <SignUp /> ,
-       },
-       {
-        path:'/sign-in',
-        element : <SignIn /> ,
-       },
-       {
-        path:'/forget-password',
-        element : <ForgetPassword /> ,
-       },
-       {
-        path:'/create-password',
-        element : <CreatePassword /> ,
-       }
-,
+    {
+      path: "/faqs",
+      element: <FAQMain />,
+    },
 
-       {
-        path:'/advance-course',
-        element : <AdvanceCourseMain /> ,
-       },
-
-
-       {
-        path:'/begginer-course',
-        element : <BegginerCoursesMain /> ,
-       },
-
-       {
-        path:'/advance-course-price',
-        element : <AdvanceCoursePriceMain /> ,
-       },
-
-
-       {
-        path:'/begginer-course-price',
-        element : <BegginerCoursePriceMain/> ,
-       },
-
-
-       {
-        path:'/blogs',
-        element : <BlogsPageMain/> ,
-       },
-
-
-       {
-        path:'/blog-detail',
-        element : <BlogDetailPage/> ,
-       },
-
-
-       {
-        path:'/faqs',
-        element : <FAQMain/> ,
-       },
-
-
-
-
-
-    ])
-    return element
+    {
+      path: "/admin-dashboard",
+      element: <AdminMain />,
+    },
+  ]);
+  return element;
 }

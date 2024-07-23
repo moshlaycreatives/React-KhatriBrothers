@@ -16,14 +16,14 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-padding: 3rem 20%;
+padding: 1rem 10%;
 height: auto;
 
 }
 .otpInput{
 padding: 1rem;
 text-align: center;
-width: 5rem;
+width: 4rem;
 margin-left: 1rem;
 font-size: 2rem;
 }

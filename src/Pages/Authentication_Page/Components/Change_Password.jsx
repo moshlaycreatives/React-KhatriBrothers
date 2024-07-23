@@ -105,12 +105,9 @@ const Change_Password = () => {
               variant="contained"
               sx={{
                 marginTop: "2rem",
-                backgroundColor: "#94603b",
                 borderRadius: "25px",
                 color: "white",
-                "&:hover": {
-                  backgroundColor: "#94603b", // Change background color to red on hover
-                },
+
               }}
             >
               Reset Password

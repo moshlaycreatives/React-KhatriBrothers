@@ -21,17 +21,17 @@ import { useLocation } from "react-router-dom";
 const Footer = () => {
   const theme = useTheme();
 
-  // const location = useLocation()
+  const location = useLocation()
 
 
-  // const currentPath = location.pathname;
+  const currentPath = location.pathname;
 
-  // const isHidden =
-  //   currentPath === "/";
+  const isHidden =
+    currentPath === "/admin-dashboard";
 
-  // if (isHidden) {
-  //   return null;
-  // }
+  if (isHidden) {
+    return null;
+  }
   return (
     <>
       <Box>

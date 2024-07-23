@@ -56,12 +56,9 @@ const Header = () => {
   const currentPath = location.pathname;
 
   const isHidden =
-    /^\/public-screen\/[^\/]+$/.test(currentPath) ||
-    /^\/admin\/contest\/[^\/]+$/.test(currentPath) ||
-    /^\/public-screen-result\/[^\/]+$/.test(currentPath) ||
-    currentPath === "/public-screen-result" ||
-    currentPath === "/admin_side_screen1" ||
-    currentPath === "/admin_side_screen2" ||
+    currentPath === "/sign-up" ||
+    currentPath === "/admin-dashboard" ||
+    currentPath === "/otp-verification" ||
     currentPath === "/participant-registered";
 
   if (isHidden) {

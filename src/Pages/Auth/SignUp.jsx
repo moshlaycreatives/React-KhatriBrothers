@@ -1,32 +1,158 @@
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material'
-import React from 'react'
-import Page from '../../components/Page/Page'
-import { Link } from 'react-router-dom'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
+import Page from "../../components/Page/Page";
+import { Link } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
+import { userRegister } from "../../store/actions/authActions";
 
 const SignUp = () => {
+  const theme = useTheme();
+  const initialValues = {
+    learnerType: "",
+    name: "",
+    email: "",
+    phone: "",
+    dob:'',
+    // dob: {
+    //   month: "",
+    //   day: "",
+    //   year: "",
+    // },
+    password: "",
+    confirmPassword: "",
+  };
 
-    const theme = useTheme()
+  const [formValues, setFormValues] = useState(initialValues);
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handlePhoneChange = (value) => {
+    setFormValues({ ...formValues, phone: value });
+  };
+
+  const handleDOBChange = (name, value) => {
+    setFormValues({
+      ...formValues,
+      dob: { ...formValues.dob, [name]: value },
+    });
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+
+    const alphabetRegex = /[a-zA-Z]/;
+    const numberRegex = /\d/;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+    // Check if password meets complexity requirements
+    if (
+      !alphabetRegex.test(formValues.password) ||
+      !numberRegex.test(formValues.password) ||
+      !specialCharRegex.test(formValues.password)
+    ) {
+      enqueueSnackbar(
+        "Password must contain alphabets, numbers, and special characters",
+        { variant: "error" }
+      );
+      return;
+    }
+
+    if (formValues.password !== formValues.confirmPassword) {
+      enqueueSnackbar("Passwords do not match", { variant: "error" });
+      return;
+    }
+    const dobString = `${formValues.dob.month} ${formValues.dob.day}, ${formValues.dob.year}`;
+    const dataToSubmit = {
+      ...formValues,
+      dob: dobString,
+    };
+    console.log(dataToSubmit, 'Form values');
+
+    dispatch(userRegister(dataToSubmit))
+    .then((res) => {
+
+
+      alert(res.data.message, 'response')
+      setFormValues(res.data.payload);
+
+      enqueueSnackbar("User Registered Successfully", { variant: "success" });
+
+      setFormValues(initialValues);
+
+      navigate("/signup");
+    })
+    .catch((err) => {
+      setLoading(false);
+      // console.log(res.data.payload, 'payloaddddddd')
+      console.log(err.message, 'errorrrrrr');
+      enqueueSnackbar(err.message, { variant: "error" });
+    });
+};
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const years = Array.from(
+    { length: 100 },
+    (_, i) => new Date().getFullYear() - i
+  );
+
   return (
     <>
-
-    <Page title="sign-up">
-    <Box  sx={{marginBottom:"3rem"}}>
-        <Grid container  spacing={5}>
-            <Grid item lg={6} md={6} xs={12} sm={12} >
-            <Box
+      <Page title="sign-up">
+        <Box sx={{ marginBottom: "3rem" }}>
+          <Grid container spacing={5}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Box
                 sx={{
                   backgroundImage: "url(/sign-in-up.png)",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   height: "100%",
                   width: "100%",
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"flex-end",
-                  padding:"1rem 1rem 6rem 1rem"
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "flex-end",
+                  padding: "1rem 1rem 6rem 1rem",
                 }}
               >
-                <Typography sx={{color:"white"}} >
+                <Typography sx={{ color: "white" }}>
                   Es un hecho establecido hace demasiado tiempo que un lector se
                   distraerá con el contenido del texto de un sitio mientras que
                   mira su diseño.
@@ -34,61 +160,235 @@ const SignUp = () => {
               </Box>
             </Grid>
 
-           <Grid item lg={6} md={6} xs={12} sm={12} >
-           <Box sx={{ display:'flex', alignItems:'center',justifyContent:"center", width:"100%"}}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "80%",
+                }}
+              >
+                <Box sx={{ width: "90%" }}>
+                  <Typography
+                    sx={{
+                      fontSize: "3rem",
+                      fontWeight: "600",
+                      marginTop: "2rem",
+                    }}
+                  >
+                    logo{" "}
+                  </Typography>
 
-            <Box sx={{width:"90%"}}>
-            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>            
+                  <Typography
+                    sx={{
+                      fontSize: "2.5rem",
+                      fontWeight: "700",
+                      marginTop: "2rem",
+                      marginBottom: "1rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  >
+                    Sign Up
+                  </Typography>
 
-            <Typography sx={{fontSize:"2.5rem", fontWeight:"700", marginTop:"2rem", marginBottom:"1rem",
-                color:theme.palette.primary.main
-            }}>Sign UP</Typography>
+                  <form onSubmit={handleRegisterSubmit}>
+                    <FormControl sx={{ marginBottom: ".5rem" }}>
+                      <FormLabel
+                        sx={{
+                          fontSize: "1.1rem",
+                          fontWeight: "400",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        Please Select Learner's age group
+                      </FormLabel>
+                      <RadioGroup
+                        sx={{ display: "flex", flexDirection: "row" }}
+                        name="learnerType"
+                        value={formValues.learnerType}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                          value="Adult"
+                          control={<Radio />}
+                          label="Adult"
+                        />
+                        <FormControlLabel
+                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                          value="Child(below 14 years)"
+                          control={<Radio />}
+                          label="Child (below 14 years)"
+                        />
+                      </RadioGroup>
+                    </FormControl>
 
-            <FormControl sx={{marginBottom:".5rem"}}>
-                <FormLabel sx={{fontSize:"1.1rem", fontWeight:"400",marginBottom:"0.5rem"}}>Please Select Learner's age group</FormLabel>
-                <RadioGroup sx={{ display:"flex", flexDirection:"row"}}>
-                    <FormControlLabel sx={{fontSize:"1.2rem", fontWeight:"400"}} value="Adult" control={<Radio/>} label="Adult"/>
-                    <FormControlLabel sx={{fontSize:"1.2rem", fontWeight:"400", }} value="Child(below 14 years)" control={<Radio/>} label="Child (below 14 years)"/>  
-                </RadioGroup>
-            </FormControl>
+                    <Box sx={{ marginBottom: ".5rem" }}>
+                      <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+                        Name
+                      </Typography>
+                      <TextField
+                        placeholder="Enter Your Name"
+                        fullWidth
+                        size="small"
+                        name="name"
+                        value={formValues.name}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                    <Box sx={{ marginBottom: "0.5rem" }}>
+                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                        Email
+                      </Typography>
+                      <TextField
+                        placeholder="Enter Your Email"
+                        fullWidth
+                        size="small"
+                        name="email"
+                        value={formValues.email}
+                        onChange={handleChange}
+                      />
+                    </Box>
 
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.2rem", fontWeight:"400", }}>Name</Typography>
-            <TextField placeholder='Name' fullWidth size='small'/>
-            </Box>
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Email</Typography>
-            <TextField placeholder='Email' fullWidth size='small'/>
-            </Box>
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Password</Typography>
-            <TextField placeholder='Paasword' fullWidth size='small'/>
-            </Box>
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Email</Typography>
-            <TextField placeholder='Email' fullWidth size='small'/>
-            </Box>
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Password</Typography>
-            <TextField placeholder='Paasword' fullWidth size='small'/>
-            </Box>
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Comfirm Password</Typography>
-            <TextField placeholder='Comfrim password' fullWidth  size='small'/>
-            </Box>
-            <Button sx={{fontSize:"1.1rem", fontWeight:"400" , backgroundColor:theme.palette.primary.main , 
-                color:'white', marginTop:"2rem", width:"50%", width:"100%", marginBottom:".5rem"
-            }}>Sign Up</Button>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400", textAlign:"center"}}>Already have an account?<Link href="/sign-in">Sign In</Link></Typography>
-           </Box>
-           </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      gap={3}
+                      width={300}
+                      sx={{ marginBottom: "0.5rem" }}
+                    >
+                      <Box>
+                        <InputLabel>Phone</InputLabel>
+                        <PhoneInput
+                          country={"in"}
+                          value={formValues.phone}
+                          onChange={handlePhoneChange}
+                          inputStyle={{ width: "100%" }}
+                        />
+                      </Box>
+
+                      <Box>
+                        <InputLabel>Date Of Birth</InputLabel>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          gap={2}
+                        >
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={formValues.dob.month}
+                              onChange={(e) => handleDOBChange('month', e.target.value)}
+                              displayEmpty
+                            >
+                              <MenuItem value="" disabled>
+                                Month
+                              </MenuItem>
+                              {months.map((month, index) => (
+                                <MenuItem key={index} value={month}>
+                                  {month}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={formValues.dob.day}
+                              onChange={(e) => handleDOBChange('day', e.target.value)}
+                              displayEmpty
+                            >
+                              <MenuItem value="" disabled>
+                                Day
+                              </MenuItem>
+                              {days.map((day) => (
+                                <MenuItem key={day} value={day}>
+                                  {day}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={formValues.dob.year}
+                              onChange={(e) => handleDOBChange('year', e.target.value)}
+                              displayEmpty
+                            >
+                              <MenuItem value="" disabled>
+                                Year
+                              </MenuItem>
+                              {years.map((year) => (
+                                <MenuItem key={year} value={year}>
+                                  {year}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    <Box sx={{ marginBottom: ".5rem" }}>
+                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                        Password
+                      </Typography>
+                      <TextField
+                        placeholder="Password"
+                        fullWidth
+                        size="small"
+                        name="password"
+                        type="password"
+                        value={formValues.password}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                    <Box sx={{ marginBottom: ".5rem" }}>
+                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                        Confirm Password
+                      </Typography>
+                      <TextField
+                        placeholder="Confirm password"
+                        fullWidth
+                        size="small"
+                        name="confirmPassword"
+                        type="password"
+                        value={formValues.confirmPassword}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                    <Button
+                      type="submit"
+                      sx={{
+                        fontSize: "1.1rem",
+                        fontWeight: "400",
+                        backgroundColor: theme.palette.primary.main,
+                        color: "white",
+                        marginTop: "2rem",
+                        width: "100%",
+                        marginBottom: ".5rem",
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </form>
+                  <Typography
+                    sx={{
+                      fontSize: "1.1rem",
+                      fontWeight: "400",
+                      textAlign: "center",
+                    }}
+                  >
+                    Already have an account? <Link to="/sign-in">Sign In</Link>
+                  </Typography>
+                </Box>
+              </Box>
             </Grid>
-        </Grid>
-    </Box>
-    </Page>
-    
+          </Grid>
+        </Box>
+      </Page>
     </>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

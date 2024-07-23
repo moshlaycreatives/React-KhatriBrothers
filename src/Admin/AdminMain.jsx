@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import Category from './components/Category/Category';
 import { Helmet } from 'react-helmet';
 import Sellers from './components/Sellers/Sellers';
@@ -26,14 +26,18 @@ import AddProduct from './components/Products/AddProduct';
 const drawerWidth = 240;
 
 const listData = [
-  { title: 'Manage Categories', icon: <WorkIcon /> },
-  { title: 'Approved Products', icon: <ArticleIcon /> },
-  { title: 'Pending Products', icon: <AccountCircleIcon /> },
-  { title: 'All Sellers', icon: <AccountCircleIcon /> },
-  { title: 'Add Product', icon: <AccountCircleIcon /> },
+  { title: 'Dashboard', icon: <WorkIcon /> },
+  { title: 'Course Info', icon: <ArticleIcon /> },
+  { title: 'Messages', icon: <AccountCircleIcon /> },
+  { title: 'Testimonial', icon: <AccountCircleIcon /> },
+  { title: 'Terms & Conditions ', icon: <AccountCircleIcon /> },
+  { title: 'Settings', icon: <AccountCircleIcon /> },
+  { title: 'Logout', icon: <AccountCircleIcon /> },
+
 ];
 
 const AdminMain = () => {
+  const theme = useTheme()
   const [selectedItem, setSelectedItem] = React.useState(listData[0].title);
   const handleItemClick = (title) => {
     setSelectedItem(title);
@@ -49,12 +53,12 @@ const AdminMain = () => {
         <title>Admin_Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex'  }}>
         <CssBaseline />
-        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <AppBar position="fixed" sx={{ backgroundColor:'white', padding:'0.3rem 0rem', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-              Ex Furniture Admin
+            <Typography variant="h6" noWrap component="div" sx={{color:theme.palette.primary.main, fontSize:'2rem'}}>
+            Logo
             </Typography>
             <Button variant="contained" sx={{ ml: 'auto' }} color="secondary" onClick={handleSignOut}>
               Signout
@@ -70,33 +74,38 @@ const AdminMain = () => {
           }}
         >
           <Toolbar />
-          <Box sx={{ overflow: 'auto' }}>
-            <List sx={{ p: 1 }}>
+          <Box sx={{ overflow: 'auto', backgroundColor:theme.palette.primary.main, height:'100vh' }}>
+            <List>
               {listData.map((val, ind) => (
-                <ListItem
+<>
+<ListItem
                   key={ind}
                   disablePadding
                   sx={{
-                    backgroundColor: selectedItem === val.title ? '#007BFF' : 'transparent',
+                    backgroundColor: selectedItem === val.title ? 'white' : 'transparent',
                     mt: 2,
-                    borderRadius: '15px',
-                    color: selectedItem === val.title ? '#fff' : '#000',
-                    '&:hover': {
-                      backgroundColor: '#007BFF',
-                    },
+
+                    borderRadius: '0px',
+                    color: selectedItem === val.title ? theme.palette.primary.main : '#fff',
+
                   }}
                   onClick={() => handleItemClick(val.title)}
                 >
                   <ListItemButton>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? '#fff' : '#000' }}>
+                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
                       {val.icon}
                     </ListItemIcon>
                     <ListItemText primary={val.title} sx={{ fontWeight: selectedItem === val.title && 'bold' }} />
                   </ListItemButton>
                 </ListItem>
+                {/* <Divider sx={{color:'white'}}/> */}
+
+</>
               ))}
+
             </List>
             <Divider />
+
           </Box>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

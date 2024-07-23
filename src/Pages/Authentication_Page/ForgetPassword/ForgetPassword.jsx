@@ -1,11 +1,41 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Page from '../../../components/Page/Page'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import { forgetPassword } from '../../../store/actions/authActions'
+import { useDispatch } from 'react-redux'
 
 const ForgetPassword = () => {
 
     const theme = useTheme();
+
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
+    const [email, setEmail] = useState("");
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      dispatch(forgetPassword({ email }))
+        .then((res) => {
+          console.log('API Response:', res); // Log the response to debug
+
+            navigate("/otp-verification",  { state: {email} });
+
+          })
+        .catch((err) => {
+          console.error('API Error:', err); // Log the error to debug
+          // enqueueSnackbar("Failed to send OTP", { variant: 'error' });
+          // navigate("/signup");
+        });
+    };
+
   return (
     <>
     <Page title="forget-password">
@@ -37,7 +67,7 @@ const ForgetPassword = () => {
            <Box sx={{ display:'flex', alignItems:'center', justifyContent:"center", width:"100%"}}>
 
             <Box sx={{width:"90%"}}>
-            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>            
+            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>
 
             <Typography sx={{fontSize:"2.5rem", fontWeight:"700", marginTop:"6rem", marginBottom:"1rem",
                 color:theme.palette.primary.main
@@ -46,15 +76,25 @@ const ForgetPassword = () => {
             <Typography sx={{fontSize:'1.1rem', fontWeight:"400", marginBottom:"1rem"}}>To reset your password, please enter your email address
             below.</Typography>
 
-            <Box sx={{marginBottom:".5rem"}}>
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400"}}>Email</Typography>
-            <TextField placeholder='Email' fullWidth size='small'/>
-            </Box>
-            
-
-            <Button sx={{fontSize:"1.1rem", fontWeight:"400" , backgroundColor:theme.palette.primary.main , 
+            <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Email"
+              size='small'
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              className="mb-4"
+              required // Mark email field as required
+            />
+              <Button type='submit' sx={{fontSize:"1.1rem", fontWeight:"400" , backgroundColor:theme.palette.primary.main ,
                 color:'white', marginTop:"2rem", width:"50%", width:"100%", marginBottom:".5rem"
             }}>Send</Button>
+          </form>
+
+
            </Box>
            </Box>
             </Grid>

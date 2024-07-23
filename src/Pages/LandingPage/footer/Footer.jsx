@@ -3,7 +3,7 @@ import "./Footer.css"
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaPhoneVolume } from "react-icons/fa";
-import {Link} from "react-router-dom" 
+import {Link, useLocation} from "react-router-dom"
 import { LiaTwitterSquare } from "react-icons/lia";
 import { FaThreads } from "react-icons/fa6";
 import { AiOutlineFacebook } from "react-icons/ai";
@@ -11,6 +11,19 @@ import { FaInstagram } from "react-icons/fa";
 
 
 function Footer() {
+
+
+  const location = useLocation()
+
+
+  const currentPath = location.pathname;
+
+  const isHidden =
+    currentPath === "/admin-dashboard";
+
+  if (isHidden) {
+    return null;
+  }
   return (
     <footer className='footer-section'>
         <div className='footer-main-div'>
