@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Page from "../../components/page";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
-import Navbar from "../LandingPage/navbar/Navbar";
 import AboutSection1 from "./AboutSection1";
 import WhoWeAre from "./WhoWeAre";
 import CounterCards from "./CounterCards";
@@ -14,7 +13,7 @@ const AboutUs = () => {
   });
   return (
     <Page title="About Us">
-      {/* <Navbar/> */}
+
 <AboutSection1/>
 <WhoWeAre/>
 <CounterCards/>

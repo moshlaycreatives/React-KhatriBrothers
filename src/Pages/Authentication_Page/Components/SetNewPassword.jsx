@@ -52,7 +52,7 @@ const theme = useTheme()
     return (
     <>
     <Page title="sign-in">
-    <Box sx={{marginBottom:"3rem"}}>
+    <Box>
         <Grid container  spacing={5}>
             <Grid item lg={6} md={6} xs={12} sm={12} >
             <Box

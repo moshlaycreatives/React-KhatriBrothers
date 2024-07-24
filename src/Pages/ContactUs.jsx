@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  InputLabel,
   TextField,
   Typography,
   useTheme,
@@ -12,8 +13,14 @@ import { useSnackbar } from "notistack";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { contactUser } from "../store/actions/authActions";
-
+import PhoneInput from "react-phone-input-2";
+import { IoMdClose } from "react-icons/io";
 const ContactUs = () => {
+  const history = useNavigate();
+
+  const handleClick = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -60,14 +67,14 @@ const ContactUs = () => {
   return (
     <>
       <Page title="Contact us">
-        <Box sx={{ padding: "1rem 10%" }}>
+        <Box sx={{}}>
           <Box
             sx={{
-              padding: "5rem 4rem",
+              padding: "3rem 5%",
               backgroundColor: theme.palette.primary.main,
             }}
           >
-            <Grid container spacing={4} sx={{ backgroundColor: "white" }}>
+            <Grid container sx={{ backgroundColor: "white", padding:'1.5rem' }}>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <Box
                   sx={{
@@ -109,11 +116,34 @@ const ContactUs = () => {
                 </Box>
               </Grid>
 
-              <Grid item lg={6} md={12} sm={12} xs={12}>
+              <Grid
+                item
+                lg={6}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{ paddingRight: "2.5rem" }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <IoMdClose
+                    style={{ fontSize: "1.8rem" }}
+                    onClick={handleClick}
+                  />
+                </Box>
                 <form onSubmit={handleLoginSubmit}>
+                  <InputLabel
+                    sx={{
+                      marginBottom: "0.5rem",
+                      color: "black",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    Name*
+                  </InputLabel>
                   <TextField
                     fullWidth
                     required
+                    size="small"
                     label="Name"
                     id="name"
                     name="name"
@@ -122,11 +152,21 @@ const ContactUs = () => {
                     onChange={handleChange}
                     variant="outlined"
                     className="mb-4"
-                    sx={{ marginBottom: "2rem" }}
+                    sx={{ marginBottom: "1rem" }}
                   />
+                  <InputLabel
+                    sx={{
+                      marginBottom: "0.5rem",
+                      color: "black",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    Email*
+                  </InputLabel>
                   <TextField
                     fullWidth
                     required
+                    size="small"
                     label="Email"
                     id="email"
                     name="email"
@@ -137,20 +177,25 @@ const ContactUs = () => {
                     className="mb-4"
                     sx={{ marginBottom: "1rem" }}
                   />
+                  <Box>
+                    <InputLabel
+                      sx={{
+                        marginBottom: "0.5rem",
+                        color: "black",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      Phone*
+                    </InputLabel>
+                    <PhoneInput
+                      country={"in"}
+                      // value={formValues.phone}
+                      // onChange={handlePhoneChange}
+                      inputStyle={{ width: "100%" }}
+                    />
+                  </Box>
 
-                  <TextField
-                    fullWidth
-                    required
-                    label="Phone"
-                    id="phone"
-                    name="phone"
-                    type="phone"
-                    value={formValues.phone}
-                    onChange={handleChange}
-                    variant="outlined"
-                    className="mb-4"
-                    sx={{ marginBottom: "2rem" }}
-                  />
+                  <br />
 
                   <Typography>How Can We Help You*</Typography>
                   <TextField

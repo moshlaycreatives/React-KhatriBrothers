@@ -1,51 +1,55 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import React, { useState } from 'react';
+import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Button, useTheme } from '@mui/material';
-import Category from './components/Category/Category';
 import { Helmet } from 'react-helmet';
-import Sellers from './components/Sellers/Sellers';
-import ApprovedProducts from './components/Products/ApprovedProducts';
-import PendingProducts from './components/Products/PendingProducts';
-import AddProduct from './components/Products/AddProduct';
-// import other components and actions
+import Dashboard from './components/Dashboard/Dashboard';
+import MessagesMain from './components/Messages/MessagesMain';
+import CourseInfoMain from './components/CourseInfo/CourseInfoMain';
+import Testimonials from './components/Testimonials/Testimonials';
+import TermsConditionsMain from './components/TermsConditions/TermsConditionsMain';
+import SettingsMain from './components/Settings/SettingsMain';
+import { userLogout } from '../store/actions/authActions';
 
 const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <WorkIcon /> },
   { title: 'Course Info', icon: <ArticleIcon /> },
-  { title: 'Messages', icon: <AccountCircleIcon /> },
+  { title: 'Message', icon: <AccountCircleIcon /> },
   { title: 'Testimonial', icon: <AccountCircleIcon /> },
-  { title: 'Terms & Conditions ', icon: <AccountCircleIcon /> },
+  { title: 'Terms & Conditions', icon: <AccountCircleIcon /> },
   { title: 'Settings', icon: <AccountCircleIcon /> },
   { title: 'Logout', icon: <AccountCircleIcon /> },
-
 ];
 
 const AdminMain = () => {
-  const theme = useTheme()
-  const [selectedItem, setSelectedItem] = React.useState(listData[0].title);
+  const theme = useTheme();
+  const [selectedItem, setSelectedItem] = useState(listData[0].title);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+
   const handleItemClick = (title) => {
-    setSelectedItem(title);
+    if (title === 'Logout') {
+      setLogoutModalOpen(true);
+    } else {
+      setSelectedItem(title);
+    }
   };
-  const handleSignOut = () => {
-    // dispatch(adminLogOut());
-    console.log('Sign out');
+
+  const handleLogout = () => {
+    dispatch(userLogout());
+
+    setLogoutModalOpen(false);
+
   };
+
+  const handleCloseModal = () => {
+    setLogoutModalOpen(false);
+  };
+
+
+
 
   return (
     <>
@@ -53,16 +57,50 @@ const AdminMain = () => {
         <title>Admin_Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <Box sx={{ display: 'flex'  }}>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="fixed" sx={{ backgroundColor:'white', padding:'0.3rem 0rem', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'white', padding: '0.3rem 0rem', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar>
-            <Typography variant="h6" noWrap component="div" sx={{color:theme.palette.primary.main, fontSize:'2rem'}}>
-            Logo
-            </Typography>
-            <Button variant="contained" sx={{ ml: 'auto' }} color="secondary" onClick={handleSignOut}>
-              Signout
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+              <Typography variant="h6" noWrap component="div" sx={{ color: theme.palette.primary.main, fontSize: '2rem' }}>
+                Logo
+              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+                <Box>
+                  <FormControl sx={{ padding: 0 }}>
+                    <Select
+                      sx={{
+                        outline: "none",
+                        "&:focus": {
+                          outline: "none",
+                        },
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: "none",
+                        },
+                      }}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Select user" }}
+                      style={{ minWidth: "120px", padding: 0 }}
+                      renderValue={(selected) => (
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            alt=""
+                            sx={{ height: "2rem", width: "2rem", marginRight: "8px" }}
+                          />
+                          <Typography sx={{ fontSize: "1rem" }}>
+                            Momin
+                          </Typography>
+                        </Box>
+                      )}
+                    >
+                      <MenuItem sx={{ fontSize: "0.8rem" }} value="Logout">
+                        Logout
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Box>
+            </Box>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -74,20 +112,17 @@ const AdminMain = () => {
           }}
         >
           <Toolbar />
-          <Box sx={{ overflow: 'auto', backgroundColor:theme.palette.primary.main, height:'100vh' }}>
+          <Box sx={{ overflow: 'auto', backgroundColor: theme.palette.primary.main, height: '100vh' }}>
             <List>
               {listData.map((val, ind) => (
-<>
-<ListItem
+                <ListItem
                   key={ind}
                   disablePadding
                   sx={{
                     backgroundColor: selectedItem === val.title ? 'white' : 'transparent',
                     mt: 2,
-
                     borderRadius: '0px',
                     color: selectedItem === val.title ? theme.palette.primary.main : '#fff',
-
                   }}
                   onClick={() => handleItemClick(val.title)}
                 >
@@ -98,31 +133,45 @@ const AdminMain = () => {
                     <ListItemText primary={val.title} sx={{ fontWeight: selectedItem === val.title && 'bold' }} />
                   </ListItemButton>
                 </ListItem>
-                {/* <Divider sx={{color:'white'}}/> */}
-
-</>
               ))}
-
             </List>
             <Divider />
-
           </Box>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Box>
-            {selectedItem === 'Manage Categories' && <Category />}
-            {selectedItem === 'All Sellers' && <Sellers />}
-            {selectedItem === 'Approved Products' && <ApprovedProducts />}
-            {selectedItem === 'Pending Products' && <PendingProducts />}
-            {selectedItem === 'Add Product' && <AddProduct />}
-
-
-
-
+            {selectedItem === 'Dashboard' && <Dashboard />}
+            {selectedItem === 'Course Info' && <CourseInfoMain />}
+            {selectedItem === 'Message' && <MessagesMain />}
+            {selectedItem === 'Testimonial' && <Testimonials />}
+            {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}
+            {selectedItem === 'Settings' && <SettingsMain />}
           </Box>
         </Box>
       </Box>
+
+      <Dialog open={logoutModalOpen} onClose={handleCloseModal} sx={{ borderRadius: '0 !important' }}>
+
+        <DialogContent sx={{ borderRadius: '0 !important' }}>
+          <DialogContentText sx={{color:'black', paddingRight:'10rem',}}>
+            Are you sure you want to logout?
+
+          </DialogContentText>
+        </DialogContent>
+<br/>
+
+        <DialogActions>
+
+        <Button onClick={handleLogout} sx={{fontWeight:'400'}} color="primary" autoFocus>
+            Logout
+          </Button>
+          <Button onClick={handleCloseModal} sx={{ color:'grey',fontWeight:'400'}}>
+            Cancel
+          </Button>
+
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

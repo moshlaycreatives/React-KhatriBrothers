@@ -19,9 +19,7 @@ import { userLogout } from "../../store/actions/authActions";
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const judge_check =
-    location.pathname.includes("judge-score-card") ||
-    location.pathname.includes("judge-login");
+
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
@@ -30,11 +28,7 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    if (judge_check) {
-      navigate("/judge-login");
-    } else {
-      navigate("/admin-login");
-    }
+navigate('/sign-in')
     setDrawerOpen(false);
   };
 
@@ -57,16 +51,22 @@ const Header = () => {
 
   const isHidden =
     currentPath === "/sign-up" ||
+    currentPath === "/sign-in" ||
+    currentPath === "/forget-password" ||
+    currentPath === "/otp-verification" ||
+    currentPath === "/set-password" ||
+
     currentPath === "/admin-dashboard" ||
     currentPath === "/otp-verification" ||
+    currentPath === "/contact-us" ||
+
     currentPath === "/participant-registered";
 
   if (isHidden) {
     return null;
   }
 
-  const auth = useSelector((state) => state?.admin?.isAuthenticated);
-  const username = useSelector((state) => state?.admin?.user?.name);
+
 
   const menuItems = [
     { label: "Home", route: "/" },
@@ -76,6 +76,7 @@ const Header = () => {
     { label: "Blogs", route: "/blogs" },
     { label: "Contact", route: "/contact-us" },
   ];
+
 
   return (
     <Box

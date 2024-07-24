@@ -136,7 +136,7 @@ const SignUp = () => {
   return (
     <>
       <Page title="sign-up">
-        <Box sx={{ marginBottom: "3rem" }}>
+        <Box>
           <Grid container spacing={5}>
             <Grid item lg={6} md={6} xs={12} sm={12}>
               <Box
@@ -358,11 +358,12 @@ const SignUp = () => {
                       />
                     </Box>
                     <Button
+                    variant="contained"
                       type="submit"
                       sx={{
                         fontSize: "1.1rem",
                         fontWeight: "400",
-                        backgroundColor: theme.palette.primary.main,
+                        // backgroundColor: theme.palette.primary.main,
                         color: "white",
                         marginTop: "2rem",
                         width: "100%",

@@ -1,6 +1,5 @@
 import React from 'react'
 import "./Hero.css"
-import Navbar from '../../navbar/Navbar'
 import { Button, Typography } from '@mui/material'
 
 function Hero() {

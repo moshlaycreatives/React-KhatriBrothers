@@ -72,6 +72,17 @@ export const resetPassword = ({ email, password, confirmPassword }) => async (di
     throw err;
   }
 };
+export const changePassword = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.patch("/changePassword", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
 
 
 

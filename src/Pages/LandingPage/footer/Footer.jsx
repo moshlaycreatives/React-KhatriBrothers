@@ -19,7 +19,15 @@ function Footer() {
   const currentPath = location.pathname;
 
   const isHidden =
-    currentPath === "/admin-dashboard";
+    currentPath === "/admin-dashboard" ||
+    currentPath === "/contact-us" ||
+    currentPath === "/sign-up" ||
+    currentPath === "/sign-in" ||
+    currentPath === "/forget-password" ||
+    currentPath === "/otp-verification" ||
+    currentPath === "/set-password"
+
+
 
   if (isHidden) {
     return null;

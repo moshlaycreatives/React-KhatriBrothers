@@ -28,6 +28,7 @@ const Footer = () => {
 
   const isHidden =
     currentPath === "/admin-dashboard";
+    currentPath === "/contact-us";
 
   if (isHidden) {
     return null;

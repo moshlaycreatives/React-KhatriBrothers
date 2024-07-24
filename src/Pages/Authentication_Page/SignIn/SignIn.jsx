@@ -1,21 +1,33 @@
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material'
-import React, { useState } from 'react'
-import Page from '../../../components/Page/Page'
-import {Link, useNavigate} from "react-router-dom"
-import { useDispatch } from 'react-redux'
-import { userLogin } from '../../../store/actions/authActions'
-import { useSnackbar } from 'notistack'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
+import Page from "../../../components/Page/Page";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../../../store/actions/authActions";
+import { useSnackbar } from "notistack";
 
 const SignIn = () => {
-  const initialValues ={
-    email:'',
-    password:''
-  }
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
-const {enqueueSnackbar} = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
-    const theme = useTheme();
-const navigate = useNavigate()
+  const theme = useTheme();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -30,46 +42,41 @@ const navigate = useNavigate()
 
     dispatch(userLogin(formValues))
       .then((res) => {
-
         enqueueSnackbar(res.data.message, { variant: "success" });
 
         // alert(res.data.message, 'response')
-        setFormValues(initialValues)
+        setFormValues(initialValues);
         // navigate('/seller/dashboard')
-
-
-
-
       })
       .catch((err) => {
-      enqueueSnackbar('Please enter valid email password', { variant: "error" });
+        enqueueSnackbar("Please enter valid email password", {
+          variant: "error",
+        });
 
         console.log(err);
       });
   };
 
-
-
-    return (
+  return (
     <>
-    <Page title="sign-in">
-    <Box sx={{marginBottom:"3rem"}}>
-        <Grid container  spacing={5}>
-            <Grid item lg={6} md={6} xs={12} sm={12} >
-            <Box
+      <Page title="sign-in">
+        <Box>
+          <Grid container spacing={5}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Box
                 sx={{
                   backgroundImage: "url(/sign-in-up.png)",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   height: "100vh",
                   width: "100%",
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"flex-end",
-                  padding:"1rem 1rem 6rem 1rem"
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "flex-end",
+                  padding: "1rem 1rem 6rem 1rem",
                 }}
               >
-                <Typography sx={{color:"white"}} >
+                <Typography sx={{ color: "white" }}>
                   Es un hecho establecido hace demasiado tiempo que un lector se
                   distraerá con el contenido del texto de un sitio mientras que
                   mira su diseño.
@@ -77,17 +84,39 @@ const navigate = useNavigate()
               </Box>
             </Grid>
 
-           <Grid item lg={6} md={6} xs={12} sm={12} >
-           <Box sx={{ display:'flex', alignItems:'center',justifyContent:"center", width:"100%"}}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <Box sx={{ width: "90%" }}>
+                  <Typography
+                    sx={{
+                      fontSize: "3rem",
+                      fontWeight: "600",
+                      marginTop: "2rem",
+                    }}
+                  >
+                    logo{" "}
+                  </Typography>
 
-            <Box sx={{width:"90%"}}>
-            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "2.5rem",
+                      fontWeight: "700",
+                      marginTop: "5rem",
+                      marginBottom: "1rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  >
+                    Sign In
+                  </Typography>
 
-            <Typography sx={{fontSize:"2.5rem", fontWeight:"700", marginTop:"5rem", marginBottom:"1rem",
-                color:theme.palette.primary.main
-            }}>Sign In</Typography>
-
-<form onSubmit={handleLoginSubmit}>
+                  <form onSubmit={handleLoginSubmit}>
                     <TextField
                       fullWidth
                       required
@@ -99,7 +128,7 @@ const navigate = useNavigate()
                       onChange={handleChange}
                       variant="outlined"
                       className="mb-4"
-                      sx={{marginBottom:'2rem'}}
+                      sx={{ marginBottom: "2rem" }}
                     />
                     <TextField
                       fullWidth
@@ -112,49 +141,59 @@ const navigate = useNavigate()
                       onChange={handleChange}
                       variant="outlined"
                       className="mb-4"
-sx={{marginBottom:'1rem'}}
-
+                      sx={{ marginBottom: "1rem" }}
                     />
 
-<Link to="/forget-password" style={{ textDecoration: "none" }}>
-                    <Typography
-                      sx={{
-                        color: theme.palette.primary.main,
-                        marginLeft: "0.5rem",
-                      }}
+                    <Link
+                      to="/forget-password"
+                      style={{ textDecoration: "none" }}
                     >
-                    Forget Password
-                    </Typography>
-
-
+                      <Typography
+                        sx={{
+                          color: theme.palette.primary.main,
+                          marginLeft: "0.5rem",
+                        }}
+                      >
+                        Forget Password
+                      </Typography>
                     </Link>
 
                     <div>
-            <Button type='submit' sx={{fontSize:"1.1rem", fontWeight:"400" , backgroundColor:theme.palette.primary.main ,
-                color:'white', marginTop:"2rem", width:"50%", width:"100%", marginBottom:".5rem"
-            }}>Sign In</Button>
+                      <Button
+                        type="submit"
+                        sx={{
+                          fontSize: "1.1rem",
+                          fontWeight: "400",
+                          backgroundColor: theme.palette.primary.main,
+                          color: "white",
+                          marginTop: "2rem",
+                          width: "50%",
+                          width: "100%",
+                          marginBottom: ".5rem",
+                        }}
+                      >
+                        Sign In
+                      </Button>
                     </div>
                   </form>
 
-
-
-
-
-
-
-
-
-
-
-            <Typography sx={{fontSize:"1.1rem", fontWeight:"400", textAlign:"center"}}>Don't have an account?<Link href="/sign-in">Sign Un</Link></Typography>
-           </Box>
-           </Box>
+                  <Typography
+                    sx={{
+                      fontSize: "1.1rem",
+                      fontWeight: "400",
+                      textAlign: "center",
+                    }}
+                  >
+                    Don't have an account?<Link href="/sign-in">Sign Un</Link>
+                  </Typography>
+                </Box>
+              </Box>
             </Grid>
-        </Grid>
-    </Box>
-    </Page>
+          </Grid>
+        </Box>
+      </Page>
     </>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;
