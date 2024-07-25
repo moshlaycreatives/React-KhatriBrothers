@@ -11,6 +11,7 @@ import Testimonials from './components/Testimonials/Testimonials';
 import TermsConditionsMain from './components/TermsConditions/TermsConditionsMain';
 import SettingsMain from './components/Settings/SettingsMain';
 import { userLogout } from '../store/actions/authActions';
+import ShowProfileData from './components/ManageProfile/ShowProfileData';
 
 const drawerWidth = 240;
 
@@ -32,7 +33,9 @@ const AdminMain = () => {
   const handleItemClick = (title) => {
     if (title === 'Logout') {
       setLogoutModalOpen(true);
-    } else {
+    } else if (title === 'ManageProfile') {
+      setSelectedItem(title);
+    }else{
       setSelectedItem(title);
     }
   };
@@ -92,7 +95,12 @@ const AdminMain = () => {
                           </Typography>
                         </Box>
                       )}
+                      onChange={(event) => handleItemClick(event.target.value)}
                     >
+                      <MenuItem sx={{ fontSize: "0.8rem" }} value="ManageProfile">
+                        Manage Profile
+                      </MenuItem>
+
                       <MenuItem sx={{ fontSize: "0.8rem" }} value="Logout">
                         Logout
                       </MenuItem>
@@ -147,6 +155,8 @@ const AdminMain = () => {
             {selectedItem === 'Testimonial' && <Testimonials />}
             {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}
             {selectedItem === 'Settings' && <SettingsMain />}
+            {selectedItem === 'ManageProfile' && <ShowProfileData />}
+
           </Box>
         </Box>
       </Box>

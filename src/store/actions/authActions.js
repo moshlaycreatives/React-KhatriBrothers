@@ -15,11 +15,15 @@ export const userRegister = (formValues) => async (dispatch) => {
 export const userLogin = (formValues) => async (dispatch) => {
   try {
     const res = await api.post("/login", formValues);
-    const { token, user } = res.data;
+    const { token} = res.data;
+    const user = res.data.data
+
+    console.log(res.data.data, 'dataaaa')
     dispatch({
       type: 'LOGIN_SUCCESS',
       payload: {
-        payload: { token, user }
+        payload: { token, user },
+
       }
     });
 
@@ -75,6 +79,32 @@ export const resetPassword = ({ email, password, confirmPassword }) => async (di
 export const changePassword = (formValues) => async (dispatch) => {
   try {
     const res = await api.patch("/changePassword", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const updateProfile = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.patch("/updateProfile", formValues, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }});
+
+      console.log(res.data, 'res')
+      const user = res.data.data
+console.log(user, 'user')
+
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: {
+          payload: {user}
+        }
+      });
 
     console.log('Response from API:', res);
 

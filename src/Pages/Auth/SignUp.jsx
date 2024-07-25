@@ -90,25 +90,27 @@ const SignUp = () => {
       dob: dobString,
     };
     console.log(dataToSubmit, 'Form values');
+    // setLoading(false);
 
     dispatch(userRegister(dataToSubmit))
+
     .then((res) => {
 
 
-      alert(res.data.message, 'response')
+
       setFormValues(res.data.payload);
 
-      enqueueSnackbar("User Registered Successfully", { variant: "success" });
+      enqueueSnackbar(res.data.message, { variant: "success" });
 
       setFormValues(initialValues);
 
       navigate("/signup");
     })
     .catch((err) => {
-      setLoading(false);
+      // setLoading(false);
       // console.log(res.data.payload, 'payloaddddddd')
-      console.log(err.message, 'errorrrrrr');
-      enqueueSnackbar(err.message, { variant: "error" });
+      console.log(err, 'errorrrrrr');
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
     });
 };
 

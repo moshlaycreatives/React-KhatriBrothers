@@ -89,7 +89,7 @@ const ForgetPassword = () => {
               className="mb-4"
               required // Mark email field as required
             />
-              <Button type='submit' sx={{fontSize:"1.1rem", fontWeight:"400" , backgroundColor:theme.palette.primary.main ,
+              <Button type='submit' variant='contained' sx={{fontSize:"1.1rem", fontWeight:"400" ,
                 color:'white', marginTop:"2rem", width:"50%", width:"100%", marginBottom:".5rem"
             }}>Send</Button>
           </form>

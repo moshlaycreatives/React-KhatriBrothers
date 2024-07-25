@@ -2,6 +2,8 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isAuthenticatedAgent: false,
+  isAuthenticatedAgents: false,
+
   token: localStorage.getItem("token"),
 };
 
@@ -9,7 +11,7 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS": {
       localStorage.setItem("token", action?.payload?.payload?.token);
-      // console.log(action.payload.payload, "ACTIONNNNNNNNNNNNNNNNN");
+      console.log(action.payload, "ACTIONNNNNNNNNNNNNNNNN");
       return {
         ...state,
         ...action.payload.payload,
@@ -19,11 +21,11 @@ const authReducer = (state = initialState, action) => {
       };
     }
     case "UPDATE_USER": {
-      // console.log(action.payload, "UPDATE USER ACTION");
+      console.log(action.payload.payload.user, "UPDATE USER ACTION");
       return {
         ...state,
-        ...action.payload.data,
-        user: action.payload,
+        ...action.payload.payload,
+        user: action.payload.payload.user,
       };
     }
     case "SUCCESS_AGENT": {
@@ -35,7 +37,7 @@ const authReducer = (state = initialState, action) => {
         isAuthenticatedAgent: true,
       };
     }
-    
+
     case "SUCCESS_LOGOUT": {
       localStorage.removeItem("token");
       return {

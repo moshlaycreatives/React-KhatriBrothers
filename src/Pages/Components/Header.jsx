@@ -52,6 +52,7 @@ navigate('/sign-in')
   const isHidden =
     currentPath === "/sign-up" ||
     currentPath === "/sign-in" ||
+    
     currentPath === "/forget-password" ||
     currentPath === "/otp-verification" ||
     currentPath === "/set-password" ||

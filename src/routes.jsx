@@ -1,6 +1,5 @@
 import { useNavigate, useRoutes } from "react-router";
 import Landing from "./Pages/LandingPage/Landing";
-import Forget_Password from "./Pages/Authentication_Page/Components/Forget_Password";
 import Password_Confirmation from "./Pages/Authentication_Page/Components/Password_Confirmation";
 import Change_Password from "./Pages/Authentication_Page/Components/Change_Password";
 import { useState } from "react";

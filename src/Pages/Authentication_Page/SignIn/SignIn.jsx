@@ -14,7 +14,7 @@ import {
 import React, { useState } from "react";
 import Page from "../../../components/Page/Page";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../store/actions/authActions";
 import { useSnackbar } from "notistack";
 
@@ -24,6 +24,8 @@ const SignIn = () => {
     password: "",
   };
 
+  const userdata = useSelector((state) => state?.auth?.user?.user);
+  console.log(userdata, 'user data')
   const { enqueueSnackbar } = useSnackbar();
 
   const theme = useTheme();
@@ -42,6 +44,7 @@ const SignIn = () => {
 
     dispatch(userLogin(formValues))
       .then((res) => {
+        console.log(res, 'dfdsa')
         enqueueSnackbar(res.data.message, { variant: "success" });
 
         // alert(res.data.message, 'response')
@@ -49,7 +52,7 @@ const SignIn = () => {
         // navigate('/seller/dashboard')
       })
       .catch((err) => {
-        enqueueSnackbar("Please enter valid email password", {
+        enqueueSnackbar(err.response.data.message, {
           variant: "error",
         });
 
@@ -161,10 +164,11 @@ const SignIn = () => {
                     <div>
                       <Button
                         type="submit"
+variant="contained"
                         sx={{
+
                           fontSize: "1.1rem",
                           fontWeight: "400",
-                          backgroundColor: theme.palette.primary.main,
                           color: "white",
                           marginTop: "2rem",
                           width: "50%",
@@ -184,7 +188,7 @@ const SignIn = () => {
                       textAlign: "center",
                     }}
                   >
-                    Don't have an account?<Link href="/sign-in">Sign Un</Link>
+                    Don't have an account?<Link to="/sign-up">Sign Up</Link>
                   </Typography>
                 </Box>
               </Box>
