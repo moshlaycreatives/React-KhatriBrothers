@@ -64,12 +64,12 @@ export default function Router() {
       element: <SetNewPassword />,
     },
     {
-      path: "/advance-course",
+      path: "/advanced-course",
       element: <AdvanceCourseMain />,
     },
 
     {
-      path: "/begginer-course",
+      path: "/beginner-course",
       element: <BegginerCoursesMain />,
     },
 
@@ -102,6 +102,9 @@ export default function Router() {
       path: "/admin-dashboard",
       element: <AdminMain />,
     },
+
+
+
   ]);
   return element;
 }

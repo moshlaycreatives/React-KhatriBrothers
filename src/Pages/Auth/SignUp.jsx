@@ -14,7 +14,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Page from "../../components/Page/Page";
 import { Link } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
@@ -27,10 +27,15 @@ const SignUp = () => {
   const theme = useTheme();
   const initialValues = {
     learnerType: "",
-    name: "",
+    firstName: "",
+    lastName: "",
+    gender: "",
+
     email: "",
     phone: "",
     dob:'',
+    country:'',
+
     // dob: {
     //   month: "",
     //   day: "",
@@ -128,6 +133,27 @@ const SignUp = () => {
     "November",
     "December",
   ];
+
+const [countries, setCountries] = useState([])
+  useEffect(()=>{
+    fetch(
+      "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data.countries);
+        console.log(data.countries, 'countries')
+      });
+  },[])
+
+  console.log(countries, 'hhhhhhhh')
+
+ const name = countries.map((country)=>country.label.split(' ').at(1))
+const hh = Array(name)
+const variable = countries[0]?.label?.split(' ').at(1)
+
+console.log(typeof hh, 'jack ')
+
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const years = Array.from(
@@ -228,14 +254,28 @@ const SignUp = () => {
 
                     <Box sx={{ marginBottom: ".5rem" }}>
                       <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
-                        Name
+                        First Name
                       </Typography>
                       <TextField
-                        placeholder="Enter Your Name"
+                        placeholder="Enter Your First Name"
                         fullWidth
                         size="small"
-                        name="name"
-                        value={formValues.name}
+                        name="firstName"
+                        value={formValues.firstName}
+                        onChange={handleChange}
+                      />
+                    </Box>
+
+                    <Box sx={{ marginBottom: ".5rem" }}>
+                      <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+                        Last Name
+                      </Typography>
+                      <TextField
+                        placeholder="Enter Your Last Name"
+                        fullWidth
+                        size="small"
+                        name="lastName"
+                        value={formValues.lastName}
                         onChange={handleChange}
                       />
                     </Box>
@@ -257,11 +297,10 @@ const SignUp = () => {
                       display="flex"
                       flexDirection="column"
                       gap={3}
-                      width={300}
                       sx={{ marginBottom: "0.5rem" }}
                     >
                       <Box>
-                        <InputLabel>Phone</InputLabel>
+                        <InputLabel sx={{color:'black'}}>Phone</InputLabel>
                         <PhoneInput
                           country={"in"}
                           value={formValues.phone}
@@ -270,8 +309,40 @@ const SignUp = () => {
                         />
                       </Box>
 
+                      <FormControl>
+                       <FormLabel
+                        sx={{
+                          fontSize: "1.1rem",
+                          fontWeight: "400",
+                          marginBottom: "0.5rem",
+ color:'black'
+                        }}
+                      >
+                 Gender
+                      </FormLabel>
+                      <RadioGroup
+                        sx={{ display: "flex", flexDirection: "row" }}
+                        name="gender"
+                        value={formValues.gender}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                          value="male"
+                          control={<Radio />}
+                          label="Male"
+                        />
+                        <FormControlLabel
+                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                          value="female"
+                          control={<Radio />}
+                          label="Female"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+
                       <Box>
-                        <InputLabel>Date Of Birth</InputLabel>
+                        <InputLabel sx={{color:'black'}}>Date Of Birth</InputLabel>
                         <Box
                           display="flex"
                           justifyContent="space-between"
@@ -298,7 +369,7 @@ const SignUp = () => {
                             <Select
                               value={formValues.dob.day}
                               onChange={(e) => handleDOBChange('day', e.target.value)}
-                              displayEmpty
+
                             >
                               <MenuItem value="" disabled>
                                 Day
@@ -330,7 +401,27 @@ const SignUp = () => {
                         </Box>
                       </Box>
                     </Box>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ fontSize: "1.2rem" }}>Country</label>
+              <FormControl fullWidth>
+                <Select
+                  name="country"
+                  placeholder="Select Country"
+                  labelId="country-select-label"
+                  id="country-select"
+                  value={formValues.hh}
+                  onChange={handleChange}
+                  label="Country"
+                              >
+                  {hh.map((country) => (
+                    <MenuItem key={country} value={country}>
 
+                      {country}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
                     <Box sx={{ marginBottom: ".5rem" }}>
                       <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
                         Password

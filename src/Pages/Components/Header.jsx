@@ -279,7 +279,6 @@ const Header = () => {
   const courseOptions = [
     { label: "Advanced Course", route: "/advanced-course" },
     { label: "Beginner Course", route: "/beginner-course" },
-    { label: "Intermediate Course", route: "/intermediate-course" },
   ];
 
   return (

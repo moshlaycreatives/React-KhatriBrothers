@@ -1,101 +1,109 @@
+
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Avatar, Typography, TextField, IconButton, Paper, useMediaQuery, useTheme } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { useSelector, useDispatch } from 'react-redux';
 
-const messagesData = [
-  { id: 1, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:1000000 pm', sender: 'M', senderColor: '#000000', backgroundColor: '#e57373', isMine: false },
-  { id: 2, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#ad1457', isMine: true },
-
-
-  { id: 3, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#e57373', isMine: false },
-  { id: 4, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#ad1457', isMine: true },
-  { id: 5, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#e57373', isMine: false },
-
-  { id: 6, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#ad1457', isMine: true },
-  { id: 7, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#e57373', isMine: false },
-  { id: 8, text: 'Lorem ipsum dolor sit amet, cons ectetur adipiscing elit', time: '6:10 pm', sender: 'M', senderColor: '#FFFFFF', backgroundColor: '#ad1457', isMine: true },
-
-
-];
+// import { io } from 'socket.io-client';
 
 const MessageMain = () => {
-  const theme = useTheme()
-   const [messages, setMessages] = useState(messagesData);
-  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const [message, setMessage] = useState('');
+  const userId = useSelector((state) => state?.auth?.user._id);
+  console.log(userId, 'id')
+
+//   const socket = useMemo(() => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"), []);
+
+//   useEffect(() => {
+//     // On connection
+//     socket.on('connect', () => {
+//       console.log('Connected with socket ID:', socket.id);
+//        // Set the user ID in Redux
+//     });
+
+//     // On receiving a message
+//     socket.on('newMessage', (msg) => {
+//       console.log('Received message:', msg);
+//     });
+
+//     // Cleanup on unmount
+//     return () => {
+//       socket.off('connect');
+//       socket.off('newMessage');
+//     };
+//   }, [dispatch, socket]);
+
+//   const handleSend = () => {
+//     if (message.trim()) {
+//       const newMessage = {
+//         receiverId: '66a2cbd72114bafd1068cd68', // Use the user ID from Redux as the message ID
+//         text: message,
+//         senderId : '66a41561036df3a086f4ffe2',
+
+// imgUrl :'',
+//         createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+//       };
+//       socket.emit('sendMessage', newMessage); // Send message to the server
+//       console.log('Sent message:', newMessage);
+//       setMessage('');
+//     }
+//   };
+
+
   const handleSend = () => {
-    if (message.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        text: message,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        sender: 'M',
-        senderColor: '#FFFFFF',
-        backgroundColor: '#ad1457',
-        isMine: true,
-      };
-      setMessages([...messages, newMessage]);
-      setMessage('');
-      console.log(message, 'fffff')
-    }
+ 
   };
 
-  // -------------------chat socket-----------
-
-
-
   return (
-   <><Box>    <Typography
-   sx={{
-     color: theme.palette.primary.main,
-     fontWeight: "550",
-     fontSize: isMobile ? '1.5rem' :"2rem",
-   }}
- >
-   Messages
- </Typography></Box> <Paper  sx={{ width:isMobile? '100%' :'60%', margin: '20px auto', padding: '16px', borderRadius: '8px' }}>
-   <Box sx={{ borderBottom: '1px solid #e0e0e0', paddingBottom: '8px', marginBottom: '16px' }}>
-     <Typography variant="h6" align="center" color="primary">Khatri Brother Academy</Typography>
-   </Box>
-   <Box sx={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '16px' }}>
-     <Typography align="center" color="textSecondary" variant="body2">12/02/2024</Typography>
-     {messages.map((msg) => (
-       <Box key={msg.id} display="flex" flexDirection={msg.isMine ? 'row-reverse' : 'row'} alignItems="center" my={1}>
-         <Avatar sx={{ bgcolor: msg.isMine ? '#ffb74d' : '#e57373', color: msg.senderColor }}>{msg.sender}</Avatar>
-         <Box mx={1} p={1.5} borderRadius="8px" sx={{ bgcolor: msg.backgroundColor, maxWidth: '70%' }}>
-           <Typography color="textPrimary">{msg.text}</Typography>
-           <Typography color="textSecondary" variant="caption" display="block" textAlign={msg.isMine ? 'right' : 'left'}>{msg.time}</Typography>
-         </Box>
-       </Box>
-     ))}
-   </Box>
-   <Box display="flex" alignItems="center" justifyContent="space-between" borderTop="1px solid #e0e0e0" pt={1}>
-     <TextField
-       fullWidth
-       variant="outlined"
-       placeholder="Type your message..."
-       value={message}
-       onChange={(e) => setMessage(e.target.value)}
-       InputProps={{
-         endAdornment: (
-           <IconButton>
-             <AttachFileIcon />
-           </IconButton>
-         ),
-       }}
-     />
-     <IconButton color="primary" onClick={handleSend}>
-       <SendIcon />
-     </IconButton>
-   </Box>
- </Paper></>
+    <>
+      <Box>
+        <Typography
+          sx={{
+            color: theme.palette.primary.main,
+            fontWeight: "550",
+            fontSize: isMobile ? '1.5rem' : "2rem",
+          }}
+        >
+          Messages
+        </Typography>
+      </Box>
+      <Paper sx={{ width: isMobile ? '100%' : '60%', margin: '20px auto', padding: '16px', borderRadius: '8px' }}>
+        <Box sx={{ borderBottom: '1px solid #e0e0e0', paddingBottom: '8px', marginBottom: '16px' }}>
+          <Typography variant="h6" align="center" color="primary">Khatri Brother Academy</Typography>
+        </Box>
+        <Box sx={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '16px' }}>
+          {/* Chat messages display */}
+        </Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between" borderTop="1px solid #e0e0e0" pt={1}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Type your message..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <IconButton>
+                  <AttachFileIcon />
+                </IconButton>
+              ),
+            }}
+          />
+          <IconButton color="primary" onClick={handleSend}>
+            <SendIcon />
+          </IconButton>
+        </Box>
+      </Paper>
+    </>
   );
 };
 
 export default MessageMain;
-
 
 
 // ---------------------defaukt-------
