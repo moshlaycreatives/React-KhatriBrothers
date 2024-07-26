@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{width:'100%'}}>
         <Typography
           sx={{
             color: theme.palette.primary.main,

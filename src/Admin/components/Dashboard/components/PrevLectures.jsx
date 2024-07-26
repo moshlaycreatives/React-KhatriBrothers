@@ -64,7 +64,7 @@ const PrevLectures = () => {
 
 
 <TableContainer component={Paper} sx={{padding:'1rem 1rem', boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",}}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Table sx={{ }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Course Name</TableCell>

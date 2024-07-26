@@ -136,6 +136,9 @@
 // };
 
 // export default ShowProfileData;
+
+
+
 import { Avatar, Box, Button, Card, TextField, Typography, Input } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -143,82 +146,84 @@ import { updateProfile } from '../../../store/actions/authActions';
 import { useSnackbar } from 'notistack';
 
 const ShowProfileData = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [formValues, setFormValues] = useState({
+  const initialValues = {
     name: '',
-    email: '',
+    email: 'email@mail.com',
     phone: '',
     dob: '',
     whatsappNumber: '',
     address: '',
+    profilePicture: null
 
-  });
-  const [image, setImage] = useState(null);
+  }
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [formValues, setFormValues] = useState(initialValues);
+  // const [image, setImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const fileInputRef = useRef(null);
+  const userdata = useSelector((state) => state?.auth?.user);
 
   const { enqueueSnackbar } = useSnackbar();
-  const userdata = useSelector((state) => state?.auth?.user);
+
   const dispatch = useDispatch();
   const imageUrlRef = useRef(null);
 
+  // useEffect(() => {
+  //   if (userdata) {
+  //     setFormValues({
+  //       name: userdata.name || '',
+  //       email: userdata.email || '',
+  //       phone: userdata.phone || '',
+  //       dob: userdata.dob || '',
+  //       whatsappNumber: userdata.whatsappNumber || '',
+  //       address: userdata.address || '',
+
+  //     });
+  //   }
+  // }, [userdata]);
+
   useEffect(() => {
     if (userdata) {
-      setFormValues({
-        name: userdata.name || '',
-        email: userdata.email || '',
+      setFormValues((prevState) => ({
+        ...prevState,
+    name: userdata.name || '',
+        email: userdata.email || 'email@mail.com',
         phone: userdata.phone || '',
         dob: userdata.dob || '',
         whatsappNumber: userdata.whatsappNumber || '',
         address: userdata.address || '',
-            
-      });
+      }));
     }
   }, [userdata]);
 
-  useEffect(() => {
-    if (image) {
-      imageUrlRef.current = URL.createObjectURL(image); // Create object URL for image preview
-    }
 
-    return () => {
-      if (imageUrlRef.current) {
-        URL.revokeObjectURL(imageUrlRef.current); // Cleanup object URL
-      }
-    };
-  }, [image]);
+
+
+
+
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSubmit = () => {
-    const formData = new FormData();
-
-    // Append form values
-    Object.entries(formValues).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    // Append image if exists
-    if (image) {
-      formData.append('profilePicture', image);
-    }
-
-
-
-    // Dispatch formData to Redux action
-    dispatch(updateProfile(formData))
-      .then((res) => {
-        enqueueSnackbar(res.data.message, { variant: 'success' });
-      })
-      .catch((err) => {
-        console.log(err, 'error');
-        enqueueSnackbar(err.response.data.message, { variant: 'error' });
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const { profilePicture, ...otherValues } = formValues;
+      const formData = new FormData();
+      formData.append("profilePicture", profilePicture);
+      console.log(profilePicture, 'ppppp')
+      Object.entries(otherValues).forEach(([key, value]) => {
+        formData.append(key, value);
       });
-
-    setIsEditing(false);
+      await dispatch(updateProfile(formData));
+      enqueueSnackbar("Profile updated successfully", { variant: "success" });
+      setFormValues(initialValues);
+    } catch (error) {
+      enqueueSnackbar("Error updating profile", { variant: "error" });
+    }
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues(prevValues => ({
@@ -227,54 +232,127 @@ const ShowProfileData = () => {
     }));
   };
 
+
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file, 'ddd')
-    if (file) {
-      setImage(file); // Set File object
+    const { name, files } = e.target;
+    if (name === "profilePicture" && files.length > 0) {
+      const selectedFile = files[0];
+
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        profilePicture: selectedFile,
+      }));
+      setSelectedImage(URL.createObjectURL(selectedFile));
     }
   };
 
-  console.log(image, 'sdd')
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   console.log(file, 'ddd')
+  //   if (file) {
+  //     setImage(file); // Set File object
+  //   }
+  // };
+
+  // console.log(image, 'sdd')
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Card sx={{ padding: '2rem 3rem', width: '50%' }}>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-          <Avatar src={imageUrlRef.current} /> {/* Use the object URL */}
+          <Avatar src={selectedImage} /> {/* Use the object URL */}
           <Typography>{formValues.name}</Typography>
         </Box>
 
-        {Object.entries({
-          Name: 'name',
-          Email: 'email',
-          Phone: 'phone',
-          'Date Of Birth': 'dob',
-          'Whatsapp Number': 'whatsappNumber',
-          Address: 'address'
-        }).map(([label, key]) => (
-          <Box sx={{ marginBottom: '.5rem' }} key={key}>
-            <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>{label}</Typography>
-            <TextField
-              placeholder={`Enter Your ${label}`}
-              fullWidth
+
+
+
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Name</Typography>
+              <TextField
+                name="name"
+                placeholder="Name"
+                fullWidth
               size="small"
-              name={key}
-              value={formValues[key] || ''}
-              onChange={handleChange}
-              disabled={!isEditing}
               sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
-            />
-          </Box>
-        ))}
+                value={formValues.name}
+                onChange={handleChange}
+              />
+
+
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Email</Typography>
+              <TextField
+                name="email"
+                placeholder="Email"
+                fullWidth
+              size="small"
+              sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+                value={formValues.email}
+                disabled
+                onChange={handleChange}
+              />
+
+<Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Phone</Typography>
+              <TextField
+                name="phone"
+                placeholder="Phone"
+                fullWidth
+              size="small"
+              sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+                value={formValues.phone}
+                onChange={handleChange}
+              />
+
+<Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Date of Birth</Typography>
+              <TextField
+                name="dob"
+                placeholder="Date of Birth"
+                fullWidth
+              size="small"
+              sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+                value={formValues.dob}
+                onChange={handleChange}
+              />
+
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Whatsapp Number</Typography>
+              <TextField
+                name="whatsappNumber"
+                placeholder="Whatsapp Number"
+                fullWidth
+              size="small"
+              sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+                value={formValues.whatsappNumber}
+                onChange={handleChange}
+              />
+
+<Box sx={{marginBottom:'0.5rem'}}>
+<Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Address</Typography>
+              <TextField
+                name="address"
+                placeholder="Address"
+               fullWidth
+              size="small"
+              sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+
+                value={formValues.address}
+                onChange={handleChange}
+              />
+              </Box>
+
+
+
+
 
         <Box sx={{ marginBottom: '.5rem' }}>
           <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Profile Picture</Typography>
-          <Input
+          <input
             type="file"
+            name='profilePicture'
+
             inputProps={{ accept: 'image/*' }}
             onChange={handleImageChange}
-            disabled={!isEditing}
+
+
+                          // disabled={!isEditing}
           />
         </Box>
 

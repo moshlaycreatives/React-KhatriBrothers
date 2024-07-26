@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Avatar, Typography, TextField, IconButton, Paper } from '@mui/material';
+import { Box, Avatar, Typography, TextField, IconButton, Paper, useMediaQuery, useTheme } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
@@ -20,8 +20,10 @@ const messagesData = [
 ];
 
 const MessageMain = () => {
-  const [messages, setMessages] = useState(messagesData);
+  const theme = useTheme()
+   const [messages, setMessages] = useState(messagesData);
   const [message, setMessage] = useState('');
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleSend = () => {
     if (message.trim()) {
@@ -45,42 +47,50 @@ const MessageMain = () => {
 
 
   return (
-    <Paper  sx={{ width: '60%', margin: '20px auto', padding: '16px', borderRadius: '8px' }}>
-      <Box sx={{ borderBottom: '1px solid #e0e0e0', paddingBottom: '8px', marginBottom: '16px' }}>
-        <Typography variant="h6" align="center" color="primary">Khatri Brother Academy</Typography>
-      </Box>
-      <Box sx={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '16px' }}>
-        <Typography align="center" color="textSecondary" variant="body2">12/02/2024</Typography>
-        {messages.map((msg) => (
-          <Box key={msg.id} display="flex" flexDirection={msg.isMine ? 'row-reverse' : 'row'} alignItems="center" my={1}>
-            <Avatar sx={{ bgcolor: msg.isMine ? '#ffb74d' : '#e57373', color: msg.senderColor }}>{msg.sender}</Avatar>
-            <Box mx={1} p={1.5} borderRadius="8px" sx={{ bgcolor: msg.backgroundColor, maxWidth: '70%' }}>
-              <Typography color="textPrimary">{msg.text}</Typography>
-              <Typography color="textSecondary" variant="caption" display="block" textAlign={msg.isMine ? 'right' : 'left'}>{msg.time}</Typography>
-            </Box>
-          </Box>
-        ))}
-      </Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between" borderTop="1px solid #e0e0e0" pt={1}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Type your message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton>
-                <AttachFileIcon />
-              </IconButton>
-            ),
-          }}
-        />
-        <IconButton color="primary" onClick={handleSend}>
-          <SendIcon />
-        </IconButton>
-      </Box>
-    </Paper>
+   <><Box>    <Typography
+   sx={{
+     color: theme.palette.primary.main,
+     fontWeight: "550",
+     fontSize: isMobile ? '1.5rem' :"2rem",
+   }}
+ >
+   Messages
+ </Typography></Box> <Paper  sx={{ width:isMobile? '100%' :'60%', margin: '20px auto', padding: '16px', borderRadius: '8px' }}>
+   <Box sx={{ borderBottom: '1px solid #e0e0e0', paddingBottom: '8px', marginBottom: '16px' }}>
+     <Typography variant="h6" align="center" color="primary">Khatri Brother Academy</Typography>
+   </Box>
+   <Box sx={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '16px' }}>
+     <Typography align="center" color="textSecondary" variant="body2">12/02/2024</Typography>
+     {messages.map((msg) => (
+       <Box key={msg.id} display="flex" flexDirection={msg.isMine ? 'row-reverse' : 'row'} alignItems="center" my={1}>
+         <Avatar sx={{ bgcolor: msg.isMine ? '#ffb74d' : '#e57373', color: msg.senderColor }}>{msg.sender}</Avatar>
+         <Box mx={1} p={1.5} borderRadius="8px" sx={{ bgcolor: msg.backgroundColor, maxWidth: '70%' }}>
+           <Typography color="textPrimary">{msg.text}</Typography>
+           <Typography color="textSecondary" variant="caption" display="block" textAlign={msg.isMine ? 'right' : 'left'}>{msg.time}</Typography>
+         </Box>
+       </Box>
+     ))}
+   </Box>
+   <Box display="flex" alignItems="center" justifyContent="space-between" borderTop="1px solid #e0e0e0" pt={1}>
+     <TextField
+       fullWidth
+       variant="outlined"
+       placeholder="Type your message..."
+       value={message}
+       onChange={(e) => setMessage(e.target.value)}
+       InputProps={{
+         endAdornment: (
+           <IconButton>
+             <AttachFileIcon />
+           </IconButton>
+         ),
+       }}
+     />
+     <IconButton color="primary" onClick={handleSend}>
+       <SendIcon />
+     </IconButton>
+   </Box>
+ </Paper></>
   );
 };
 
