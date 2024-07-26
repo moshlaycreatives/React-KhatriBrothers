@@ -373,7 +373,7 @@ const AdminMain = () => {
 
       <Dialog open={logoutModalOpen} onClose={handleCloseModal} sx={{ borderRadius: '0 !important' }}>
         <DialogContent sx={{ borderRadius: '0 !important' }}>
-          <DialogContentText sx={{ color: 'black', paddingRight: '10rem' }}>
+          <DialogContentText sx={{ color: 'black', paddingRight: isMobile ? '0rem' : '10rem' }}>
             Are you sure you want to logout?
           </DialogContentText>
         </DialogContent>
