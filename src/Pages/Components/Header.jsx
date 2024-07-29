@@ -258,7 +258,9 @@ const Header = () => {
     currentPath === "/set-password" ||
     currentPath === "/admin-dashboard" ||
     currentPath === "/contact-us" ||
-    currentPath === "/participant-registered";
+    currentPath === "/participant-registered"||
+    currentPath === "/student-dashboard";
+
 
   if (isHidden) {
     return null;

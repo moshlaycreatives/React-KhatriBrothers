@@ -2,32 +2,31 @@ import { Box, Grid, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsDatabase } from "react-icons/bs";
-import RecentEnrollments from "./components/RecentEnrollments";
-
+import PrevLectures from "./components/PrevLectures";
 
 const Dashboard = () => {
   const theme = useTheme();
 
   const cardData = [
     {
-      title: "Students",
+      title: "Course Fee",
       icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
       price: "$100",
     },
     {
-      title: "Total Earn",
+      title: "Duration Weeks",
       icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "$67630",
+      price: "30",
     },
     {
-      title: "Teachers",
+      title: "Teacher Fee",
       icon: <BsDatabase style={{ fontSize: "1.6rem" }} />,
-      price: "20",
+      price: "$50",
     },
     {
-      title: "Total Courses",
+      title: "Remaining Lectures",
       icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "08",
+      price: "8",
     },
   ];
 
@@ -83,7 +82,7 @@ const Dashboard = () => {
           </Grid>
         </Box>
 
-<RecentEnrollments/>
+<PrevLectures/>
       </Box>
 
     </>

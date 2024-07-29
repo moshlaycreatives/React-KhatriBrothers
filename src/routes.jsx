@@ -24,6 +24,7 @@ import ForgetPassword from "./Pages/Authentication_Page/ForgetPassword/ForgetPas
 import CreatePassword from "./Pages/Authentication_Page/CreatePassword/CreatePassword";
 import OTPConfirmation from "./Pages/Authentication_Page/Components/OTPConfirmation";
 import SetNewPassword from "./Pages/Authentication_Page/Components/SetNewPassword";
+import StudentMain from "./Student/StudentMain";
 export default function Router() {
   let element = useRoutes([
     {
@@ -101,6 +102,11 @@ export default function Router() {
     {
       path: "/admin-dashboard",
       element: <AdminMain />,
+    },
+
+    {
+      path: "/student-dashboard",
+      element: <StudentMain />,
     },
 
 

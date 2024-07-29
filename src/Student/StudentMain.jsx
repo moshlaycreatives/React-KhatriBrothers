@@ -14,18 +14,12 @@ import SettingsMain from './components/Settings/SettingsMain';
 import { userLogout } from '../store/actions/authActions';
 import ShowProfileData from './components/ManageProfile/ShowProfileData';
 import { useSelector } from 'react-redux';
-import AdvanceCoursesMain from './components/AdvanceCourses/AdvanceCoursesMain';
-import BeginnerCoursesMain from './components/BegginerCourses/BeginnerCoursesMain';
 
 const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <WorkIcon /> },
-  { title: 'Advance Course', icon: <ArticleIcon /> },
-  { title: 'Beginner Course', icon: <ArticleIcon /> },
-  { title: 'Student', icon: <ArticleIcon /> },
-  { title: 'Teachers', icon: <ArticleIcon /> },
-
+  { title: 'Course Info', icon: <ArticleIcon /> },
   { title: 'Message', icon: <AccountCircleIcon /> },
   { title: 'Testimonial', icon: <AccountCircleIcon /> },
   { title: 'Terms & Conditions', icon: <AccountCircleIcon /> },
@@ -33,7 +27,7 @@ const listData = [
   { title: 'Logout', icon: <AccountCircleIcon /> },
 ];
 
-const AdminMain = () => {
+const StudentMain = () => {
   const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -44,7 +38,7 @@ const userData = useSelector((state)=>state?.auth?.user)
 console.log(userData, 'data')
 
 
-const profilePictureUrl = base + userData?.profilePicture;
+const profilePictureUrl = base + userData.profilePicture;
 
 
   const handleItemClick = (title) => {
@@ -120,7 +114,7 @@ const profilePictureUrl = base + userData?.profilePicture;
                             sx={{ height: "2rem", width: "2rem", marginRight: "8px" }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {userData?.name}
+                            {userData.name}
                           </Typography>
                         </Box>
                       )}
@@ -186,10 +180,7 @@ const profilePictureUrl = base + userData?.profilePicture;
           <Toolbar />
           <Box>
             {selectedItem === 'Dashboard' && <Dashboard />}
-            { selectedItem === 'Advance Course' && <AdvanceCoursesMain /> }
-  { selectedItem === 'Beginner Course'&& <BeginnerCoursesMain /> }
-  { selectedItem === 'Student' && <ArticleIcon /> }
-  { selectedItem === 'Teachers' && <ArticleIcon /> }
+            {selectedItem === 'Course Info' && <CourseInfoMain />}
             {selectedItem === 'Message' && <MessagesMain />}
             {selectedItem === 'Testimonial' && <Testimonials />}
             {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}
@@ -219,4 +210,4 @@ const profilePictureUrl = base + userData?.profilePicture;
   );
 };
 
-export default AdminMain;
+export default StudentMain;

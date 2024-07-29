@@ -27,7 +27,9 @@ const Footer = () => {
   const currentPath = location.pathname;
 
   const isHidden =
-    currentPath === "/admin-dashboard";
+    currentPath === "/admin-dashboard"||
+    currentPath === "/student-dashboard"||
+
     currentPath === "/contact-us";
 
   if (isHidden) {

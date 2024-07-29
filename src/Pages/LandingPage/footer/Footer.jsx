@@ -20,6 +20,8 @@ function Footer() {
 
   const isHidden =
     currentPath === "/admin-dashboard" ||
+    currentPath === "/student-dashboard" ||
+
     currentPath === "/contact-us" ||
     currentPath === "/sign-up" ||
     currentPath === "/sign-in" ||
