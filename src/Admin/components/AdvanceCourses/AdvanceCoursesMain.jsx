@@ -150,7 +150,7 @@ const AdvanceCoursesMain = () => {
                           open={Boolean(anchorEl)}
                           onClose={handleMenuClose}
                         >
-                          <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+                          <MenuItem onClick={handleEditClick}>View</MenuItem>
                           <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                         </Menu>
                       </TableCell>
@@ -163,7 +163,7 @@ const AdvanceCoursesMain = () => {
         </>
       )}
 
-      {/* Confirmation Dialog */}
+
       <Dialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}
@@ -179,7 +179,7 @@ const AdvanceCoursesMain = () => {
             Cancel
           </Button>
           <Button onClick={handleConfirmDelete} color="secondary">
-            Yes, Delete
+         Delete
           </Button>
         </DialogActions>
       </Dialog>

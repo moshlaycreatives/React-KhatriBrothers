@@ -1,9 +1,14 @@
 import React from 'react'
 import "./About.css"
 import { Button, Typography, useTheme } from '@mui/material'
+import { useNavigate } from 'react-router'
 
 function About() {
   const theme = useTheme()
+const navigate = useNavigate()
+  const handleAbout = ()=>{
+navigate('about-us')
+}
   return (
     <>
     <section className='home-about-section'>
@@ -22,7 +27,7 @@ function About() {
             <br/>
             temporibus quasi necessitatibus nulla, beatae dolore autem qui laborum. Quis repudiandae voluptas ab? Voluptas expedita consequuntur illo harum eaque architecto deserunt molestiae ipsum enim provident cum recusandae, odio ab natus, ullam aliquid quisquam officia iusto reiciendis sunt excepturi, illum quia fuga! Quidem dolorum fuga non accusamus unde, beatae voluptas. Sit iusto f</p>
             {/* <button>learn more <i class="fa-solid fa-arrow-right-long"></i></button> */}
-            <Button sx={{fontSize:'0.9rem'}}>Learn More</Button>
+            <Button variant='contained' sx={{fontSize:'0.5rem'}} onClick={handleAbout}>Learn More</Button>
         </div>
     </div>
     </section>

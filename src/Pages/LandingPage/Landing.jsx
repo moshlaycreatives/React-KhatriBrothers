@@ -20,7 +20,9 @@ import Home from "./home/Home";
 
 const Landing = () => {
   const theme = useTheme();
-
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
 
 

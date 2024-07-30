@@ -1,11 +1,18 @@
-import { Box, Button, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import { Box, Button, CircularProgress, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { MdDateRange } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
+import { getSingleCourse } from "../../store/actions/courseActions";
 
 const BegginerCoursePriceMain = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isMedium = useMediaQuery(theme.breakpoints.down("md"));
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+      },[])
 
   const advanceData = [
     {
@@ -21,6 +28,39 @@ const BegginerCoursePriceMain = () => {
         desc: "Lorem ipsum dolor sit amet.",
       },
   ];
+
+  const {id} = useParams()
+
+  console.log(id, 'dddddddddddddddddddd')
+  const dispatch = useDispatch();
+  const [courseData, setCourseData] = useState({});
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // Set loading to true before fetching data
+      try {
+        const res = await dispatch(getSingleCourse(id));
+        console.log(res.data.data, "hahahahhaaa");
+        setCourseData(res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch advance courses:", err);
+      } finally {
+        setLoading(true); // Set loading to false after data is fetched or if an error occurs
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <>
       <Box

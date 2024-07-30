@@ -18,8 +18,12 @@ export const addAdvance = (formValues) => async (dispatch) => {
 export const getBeginnerCourse = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllBeginnerCourses",);
-
+    dispatch({
+      type: 'BEGINNER_COURSES',
+      payload: { courses: res.data.data }
+    })
     return res;
+
   } catch (err) {
     throw err;
   }
@@ -29,7 +33,10 @@ export const getBeginnerCourse = () => async (dispatch) => {
 export const getAdvanceCourse = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllAdvancedCourses",);
-
+    dispatch({
+      type: 'ADVANCED_COURSES',
+      payload: { courses: res.data.data }
+    })
     return res;
   } catch (err) {
     throw err;
@@ -49,9 +56,32 @@ export const getSingleCourse = (courseId) => async (dispatch) => {
 };
 
 
+
+export const updateCourse = (courseId, formValues) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/updateCourse/${courseId}`, formValues);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
 export const deleteSingleData = (courseId) => async (dispatch) => {
   try {
     const res = await api.patch(`/deleteCourse/${courseId}`,);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const getRelatedCourses = (courseType) => async (dispatch) => {
+  try {
+    const res = await api.post(`/getRelatedCourses`, {courseType});
 
     return res;
   } catch (err) {

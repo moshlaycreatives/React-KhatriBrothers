@@ -1,22 +1,48 @@
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { getAdvanceCourse } from "../../store/actions/courseActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdvanceCoursesCard = () => {
   const theme = useTheme();
+  const course = useSelector((state)=>state?.courses?.advancedCourses)
 
-  const advanceData = [
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },{
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-  ]
+const navigate = useNavigate()
+
+  const handleCardClick = (id) => {
+    navigate(`/course-details/${id}`);
+  };
+
+
+
+  const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
+
+  // const [advanceCourse, setAdvanceCourse] = useState([]);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getAdvanceCourse())
+  //     .then((res) => {
+
+  //       setAdvanceCourse(res?.data?.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err, "errorrrrrrrrrr");
+  //     });
+  // }, [dispatch]);
+
+
+
+
+  // console.log(advanceCourse, "advance coiurse home page");
+
+
+
+
+
+
+
 
 
   return (
@@ -25,14 +51,14 @@ const AdvanceCoursesCard = () => {
         <Grid container>
 
 
-{advanceData.map((val, ind)=>(
-    <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
+{course.map((val, ind)=>(
+    <Grid key={ind} item lg={4} md={4} sm={12} xs={12} onClick={() => handleCardClick(val._id)}>
             <Box>
-              <img src={val.image} alt="alt image" width={"80%"} />
+              <img src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"80%"} />
             </Box>
             <Box>
               <Typography sx={{ color: "grey" }}>
-{val.desc}
+{val.title}
               </Typography>
               <br/>
               <Button
@@ -43,6 +69,8 @@ const AdvanceCoursesCard = () => {
                 borderRadius:'0px',
                 fontSize:'1.1rem'
                 }}
+                onClick={() => handleCardClick(val._id)}
+
               >
                 Learn More &rarr;
               </Button>

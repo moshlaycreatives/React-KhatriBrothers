@@ -1,31 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Beginner_course.css"
 import Beginner_course_card from './Beginner.course-card.jsx'
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
 import BegginerCourseCard from '../../../BegginerCoursesPage/BegginerCourseCard.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBeginnerCourse } from '../../../../store/actions/courseActions.js'
+import { useNavigate } from 'react-router'
 
 function Beginner_course() {
  const theme = useTheme()
 
+ const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
+ const course = useSelector((state)=>state?.courses?.beginnerCourses)
+const navigate = useNavigate()
 
  const advanceData = [
   {
       image:'advancecourse.png',
       desc:'Lorem ipsum dolor sit amet.',
+      _id:1
   },
   {
+    _id:2
+,
       image:'advancecourse.png',
       desc:'Lorem ipsum dolor sit amet.',
   },
   {
+    _id:3,
     image:'advancecourse.png',
     desc:'Lorem ipsum dolor sit amet.',
 },
 {
+  _id:4,
     image:'advancecourse.png',
     desc:'Lorem ipsum dolor sit amet.',
 },
 ]
+const handleOpenCourse = (id) => {
+  navigate(`course-details/${id}`);
+};
+
+
+
+
+const handleViewAll = ()=>{
+  navigate('beginner-course')
+  }
+
   return (
 
 
@@ -51,14 +73,14 @@ function Beginner_course() {
         <Grid container spacing={3}>
 
 
-{advanceData.map((val, ind)=>(
-    <Grid key={ind} item lg={3} md={3} sm={12} xs={12}>
+{course.slice(0, 4).map((val, ind)=>(
+    <Grid key={ind} item lg={3} md={3} sm={12} xs={12} onClick={()=>handleOpenCourse(val._id)}>
             <Box>
-              <img src={val.image} alt="alt image" width={"100%"} />
+              <img src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height={'200vh'} />
             </Box>
             <Box>
               <Typography sx={{ color: "grey" }}>
-{val.desc}
+{val.title}
               </Typography>
               <br/>
               <Button
@@ -69,6 +91,7 @@ function Beginner_course() {
                 borderRadius:'0px',
                 fontSize:'1.1rem'
                 }}
+                onClick={()=>handleOpenCourse(val._id)}
               >
                 Learn More &rarr;
               </Button>
@@ -77,22 +100,16 @@ function Beginner_course() {
 ))}
 
         </Grid>
+
+
+        <br/>
+<br/>
+<Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+  <Button variant='contained' sx={{borderRadius:'0px', padding:'0.5rem 3rem', textTransform:'none'}} onClick={handleViewAll}>View All</Button>
+</Box>
       </Box>
 
 
-    {/* <div className='beginner-course-main-div'>
-
-        <div className='beginner-image-div'>
-            <Beginner_course_card image="./assets/beginner_course/beginner_1.png"
-            description=" lorem lorem lorem loem "/>
-            <Beginner_course_card image="./assets/beginner_course/beginner_2.png"
-            description=" lorem lorem lorem loem "/>
-            <Beginner_course_card image="./assets/beginner_course/beginner_3.png"
-            description=" lorem lorem lorem loem "/>
-             <Beginner_course_card image="./assets/beginner_course/beginner_4.png"
-            description=" lorem lorem lorem loem "/>
-        </div>
-    </div> */}
     </>
 
   )

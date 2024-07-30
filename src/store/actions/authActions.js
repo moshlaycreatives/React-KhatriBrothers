@@ -95,9 +95,9 @@ export const updateProfile = (formValues) => async (dispatch) => {
         'Content-Type': 'multipart/form-data',
       }});
 
-      console.log(res.data, 'res')
+
       const user = res.data.data
-console.log(user, 'user')
+
 
       dispatch({
         type: 'UPDATE_USER',
@@ -106,7 +106,7 @@ console.log(user, 'user')
         }
       });
 
-    console.log('Response from API:', res);
+
 
     return res;
   } catch (err) {
@@ -128,7 +128,7 @@ export const contactUser = (formValues) => async (dispatch) => {
   }
 };
 
-export const getSellers = () => async (dispatch) => {
+export const getAllUsers = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllUsers",);
 

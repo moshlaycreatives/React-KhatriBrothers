@@ -56,7 +56,7 @@ const chipDeleteIconStyles = {
   padding: "1px",
   color: 'white'
 };
-const EditBeginnerCourse = ({ courseData }) => {
+const EditAdvanceCourse = ({ courseData }) => {
 
 
 
@@ -153,7 +153,7 @@ const EditBeginnerCourse = ({ courseData }) => {
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     formData.append('price', formValues.price);
-    formData.append('courseType', 'beginner');
+    formData.append('courseType', 'advanced');
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
@@ -283,4 +283,4 @@ const EditBeginnerCourse = ({ courseData }) => {
   );
 };
 
-export default EditBeginnerCourse;
+export default EditAdvanceCourse;

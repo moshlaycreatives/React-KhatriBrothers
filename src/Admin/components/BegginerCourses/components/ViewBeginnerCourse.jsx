@@ -50,10 +50,10 @@ const ViewBeginnerCourse = ({ courseId }) => {
     <>
       {isEditing ? (
         <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+          {/* <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
-          </Button>
-          <EditBeginnerCourse/>
+          </Button> */}
+          <EditBeginnerCourse courseData={courseData}/>
         </>
       ) : (
         <Card sx={{ padding: "1rem", marginBottom: "1rem" }}>

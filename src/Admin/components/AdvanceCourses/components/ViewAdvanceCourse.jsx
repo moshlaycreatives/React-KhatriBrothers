@@ -2,11 +2,14 @@ import { Button, Card, Typography, CircularProgress, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {  getSingleCourse } from "../../../../store/actions/courseActions";
+import EditAdvanceCourse from "./EditAdvanceCourse";
 
 const ViewAdvanceCourse = ({courseId}) => {
   const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
 
   console.log(courseId, 'dddddddddddddddddddd')
+  const [isEditing, setIsEditing] = useState(false);
+
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true); // Add loading state
@@ -28,6 +31,16 @@ const ViewAdvanceCourse = ({courseId}) => {
     fetchData();
   }, [dispatch]);
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleBackClick = () => {
+    setIsEditing(false);
+    // Add logic to navigate back to the courses list or handle the back action
+  };
+  console.log(isEditing, 'editinggggg')
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
@@ -38,7 +51,17 @@ const ViewAdvanceCourse = ({courseId}) => {
 
   return (
     <>
-      <Card sx={{ padding: "1rem", marginBottom: "1rem" }}>
+
+
+{isEditing ? (
+        <>
+          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+            &lt; Back to Courses
+          </Button>
+          <EditAdvanceCourse courseData={courseData}/>
+        </>
+      ) : (
+        <Card sx={{ padding: "1rem", marginBottom: "1rem" }}>
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Name
           </Typography>
@@ -104,10 +127,13 @@ const ViewAdvanceCourse = ({courseId}) => {
           <Button
             variant="contained"
             sx={{ borderRadius: "0px", width: "30%" }}
+            onClick={handleEditClick}
           >
             Edit
           </Button>
         </Card>
+      )}
+
     </>
   );
 };

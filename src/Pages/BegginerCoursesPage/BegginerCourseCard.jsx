@@ -1,66 +1,49 @@
 
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getBeginnerCourse } from "../../store/actions/courseActions";
+import { useNavigate } from "react-router-dom";
 
 const BegginerCoursesCard = () => {
+  const courses = useSelector((state)=>state?.courses?.beginnerCourses)
   const theme = useTheme();
+  const navigate = useNavigate();
+  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
 
-  const advanceData = [
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },{
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },{
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-  ]
+  const handleCardClick = (id) => {
+    navigate(`/course-details/${id}`);
+  };
 
-
+  
   return (
-    <>
-      <Box sx={{ padding: "3rem 10%" }}>
-        <Grid container spacing={5}>
-
-
-{advanceData.map((val, ind)=>(
-    <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
-            <Box>
-              <img src={val.image} alt="alt image" width={"80%"} />
+    <Box sx={{ padding: "3rem 10%" }}>
+      <Grid container spacing={5}>
+        {courses.map((course, index) => (
+          <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
+            <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
+              <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'200vh'} />
             </Box>
             <Box>
-              <Typography sx={{ color: "grey" }}>
-{val.desc}
-              </Typography>
-              <br/>
+              <Typography sx={{ color: "grey" }}>{course.title}</Typography>
+              <br />
               <Button
                 variant="outlined"
                 sx={{
                   color: theme.palette.primary.main,
                   textTransform: "none",
-                borderRadius:'0px',
-                fontSize:'1.1rem'
+                  borderRadius: '0px',
+                  fontSize: '1.1rem'
                 }}
+                onClick={() => handleCardClick(course._id)}
               >
                 Learn More &rarr;
               </Button>
             </Box>
           </Grid>
-))}
-
-        </Grid>
-      </Box>
-    </>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

@@ -416,7 +416,7 @@ const SignUp = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <label style={{ fontSize: "1.2rem" }}>Country</label>
+                      <label style={{ fontSize: "1rem" }}>Country</label>
                       <FormControl fullWidth>
                         <Select
                           name="country" // Ensure this name matches the one used in handleChange
@@ -425,7 +425,7 @@ const SignUp = () => {
                           id="country-select"
                           value={formValues.country || ""} // Ensure this value is correctly managed
                           onChange={handleChange}
-                          label="Country"
+                      size="small"
                         >
                           {transformedCountries.map((country) => (
                             <MenuItem key={country.code} value={country.label}>

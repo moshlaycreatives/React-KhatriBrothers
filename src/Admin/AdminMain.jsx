@@ -21,10 +21,10 @@ const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <WorkIcon /> },
-  { title: 'Advance Course', icon: <ArticleIcon /> },
-  { title: 'Beginner Course', icon: <ArticleIcon /> },
-  { title: 'Student', icon: <ArticleIcon /> },
-  { title: 'Teachers', icon: <ArticleIcon /> },
+  { title: 'Advance Courses', icon: <ArticleIcon /> },
+  { title: 'Beginner Courses', icon: <ArticleIcon /> },
+  { title: 'Students', icon: <ArticleIcon /> },
+  { title: 'Instructors', icon: <ArticleIcon /> },
 
   { title: 'Message', icon: <AccountCircleIcon /> },
   { title: 'Testimonial', icon: <AccountCircleIcon /> },
@@ -120,7 +120,7 @@ const profilePictureUrl = base + userData?.profilePicture;
                             sx={{ height: "2rem", width: "2rem", marginRight: "8px" }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {userData?.name}
+                            {userData?.firstName}
                           </Typography>
                         </Box>
                       )}
@@ -186,10 +186,10 @@ const profilePictureUrl = base + userData?.profilePicture;
           <Toolbar />
           <Box>
             {selectedItem === 'Dashboard' && <Dashboard />}
-            { selectedItem === 'Advance Course' && <AdvanceCoursesMain /> }
-  { selectedItem === 'Beginner Course'&& <BeginnerCoursesMain /> }
-  { selectedItem === 'Student' && <ArticleIcon /> }
-  { selectedItem === 'Teachers' && <ArticleIcon /> }
+            { selectedItem === 'Advance Courses' && <AdvanceCoursesMain /> }
+  { selectedItem === 'Beginner Courses'&& <BeginnerCoursesMain /> }
+  { selectedItem === 'Students' && <ArticleIcon /> }
+  { selectedItem === 'Instructors' && <ArticleIcon /> }
             {selectedItem === 'Message' && <MessagesMain />}
             {selectedItem === 'Testimonial' && <Testimonials />}
             {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}

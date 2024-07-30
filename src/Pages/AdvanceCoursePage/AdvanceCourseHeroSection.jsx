@@ -7,7 +7,7 @@ const AdvanceCourseHeroSection = () => {
 
 <Box
         sx={{
-          padding: "0rem 10%",
+          padding: "3rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >

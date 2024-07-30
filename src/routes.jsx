@@ -75,12 +75,12 @@ export default function Router() {
     },
 
     {
-      path: "/advance-course-price",
+      path: "/course-details/:id",
       element: <AdvanceCoursePriceMain />,
     },
 
     {
-      path: "/begginer-course-price",
+      path: "/begginer-course/:id",
       element: <BegginerCoursePriceMain />,
     },
 

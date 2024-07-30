@@ -1,37 +1,95 @@
-import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { MdDateRange } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
+import {
+  getRelatedCourses,
+  getSingleCourse,
+} from "../../store/actions/courseActions";
 
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
-  const advanceData = [
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    },
-    {
-        image:'advancecourse.png',
-        desc:'Lorem ipsum dolor sit amet.',
-    }
-  ]
+
+  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+
+ 
+
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+  const [courseData, setCourseData] = useState({});
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      try {
+        const res = await dispatch(getSingleCourse(id));
+
+        setCourseData(res.data.data);
+        dispatch(getRelatedCourses(res.data.data.courseType))
+        .then((res) => {
+          setRelated(res?.data?.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      } catch (err) {
+        console.error("Failed to fetch advance courses:", err);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+
+
+  const [related, setRelated] = useState([]);
+
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <>
       <Box
         sx={{
-          padding: "0rem 10%",
+          padding: "2rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
         <Grid container sx={{ alignItems: "center" }}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Typography variant="h5" fontWeight="550" color="white">
-              Hindustani Vocal Advanced C series
+              {courseData.title}
             </Typography>
             <Box>
               <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+                {courseData.overview}
               </Typography>
               <Button
                 variant="contained"
@@ -52,7 +110,11 @@ const AdvanceCoursePriceHeroSection = () => {
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Box sx={{ padding: "5rem" }}>
-              <img src="/AdvanceImage.png" alt="image" width={"100%"} />
+              <img
+                src={`${base}${courseData.image.replace(/ /g, "%20")}`}
+                alt="image"
+                width={"100%"}
+              />
             </Box>
           </Grid>
         </Grid>
@@ -71,10 +133,7 @@ const AdvanceCoursePriceHeroSection = () => {
               Overview:{" "}
             </Typography>
             <Typography sx={{ color: "grey" }}>
-              The development of each Raga learnt is detailed and the student is
-              encouraged to sing extempore Swar Vistar and Aalap. Swar Sadhana
-              is done with Aakar, Sakar. Raga Poorvi is the first Raga
-              introduced in this course.
+              {courseData.overview}
             </Typography>
 
             <br />
@@ -88,8 +147,7 @@ const AdvanceCoursePriceHeroSection = () => {
               Prerequisites:
             </Typography>
             <Typography sx={{ color: "grey" }}>
-              Our expert teachers will decide your eligibility in this course,
-              by listening student’s vocals.
+              {courseData.prerequisites}
             </Typography>
 
             <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
@@ -97,7 +155,6 @@ const AdvanceCoursePriceHeroSection = () => {
             </Typography>
 
             <br />
-
             <Typography
               sx={{
                 color: theme.palette.primary.main,
@@ -108,18 +165,11 @@ const AdvanceCoursePriceHeroSection = () => {
               Topic covered:{" "}
             </Typography>
 
-            <Typography sx={{ color: "grey" }}>
-              ● Thaat and Ragas
-              <br />
-              ● Gamak Ke Prakar
-              <br />
-              ● Raga Hameer
-              <br />
-              ● Raga Purvi
-              <br />
-              ● Raga Khamaj
-              <br />● Carnatic and Hindustani Ragas
-            </Typography>
+            {courseData.topics.map((topic, index) => (
+              <>
+                <Typography sx={{ color: "grey", mb: 1 }}>● {topic}</Typography>
+              </>
+            ))}
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -157,7 +207,9 @@ const AdvanceCoursePriceHeroSection = () => {
                 />
                 <Typography sx={{ fontWeight: 600 }}>
                   Course Duration :{" "}
-                  <span style={{ color: "grey" }}>12 Weeks</span>
+                  <span style={{ color: "grey" }}>
+                    {courseData.courseDuration} Weeks
+                  </span>
                 </Typography>
               </Box>
               <br />
@@ -200,7 +252,9 @@ const AdvanceCoursePriceHeroSection = () => {
                 />
                 <Typography sx={{ fontWeight: 600 }}>
                   Lecture Duration :{" "}
-                  <span style={{ color: "grey" }}>1 Hour</span>
+                  <span style={{ color: "grey" }}>
+                    {courseData.lectureDuration} Hour
+                  </span>
                 </Typography>
               </Box>
               <br />
@@ -232,7 +286,7 @@ const AdvanceCoursePriceHeroSection = () => {
                     color: theme.palette.primary.main,
                   }}
                 >
-                  Price $100
+                  Price ${courseData.price}
                 </Typography>
                 <Typography
                   sx={{
@@ -261,55 +315,47 @@ const AdvanceCoursePriceHeroSection = () => {
           </Grid>
         </Grid>
 
-<Box sx={{marginTop:'1rem'}}>
-    <Typography sx={{fontSize:'1.5rem',fontWeight:'600',  color:theme.palette.primary.main}}>Related Courses </Typography>
-<br/>
-    <Grid container spacing={5}>
-
-
-{advanceData.map((val, ind)=>(
-    <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
-            <Box>
-              <img src={val.image} alt="alt image" width={"100%"} />
-            </Box>
-            <Box>
-              <Typography sx={{ color: "grey" }}>
-{val.desc}
-              </Typography>
-              <br/>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                borderRadius:'0px',
-                fontSize:'1.1rem'
-                }}
-              >
-                Learn More &rarr;
-              </Button>
-            </Box>
+        <Box sx={{ marginTop: "1rem" }}>
+          <Typography
+            sx={{
+              fontSize: "1.5rem",
+              fontWeight: "600",
+              color: theme.palette.primary.main,
+            }}
+          >
+            Related Courses{" "}
+          </Typography>
+          <br />
+          <Grid container spacing={5}>
+            {related.slice(0, 3).map((val, ind) => (
+              <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
+                <Box>
+                  <img
+                    src={`${base}${val.image.replace(/ /g, "%20")}`}
+                    alt="alt image"
+                    width={"100%"}
+                    height={"200vh"}
+                  />
+                </Box>
+                <Box>
+                  <Typography sx={{ color: "grey" }}>{val.title}</Typography>
+                  <br />
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      textTransform: "none",
+                      borderRadius: "0px",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    Learn More &rarr;
+                  </Button>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
-))}
-
-        </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-</Box>
-
-
-
-
+        </Box>
       </Box>
     </>
   );

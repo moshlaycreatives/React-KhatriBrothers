@@ -299,7 +299,7 @@ const Header = () => {
         zIndex: 1000,
       }}
     >
-      <Box>
+      <Box onClick={()=>navigate('/')}>
         <Typography variant="h5" sx={{ fontWeight: "bold", cursor: "pointer" }}>
           Logo
         </Typography>

@@ -1,7 +1,11 @@
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 const BlogCard = () => {
+
+  useEffect(()=>{
+window.scrollTo(0,0)
+  },[])
 
     const twocard = [
         {
