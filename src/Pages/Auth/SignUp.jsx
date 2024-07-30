@@ -33,8 +33,8 @@ const SignUp = () => {
 
     email: "",
     phone: "",
-    dob:'',
-    country:'',
+    dob: "",
+    country: "",
 
     // dob: {
     //   month: "",
@@ -94,30 +94,26 @@ const SignUp = () => {
       ...formValues,
       dob: dobString,
     };
-    console.log(dataToSubmit, 'Form values');
+    console.log(dataToSubmit, "Form values");
     // setLoading(false);
 
     dispatch(userRegister(dataToSubmit))
+      .then((res) => {
+        setFormValues(res.data.payload);
 
-    .then((res) => {
+        enqueueSnackbar(res.data.message, { variant: "success" });
 
+        setFormValues(initialValues);
 
-
-      setFormValues(res.data.payload);
-
-      enqueueSnackbar(res.data.message, { variant: "success" });
-
-      setFormValues(initialValues);
-
-      navigate("/signup");
-    })
-    .catch((err) => {
-      // setLoading(false);
-      // console.log(res.data.payload, 'payloaddddddd')
-      console.log(err, 'errorrrrrr');
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
-    });
-};
+        navigate("/signup");
+      })
+      .catch((err) => {
+        // setLoading(false);
+        // console.log(res.data.payload, 'payloaddddddd')
+        console.log(err, "errorrrrrr");
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+      });
+  };
 
   const months = [
     "January",
@@ -134,26 +130,31 @@ const SignUp = () => {
     "December",
   ];
 
-const [countries, setCountries] = useState([])
-  useEffect(()=>{
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
     fetch(
       "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
     )
       .then((response) => response.json())
       .then((data) => {
         setCountries(data.countries);
-        console.log(data.countries, 'countries')
+        console.log(data.countries, "countries");
       });
-  },[])
+  }, []);
 
-  console.log(countries, 'hhhhhhhh')
+  //  const name = countries.map((country)=>country.label.split(' ').at(1))
 
- const name = countries.map((country)=>country.label.split(' ').at(1))
-const hh = Array(name)
-const variable = countries[0]?.label?.split(' ').at(1)
+  // const hh = [name]
+  // const variable = countries[0]?.label?.split(' ').at(1)
 
-console.log(typeof hh, 'jack ')
+  // console.log(hh, 'jack ')
 
+  const transformedCountries = countries.map((country) => {
+    const name = country.label.split(" ").slice(1).join(" ");
+    return { ...country, label: name };
+  });
+
+  console.log(transformedCountries, "___________________");
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const years = Array.from(
@@ -253,7 +254,9 @@ console.log(typeof hh, 'jack ')
                     </FormControl>
 
                     <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+                      <Typography
+                        sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                      >
                         First Name
                       </Typography>
                       <TextField
@@ -267,7 +270,9 @@ console.log(typeof hh, 'jack ')
                     </Box>
 
                     <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+                      <Typography
+                        sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                      >
                         Last Name
                       </Typography>
                       <TextField
@@ -280,7 +285,9 @@ console.log(typeof hh, 'jack ')
                       />
                     </Box>
                     <Box sx={{ marginBottom: "0.5rem" }}>
-                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                      <Typography
+                        sx={{ fontSize: "1.1rem", fontWeight: "400" }}
+                      >
                         Email
                       </Typography>
                       <TextField
@@ -300,7 +307,7 @@ console.log(typeof hh, 'jack ')
                       sx={{ marginBottom: "0.5rem" }}
                     >
                       <Box>
-                        <InputLabel sx={{color:'black'}}>Phone</InputLabel>
+                        <InputLabel sx={{ color: "black" }}>Phone</InputLabel>
                         <PhoneInput
                           country={"in"}
                           value={formValues.phone}
@@ -310,39 +317,41 @@ console.log(typeof hh, 'jack ')
                       </Box>
 
                       <FormControl>
-                       <FormLabel
-                        sx={{
-                          fontSize: "1.1rem",
-                          fontWeight: "400",
-                          marginBottom: "0.5rem",
- color:'black'
-                        }}
-                      >
-                 Gender
-                      </FormLabel>
-                      <RadioGroup
-                        sx={{ display: "flex", flexDirection: "row" }}
-                        name="gender"
-                        value={formValues.gender}
-                        onChange={handleChange}
-                      >
-                        <FormControlLabel
-                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
-                          value="male"
-                          control={<Radio />}
-                          label="Male"
-                        />
-                        <FormControlLabel
-                          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
-                          value="female"
-                          control={<Radio />}
-                          label="Female"
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                        <FormLabel
+                          sx={{
+                            fontSize: "1.1rem",
+                            fontWeight: "400",
+                            marginBottom: "0.5rem",
+                            color: "black",
+                          }}
+                        >
+                          Gender
+                        </FormLabel>
+                        <RadioGroup
+                          sx={{ display: "flex", flexDirection: "row" }}
+                          name="gender"
+                          value={formValues.gender}
+                          onChange={handleChange}
+                        >
+                          <FormControlLabel
+                            sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                            value="male"
+                            control={<Radio />}
+                            label="Male"
+                          />
+                          <FormControlLabel
+                            sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                            value="female"
+                            control={<Radio />}
+                            label="Female"
+                          />
+                        </RadioGroup>
+                      </FormControl>
 
                       <Box>
-                        <InputLabel sx={{color:'black'}}>Date Of Birth</InputLabel>
+                        <InputLabel sx={{ color: "black" }}>
+                          Date Of Birth
+                        </InputLabel>
                         <Box
                           display="flex"
                           justifyContent="space-between"
@@ -351,7 +360,9 @@ console.log(typeof hh, 'jack ')
                           <FormControl fullWidth size="small">
                             <Select
                               value={formValues.dob.month}
-                              onChange={(e) => handleDOBChange('month', e.target.value)}
+                              onChange={(e) =>
+                                handleDOBChange("month", e.target.value)
+                              }
                               displayEmpty
                             >
                               <MenuItem value="" disabled>
@@ -368,8 +379,9 @@ console.log(typeof hh, 'jack ')
                           <FormControl fullWidth size="small">
                             <Select
                               value={formValues.dob.day}
-                              onChange={(e) => handleDOBChange('day', e.target.value)}
-
+                              onChange={(e) =>
+                                handleDOBChange("day", e.target.value)
+                              }
                             >
                               <MenuItem value="" disabled>
                                 Day
@@ -385,7 +397,9 @@ console.log(typeof hh, 'jack ')
                           <FormControl fullWidth size="small">
                             <Select
                               value={formValues.dob.year}
-                              onChange={(e) => handleDOBChange('year', e.target.value)}
+                              onChange={(e) =>
+                                handleDOBChange("year", e.target.value)
+                              }
                               displayEmpty
                             >
                               <MenuItem value="" disabled>
@@ -401,29 +415,31 @@ console.log(typeof hh, 'jack ')
                         </Box>
                       </Box>
                     </Box>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <label style={{ fontSize: "1.2rem" }}>Country</label>
-              <FormControl fullWidth>
-                <Select
-                  name="country"
-                  placeholder="Select Country"
-                  labelId="country-select-label"
-                  id="country-select"
-                  value={formValues.hh}
-                  onChange={handleChange}
-                  label="Country"
-                              >
-                  {hh.map((country) => (
-                    <MenuItem key={country} value={country}>
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <label style={{ fontSize: "1.2rem" }}>Country</label>
+                      <FormControl fullWidth>
+                        <Select
+                          name="country" // Ensure this name matches the one used in handleChange
+                          placeholder="Select Country"
+                          labelId="country-select-label"
+                          id="country-select"
+                          value={formValues.country || ""} // Ensure this value is correctly managed
+                          onChange={handleChange}
+                          label="Country"
+                        >
+                          {transformedCountries.map((country) => (
+                            <MenuItem key={country.code} value={country.label}>
+                              {country.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Box>
 
-                      {country}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
                     <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                      <Typography
+                        sx={{ fontSize: "1.1rem", fontWeight: "400" }}
+                      >
                         Password
                       </Typography>
                       <TextField
@@ -437,7 +453,9 @@ console.log(typeof hh, 'jack ')
                       />
                     </Box>
                     <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography sx={{ fontSize: "1.1rem", fontWeight: "400" }}>
+                      <Typography
+                        sx={{ fontSize: "1.1rem", fontWeight: "400" }}
+                      >
                         Confirm Password
                       </Typography>
                       <TextField
@@ -451,7 +469,7 @@ console.log(typeof hh, 'jack ')
                       />
                     </Box>
                     <Button
-                    variant="contained"
+                      variant="contained"
                       type="submit"
                       sx={{
                         fontSize: "1.1rem",
