@@ -1,14 +1,17 @@
 import api from '../../utils/Api'
 
 export const addAdvance = (formValues) => async (dispatch) => {
+  console.log('Starting API call at:', new Date().toISOString());
   try {
     const res = await api.post("/addCourse", formValues);
 
     console.log('Response from API:', res);
+    console.log('API call completed at:', new Date().toISOString());
 
     return res;
   } catch (err) {
     throw err;
+
   }
 };
 
