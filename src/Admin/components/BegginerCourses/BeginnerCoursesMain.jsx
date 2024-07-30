@@ -137,7 +137,7 @@ const BeginnerCoursesMain = () => {
                           open={Boolean(anchorEl)}
                           onClose={handleMenuClose}
                         >
-                          <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+                          <MenuItem onClick={handleEditClick}>View</MenuItem>
                           <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                         </Menu>
                       </TableCell>

@@ -14,7 +14,7 @@ const MessageMain = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [message, setMessage] = useState('');
-  const userId = useSelector((state) => state?.auth?.user._id);
+  const userId = useSelector((state) => state?.auth?.user?._id);
   console.log(userId, 'id')
 
 //   const socket = useMemo(() => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"), []);
@@ -56,7 +56,7 @@ const MessageMain = () => {
 
 
   const handleSend = () => {
- 
+
   };
 
   return (
