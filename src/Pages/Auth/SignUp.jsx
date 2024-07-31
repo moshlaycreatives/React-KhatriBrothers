@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Page from "../../components/Page/Page";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useDispatch } from "react-redux";
@@ -24,6 +24,7 @@ import { useSnackbar } from "notistack";
 import { userRegister } from "../../store/actions/authActions";
 
 const SignUp = () => {
+  const navigate = useNavigate()
   const theme = useTheme();
   const initialValues = {
     learnerType: "",
@@ -99,19 +100,19 @@ const SignUp = () => {
 
     dispatch(userRegister(dataToSubmit))
       .then((res) => {
-        setFormValues(res.data.payload);
+        // setFormValues(res?.data?.payload);
 
-        enqueueSnackbar(res.data.message, { variant: "success" });
+        enqueueSnackbar(res?.data?.message, { variant: "success" });
 
         setFormValues(initialValues);
 
-        navigate("/signup");
+        navigate("/sign-in");
       })
       .catch((err) => {
         // setLoading(false);
         // console.log(res.data.payload, 'payloaddddddd')
         console.log(err, "errorrrrrr");
-        enqueueSnackbar(err.response.data.message, { variant: "error" });
+        enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
       });
   };
 

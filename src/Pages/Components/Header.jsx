@@ -258,6 +258,8 @@ const Header = () => {
     currentPath === "/set-password" ||
     currentPath === "/admin-dashboard" ||
     currentPath === "/contact-us" ||
+    currentPath === "/success" ||
+    currentPath === "/cancel" ||
     currentPath === "/participant-registered"||
     currentPath === "/student-dashboard";
 

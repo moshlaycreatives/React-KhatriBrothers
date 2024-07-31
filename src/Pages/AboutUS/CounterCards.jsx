@@ -10,7 +10,7 @@ const CounterCards = () => {
   const theme = useTheme();
   return (
     <>
-      <Box sx={{ padding: "1rem 15%" }}>
+      <Box sx={{ padding: "1rem 10%" }}>
         <Grid container spacing={5}>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <Box

@@ -4,29 +4,34 @@ import {
   CircularProgress,
   Grid,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { MdDateRange } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router";
 import {
+  firstPaymentApi,
   getRelatedCourses,
   getSingleCourse,
+  payment,
 } from "../../store/actions/courseActions";
 
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
 
- 
-
   const { id } = useParams();
+  const location = useLocation();
 
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingEnroll, setLoadingEnroll] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -36,13 +41,12 @@ const AdvanceCoursePriceHeroSection = () => {
 
         setCourseData(res.data.data);
         dispatch(getRelatedCourses(res.data.data.courseType))
-        .then((res) => {
-          setRelated(res?.data?.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
+          .then((res) => {
+            setRelated(res?.data?.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (err) {
         console.error("Failed to fetch advance courses:", err);
         setLoading(false);
@@ -53,11 +57,48 @@ const AdvanceCoursePriceHeroSection = () => {
 
     fetchData();
   }, [dispatch]);
-
-
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [related, setRelated] = useState([]);
+  const userData = useSelector((state) => state?.auth?.user);
+  const auth = useSelector((state) => state?.auth?.isAuthenticated);
 
+  const email = userData?.email;
+  const name = userData?.firstName;
+
+  const handleEnroll = (values) => {
+    if (auth === true) {
+      setLoadingEnroll(true);
+      const res = dispatch(firstPaymentApi({ name, email }))
+        .then((res) => {
+          const paymentId = res.data.data.id;
+          console.log(paymentId, "paymentId");
+
+          if (paymentId) {
+            const resdata = dispatch(payment(values, paymentId)).then((res) => {
+              console.log(res.data.session.url, "secondapi");
+              const testCheckoutUrl = res.data.session.url;
+
+              window.location.href = testCheckoutUrl;
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoadingEnroll(false);
+        });
+    } else {
+      navigate("/sign-in", { state: { from: location.pathname } });
+    }
+  };
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  };
 
   if (loading) {
     return (
@@ -78,19 +119,24 @@ const AdvanceCoursePriceHeroSection = () => {
     <>
       <Box
         sx={{
-          padding: "2rem 10% 0rem 10%",
+          minHeight:isSmall ? '80vh' : '70vh',
+
+          display:'flex',
+          justifyContent:'center', alignItems:'center',
+          padding: isSmall ? "5rem 10% 0rem 10%" : "2rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
-        <Grid container sx={{ alignItems: "center" }}>
+        <Grid container sx={{ alignItems: "center" }} spacing={5}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Typography variant="h5" fontWeight="550" color="white">
               {courseData.title}
             </Typography>
             <Box>
-              <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
-                {courseData.overview}
-              </Typography>
+            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>
+        {truncateText(courseData.overview, 30)}
+      </Typography>
+
               <Button
                 variant="contained"
                 sx={{
@@ -101,15 +147,28 @@ const AdvanceCoursePriceHeroSection = () => {
                   padding: "0.6rem 2.3rem",
                   textTransform: "none",
                   fontSize: "0.8rem",
+                  '&:hover': {
+          backgroundColor: 'white',
+        },
                 }}
+                onClick={() => handleEnroll(courseData.price)}
               >
-                Enroll Now
+                {loadingEnroll ? (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                ) : (
+                  "Enroll Course"
+                )}
               </Button>
             </Box>
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "5rem" }}>
+            <Box sx={{ padding: isSmall ? '0rem ':"4rem" }}>
               <img
                 src={`${base}${courseData.image.replace(/ /g, "%20")}`}
                 alt="image"
@@ -185,90 +244,158 @@ const AdvanceCoursePriceHeroSection = () => {
               </Typography>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600 }}>
-                  Enrolled : <span style={{ color: "grey" }}>240 Students</span>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>Enrolled :</Typography>
+                </Box>
+
+                <span
+                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
+                >
+                  240 Students
+                </span>
               </Box>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600 }}>
-                  Course Duration :{" "}
-                  <span style={{ color: "grey" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>
+                    Course Duration :
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    sx={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
+                  >
                     {courseData.courseDuration} Weeks
-                  </span>
-                </Typography>
+                  </Typography>
+                </Box>
               </Box>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600 }}>
-                  Lectures : <span style={{ color: "grey" }}>1/ Per Week</span>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>Lectures :</Typography>
+                </Box>
+
+                <span
+                  style={{ color: "grey", fontWeight: 600, fontSize: "0.9rem" }}
+                >
+                  1/ Per Week
+                </span>
               </Box>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600 }}>
-                  Level :{" "}
-                  <span style={{ color: "grey" }}>
-                    Begginer to Professional
-                  </span>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>Level :</Typography>
+                </Box>
+                <span
+                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
+                >
+                  Begginer to Professional
+                </span>
               </Box>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600 }}>
-                  Lecture Duration :{" "}
-                  <span style={{ color: "grey" }}>
-                    {courseData.lectureDuration} Hour
-                  </span>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>
+                    Lecture Duration :
+                  </Typography>
+                </Box>
+                <span
+                  style={{ color: "grey", fontWeight: 600, fontSize: "0.9rem" }}
+                >
+                  {courseData.lectureDuration} Hours
+                </span>
               </Box>
               <br />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <MdDateRange
-                  style={{
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
-                  }}
-                />
-                <Typography sx={{ fontWeight: 600, marginLeft: "1rem" }}>
-                  Max Class Size : <span style={{ color: "grey" }}>03</span>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <MdDateRange
+                    style={{
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: 600 }}>
+                    Max Class Size :
+                  </Typography>
+                </Box>
+
+                <span
+                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
+                >
+                  03
+                </span>
               </Box>
               <br />
 
@@ -307,9 +434,21 @@ const AdvanceCoursePriceHeroSection = () => {
                   textTransform: "none",
                   fontSize: "1.1rem",
                   borderRadius: "0px",
+                  position: "relative",
                 }}
+                onClick={() => handleEnroll(courseData.price)}
+
               >
-                Enroll Course
+                {loadingEnroll ? (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: "white",
+                    }}
+                  />
+                ) : (
+                  "Enroll Course"
+                )}
               </Button>
             </Box>
           </Grid>

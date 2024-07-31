@@ -8,7 +8,7 @@ const BegginerCourseHeroSection = () => {
 
 <Box
         sx={{
-          padding: "0rem 10%",
+          padding: "5rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
@@ -42,7 +42,7 @@ const BegginerCourseHeroSection = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "5rem" }}>
+            <Box sx={{ padding: "4rem" }}>
               <img src="/BegginerImage.png" alt="image" width={"100%"} />
             </Box>
           </Grid>

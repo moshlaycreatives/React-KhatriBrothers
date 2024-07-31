@@ -91,4 +91,31 @@ export const getRelatedCourses = (courseType) => async (dispatch) => {
 
 
 
+// -------------------payment --------------
 
+export const firstPaymentApi = (values) => async (dispatch) => {
+
+
+  try {
+    const res = await api.post("/createCustomer", values);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+
+export const payment = (values, paymentId) => async (dispatch) => {
+
+  try {
+    const res = await api.post("/payment", {amount:values, customer_id:paymentId});
+
+console.log(res, 'urlllll')
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};

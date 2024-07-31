@@ -25,6 +25,8 @@ import CreatePassword from "./Pages/Authentication_Page/CreatePassword/CreatePas
 import OTPConfirmation from "./Pages/Authentication_Page/Components/OTPConfirmation";
 import SetNewPassword from "./Pages/Authentication_Page/Components/SetNewPassword";
 import StudentMain from "./Student/StudentMain";
+import PaymentSuccess from "./Pages/PaymentPages/PaymentSuccess";
+import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
 export default function Router() {
   let element = useRoutes([
     {
@@ -97,6 +99,16 @@ export default function Router() {
     {
       path: "/faqs",
       element: <FAQMain />,
+    },
+
+    {
+      path: "/success",
+      element: <PaymentSuccess />,
+    },
+
+    {
+      path: "/cancel",
+      element: <PaymentCancel />,
     },
 
     {
