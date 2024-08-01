@@ -157,3 +157,16 @@ export const userLogout = () => async (dispatch) => {
     throw err;
   }
 };
+
+export const EnrollCustomer = (courseId) => async (dispatch) => {
+  try {
+    const payload= {courseId}
+    const res = await api.post("/addEnrollment", payload);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

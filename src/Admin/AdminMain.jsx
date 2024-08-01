@@ -16,6 +16,7 @@ import ShowProfileData from './components/ManageProfile/ShowProfileData';
 import { useSelector } from 'react-redux';
 import AdvanceCoursesMain from './components/AdvanceCourses/AdvanceCoursesMain';
 import BeginnerCoursesMain from './components/BegginerCourses/BeginnerCoursesMain';
+import StudentMain from './components/Students/StudentMain';
 
 const drawerWidth = 240;
 
@@ -24,6 +25,7 @@ const listData = [
   { title: 'Advance Courses', icon: <ArticleIcon /> },
   { title: 'Beginner Courses', icon: <ArticleIcon /> },
   { title: 'Students', icon: <ArticleIcon /> },
+  // { title: 'Students', icon: <StudentMain /> },
   { title: 'Instructors', icon: <ArticleIcon /> },
 
   { title: 'Message', icon: <AccountCircleIcon /> },
@@ -188,7 +190,8 @@ const profilePictureUrl = base + userData?.profilePicture;
             {selectedItem === 'Dashboard' && <Dashboard />}
             { selectedItem === 'Advance Courses' && <AdvanceCoursesMain /> }
   { selectedItem === 'Beginner Courses'&& <BeginnerCoursesMain /> }
-  { selectedItem === 'Students' && <ArticleIcon /> }
+  {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
+  { selectedItem === 'Students' && <StudentMain /> }
   { selectedItem === 'Instructors' && <ArticleIcon /> }
             {selectedItem === 'Message' && <MessagesMain />}
             {selectedItem === 'Testimonial' && <Testimonials />}

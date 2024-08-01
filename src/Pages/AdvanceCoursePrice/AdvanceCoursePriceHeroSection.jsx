@@ -72,6 +72,7 @@ const AdvanceCoursePriceHeroSection = () => {
       const res = dispatch(firstPaymentApi({ name, email }))
         .then((res) => {
           const paymentId = res.data.data.id;
+          const paymentId2 = localStorage.setItem('paymentId2', id)
           console.log(paymentId, "paymentId");
 
           if (paymentId) {

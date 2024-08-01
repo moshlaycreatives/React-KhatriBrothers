@@ -1,8 +1,16 @@
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
+import { EnrollCustomer } from '../../store/actions/authActions'
 
 const PaymentSuccess = () => {
+  const dispatch = useDispatch();
+
+  const enrollCustomer=localStorage.getItem('paymentId2')
+  useEffect(()=>{
+    dispatch(EnrollCustomer(enrollCustomer))
+  },[''])
     const navigate = useNavigate()
   return (
     <>

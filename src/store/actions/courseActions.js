@@ -43,6 +43,21 @@ export const getAdvanceCourse = () => async (dispatch) => {
   }
 };
 
+export const getStudentData = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllEnrolledStudents",);
+    dispatch({
+      type: 'STUDENT_DATA',
+      payload: { student: res.data.data }
+    })
+    console.log(res.data.data)
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 
 
 export const getSingleCourse = (courseId) => async (dispatch) => {
@@ -85,6 +100,18 @@ export const getRelatedCourses = (courseType) => async (dispatch) => {
 
     return res;
   } catch (err) {
+    throw err;
+  }
+};
+
+export const sendSearchTerm = (searchTerm) => async (dispatch) => {
+  console.log('hhhhh', searchTerm)
+  try {
+    const res = await api.post(`/searchApi?searchTerm=${encodeURIComponent(searchTerm)}`);
+
+    return res;
+  } catch (err) {
+    console.error('searchterm send error',err)
     throw err;
   }
 };
