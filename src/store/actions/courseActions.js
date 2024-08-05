@@ -70,6 +70,17 @@ export const getSingleCourse = (courseId) => async (dispatch) => {
   }
 };
 
+export const getSingleStudent = (enrollId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/getEnrollDetailsById/${enrollId}`,);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
 
 
 export const updateCourse = (courseId, formValues) => async (dispatch) => {

@@ -40,7 +40,9 @@ const AdvanceCoursesMain = () => {
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setCurrentRowId(id);
+    
   };
+  console.log("row id show ", currentRowId)
 
   const handleMenuClose = () => {
     setAnchorEl(null);

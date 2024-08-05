@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import AdvanceCoursesMain from './components/AdvanceCourses/AdvanceCoursesMain';
 import BeginnerCoursesMain from './components/BegginerCourses/BeginnerCoursesMain';
 import StudentMain from './components/Students/StudentMain';
+import InstructorMain from './components/Instructor/InstructorMain';
 
 const drawerWidth = 240;
 
@@ -192,7 +193,7 @@ const profilePictureUrl = base + userData?.profilePicture;
   { selectedItem === 'Beginner Courses'&& <BeginnerCoursesMain /> }
   {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
   { selectedItem === 'Students' && <StudentMain /> }
-  { selectedItem === 'Instructors' && <ArticleIcon /> }
+  { selectedItem === 'Instructors' && <InstructorMain /> }
             {selectedItem === 'Message' && <MessagesMain />}
             {selectedItem === 'Testimonial' && <Testimonials />}
             {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}
