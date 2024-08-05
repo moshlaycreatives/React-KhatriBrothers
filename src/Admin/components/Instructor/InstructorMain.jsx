@@ -26,7 +26,7 @@ import {
     sendSearchTerm
   } from '../../../store/actions/courseActions'; // Import sendSearchTerm
   // import ViewStudent from './component/ViewStudent';
-  
+
   const InstructorMain = () => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +35,7 @@ import {
     const [currentRowId, setCurrentRowId] = useState(null);
     const [isEdited, setIsEdited] = useState(false);
     const dispatch = useDispatch();
-  
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -46,16 +46,16 @@ import {
           console.error('Failed to fetch student data', error);
         }
       };
-  
+
       fetchData();
     }, [dispatch]);
-  
+
     const handleSearch = () => {
       if (!searchTerm.trim()) {
         console.log('Search cannot be empty');
         return;
       }
-  
+
       dispatch(sendSearchTerm(searchTerm))
         .then((res) => {
           setStudentData(res?.data?.data);
@@ -64,7 +64,7 @@ import {
           console.error('Failed to send searchTerm', error);
         });
     };
-  
+
     const handleChange = (e) => {
       setSearchTerm(e.target.value);
       dispatch(sendSearchTerm(searchTerm))
@@ -75,31 +75,31 @@ import {
           console.error('Failed to send searchTerm', error);
         });
     };
-  
+
     const handleKeyPress = (e) => {
       if (e.key === 'Enter') {
         handleSearch();
       }
     };
-  
+
     const handleOpenMenu = (events) => {
       setAnchorEl(events.currentTarget);
     };
-  
+
     const handleMenuClose = () => {
       setAnchorEl(null);
     };
-  
+
     const handleMenuClick = (events, id) => {
       setAnchorEl(events.currentTarget);
       setCurrentRowId(id);
       console.log('current student id:', currentRowId);
     };
-  
+
     const handleEditClick = () => {
       setIsEdited(true);
       handleMenuClose();
-  
+
       if (currentRowId) {
         dispatch(getSingleStudent(currentRowId))
           .then((res) => {
@@ -110,12 +110,12 @@ import {
           });
       }
     };
-  
+
     const handleBackClick = () => {
       setIsEdited(false);
       setCurrentRowId(null);
     };
-  
+
     return (
       <>
         {isEdited && currentRowId ? (
@@ -157,6 +157,7 @@ import {
                     value={searchTerm}
                     onChange={handleChange}
                     onKeyPress={handleKeyPress}
+                    size='small'
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -227,33 +228,33 @@ import {
       </>
     );
   };
-  
+
   export default InstructorMain;
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // import { Box, Button, IconButton, InputAdornment, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material';
   // import React, { useEffect, useState } from 'react';
   // import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -261,7 +262,7 @@ import {
   // import { useDispatch } from 'react-redux';
   // import { getSingleCourse, getSingleStudent, getStudentData, sendSearchTerm } from '../../../store/actions/courseActions'; // Import sendSearchTerm
   // import { useAsyncError } from 'react-router';
-  
+
   // const StudentMain = () => {
   //   const theme = useTheme();
   //   const [anchorEl, setAnchorEl] = useState(null);
@@ -270,7 +271,7 @@ import {
   //   const [currentRowId, setCurrentRowId] = useState(null);
   //   const [isEdited, setIsEdited] = useState(false);
   //   const dispatch = useDispatch();
-  
+
   //   useEffect(() => {
   //     const fetchData = async () => {
   //       try {
@@ -281,16 +282,16 @@ import {
   //         console.error('Failed to fetch student data', error);
   //       }
   //     };
-  
+
   //     fetchData();
   //   }, [dispatch]);
-  
+
   //   const handleSearch = () => {
   //     if (!searchTerm.trim()) {
   //       console.log('Search cannot be empty');
   //       return;
   //     }
-  
+
   //     dispatch(sendSearchTerm(searchTerm))
   //       .then((res) => {
   //         setStudentData(res?.data?.data);
@@ -299,7 +300,7 @@ import {
   //         console.error('Failed to send searchTerm', error);
   //       });
   //   };
-  
+
   //   const handleChange = (e) => {
   //     setSearchTerm(e.target.value);
   //     dispatch(sendSearchTerm(searchTerm))
@@ -312,31 +313,31 @@ import {
   //     // console.log(searchTerm)
   //   };
   // //   console.log(searchTerm);
-  
+
   //   const handleKeyPress = (e) => {
   //     if (e.key === 'Enter') {
   //       handleSearch();
   //     }
   //   };
-  
+
   //   const handleOpenMenu = (events) => {
   //     setAnchorEl(events.currentTarget);
   //   };
-  
+
   //   const handleMenuClose = () => {
   //     setAnchorEl(null);
   //   };
-  
+
   //   const handleMenuClick =(events, id)=>{
   //     setAnchorEl(events.currentTarget)
   //     setCurrentRowId(id)
   //     console.log('cureent id student ',currentRowId);
   //   }
-  
+
   //   const handleEditClick = () => {
   //     setIsEdited(true);
   //     handleMenuClose();
-  
+
   //     if (currentRowId) {
   //       dispatch(getSingleStudent(currentRowId))
   //         .then((res) => {
@@ -346,10 +347,10 @@ import {
   //           console.error('Failed to fetch student data:', error);
   //         });
   //     }
-    
+
   //     }
-    
-  
+
+
   //   return (
   //     <>
   //       <Box>
@@ -442,6 +443,5 @@ import {
   //     </>
   //   );
   // };
-  
+
   // export default StudentMain;
-  

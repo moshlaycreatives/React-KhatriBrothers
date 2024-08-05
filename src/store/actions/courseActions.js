@@ -157,3 +157,30 @@ console.log(res, 'urlllll')
 
   }
 };
+
+
+
+export const getInstructors = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllInstructor");
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const assignInstructor = (instructorId, enrollmentId) => async (dispatch) => {
+  try {
+    const res = await api.patch("/assignInstructor", {instructorId, enrollmentId});
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
