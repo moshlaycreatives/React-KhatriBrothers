@@ -21,6 +21,7 @@ import {
   import { CiSearch } from "react-icons/ci";
   import { useDispatch } from 'react-redux';
   import {
+    getInstructors,
     getSingleStudent,
     getStudentData,
     sendSearchTerm
@@ -32,7 +33,7 @@ import InstructorDetails from './component/InstructorDetails';
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [studentData, setStudentData] = useState([]);
+    const [InstructorData, setInstructorData] = useState([]);
     const [currentRowId, setCurrentRowId] = useState(null);
     const [isEdited, setIsEdited] = useState(false);
     const dispatch = useDispatch();
@@ -40,8 +41,8 @@ import InstructorDetails from './component/InstructorDetails';
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const res = await dispatch(getStudentData());
-          setStudentData(res.data.data);
+          const res = await dispatch(getInstructors());
+          setInstructorData(res.data.data);
           console.log('Student data:', res.data);
         } catch (error) {
           console.error('Failed to fetch student data', error);
@@ -117,6 +118,7 @@ import InstructorDetails from './component/InstructorDetails';
       setCurrentRowId(null);
     };
 
+    console.log('instructor data first file',InstructorData)
     return (
       <>
         {isEdited && currentRowId ? (
@@ -124,7 +126,7 @@ import InstructorDetails from './component/InstructorDetails';
             <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
               &lt; Back to Instructor
             </Button>
-            <InstructorDetails studentId={currentRowId} />
+            <InstructorDetails instructorId={currentRowId} />
           </>
         ) : (
           <Box>
@@ -136,12 +138,12 @@ import InstructorDetails from './component/InstructorDetails';
                 fontSize: '2rem',
               }}
             >
-              Advance Courses
+              Instructor
             </Typography>
 
-            <Button variant='outlined' >
+            {/* <Button variant='outlined' >
               + Add Course
-            </Button>
+            </Button> */}
           </Box>
             <Box>
               <TableContainer component={Paper} sx={{ padding: '1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
@@ -188,22 +190,22 @@ import InstructorDetails from './component/InstructorDetails';
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {studentData.map((row) => (
+                    {InstructorData.map((row) => (
                       <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
-                          {`${row.studentId.firstName} ${row.studentId.lastName}`}
+                          {`${row.firstName} ${row.lastName}`}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                          {row.courseId.title}
+                          {row.role}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                          {row.courseId.courseType}
+                          {row.gender}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                          Group
+                        {row.country}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                          {row.courseId.price}
+                          {row.phone}
                         </TableCell>
                         <TableCell>
                           <IconButton onClick={(events) => handleMenuClick(events, row._id)}>

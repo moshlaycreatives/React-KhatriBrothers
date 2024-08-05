@@ -80,6 +80,15 @@ export const getSingleStudent = (enrollId) => async (dispatch) => {
   }
 };
 
+export const getSingleInstructor = (instructorId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/getInstructorById/${instructorId}`,);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
 
 
 

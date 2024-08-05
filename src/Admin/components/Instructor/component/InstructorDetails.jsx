@@ -1,6 +1,6 @@
 import { Box, Button, Card, IconButton, InputAdornment, Menu, MenuItem, Paper, Table, TableBody,  TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
-import { getSingleStudent } from '../../../../store/actions/courseActions';
+import { getSingleInstructor, getSingleStudent } from '../../../../store/actions/courseActions';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CiSearch } from "react-icons/ci";
@@ -8,14 +8,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 
-const InstructorDetails = (studentId) => {
+const InstructorDetails = ({instructorId}) => {
+  console.log(' new concsdafjh', instructorId)
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [studentData, setStudentData] = useState([]);
   const [currentRowId, setCurrentRowId] = useState(null);
   const [isEdited, setIsEdited] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
 const row = [
@@ -30,6 +31,33 @@ const handleMenuClose = ()=>{
 const handleMenuClick = (events)=>{
   setAnchorEl(events.currentTarget);
 }
+
+
+const [instructorData , setInstructorData] = useState({})
+    // const [courseData , setCourseData] = useState({})
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchData = async () => {
+        //   setLoading(true); // Set loading to true before fetching data
+          try {
+            const res = await dispatch(getSingleInstructor(instructorId));
+            console.log(res.data.data, "hahahahhaaa");
+            setInstructorData(res.data.data);
+            // setCourseData(res.data.data.courseId);
+
+          } catch (err) {
+            console.error("Failed to fetch student:", err);
+          } finally {
+            // setLoading(false); // Set loading to false after data is fetched or if an error occurs
+          }
+        };
+
+        fetchData();
+      }, [dispatch,instructorId]);
+
+
   return (
     <>
     <Box>
@@ -46,45 +74,45 @@ const handleMenuClick = (events)=>{
             Instructor Name
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            domey
+            {`${instructorData.firstName} ${instructorData.lastName} `}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Instructor Role
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            domey
+            {instructorData.role}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Gender
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            Domey
+            {instructorData.gender}
           </Typography>
 
           </Box>
 
           <Box >
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
-            Cuntry
+            Country
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            pakistan
+            {instructorData.country}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Email
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            domey@gmail.com
+            {instructorData.email}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Phone
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            Cdomey
+            {instructorData.phone}
           </Typography>
 
           </Box>
