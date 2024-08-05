@@ -18,10 +18,10 @@ const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
         const fetchData = async () => {
-        //   setLoading(true); // Set loading to true before fetching data
+
           try {
             const res = await dispatch(getSingleStudent(student_Id));
-            console.log(res.data.data.studentId, "hahahahhaaa");
+
             setStudentData(res.data.data.studentId);
             setCourseData(res.data.data.courseId);
 
@@ -67,18 +67,10 @@ const {enqueueSnackbar} = useSnackbar()
       };
 
       const handleAssign = () => {
-        // Handle the assign logic here
-        console.log('Assigned Teacher:', selectedTeacher);
-
 
         dispatch(assignInstructor(selectedTeacher, student_Id))
         .then((res) => {
-
           enqueueSnackbar(res.data.message, { variant: "success" });
-
-
-          // setFormValues(initialValues);
-          // navigate(from)
         })
         .catch((err) => {
           enqueueSnackbar(err?.response?.data?.message, {
@@ -95,7 +87,7 @@ const {enqueueSnackbar} = useSnackbar()
       };
 
 
-      console.log('teacher data',selectedTeacher);
+      
 
 
 
