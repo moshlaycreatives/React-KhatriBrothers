@@ -17,18 +17,50 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
+import { getBeginnerCourse } from "../../../store/actions/courseActions";
+import { useDispatch } from "react-redux";
 
 const Testimonials = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const initialValues ={
+    title:'',
+    couseName:'',
+    video:null
+  }
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
+  const [testimonialData ,setTestimonialData] = useState('');
+  const [currentCourseId ,setCurrentCourseId] = useState(null);
+  const [formValues, setFormValues] = useState(initialValues);
 
-  const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
+  // const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
+ 
+  const handleFromData =(e)=>{
+    const {name , value} = e.target;
+    setFormValues((formValues)=>({...formValues, [name]: value}))
+    console.log('kkkkkkkk' ,formValues);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await dispatch(getBeginnerCourse());
+        setTestimonialData(res.data.data);
+        console.log('testtimonial  data:', res. data);
+      } catch (error) {
+        console.error('Failed to fetch student data', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   const handleChange = (event) => {
     setSelectedCourse(event.target.value);
@@ -41,6 +73,17 @@ const Testimonials = () => {
   const handleCancel = () => {
     setIsAdding(false);
   };
+
+
+  const handleCouseClick  = (e , id)=>{
+    setCurrentCourseId(id);
+
+    const {name } = e.target;
+    setFormValues((formValues)=>({...formValues, [name]: id}))
+    console.log('kkkkkkkk' ,formValues);
+    
+  }
+  console.log('course test id', currentCourseId);
 
   const rows = [
     {
@@ -160,10 +203,14 @@ const Testimonials = () => {
                 size="small"
                 placeholder="Enter your title"
                 sx={{ borderRadius: "0px", marginBottom: "0.8rem" }}
+                name="title"
+                value={formValues.title}
+                onChange={handleFromData}
               />
 
               <br />
 
+              
               <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
                 Course Name
               </Typography>
@@ -177,9 +224,12 @@ const Testimonials = () => {
                   <MenuItem value="" disabled>
                     Select
                   </MenuItem>
-                  {courses.map((course, index) => (
-                    <MenuItem key={index} value={course}>
-                      {course}
+                  {testimonialData.map((course, index) => (
+                    <MenuItem key={index} value={course.title}
+                    onClick={(events)=>handleCouseClick(events, course._id)}
+                    name="courseName"
+                    >
+                      {course.title}
                     </MenuItem>
                   ))}
                 </Select>

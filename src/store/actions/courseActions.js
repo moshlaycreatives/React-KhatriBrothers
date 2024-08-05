@@ -204,3 +204,19 @@ export const assignedStudents = (instructorId) => async (dispatch) => {
     throw err;
   }
 };
+
+// student side add testimonial 
+export const addStudentsTestimonial = (formValues) => async (dispatch) => {
+  // console.log('Starting API call at:', new Date().toISOString());
+  try {
+    const res = await api.post("/createTestimonial", formValues);
+
+    console.log('Response from API:', res);
+    console.log('API call completed at:', new Date().toISOString());
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
