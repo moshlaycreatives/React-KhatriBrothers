@@ -114,6 +114,7 @@ export const deleteSingleData = (courseId) => async (dispatch) => {
 };
 
 
+
 export const getRelatedCourses = (courseType) => async (dispatch) => {
   try {
     const res = await api.post(`/getRelatedCourses`, {courseType});
@@ -191,5 +192,15 @@ export const assignInstructor = (instructorId, enrollmentId) => async (dispatch)
   } catch (err) {
     throw err;
 
+  }
+};
+
+export const assignedStudents = (instructorId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/getAssignedCoursesByInstructor/${instructorId}`,);
+
+    return res;
+  } catch (err) {
+    throw err;
   }
 };
