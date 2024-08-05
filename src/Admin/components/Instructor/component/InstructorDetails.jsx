@@ -1,6 +1,6 @@
 import { Box, Button, Card, IconButton, InputAdornment, Menu, MenuItem, Paper, Table, TableBody,  TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
-import { getSingleInstructor, getSingleStudent } from '../../../../store/actions/courseActions';
+import { assignedStudents, getSingleInstructor, getSingleStudent } from '../../../../store/actions/courseActions';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CiSearch } from "react-icons/ci";
@@ -55,6 +55,25 @@ const [instructorData , setInstructorData] = useState({})
         };
 
         fetchData();
+      }, [dispatch,instructorId]);
+
+      useEffect(() => {
+        const fetchStudentData = async () => {
+          try {
+            const res = await dispatch(assignedStudents(instructorId));
+            console.log(res.data.data, "hahahahhaaa");
+            setStudentData(res.data.data);
+            console.log('new stuent data ', studentData)
+            // setCourseData(res.data.data.courseId);
+
+          } catch (err) {
+            console.error("Failed to fetch student:", err);
+          } finally {
+            // setLoading(false); // Set loading to false after data is fetched or if an error occurs
+          }
+        };
+
+        fetchStudentData();
       }, [dispatch,instructorId]);
 
 
@@ -166,26 +185,26 @@ const [instructorData , setInstructorData] = useState({})
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.map((row,ind) => (
+                  {studentData.map((row,ind) => (
                     <TableRow key={ind} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
                         {/* {`${row.studentId.firstName} ${row.studentId.lastName}`} */}
-                        {row.studentname}
+                        {`${row.studentId.firstName} ${row.studentId.lastName}`}
                       </TableCell>
                       <TableCell sx={{ color: 'gray' }}>
                         {/* {row.courseId.title} */}
-                        {row.studentCourse}
+                        {row.courseId.title}
                       </TableCell>
                       <TableCell sx={{ color: 'gray' }}>
                         {/* {row.courseId.courseType} */}
-                        {row.coursetype}
+                        {row.courseId.courseType}
                       </TableCell>
                       <TableCell sx={{ color: 'gray' }}>
                         Group
                       </TableCell>
                       <TableCell sx={{ color: 'gray' }}>
                         {/* {row.courseId.price} */}
-                        {row.coursefee}
+                        {row.courseId.price}
                       </TableCell>
                       <TableCell>
                         <IconButton onClick={(events) => handleMenuClick(events)}>
