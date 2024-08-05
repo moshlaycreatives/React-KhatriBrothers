@@ -53,12 +53,13 @@ import InstructorDetails from './component/InstructorDetails';
     }, [dispatch]);
 
     const handleSearch = () => {
+      const userType = 'instructor'
       if (!searchTerm.trim()) {
         console.log('Search cannot be empty');
         return;
       }
 
-      dispatch(sendSearchTerm(searchTerm))
+      dispatch(sendSearchTerm(searchTerm, userType))
         .then((res) => {
           setStudentData(res?.data?.data);
         })

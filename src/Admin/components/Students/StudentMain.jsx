@@ -280,12 +280,14 @@ const StudentMain = () => {
   }, [dispatch, currentPage]);
 
   const handleSearch = () => {
+    const userType = 'student'
+
     if (!searchTerm.trim()) {
       console.log('Search cannot be empty');
       return;
     }
 
-    dispatch(sendSearchTerm(searchTerm, currentPage))
+    dispatch(sendSearchTerm(searchTerm, userType))
       .then((res) => {
         setStudentData(res?.data?.data);
         setTotalPages(res?.data?.totalPages); // Update total pages based on search results

@@ -124,10 +124,10 @@ export const getRelatedCourses = (courseType) => async (dispatch) => {
   }
 };
 
-export const sendSearchTerm = (searchTerm) => async (dispatch) => {
+export const sendSearchTerm = (searchTerm,userType) => async (dispatch) => {
   console.log('hhhhh', searchTerm)
   try {
-    const res = await api.post(`/searchApi?searchTerm=${encodeURIComponent(searchTerm)}`);
+    const res = await api.post(`/searchApi?searchTerm=${encodeURIComponent(searchTerm)}`, {userType:userType});
 
     return res;
   } catch (err) {
