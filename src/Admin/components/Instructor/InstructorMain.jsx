@@ -25,6 +25,7 @@ import {
     getStudentData,
     sendSearchTerm
   } from '../../../store/actions/courseActions'; // Import sendSearchTerm
+import InstructorDetails from './component/InstructorDetails';
   // import ViewStudent from './component/ViewStudent';
   
   const InstructorMain = () => {
@@ -123,7 +124,7 @@ import {
             <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
               &lt; Back to Instructor
             </Button>
-            <ViewStudent studentId={currentRowId} />
+            <InstructorDetails studentId={currentRowId} />
           </>
         ) : (
           <Box>
