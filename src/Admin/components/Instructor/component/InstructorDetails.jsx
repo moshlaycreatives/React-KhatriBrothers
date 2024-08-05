@@ -80,7 +80,7 @@ const [instructorData , setInstructorData] = useState({})
   return (
     <>
     <Box>
-        <Card sx={{ padding: "1rem", marginBottom: "1rem", 
+        <Card sx={{ padding: "1rem", marginBottom: "1rem",
         width:'100%'
         }}>
 
@@ -95,13 +95,16 @@ const [instructorData , setInstructorData] = useState({})
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {`${instructorData.firstName} ${instructorData.lastName} `}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Instructor Role
           </Typography>
+
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {instructorData.role}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Gender
@@ -119,6 +122,7 @@ const [instructorData , setInstructorData] = useState({})
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {instructorData.country}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Email
@@ -126,7 +130,7 @@ const [instructorData , setInstructorData] = useState({})
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {instructorData.email}
           </Typography>
-
+<br/>
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Phone
           </Typography>
@@ -135,7 +139,8 @@ const [instructorData , setInstructorData] = useState({})
           </Typography>
 
           </Box>
-          <Button>click</Button>
+          {/* <Button>click</Button> */}
+          <div></div>
        </Box>
 
        <Box paddingTop={'3rem'}>

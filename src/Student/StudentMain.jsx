@@ -114,7 +114,7 @@ const profilePictureUrl = base + userData.profilePicture;
                             sx={{ height: "2rem", width: "2rem", marginRight: "8px" }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {userData.name}
+                            {userData.firstName}
                           </Typography>
                         </Box>
                       )}

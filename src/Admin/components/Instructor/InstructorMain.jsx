@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    CircularProgress,
     IconButton,
     InputAdornment,
     Menu,
@@ -36,16 +37,22 @@ import InstructorDetails from './component/InstructorDetails';
     const [InstructorData, setInstructorData] = useState([]);
     const [currentRowId, setCurrentRowId] = useState(null);
     const [isEdited, setIsEdited] = useState(false);
+    const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
 
     useEffect(() => {
       const fetchData = async () => {
+        setLoading(true);
         try {
           const res = await dispatch(getInstructors());
           setInstructorData(res.data.data);
           console.log('Student data:', res.data);
+          setLoading(false);
         } catch (error) {
           console.error('Failed to fetch student data', error);
+          setLoading(false);
+        }finally{
+          setLoading(false);
         }
       };
 
@@ -129,7 +136,10 @@ import InstructorDetails from './component/InstructorDetails';
             </Button>
             <InstructorDetails instructorId={currentRowId} />
           </>
-        ) : (
+        ) :
+
+
+         (
           <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography
@@ -179,6 +189,15 @@ import InstructorDetails from './component/InstructorDetails';
                     Search
                   </Button>
                 </Box>
+
+
+                {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+
+
                 <Table size='small' aria-label='a dense table'>
                   <TableHead>
                     <TableRow>
@@ -225,11 +244,16 @@ import InstructorDetails from './component/InstructorDetails';
                     ))}
                   </TableBody>
                 </Table>
+              )}
               </TableContainer>
+
             </Box>
           </Box>
         )}
       </>
+
+
+
     );
   };
 
