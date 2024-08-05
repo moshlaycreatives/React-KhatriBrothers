@@ -4,7 +4,9 @@ import {
   Button,
   Card,
   FormControl,
+  IconButton,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   Table,
@@ -20,6 +22,8 @@ import {
 import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
+import { IoIosArrowDown } from "react-icons/io";
+
 
 const Testimonials = () => {
   const theme = useTheme();
@@ -27,6 +31,7 @@ const Testimonials = () => {
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
 
@@ -42,7 +47,23 @@ const Testimonials = () => {
     setIsAdding(false);
   };
 
+  const handlePendingClose = ()=>{
+    setAnchorEl(null);
+  }
+  const handleMenuClick = (event)=>[
+    setAnchorEl(event.currentTarget)
+  ]
   const rows = [
+    {
+      coursename: "Hindustani vocal advanced A series",
+      teacher: "Faraz",
+      image: "/ggg.png",
+    },
+    {
+      coursename: "Hindustani vocal advanced A series",
+      teacher: "Faraz",
+      image: "/ggg.png",
+    },
     {
       coursename: "Hindustani vocal advanced A series",
       teacher: "Faraz",
@@ -68,11 +89,11 @@ const Testimonials = () => {
                 fontSize: isMobile ? '1.5rem' : "2rem",
               }}
             >
-              Testimonial
+              Students Testimonial
             </Typography>
 
             <Box>
-              <Button
+              {/* <Button
                 variant="outlined"
                 onClick={handleAddTestimonial}
                 sx={{
@@ -83,7 +104,7 @@ const Testimonials = () => {
                 }}
               >
                 + Add Testimonial
-              </Button>
+              </Button> */}
             </Box>
           </Box>
 
@@ -99,9 +120,10 @@ const Testimonials = () => {
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Title</TableCell>
+                  <TableCell>Student Name</TableCell>
                   <TableCell>Course name</TableCell>
-                  <TableCell>Video</TableCell>
+                  <TableCell>Attachment</TableCell>
+                  <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -122,6 +144,26 @@ const Testimonials = () => {
                       <Box>
                         <img src={row.image} alt="" width={"50px"} />
                       </Box>
+                    </TableCell>
+                    <TableCell >
+                      <Button sx={{ color: "grey",textTransform:'none' }}
+                      onClick={(event) => handleMenuClick(event)}
+                      >
+                        pending
+                        <IconButton sx={{
+                          fontSize:'1rem',
+                        }}>
+                        <IoIosArrowDown />
+                        </IconButton>
+                      </Button>
+                      <Menu 
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handlePendingClose}
+                       >
+                        <MenuItem>Pending</MenuItem>
+                        <MenuItem>Accpet</MenuItem>
+                      </Menu>
                     </TableCell>
                   </TableRow>
                 ))}
