@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { getAllCategories } from "../../store/actions/categoriesActions";
 import { Link } from "react-router-dom";
 import Home from "./home/Home";
+import Page from "../../components/page";
 
 const Landing = () => {
   const theme = useTheme();
@@ -28,8 +29,10 @@ const Landing = () => {
 
   return (
     <>
-
+<Page title='Khatri Brothers'>
 <Home/>
+
+</Page>
     </>
   );
 };

@@ -27,7 +27,16 @@ import SetNewPassword from "./Pages/Authentication_Page/Components/SetNewPasswor
 import StudentMain from "./Student/StudentMain";
 import PaymentSuccess from "./Pages/PaymentPages/PaymentSuccess";
 import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
+import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
+
+
 export default function Router() {
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  console.log(isAuthenticated, 'hgyfuhhj')
+      const navigate = useNavigate();
+
+
   let element = useRoutes([
     {
       path: "/",
@@ -111,16 +120,28 @@ export default function Router() {
       element: <PaymentCancel />,
     },
 
+    // {
+    //   path: "/admin-dashboard",
+    //   element: <AdminMain />,
+    // },
+
+    // {
+    //   path: "/student-dashboard",
+    //   element: <StudentMain />,
+    // },
+
+
     {
-      path: "/admin-dashboard",
-      element: <AdminMain />,
+
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [{ path: "/admin-dashboard", element: <AdminMain /> }],
     },
 
     {
-      path: "/student-dashboard",
-      element: <StudentMain />,
-    },
 
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [{ path: "/student-dashboard", element: <StudentMain /> }],
+    },
 
 
   ]);

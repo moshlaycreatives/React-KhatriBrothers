@@ -222,7 +222,6 @@
 
 
 
-
 import {
   Box,
   Button,
@@ -240,7 +239,8 @@ import {
   TextField,
   Typography,
   useTheme,
-  Pagination
+  Pagination,
+  CircularProgress // Import CircularProgress
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -262,10 +262,12 @@ const StudentMain = () => {
   const [isEdited, setIsEdited] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // State for current page
   const [totalPages, setTotalPages] = useState(1); // State for total pages
+  const [loading, setLoading] = useState(true); // State for loading status
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Start loading
       try {
         const res = await dispatch(getStudentData(currentPage));
         setStudentData(res.data.data);
@@ -273,6 +275,8 @@ const StudentMain = () => {
         console.log('Student data:', res.data);
       } catch (error) {
         console.error('Failed to fetch student data', error);
+      } finally {
+        setLoading(false); // End loading
       }
     };
 
@@ -390,61 +394,69 @@ const StudentMain = () => {
                   Search
                 </Button>
               </Box>
-              <Table size='small' aria-label='a dense table'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Student Name</TableCell>
-                    <TableCell>Course Name</TableCell>
-                    <TableCell>Course Type</TableCell>
-                    <TableCell>Class Type</TableCell>
-                    <TableCell>Course Fee</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {studentData.map((row) => (
-                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                      <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
-                        {`${row.studentId.firstName} ${row.studentId.lastName}`}
-                      </TableCell>
-                      <TableCell sx={{ color: 'gray' }}>
-                        {row.courseId.title}
-                      </TableCell>
-                      <TableCell sx={{ color: 'gray' }}>
-                        {row.courseId.courseType}
-                      </TableCell>
-                      <TableCell sx={{ color: 'gray' }}>
-                        Group
-                      </TableCell>
-                      <TableCell sx={{ color: 'gray' }}>
-                        {row.courseId.price}
-                      </TableCell>
-                      <TableCell>
-                        <IconButton onClick={(events) => handleMenuClick(events, row._id)}>
-                          <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={handleMenuClose}
-                        >
-                          <MenuItem onClick={handleEditClick}>View</MenuItem>
-                          <MenuItem>Delete</MenuItem>
-                        </Menu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <>
+                  <Table size='small' aria-label='a dense table'>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Student Name</TableCell>
+                        <TableCell>Course Name</TableCell>
+                        <TableCell>Course Type</TableCell>
+                        <TableCell>Class Type</TableCell>
+                        <TableCell>Course Fee</TableCell>
+                        <TableCell>Action</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {studentData.map((row) => (
+                        <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                          <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
+                            {`${row.studentId.firstName} ${row.studentId.lastName}`}
+                          </TableCell>
+                          <TableCell sx={{ color: 'gray' }}>
+                            {row.courseId.title}
+                          </TableCell>
+                          <TableCell sx={{ color: 'gray' }}>
+                            {row.courseId.courseType}
+                          </TableCell>
+                          <TableCell sx={{ color: 'gray' }}>
+                            Group
+                          </TableCell>
+                          <TableCell sx={{ color: 'gray' }}>
+                            {row.courseId.price}
+                          </TableCell>
+                          <TableCell>
+                            <IconButton onClick={(events) => handleMenuClick(events, row._id)}>
+                              <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={Boolean(anchorEl)}
+                              onClose={handleMenuClose}
+                            >
+                              <MenuItem onClick={handleEditClick}>View</MenuItem>
+                              <MenuItem>Delete</MenuItem>
+                            </Menu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
+                    <Pagination
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
+                    
+                    />
+                  </Box>
+                </>
+              )}
             </TableContainer>
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-              <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={handlePageChange}
-                color="primary"
-              />
-            </Box>
           </Box>
         </Box>
       )}

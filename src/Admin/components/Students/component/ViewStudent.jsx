@@ -97,9 +97,6 @@ const {enqueueSnackbar} = useSnackbar()
         // console.log('current student id:', currentRowId);
       };
 
-      const handleMenuClose = ()=>{
-        setAnchorEl(null)
-}
 
 
 
@@ -124,12 +121,16 @@ const {enqueueSnackbar} = useSnackbar()
             {studentData.firstName}
 
  </Typography>
+<br/>
+
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Name
           </Typography>
+
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
           {courseData.title}
+          <br/>
 
           </Typography>
 
@@ -139,6 +140,7 @@ const {enqueueSnackbar} = useSnackbar()
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {studentData.learnerType}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Gender
@@ -146,6 +148,7 @@ const {enqueueSnackbar} = useSnackbar()
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {studentData.gender}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Fee
@@ -162,12 +165,14 @@ const {enqueueSnackbar} = useSnackbar()
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {studentData.email}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Phone
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
           {studentData.phone}
+          <br/>
 
           </Typography>
 
@@ -177,6 +182,7 @@ const {enqueueSnackbar} = useSnackbar()
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {courseData.courseType}
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Class Type
@@ -184,6 +190,7 @@ const {enqueueSnackbar} = useSnackbar()
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             Group
           </Typography>
+          <br/>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Country
@@ -192,22 +199,10 @@ const {enqueueSnackbar} = useSnackbar()
             {studentData.country}
           </Typography>
           </Box>
-          <IconButton onClick={(events) => handleMenuClick(events)}>
-                          <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={handleMenuClose}
-                        >
-                          <MenuItem 
-                          // onClick={handleEditClick}
-                          >View</MenuItem>
-                          <MenuItem>Delete</MenuItem>
-                        </Menu>
-
+          {/* <Button>click</Button> */}
+          <div></div>
         </Card>
-        <Box sx={{width:'50%'}}>
+        <Box sx={{width:'30%'}}>
             {/* <TextField placeholder='Please select Teacher' fullWidth size='small'/> */}
             <FormControl fullWidth size='small'>
         <InputLabel>Select Teacher</InputLabel>

@@ -50,12 +50,24 @@ const SignIn = () => {
 
     dispatch(userLogin(formValues))
       .then((res) => {
-        
+
         enqueueSnackbar(res.data.message, { variant: "success" });
 
 
+
+const role = res.data.data.role
+
+if(role === 'admin'){
+  navigate('/admin-dashboard')
+}else if(role === 'user'){
+  navigate('/student-dashboard')
+}else{
+  navigate(from)
+
+}
+
         setFormValues(initialValues);
-        navigate(from)
+
       })
       .catch((err) => {
         enqueueSnackbar(err.response.data.message, {
