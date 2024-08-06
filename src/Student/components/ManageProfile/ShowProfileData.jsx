@@ -10,7 +10,7 @@ const ShowProfileData = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms';
   const userData = useSelector((state) => state?.auth?.user);
-  const profilePictureUrl = `${base}${userData.profilePicture.replace(/ /g, '%20')}`;
+  const profilePictureUrl = `${base}${userData?.profilePicture?.replace(/ /g, '%20')}`;
 
   const initialValues = {
     name: '',

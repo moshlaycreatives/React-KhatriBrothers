@@ -8,8 +8,11 @@ const PaymentSuccess = () => {
   const dispatch = useDispatch();
 
   const enrollCustomer=localStorage.getItem('paymentId2')
+  const Installment=localStorage.getItem('installment')
+
+
   useEffect(()=>{
-    dispatch(EnrollCustomer(enrollCustomer))
+    dispatch(EnrollCustomer(enrollCustomer, Installment))
   },[''])
     const navigate = useNavigate()
   return (

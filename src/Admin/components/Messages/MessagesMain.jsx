@@ -301,7 +301,22 @@ const MessageMain = () => {
     () => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"),
     []
   );
-  const filteredUsers = allUsers.filter(user => user.role === 'user' && user._id !== userId);
+
+
+
+  const [allUsers, setAllUsers] = useState([]);
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+      .then((users) => {
+        setAllUsers(users.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, [dispatch]);
+  
+  const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {

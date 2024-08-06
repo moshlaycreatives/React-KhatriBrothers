@@ -158,9 +158,9 @@ export const userLogout = () => async (dispatch) => {
   }
 };
 
-export const EnrollCustomer = (courseId) => async (dispatch) => {
+export const EnrollCustomer = (courseId, installment) => async (dispatch) => {
   try {
-    const payload= {courseId}
+    const payload= {courseId, installment}
     const res = await api.post("/addEnrollment", payload);
 
     console.log('Response from API:', res);

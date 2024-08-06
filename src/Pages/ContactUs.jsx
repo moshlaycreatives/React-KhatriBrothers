@@ -44,6 +44,13 @@ const ContactUs = () => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
+
+  const handlePhoneChange = (value) => {
+    setFormValues({ ...formValues, phone: value });
+  };
+
+  
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
@@ -56,9 +63,9 @@ const ContactUs = () => {
         // navigate('/seller/dashboard')
       })
       .catch((err) => {
-        enqueueSnackbar("Please enter valid email password", {
-          variant: "error",
-        });
+        // enqueueSnackbar("Please enter valid email password", {
+        //   variant: "error",
+        // });
 
         console.log(err);
       });
@@ -70,6 +77,7 @@ const ContactUs = () => {
         <Box sx={{}}>
           <Box
             sx={{
+            minHeight:'100vh',
               padding: "3rem 5%",
               backgroundColor: theme.palette.primary.main,
             }}
@@ -189,8 +197,8 @@ const ContactUs = () => {
                     </InputLabel>
                     <PhoneInput
                       country={"in"}
-                      // value={formValues.phone}
-                      // onChange={handlePhoneChange}
+                      value={formValues.phone}
+                      onChange={handlePhoneChange}
                       inputStyle={{ width: "100%" }}
                     />
                   </Box>
@@ -217,10 +225,11 @@ const ContactUs = () => {
                   <div>
                     <Button
                       type="submit"
+                  variant="contained"
                       sx={{
                         fontSize: "1.1rem",
                         fontWeight: "400",
-                        backgroundColor: theme.palette.primary.main,
+
                         color: "white",
                         marginTop: "2rem",
                         width: "50%",

@@ -2,6 +2,11 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   Typography,
   useMediaQuery,
@@ -26,11 +31,22 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const { id } = useParams();
   const location = useLocation();
-
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingEnroll, setLoadingEnroll] = useState(false);
+  const handleDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDialogClose = (option) => {
+    setOpen(false);
+    setPaymentOption(option);
+    if (option) {
+      handleEnroll(option);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,17 +82,21 @@ const AdvanceCoursePriceHeroSection = () => {
   const email = userData?.email;
   const name = userData?.firstName;
 
-  const handleEnroll = (values) => {
+  const handleEnroll = (values, installment) => {
+
+    console.log(installment, 'installmen values')
     if (auth === true) {
       setLoadingEnroll(true);
       const res = dispatch(firstPaymentApi({ name, email }))
         .then((res) => {
           const paymentId = res.data.data.id;
           const paymentId2 = localStorage.setItem('paymentId2', id)
-          console.log(paymentId, "paymentId");
+          localStorage.setItem('installment', installment)
+
+
 
           if (paymentId) {
-            const resdata = dispatch(payment(values, paymentId)).then((res) => {
+            const resdata = dispatch(payment(values, paymentId, installment)).then((res) => {
               console.log(res.data.session.url, "secondapi");
               const testCheckoutUrl = res.data.session.url;
 
@@ -152,7 +172,10 @@ const AdvanceCoursePriceHeroSection = () => {
           backgroundColor: 'white',
         },
                 }}
-                onClick={() => handleEnroll(courseData.price)}
+                // onClick={() => handleEnroll(courseData.price)}
+
+                onClick={handleDialogOpen}
+
               >
                 {loadingEnroll ? (
                   <CircularProgress
@@ -437,7 +460,10 @@ const AdvanceCoursePriceHeroSection = () => {
                   borderRadius: "0px",
                   position: "relative",
                 }}
-                onClick={() => handleEnroll(courseData.price)}
+                // onClick={() => handleEnroll(courseData.price)}
+                onClick={handleDialogOpen}
+
+
 
               >
                 {loadingEnroll ? (
@@ -497,6 +523,27 @@ const AdvanceCoursePriceHeroSection = () => {
           </Grid>
         </Box>
       </Box>
+
+
+      <Dialog open={open} onClose={() => handleDialogClose(null)}>
+        <DialogTitle>Select Payment Option</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please select your preferred payment option.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+
+                <Button onClick={() => handleEnroll(courseData.price, true)}  color="primary">
+            Installment
+          </Button>
+          <Button onClick={() => handleEnroll(courseData.price, false)} color="primary">
+            Full Fee
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
     </>
   );
 };

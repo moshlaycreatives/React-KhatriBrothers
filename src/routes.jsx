@@ -33,7 +33,7 @@ import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 export default function Router() {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log(isAuthenticated, 'hgyfuhhj')
+  
       const navigate = useNavigate();
 
 

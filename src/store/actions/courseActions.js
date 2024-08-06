@@ -155,10 +155,10 @@ export const firstPaymentApi = (values) => async (dispatch) => {
 };
 
 
-export const payment = (values, paymentId) => async (dispatch) => {
-
+export const payment = (values, paymentId, installment) => async (dispatch) => {
+console.log(installment, 'installment')
   try {
-    const res = await api.post("/payment", {amount:values, customer_id:paymentId});
+    const res = await api.post("/payment", {amount:values, customer_id:paymentId, installment:installment});
 
 console.log(res, 'urlllll')
     return res;
