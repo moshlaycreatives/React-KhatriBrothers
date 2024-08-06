@@ -1,6 +1,6 @@
-import { Box, Button, Card, IconButton, InputAdornment, Menu, MenuItem, Paper, Table, TableBody,  TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, Card, IconButton, InputAdornment, Menu, MenuItem, Pagination, Paper, Table, TableBody,  TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
-import { assignedStudents, getSingleInstructor, getSingleStudent } from '../../../../store/actions/courseActions';
+import { assignedStudents, getSingleInstructor, getSingleStudent, sendSearchTerm } from '../../../../store/actions/courseActions';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CiSearch } from "react-icons/ci";
@@ -16,14 +16,16 @@ const InstructorDetails = ({instructorId}) => {
   const [studentData, setStudentData] = useState([]);
   const [currentRowId, setCurrentRowId] = useState(null);
   const [isEdited, setIsEdited] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
+  const [totalPages, setTotalPages] = useState(1); // State for total pages
   // const dispatch = useDispatch();
 
 
-const row = [
-  {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
-  {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
-  {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
-]
+// const row = [
+//   {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
+//   {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
+//   {studentname:'patel' , studentCourse:'music', coursetype:'advance' , classtype:'group' , coursefee:'100'},
+// ]
 
 const handleMenuClose = ()=>{
   setAnchorEl(null)
@@ -77,6 +79,36 @@ const [instructorData , setInstructorData] = useState({})
       }, [dispatch,instructorId]);
 
 
+      const handleSearch = () => {
+        const userType = 'student'
+    
+        if (!searchTerm.trim()) {
+          console.log('Search cannot be empty');
+          return;
+        }
+
+        console.log('Searching for:', searchTerm);
+
+        dispatch(sendSearchTerm(searchTerm, userType))
+          .then((res) => {
+            setStudentData(res?.data?.data);
+            setTotalPages(res?.data?.totalPages); // Update total pages based on search results
+          })
+          .catch((error) => {
+            console.error('Failed to send searchTerm', error);
+          });
+      };
+
+      const handleKeyPress = (e)=>{
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
+      }
+
+      const handlePageChange = (events,value)=>{
+        setCurrentPage(value)
+      }
+
   return (
     <>
     <Box>
@@ -86,7 +118,8 @@ const [instructorData , setInstructorData] = useState({})
 
       <Box sx={{
         display:'flex',
-        justifyContent:'space-between'
+        justifyContent:'space-between', 
+        alignItems:'start'
       }}>
        <Box >
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
@@ -159,8 +192,9 @@ const [instructorData , setInstructorData] = useState({})
                   placeholder='Search...'
                   value={searchTerm}
                   size='small'
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   // onChange={handleChange}
-                  // onKeyPress={handleKeyPress}
+                  onKeyPress={handleKeyPress}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -172,7 +206,7 @@ const [instructorData , setInstructorData] = useState({})
                 <Button
                   variant="contained"
                   color="primary"
-                  // onClick={handleSearch}
+                  onClick={handleSearch}
                   startIcon={<CiSearch />}
                 >
                   Search
@@ -231,6 +265,14 @@ const [instructorData , setInstructorData] = useState({})
             {/* </TableContainer> */}
           </Box>
         </Card>
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Box>
     </Box>
     </>
   )

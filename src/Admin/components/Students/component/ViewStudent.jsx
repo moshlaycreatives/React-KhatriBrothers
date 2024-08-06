@@ -1,9 +1,12 @@
-import { Box, Button, Card, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { assignInstructor, getInstructors, getSingleStudent } from '../../../../store/actions/courseActions';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+
 
 const ViewStudent = ({student_Id}) => {
 
@@ -13,6 +16,8 @@ const ViewStudent = ({student_Id}) => {
 const {enqueueSnackbar} = useSnackbar()
     const [studentData , setStudentData] = useState({})
     const [courseData , setCourseData] = useState({})
+  const [anchorEl, setAnchorEl] = useState(null);
+
 
     const dispatch = useDispatch();
 
@@ -86,7 +91,11 @@ const {enqueueSnackbar} = useSnackbar()
 
       };
 
-
+      const handleMenuClick = (events) => {
+        setAnchorEl(events.currentTarget);
+        // setCurrentRowId(id);
+        // console.log('current student id:', currentRowId);
+      };
 
 
 
@@ -100,7 +109,9 @@ const {enqueueSnackbar} = useSnackbar()
   return (
     <>
     <Box>
-        <Card sx={{ padding: "1rem", marginBottom: "1rem", display:'flex', justifyContent:'space-between'}}>
+        <Card sx={{ padding: "1rem", marginBottom: "1rem", display:'flex', justifyContent:'space-between',
+          alignItems:'start'
+        }}>
 
         <Box >
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>

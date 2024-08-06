@@ -1,12 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Slider from "react-slick"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
  import "./Student_testimonials.css"
+import { getPublicTestimonial } from "../../../../store/actions/courseActions";
+import { useDispatch } from "react-redux";
 
 function Student_testimonials() {
+
+  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+  const dispatch = useDispatch();
+  const [publicTestimonial, setPublicTestimonial] = useState([])
 
   const settings = {
     className: "center",
@@ -20,7 +26,19 @@ function Student_testimonials() {
     dots:true
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await dispatch(getPublicTestimonial());
+        setPublicTestimonial(res.data.data);
+        console.log(' public testtimonial  data:', res. data);
+      } catch (error) {
+        console.error('Failed to fetch data', error);
+      }
+    };
 
+    fetchData();
+  }, [dispatch]);
 
 
 
@@ -35,10 +53,16 @@ function Student_testimonials() {
   </section>
   <div className="slider-container">
       <Slider  {...settings}>
-        <div>
-          <img src="assets/student_testimonial/test_1.png" alt="Testimonial 1" />
-        </div>
-        <div>
+        {publicTestimonial.map((row)=>(
+           <div>
+            {/* <TY></TY> */}
+           <img 
+           src={`${base}${row.video.replace(/ /g, "%20")}`} 
+           alt="Testimonial 1" />
+         </div>
+        ))}
+       
+        {/* <div>
           <img src="assets/student_testimonial/test_1.png" alt="Testimonial 2" />
         </div>
         <div>
@@ -52,7 +76,7 @@ function Student_testimonials() {
         </div>
         <div>
           <img src="assets/student_testimonial/test_1.png" alt="Testimonial 6" />
-        </div>
+        </div> */}
       </Slider>
     </div>
 

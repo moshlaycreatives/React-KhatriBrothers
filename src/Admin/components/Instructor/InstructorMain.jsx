@@ -6,6 +6,7 @@ import {
     InputAdornment,
     Menu,
     MenuItem,
+    Pagination,
     Paper,
     Table,
     TableBody,
@@ -36,6 +37,8 @@ import InstructorDetails from './component/InstructorDetails';
     const [searchTerm, setSearchTerm] = useState('');
     const [InstructorData, setInstructorData] = useState([]);
     const [currentRowId, setCurrentRowId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1); // State for current page
+    const [totalPages, setTotalPages] = useState(1); // State for total pages
     const [isEdited, setIsEdited] = useState(false);
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
@@ -126,6 +129,9 @@ import InstructorDetails from './component/InstructorDetails';
       setCurrentRowId(null);
     };
 
+    const handlePageChange = (events,value)=>{
+      setCurrentPage(value)
+    }
     console.log('instructor data first file',InstructorData)
     return (
       <>
@@ -246,7 +252,6 @@ import InstructorDetails from './component/InstructorDetails';
                 </Table>
               )}
               </TableContainer>
-
             </Box>
           </Box>
         )}

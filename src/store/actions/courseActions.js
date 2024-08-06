@@ -1,12 +1,12 @@
 import api from '../../utils/Api'
 
 export const addAdvance = (formValues) => async (dispatch) => {
-  console.log('Starting API call at:', new Date().toISOString());
+  // console.log('Starting API call at:', new Date().toISOString());
   try {
     const res = await api.post("/addCourse", formValues);
 
     console.log('Response from API:', res);
-    console.log('API call completed at:', new Date().toISOString());
+    // console.log('API call completed at:', new Date().toISOString());
 
     return res;
   } catch (err) {
@@ -198,6 +198,55 @@ export const assignInstructor = (instructorId, enrollmentId) => async (dispatch)
 export const assignedStudents = (instructorId) => async (dispatch) => {
   try {
     const res = await api.get(`/getAssignedCoursesByInstructor/${instructorId}`,);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// student side add testimonial 
+export const addStudentsTestimonial = (formValues) => async (dispatch) => {
+  // console.log('Starting API call at:', new Date().toISOString());
+  try {
+    const res = await api.post("/createTestimonial", formValues);
+
+    console.log('Response from API:', res);
+    console.log('API call completed at:', new Date().toISOString());
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+export const getAllTestimonial = () => async (dispatch) => {
+  try {
+    const res = await api.get(`/getAllTestimonial`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const acceptTestimonial = (testimonialId) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/updateTestimonialStatus/${testimonialId}`);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+export const getPublicTestimonial = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllTestimonialPublic`);
 
     return res;
   } catch (err) {

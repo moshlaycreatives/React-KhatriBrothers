@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -17,22 +18,68 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
+import { addStudentsTestimonial, getBeginnerCourse } from "../../../store/actions/courseActions";
+import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
 
 const Testimonials = () => {
   const theme = useTheme();
+  const {enqueueSnackbar} = useSnackbar();
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const initialValues ={
+    title:'',
+    courseId:'',
+    video:null
+  }
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
+  const [testimonialData ,setTestimonialData] = useState([]);
+  const [currentCourseId ,setCurrentCourseId] = useState(null);
+  const [formValues, setFormValues] = useState(initialValues);
+  const [loading ,setLoading]= useState(false);
 
-  const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
+  // const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
+ 
+  const handleFromData =(e)=>{
+    const {name , value} = e.target;
+    setFormValues((formValues)=>({...formValues, [name]: value})) 
+    console.log('kkkkkkkk' ,formValues);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const res = await dispatch(getBeginnerCourse());
+        setTestimonialData(res.data.data);
+        console.log('testtimonial  data:', res. data);
+      } catch (error) {
+        console.error('Failed to fetch student data', error);
+      } finally {
+        setLoading(false)
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   const handleChange = (event) => {
-    setSelectedCourse(event.target.value);
+    // setSelectedCourse(event.target.value);
+    const selectedId = event.target.value;
+    setSelectedCourse(selectedId);
+    setFormValues((formValues)=>({...formValues, courseId:selectedId}));
   };
+
+  const handleVideoChange =(e)=>{
+    const file = e.target.files[0];
+    setFormValues((formValues)=>({...formValues , video : file}))
+  }
 
   const handleAddTestimonial = () => {
     setIsAdding(true);
@@ -41,6 +88,38 @@ const Testimonials = () => {
   const handleCancel = () => {
     setIsAdding(false);
   };
+
+  const handleSubmit = ()=>{
+
+    const formData = new FormData();
+  formData.append('stuName', formValues.title);
+  formData.append('courseId', formValues.courseId)
+  if (formValues.video) {
+    formData.append('video', formValues.video)
+  }
+
+  dispatch(addStudentsTestimonial(formData)).then((res)=>{
+    enqueueSnackbar(res.data.message,  {variant:'success'})
+    setFormValues(initialValues);
+  }).catch((error)=>{
+    enqueueSnackbar(error.data.message, {varient:'error'})
+  })
+  }
+
+  
+
+  // const handleCouseClick  = (e , id)=>{
+  //   setCurrentCourseId(id);
+
+  //   const {name } = e.target;
+  //   setFormValues((formValues)=>({...formValues, [name]: id}))
+  //   console.log('kkkkkkkk' ,formValues);
+    
+  // }
+  // console.log('course test id', currentCourseId);
+
+
+
 
   const rows = [
     {
@@ -89,7 +168,13 @@ const Testimonials = () => {
 
           <br />
 
-          <TableContainer
+          {loading ? (
+            <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'50vh'}}>
+              <CircularProgress/>
+            </Box>
+          ) : (
+            <>
+            <TableContainer
             component={Paper}
             sx={{
               padding: "1rem 1rem",
@@ -128,6 +213,9 @@ const Testimonials = () => {
               </TableBody>
             </Table>
           </TableContainer>
+            </>
+          )}
+          
         </>
       ) : (
         <Card
@@ -160,10 +248,14 @@ const Testimonials = () => {
                 size="small"
                 placeholder="Enter your title"
                 sx={{ borderRadius: "0px", marginBottom: "0.8rem" }}
+                name="title"
+                value={formValues.title}
+                onChange={handleFromData}
               />
 
               <br />
 
+              
               <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
                 Course Name
               </Typography>
@@ -177,9 +269,13 @@ const Testimonials = () => {
                   <MenuItem value="" disabled>
                     Select
                   </MenuItem>
-                  {courses.map((course, index) => (
-                    <MenuItem key={index} value={course}>
-                      {course}
+                  {testimonialData.map((course, index) => (
+                    <MenuItem key={index}
+                     value={course._id}
+                    // onClick={(events)=>handleCouseClick(events, course._id)}
+                    name="courseId"
+                    >
+                      {course.title}
                     </MenuItem>
                   ))}
                 </Select>
@@ -191,7 +287,7 @@ const Testimonials = () => {
               </Typography>
 
               <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
-                <input type="file" />
+                <input type="file"  onChange={handleVideoChange}/>
               </Box>
 
               <br />
@@ -220,6 +316,7 @@ const Testimonials = () => {
                     fontWeight: "400",
                     padding: "0.7rem 0rem",
                   }}
+                  onClick={handleSubmit}
                 >
                   Add
                 </Button>
