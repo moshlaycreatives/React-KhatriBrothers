@@ -20,17 +20,19 @@ import {
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
-import { getBeginnerCourse } from "../../../store/actions/courseActions";
+import { addStudentsTestimonial, getBeginnerCourse } from "../../../store/actions/courseActions";
 import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
 
 const Testimonials = () => {
   const theme = useTheme();
+  const {enqueueSnackbar} = useSnackbar();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const initialValues ={
     title:'',
-    couseName:'',
+    courseId:'',
     video:null
   }
 
@@ -44,7 +46,7 @@ const Testimonials = () => {
  
   const handleFromData =(e)=>{
     const {name , value} = e.target;
-    setFormValues((formValues)=>({...formValues, [name]: value}))
+    setFormValues((formValues)=>({...formValues, [name]: value})) 
     console.log('kkkkkkkk' ,formValues);
   }
 
@@ -63,8 +65,16 @@ const Testimonials = () => {
   }, [dispatch]);
 
   const handleChange = (event) => {
-    setSelectedCourse(event.target.value);
+    // setSelectedCourse(event.target.value);
+    const selectedId = event.target.value;
+    setSelectedCourse(selectedId);
+    setFormValues((formValues)=>({...formValues, courseId:selectedId}));
   };
+
+  const handleVideoChange =(e)=>{
+    const file = e.target.files[0];
+    setFormValues((formValues)=>({...formValues , video : file}))
+  }
 
   const handleAddTestimonial = () => {
     setIsAdding(true);
@@ -74,16 +84,36 @@ const Testimonials = () => {
     setIsAdding(false);
   };
 
+  const handleSubmit = ()=>{
 
-  const handleCouseClick  = (e , id)=>{
-    setCurrentCourseId(id);
-
-    const {name } = e.target;
-    setFormValues((formValues)=>({...formValues, [name]: id}))
-    console.log('kkkkkkkk' ,formValues);
-    
+    const formData = new FormData();
+  formData.append('stuName', formValues.title);
+  formData.append('courseId', formValues.courseId)
+  if (formValues.video) {
+    formData.append('vidoe', formValues.video)
   }
-  console.log('course test id', currentCourseId);
+
+  dispatch(addStudentsTestimonial(formData)).then((res)=>{
+    enqueueSnackbar(res.data.message,  {variant:'success'})
+  }).catch((error)=>{
+    enqueueSnackbar(error.data.message, {varient:'error'})
+  })
+  }
+
+  
+
+  // const handleCouseClick  = (e , id)=>{
+  //   setCurrentCourseId(id);
+
+  //   const {name } = e.target;
+  //   setFormValues((formValues)=>({...formValues, [name]: id}))
+  //   console.log('kkkkkkkk' ,formValues);
+    
+  // }
+  // console.log('course test id', currentCourseId);
+
+
+
 
   const rows = [
     {
@@ -225,9 +255,10 @@ const Testimonials = () => {
                     Select
                   </MenuItem>
                   {testimonialData.map((course, index) => (
-                    <MenuItem key={index} value={course.title}
+                    <MenuItem key={index}
+                     value={course.title}
                     onClick={(events)=>handleCouseClick(events, course._id)}
-                    name="courseName"
+                    name="courseId"
                     >
                       {course.title}
                     </MenuItem>
@@ -241,7 +272,7 @@ const Testimonials = () => {
               </Typography>
 
               <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
-                <input type="file" />
+                <input type="file"  onChange={handleVideoChange}/>
               </Box>
 
               <br />
@@ -270,6 +301,7 @@ const Testimonials = () => {
                     fontWeight: "400",
                     padding: "0.7rem 0rem",
                   }}
+                  onClick={handleSubmit}
                 >
                   Add
                 </Button>
