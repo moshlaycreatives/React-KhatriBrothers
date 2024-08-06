@@ -21,21 +21,22 @@ const BeginnerCoursesMain = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getBeginnerCourse());
-        setCourseData(res.data.data);
-      } catch (err) {
-        console.error("Failed to fetch beginner courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getBeginnerCourse());
+      setCourseData(res.data.data);
+    } catch (err) {
+      console.error("Failed to fetch beginner courses:", err);
+      setLoading(false);
 
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
