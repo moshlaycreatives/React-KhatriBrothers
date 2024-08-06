@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -38,9 +39,10 @@ const Testimonials = () => {
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
-  const [testimonialData ,setTestimonialData] = useState('');
+  const [testimonialData ,setTestimonialData] = useState([]);
   const [currentCourseId ,setCurrentCourseId] = useState(null);
   const [formValues, setFormValues] = useState(initialValues);
+  const [loading ,setLoading]= useState(false);
 
   // const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
  
@@ -52,12 +54,15 @@ const Testimonials = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const res = await dispatch(getBeginnerCourse());
         setTestimonialData(res.data.data);
         console.log('testtimonial  data:', res. data);
       } catch (error) {
         console.error('Failed to fetch student data', error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -90,11 +95,12 @@ const Testimonials = () => {
   formData.append('stuName', formValues.title);
   formData.append('courseId', formValues.courseId)
   if (formValues.video) {
-    formData.append('vidoe', formValues.video)
+    formData.append('video', formValues.video)
   }
 
   dispatch(addStudentsTestimonial(formData)).then((res)=>{
     enqueueSnackbar(res.data.message,  {variant:'success'})
+    setFormValues(initialValues);
   }).catch((error)=>{
     enqueueSnackbar(error.data.message, {varient:'error'})
   })
@@ -162,7 +168,13 @@ const Testimonials = () => {
 
           <br />
 
-          <TableContainer
+          {loading ? (
+            <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'50vh'}}>
+              <CircularProgress/>
+            </Box>
+          ) : (
+            <>
+            <TableContainer
             component={Paper}
             sx={{
               padding: "1rem 1rem",
@@ -201,6 +213,9 @@ const Testimonials = () => {
               </TableBody>
             </Table>
           </TableContainer>
+            </>
+          )}
+          
         </>
       ) : (
         <Card
@@ -256,8 +271,8 @@ const Testimonials = () => {
                   </MenuItem>
                   {testimonialData.map((course, index) => (
                     <MenuItem key={index}
-                     value={course.title}
-                    onClick={(events)=>handleCouseClick(events, course._id)}
+                     value={course._id}
+                    // onClick={(events)=>handleCouseClick(events, course._id)}
                     name="courseId"
                     >
                       {course.title}

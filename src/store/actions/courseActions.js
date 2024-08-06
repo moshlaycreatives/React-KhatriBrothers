@@ -220,3 +220,36 @@ export const addStudentsTestimonial = (formValues) => async (dispatch) => {
 
   }
 };
+
+export const getAllTestimonial = () => async (dispatch) => {
+  try {
+    const res = await api.get(`/getAllTestimonial`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const acceptTestimonial = (testimonialId) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/updateTestimonialStatus/${testimonialId}`);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+export const getPublicTestimonial = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllTestimonialPublic`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

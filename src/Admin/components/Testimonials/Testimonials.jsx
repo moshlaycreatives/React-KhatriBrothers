@@ -19,19 +19,26 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
 import { IoIosArrowDown } from "react-icons/io";
+import { acceptTestimonial, getAllTestimonial } from "../../../store/actions/courseActions";
+import { useDispatch } from "react-redux";
+import { enqueueSnackbar } from "notistack";
 
 
 const Testimonials = () => {
+  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
   const [anchorEl, setAnchorEl] = useState(null);
+  const [allTestimonial , setAllTestimonial]= useState([]);
+  const [testimonialStatus, setTestimonialStatus] = useState('');
 
   const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
 
@@ -53,23 +60,54 @@ const Testimonials = () => {
   const handleMenuClick = (event)=>[
     setAnchorEl(event.currentTarget)
   ]
-  const rows = [
-    {
-      coursename: "Hindustani vocal advanced A series",
-      teacher: "Faraz",
-      image: "/ggg.png",
-    },
-    {
-      coursename: "Hindustani vocal advanced A series",
-      teacher: "Faraz",
-      image: "/ggg.png",
-    },
-    {
-      coursename: "Hindustani vocal advanced A series",
-      teacher: "Faraz",
-      image: "/ggg.png",
-    },
-  ];
+
+  // const rows = [
+  //   {
+  //     coursename: "Hindustani vocal advanced A series",
+  //     teacher: "Faraz",
+  //     image: "/ggg.png",
+  //   },
+  //   {
+  //     coursename: "Hindustani vocal advanced A series",
+  //     teacher: "Faraz",
+  //     image: "/ggg.png",
+  //   },
+  //   {
+  //     coursename: "Hindustani vocal advanced A series",
+  //     teacher: "Faraz",
+  //     image: "/ggg.png",
+  //   },
+  // ];
+  const fetchData = async () => {
+    try {
+      const res = await dispatch(getAllTestimonial());
+      setAllTestimonial(res.data.data);
+      console.log('testtimonial  data:', res.data);
+    } catch (error) {
+      console.error('Failed to fetch all testimonial data', error);
+    }
+  };
+
+  useEffect(() => {
+    
+
+    fetchData();
+  }, [dispatch]);
+  console.log('nenwnewnn', allTestimonial);
+
+  const handleTestimonialStatus =(events , id)=>{
+    setAnchorEl(null);
+    console.log('ududududuudu',id)
+    // setTestimonialStatus(id);
+    dispatch(acceptTestimonial(id))
+    .then((res)=>{
+      enqueueSnackbar(res.data.message, {variant:'success'})
+      fetchData();
+    })
+    .catch((err)=>{
+      enqueueSnackbar(err.data.message, {variant:'Error'})
+    })
+  }
 
   return (
     <Box>
@@ -127,9 +165,9 @@ const Testimonials = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {allTestimonial.map((row) => (
                   <TableRow
-                    key={row.name}
+                    key={row._id}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       paddingBottom: "1rem",
@@ -137,16 +175,23 @@ const Testimonials = () => {
                     }}
                   >
                     <TableCell component="th" scope="row" sx={{ color: "grey" }}>
-                      {row.coursename}
+                      {row.stuName}
                     </TableCell>
-                    <TableCell sx={{ color: "grey" }}>{row.teacher}</TableCell>
+                    <TableCell sx={{ color: "grey" }}>{row.courseId.title}</TableCell>
                     <TableCell sx={{ color: "grey" }}>
                       <Box>
-                        <img src={row.image} alt="" width={"50px"} />
+                        <img 
+                         src={`${base}${row.video.replace(/ /g, "%20")}`}
+                        alt="" width={"50px"} />
                       </Box>
                     </TableCell>
                     <TableCell >
-                      <Button sx={{ color: "grey",textTransform:'none' }}
+                      
+                      {row.status ? (
+                        <Typography sx={{color:'green'}}>Approved</Typography>
+                      ) : (
+                        <>
+                        <Button sx={{ color: "grey",textTransform:'none' }}
                       onClick={(event) => handleMenuClick(event)}
                       >
                         pending
@@ -161,9 +206,12 @@ const Testimonials = () => {
                       open={Boolean(anchorEl)}
                       onClose={handlePendingClose}
                        >
-                        <MenuItem>Pending</MenuItem>
-                        <MenuItem>Accpet</MenuItem>
+                        <MenuItem>Delete</MenuItem>
+                        <MenuItem onClick={(events)=>handleTestimonialStatus(events, row._id)}>Accpet</MenuItem>
                       </Menu>
+                        </>
+                      )}
+
                     </TableCell>
                   </TableRow>
                 ))}
