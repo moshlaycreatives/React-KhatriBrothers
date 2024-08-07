@@ -18,17 +18,32 @@ import AdvanceCoursesMain from './components/AdvanceCourses/AdvanceCoursesMain';
 import BeginnerCoursesMain from './components/BegginerCourses/BeginnerCoursesMain';
 import StudentMain from './components/Students/StudentMain';
 import InstructorMain from './components/Instructor/InstructorMain';
+import IntermediateCoursesMain from './components/IntermediateCourses/IntermediateCoursesMain';
+import GhazalCoursesMain from './components/GhazalCourses/GhazalCoursesMain';
+import BhajjanCoursesMain from './components/BhajjanCourses/BhajjanCoursesMain';
+import TablaCoursesMain from './components/TablaCourses/TablaCoursesMain';
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <WorkIcon /> },
-  { title: 'Advance Courses', icon: <ArticleIcon /> },
-  { title: 'Beginner Courses', icon: <ArticleIcon /> },
-  { title: 'Students', icon: <ArticleIcon /> },
-  // { title: 'Students', icon: <StudentMain /> },
-  { title: 'Instructors', icon: <ArticleIcon /> },
+  {
+    title: 'Hindustani Vocal Courses',
+    icon: <ArticleIcon />,
+    submenu: [
+      { title: 'Beginner Course', icon: <ArticleIcon /> },
+      { title: 'Intermediate Course', icon: <ArticleIcon /> },
+      { title: 'Advance Course', icon: <ArticleIcon /> },
+    ],
+  },
 
+  { title: 'Bhajan', icon: <ArticleIcon /> },
+  { title: 'Gazal', icon: <ArticleIcon /> },
+  { title: 'Tabla', icon: <ArticleIcon /> },
+
+  { title: 'Students', icon: <ArticleIcon /> },
+  { title: 'Instructors', icon: <ArticleIcon /> },
   { title: 'Message', icon: <AccountCircleIcon /> },
   { title: 'Testimonial', icon: <AccountCircleIcon /> },
   { title: 'Terms & Conditions', icon: <AccountCircleIcon /> },
@@ -44,20 +59,32 @@ const AdminMain = () => {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 const userData = useSelector((state)=>state?.auth?.user)
+const [openSubMenu, setOpenSubMenu] = useState(null);
 console.log(userData, 'data')
 
 
 const profilePictureUrl = base + userData?.profilePicture;
 
 
-  const handleItemClick = (title) => {
+
+
+  const handleItemClick = (title, hasSubMenu = false) => {
     if (title === 'Logout') {
       setLogoutModalOpen(true);
-    } else if (title === 'ManageProfile') {
-      setSelectedItem(title);
+    } else if (hasSubMenu) {
+      setOpenSubMenu(openSubMenu === title ? null : title); // Toggle submenu visibility
     } else {
       setSelectedItem(title);
+      setOpenSubMenu(null); // Close any open submenu
     }
+    if (isMobile) {
+      setDrawerOpen(false);
+    }
+  };
+
+  const handleSubItemClick = (parentTitle, subTitle) => {
+    setSelectedItem(`${parentTitle} - ${subTitle}`);
+    setOpenSubMenu(null); // Close submenu
     if (isMobile) {
       setDrawerOpen(false);
     }
@@ -101,6 +128,8 @@ const profilePictureUrl = base + userData?.profilePicture;
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
                 <Box>
+                <IoIosNotificationsOutline/>
+                
                   <FormControl sx={{ padding: 0 }}>
                     <Select
                       sx={{
@@ -156,31 +185,50 @@ const profilePictureUrl = base + userData?.profilePicture;
         >
           <Toolbar />
           <Box sx={{ overflow: 'auto', backgroundColor: theme.palette.primary.main, height: '100vh' }}>
-            <List>
-              {listData.map((val, ind) => (
+          <List>
+            {listData.map((val, ind) => (
+              <React.Fragment key={ind}>
                 <ListItem
-                  key={ind}
                   disablePadding
                   sx={{
-                    backgroundColor: selectedItem === val.title ? 'white' : 'transparent',
-                    mt: 2,
+                    backgroundColor: selectedItem.includes(val.title) ? 'white' : 'transparent',
+
                     borderRadius: '0px',
-                    color: selectedItem === val.title ? theme.palette.primary.main : '#fff',
+                    color: selectedItem.includes(val.title) ? theme.palette.primary.main : '#fff',
                   }}
-                  onClick={() => handleItemClick(val.title)}
+                  onClick={() => handleItemClick(val.title, !!val.submenu)}
                 >
                   <ListItemButton>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
+                    <ListItemIcon sx={{ color: selectedItem.includes(val.title) ? theme.palette.primary.main : '#fff' }}>
                       {val.icon}
                     </ListItemIcon>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
-                      {val.title}
-                    </ListItemIcon>
-
+                    <ListItemText primary={val.title} sx={{ color: selectedItem.includes(val.title) ? theme.palette.primary.main : '#fff' }} />
                   </ListItemButton>
                 </ListItem>
-              ))}
-            </List>
+                {val.submenu && openSubMenu === val.title && (
+                  <List sx={{ pl: 4 }}>
+                    {val.submenu.map((subItem, subIndex) => (
+                      <ListItem
+                        key={subIndex}
+                        disablePadding
+                        sx={{
+                          backgroundColor: selectedItem === `${val.title} - ${subItem.title}` ? 'white' : 'transparent',
+                          mt: 1,
+                          borderRadius: '0px',
+                          color: selectedItem === `${val.title} - ${subItem.title}` ? theme.palette.primary.main : '#fff',
+                        }}
+                        onClick={() => handleSubItemClick(val.title, subItem.title)}
+                      >
+                        <ListItemButton>
+                          <ListItemText primary={subItem.title} sx={{ color: selectedItem === `${val.title} - ${subItem.title}` ? theme.palette.primary.main : '#fff' }} />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
+              </React.Fragment>
+            ))}
+          </List>
             <Divider />
           </Box>
         </Drawer>
@@ -189,8 +237,16 @@ const profilePictureUrl = base + userData?.profilePicture;
           <Toolbar />
           <Box>
             {selectedItem === 'Dashboard' && <Dashboard />}
-            { selectedItem === 'Advance Courses' && <AdvanceCoursesMain /> }
-  { selectedItem === 'Beginner Courses'&& <BeginnerCoursesMain /> }
+
+            {selectedItem === 'Hindustani Vocal Courses - Beginner Course' && <BeginnerCoursesMain />}
+          {selectedItem === 'Hindustani Vocal Courses - Intermediate Course' && <IntermediateCoursesMain />}
+          {selectedItem === 'Hindustani Vocal Courses - Advance Course' && <AdvanceCoursesMain />}
+
+
+  { selectedItem === 'Bhajan'&& <BhajjanCoursesMain /> }
+
+  { selectedItem === 'Gazal' && <GhazalCoursesMain /> }
+            { selectedItem === 'Tabla' && <TablaCoursesMain /> }
   {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
   { selectedItem === 'Students' && <StudentMain /> }
   { selectedItem === 'Instructors' && <InstructorMain /> }

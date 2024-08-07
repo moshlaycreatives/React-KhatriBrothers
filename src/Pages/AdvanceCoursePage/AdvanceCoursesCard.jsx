@@ -6,8 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AdvanceCoursesCard = () => {
   const theme = useTheme();
-  const course = useSelector((state)=>state?.courses?.advancedCourses)
+  const filteredCourses = useSelector((state) =>
+    state?.courses?.allCourses?.filter(course => course.courseType === 'advanced')
+  );
 
+
+  console.log(filteredCourses, 'advance cpursesss')
 const navigate = useNavigate()
 
   const handleCardClick = (id) => {
@@ -51,7 +55,7 @@ const navigate = useNavigate()
         <Grid container>
 
 
-{course.map((val, ind)=>(
+{filteredCourses.map((val, ind)=>(
     <Grid key={ind} item lg={4} md={4} sm={12} xs={12} onClick={() => handleCardClick(val._id)}>
             <Box>
               <img src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"80%"} />

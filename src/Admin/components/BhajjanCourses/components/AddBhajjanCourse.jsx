@@ -57,7 +57,7 @@ const chipDeleteIconStyles = {
   color: 'white'
 };
 
-const AddAdvanceCourse = () => {
+const AddBhajjanCourse = () => {
   const initialValues = {
     courseName: '',
     courseOverview: '',
@@ -71,7 +71,7 @@ const AddAdvanceCourse = () => {
     ugandaPrice:'',
 canadaPrice:'',
 australiaPrice:'',
-    courseDuration: '',
+
     lectureDuration: '',
     courseImage: null,
   };
@@ -122,7 +122,7 @@ australiaPrice:'',
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));
-    formData.append('courseDuration', formValues.courseDuration);
+
     formData.append('lectureDuration', formValues.lectureDuration);
 
     formData.append('indianPrice', formValues.indianPrice);
@@ -137,7 +137,7 @@ australiaPrice:'',
 
 
 
-    formData.append('courseType', 'advanced');
+    formData.append('courseType', 'bhajjan');
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
@@ -177,7 +177,7 @@ australiaPrice:'',
             { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
 
 
-            { label: "Course Duration", name: "courseDuration", type: 'number' },
+
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
@@ -276,4 +276,4 @@ australiaPrice:'',
   );
 };
 
-export default AddAdvanceCourse;
+export default AddBhajjanCourse;

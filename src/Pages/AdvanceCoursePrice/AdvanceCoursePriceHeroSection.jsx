@@ -23,6 +23,9 @@ import {
   payment,
 } from "../../store/actions/courseActions";
 
+import axios from 'axios';
+
+
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -36,9 +39,88 @@ const AdvanceCoursePriceHeroSection = () => {
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingEnroll, setLoadingEnroll] = useState(false);
+  const [country, setCountry] = useState('');
+const [disableInstallment, setDisableInstallment] = useState(false)
   const handleDialogOpen = () => {
     setOpen(true);
   };
+
+
+
+  useEffect(() => {
+    const fetchCountry = async () => {
+      try {
+        const response = await axios.get('https://ipinfo.io/json');
+        setCountry(response.data.country);
+      } catch (error) {
+        console.error('Error fetching user country:', error);
+      }
+    };
+
+    fetchCountry();
+  }, []);
+
+  const getPriceByCountry = (countryCode) => {
+    const priceMap = {
+      US: courseData.usaPrice,
+      PK: courseData.indianPrice,
+      IN: courseData.indianPrice,
+      GB: courseData.ukPrice,
+      KE: courseData.kenyaPrice,
+      UG: courseData.ugandaPrice,
+      UAE: courseData.uaePrice,
+      CAN: courseData.canadaPrice,
+      CA: courseData.canadaPrice,
+      AU: courseData.australiaPrice,
+      AUS: courseData.australiaPrice,
+    };
+    return priceMap[countryCode] || courseData.indianPrice;
+  };
+
+
+
+  const getCurrencySymbol = (countryCode) => {
+    const currencyMap = {
+      US: '$',
+      PK: 'Rs',
+      IN: '₹',
+      GB: '£',
+      KE: 'KSh',
+      UG: 'USh',
+      UAE: 'د.إ',
+      CAN: 'C$',
+      CA: 'C$',
+      AU: 'A$',
+      AUS: 'A$',
+    };
+    return currencyMap[countryCode] || '₹';
+  };
+
+
+
+  const currencySymbol = getCurrencySymbol(country);
+
+  const price = getPriceByCountry(country);
+
+  const getCurrencyType = (countryCode) => {
+
+  const currencyType = {
+    US: 'USD',
+    PK: 'PKR',
+    IN: 'INR',
+    GB: 'GBP',
+    KE: 'KES',
+    UG: 'UGX',
+    UAE: 'AED',
+    CAN: 'CAD',
+    CA: 'CAD',
+    AU: 'AUD',
+    AUS: 'AUD',
+  };
+  return currencyType[countryCode] || 'INR';
+};
+
+const currency = getCurrencyType(country)
 
   const handleDialogClose = (option) => {
     setOpen(false);
@@ -56,6 +138,9 @@ const AdvanceCoursePriceHeroSection = () => {
         const res = await dispatch(getSingleCourse(id));
 
         setCourseData(res.data.data);
+        if(res.data.data.courseType === 'bhajjan' || res.data.data.courseType === 'tabla' || res.data.data.courseType === 'ghazal' ){
+          setDisableInstallment(true)
+        }
         dispatch(getRelatedCourses(res.data.data.courseType))
           .then((res) => {
             setRelated(res?.data?.data);
@@ -82,7 +167,7 @@ const AdvanceCoursePriceHeroSection = () => {
   const email = userData?.email;
   const name = userData?.firstName;
 
-  const handleEnroll = (values, installment) => {
+  const handleEnroll = (values, installment, currency) => {
 
     console.log(installment, 'installmen values')
     if (auth === true) {
@@ -96,7 +181,7 @@ const AdvanceCoursePriceHeroSection = () => {
 
 
           if (paymentId) {
-            const resdata = dispatch(payment(values, paymentId, installment)).then((res) => {
+            const resdata = dispatch(payment(values, paymentId, installment, currency)).then((res) => {
               console.log(res.data.session.url, "secondapi");
               const testCheckoutUrl = res.data.session.url;
 
@@ -112,6 +197,23 @@ const AdvanceCoursePriceHeroSection = () => {
       navigate("/sign-in", { state: { from: location.pathname } });
     }
   };
+  useEffect(() => {
+    const fetchCountry = async () => {
+      try {
+        const response = await axios.get('https://ipinfo.io/json');
+        console.log(response.data.country, 'country');
+setCountry(response.data.country)
+
+
+
+      } catch (error) {
+        console.error('Error fetching user country:', error);
+      }
+    };
+
+    fetchCountry();
+  }, []);
+
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(' ');
@@ -437,7 +539,7 @@ const AdvanceCoursePriceHeroSection = () => {
                     color: theme.palette.primary.main,
                   }}
                 >
-                  Price ${courseData.price}
+                  Price : {currencySymbol} {price}
                 </Typography>
                 <Typography
                   sx={{
@@ -446,7 +548,7 @@ const AdvanceCoursePriceHeroSection = () => {
                     fontWeight: "600",
                   }}
                 >
-                  Convert to INR?
+                  {/* Convert to INR? */}
                 </Typography>
               </Box>
 
@@ -534,10 +636,19 @@ const AdvanceCoursePriceHeroSection = () => {
         </DialogContent>
         <DialogActions>
 
-                <Button onClick={() => handleEnroll(courseData.price, true)}  color="primary">
+{disableInstallment ? (
+  <Button onClick={() => handleEnroll(price, true, currency)} disabled  color="primary">
             Installment
           </Button>
-          <Button onClick={() => handleEnroll(courseData.price, false)} color="primary">
+
+):(
+
+  <Button onClick={() => handleEnroll(price, true, currency)}  color="primary">
+            Installment
+          </Button>
+
+)}
+          <Button onClick={() => handleEnroll(price, false, currency)} color="primary">
             Full Fee
           </Button>
         </DialogActions>

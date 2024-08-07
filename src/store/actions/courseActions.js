@@ -15,13 +15,27 @@ export const addAdvance = (formValues) => async (dispatch) => {
   }
 };
 
-export const getBeginnerCourse = () => async (dispatch) => {
+
+export const getAllCourse = () => async (dispatch) => {
   try {
-    const res = await api.get("/getAllBeginnerCourses",);
+    const res = await api.get("/getAllCourses",);
     dispatch({
-      type: 'BEGINNER_COURSES',
+      type: 'ALL_COURSES',
       payload: { courses: res.data.data }
     })
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+export const getBeginnerCourse = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllCourses",);
+
     return res;
 
   } catch (err) {
@@ -33,10 +47,7 @@ export const getBeginnerCourse = () => async (dispatch) => {
 export const getAdvanceCourse = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllAdvancedCourses",);
-    dispatch({
-      type: 'ADVANCED_COURSES',
-      payload: { courses: res.data.data }
-    })
+
     return res;
   } catch (err) {
     throw err;
@@ -155,10 +166,10 @@ export const firstPaymentApi = (values) => async (dispatch) => {
 };
 
 
-export const payment = (values, paymentId, installment) => async (dispatch) => {
-console.log(installment, 'installment')
+export const payment = (values, paymentId, installment, currency) => async (dispatch) => {
+
   try {
-    const res = await api.post("/payment", {amount:values, customer_id:paymentId, installment:installment});
+    const res = await api.post("/payment", {amount:values, customer_id:paymentId, installment:installment, currency:currency});
 
 console.log(res, 'urlllll')
     return res;
@@ -205,7 +216,7 @@ export const assignedStudents = (instructorId) => async (dispatch) => {
   }
 };
 
-// student side add testimonial 
+// student side add testimonial
 export const addStudentsTestimonial = (formValues) => async (dispatch) => {
   // console.log('Starting API call at:', new Date().toISOString());
   try {

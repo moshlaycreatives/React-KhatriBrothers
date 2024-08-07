@@ -2,12 +2,11 @@
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBeginnerCourse } from "../../store/actions/courseActions";
 import { useNavigate } from "react-router-dom";
 
-const BegginerCoursesCard = () => {
+const BhajjanCoursesCard = () => {
   const filteredCourses = useSelector((state) =>
-    state?.courses?.beginnerCourses?.filter(course => course.courseType === 'beginner')
+    state?.courses?.allCourses?.filter(course => course.courseType === 'bhajjan')
   );
 
   console.log(filteredCourses, 'filteredCourses');
@@ -52,4 +51,4 @@ const BegginerCoursesCard = () => {
   );
 };
 
-export default BegginerCoursesCard;
+export default BhajjanCoursesCard;

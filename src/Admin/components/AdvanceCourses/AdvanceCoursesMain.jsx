@@ -6,7 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddAdvanceCourse from './components/AddAdvanceCourse';
 import ViewAdvanceCourse from './components/ViewAdvanceCourse';
 import { useDispatch } from 'react-redux';
-import { getAdvanceCourse, deleteSingleData } from '../../../store/actions/courseActions';
+import { getAdvanceCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
 
 const AdvanceCoursesMain = () => {
   const theme = useTheme();
@@ -25,8 +25,11 @@ const AdvanceCoursesMain = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await dispatch(getAdvanceCourse());
-        setCourseData(res.data.data);
+        const res = await dispatch(getAllCourse());
+        const data = res.data.data
+      const filteredCourses = data.filter(course => course.courseType === 'advanced')
+      setCourseData(filteredCourses);
+
       } catch (err) {
         console.error("Failed to fetch advanced courses:", err);
       } finally {
@@ -40,7 +43,7 @@ const AdvanceCoursesMain = () => {
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setCurrentRowId(id);
-    
+
   };
   console.log("row id show ", currentRowId)
 

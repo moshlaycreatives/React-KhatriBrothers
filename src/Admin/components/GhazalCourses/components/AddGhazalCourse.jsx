@@ -57,7 +57,7 @@ const chipDeleteIconStyles = {
   color: 'white'
 };
 
-const AddAdvanceCourse = () => {
+const AddGhazalCourse = () => {
   const initialValues = {
     courseName: '',
     courseOverview: '',
@@ -71,7 +71,7 @@ const AddAdvanceCourse = () => {
     ugandaPrice:'',
 canadaPrice:'',
 australiaPrice:'',
-    courseDuration: '',
+    // courseDuration: '',
     lectureDuration: '',
     courseImage: null,
   };
@@ -122,7 +122,7 @@ australiaPrice:'',
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));
-    formData.append('courseDuration', formValues.courseDuration);
+    // formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
 
     formData.append('indianPrice', formValues.indianPrice);
@@ -135,9 +135,7 @@ australiaPrice:'',
     formData.append('ugandaPrice', formValues.ugandaPrice);
 
 
-
-
-    formData.append('courseType', 'advanced');
+    formData.append('courseType', 'ghazal');
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
@@ -167,6 +165,9 @@ australiaPrice:'',
             { label: "Course Name", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
             { label: "Prerequisites", name: "prerequisites", type: 'text' },
+
+//-------------------prices section----------------
+
             { label: "Indian Price", name: "indianPrice", type: 'number' },
             { label: "UK Price", name: "ukPrice", type: 'number' },
             { label: "USA price", name: "usaPrice", type: 'number' },
@@ -177,7 +178,8 @@ australiaPrice:'',
             { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
 
 
-            { label: "Course Duration", name: "courseDuration", type: 'number' },
+
+
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
@@ -276,4 +278,4 @@ australiaPrice:'',
   );
 };
 
-export default AddAdvanceCourse;
+export default AddGhazalCourse;

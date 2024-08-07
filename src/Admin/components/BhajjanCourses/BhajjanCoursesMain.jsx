@@ -3,12 +3,12 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddBeginnerCourse from './components/AddBegginerCourse';
-import ViewBeginnerCourse from './components/ViewBeginnerCourse';
+import AddAdvanceCourse from './components/AddBhajjanCourse';
+import ViewAdvanceCourse from './components/ViewBhajjanCourse';
 import { useDispatch } from 'react-redux';
-import { getBeginnerCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
+import { getAdvanceCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
 
-const BeginnerCoursesMain = () => {
+const BhajjanCoursesMain = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentRowId, setCurrentRowId] = useState(null);
@@ -21,29 +21,31 @@ const BeginnerCoursesMain = () => {
 
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await dispatch(getAllCourse());
-const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'beginner')
-      setCourseData(filteredCourses);
-    } catch (err) {
-      console.error("Failed to fetch beginner courses:", err);
-      setLoading(false);
-
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await dispatch(getAllCourse());
+
+        const data = res.data.data
+      const filteredCourses = data.filter(course => course.courseType === 'bhajjan')
+      setCourseData(filteredCourses);
+      } catch (err) {
+        console.error("Failed to fetch advanced courses:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setCurrentRowId(id);
+
   };
+  console.log("row id show ", currentRowId)
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -59,7 +61,7 @@ const data = res.data.data
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
       // Refetch data to update UI
-      const res = await dispatch(getBeginnerCourse());
+      const res = await dispatch(getAdvanceCourse());
       setCourseData(res.data.data);
     } catch (err) {
       console.error("Failed to delete course:", err);
@@ -87,14 +89,14 @@ const data = res.data.data
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
           </Button>
-          <AddBeginnerCourse />
+          <AddAdvanceCourse />
         </>
       ) : isEditing && currentRowId ? (
         <>
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
           </Button>
-          <ViewBeginnerCourse courseId={currentRowId} />
+          <ViewAdvanceCourse courseId={currentRowId} />
         </>
       ) : (
         <>
@@ -106,7 +108,7 @@ const data = res.data.data
                 fontSize: '2rem',
               }}
             >
-              Beginner Courses
+              Bhajjan Courses
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>
@@ -166,6 +168,7 @@ const data = res.data.data
         </>
       )}
 
+
       <Dialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}
@@ -181,7 +184,7 @@ const data = res.data.data
             Cancel
           </Button>
           <Button onClick={handleConfirmDelete} color="secondary">
-            Delete
+         Delete
           </Button>
         </DialogActions>
       </Dialog>
@@ -189,4 +192,4 @@ const data = res.data.data
   );
 };
 
-export default BeginnerCoursesMain;
+export default BhajjanCoursesMain;

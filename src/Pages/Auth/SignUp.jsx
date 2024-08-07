@@ -50,6 +50,7 @@ const SignUp = () => {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -129,6 +130,19 @@ const SignUp = () => {
     "October",
     "November",
     "December",
+  ];
+
+
+  const country = [
+    "India",
+    "USA",
+    "United Kingdom",
+    "UAE",
+    "Australia",
+    "Kenya",
+    "Uganda",
+    "Canada",
+
   ];
 
   const [countries, setCountries] = useState([]);
@@ -428,9 +442,11 @@ const SignUp = () => {
                           onChange={handleChange}
                       size="small"
                         >
-                          {transformedCountries.map((country) => (
-                            <MenuItem key={country.code} value={country.label}>
-                              {country.label}
+
+
+                          {country.map((co,ind) => (
+                            <MenuItem key={ind} value={co}>
+                              {co}
                             </MenuItem>
                           ))}
                         </Select>

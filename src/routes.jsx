@@ -28,12 +28,13 @@ import StudentMain from "./Student/StudentMain";
 import PaymentSuccess from "./Pages/PaymentPages/PaymentSuccess";
 import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
+import BhajjanCoursesMain from "./Pages/OtherCourses/BhajjanCourse/BhajjanCoursesMain";
 
 
 export default function Router() {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  
+
       const navigate = useNavigate();
 
 
@@ -78,6 +79,11 @@ export default function Router() {
     {
       path: "/advanced-course",
       element: <AdvanceCourseMain />,
+    },
+
+    {
+      path: "/bhajjan-course",
+      element: <BhajjanCoursesMain />,
     },
 
     {

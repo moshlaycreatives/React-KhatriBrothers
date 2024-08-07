@@ -57,7 +57,7 @@ const chipDeleteIconStyles = {
   color: 'white'
 };
 
-const AddAdvanceCourse = () => {
+const AddIntermeiateCourse = () => {
   const initialValues = {
     courseName: '',
     courseOverview: '',
@@ -137,7 +137,7 @@ australiaPrice:'',
 
 
 
-    formData.append('courseType', 'advanced');
+    formData.append('courseType', 'intermediate');
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
@@ -276,4 +276,4 @@ australiaPrice:'',
   );
 };
 
-export default AddAdvanceCourse;
+export default AddIntermeiateCourse;

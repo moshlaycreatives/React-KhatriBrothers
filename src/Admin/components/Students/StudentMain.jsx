@@ -439,7 +439,7 @@ const StudentMain = () => {
                               onClose={handleMenuClose}
                             >
                               <MenuItem onClick={handleEditClick}>View</MenuItem>
-                              <MenuItem>Delete</MenuItem>
+                          
                             </Menu>
                           </TableCell>
                         </TableRow>
@@ -451,7 +451,7 @@ const StudentMain = () => {
                       count={totalPages}
                       page={currentPage}
                       onChange={handlePageChange}
-                    
+
                     />
                   </Box>
                 </>

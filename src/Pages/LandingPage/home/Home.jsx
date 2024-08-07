@@ -9,7 +9,7 @@ import Our_mission from './our_mission/Our_mission'
 import Student_testimonials from './student_testimonials/Student_testimonials'
 import Footer from '../footer/Footer'
 import HomeBlogs from './HomeBlogs'
-import { getAdvanceCourse, getBeginnerCourse } from '../../../store/actions/courseActions'
+import { getAdvanceCourse, getAllCourse, getBeginnerCourse } from '../../../store/actions/courseActions'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 
@@ -25,12 +25,9 @@ const navigate = useNavigate()
 const dispatch = useDispatch()
 
 useEffect(() => {
-  dispatch(getBeginnerCourse())
+  dispatch(getAllCourse())
 }, []);
 
-useEffect(() => {
-  dispatch(getAdvanceCourse())
-}, []);
 
   return (
     <>

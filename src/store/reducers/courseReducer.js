@@ -1,22 +1,18 @@
 const initialState = {
-    beginnerCourses: [],
-    advancedCourses: [],
+  allCourses: [],
     selectedCourse: null,
   };
 
   const courseReducer = (state = initialState, action) => {
     switch (action.type) {
-      case 'BEGINNER_COURSES':
+
+
+        case 'ALL_COURSES':
         return {
           ...state,
-          beginnerCourses: action.payload.courses,
+          allCourses: action.payload.courses,
         };
-      case 'ADVANCED_COURSES':
-        return {
-          ...state,
-          advancedCourses: action.payload.courses,
-        };
-      case 'SELECTED_COURSE':
+           case 'SELECTED_COURSE':
         return {
           ...state,
           selectedCourse: action.payload.course,

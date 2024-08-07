@@ -5,6 +5,7 @@ import { updateProfile } from '../../../store/actions/authActions';
 import { useSnackbar } from 'notistack';
 import Loader from '../../../components/Loader/Loader';
 
+
 const ShowProfileData = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -16,7 +17,9 @@ const ShowProfileData = () => {
   ? `${base}${userData.profilePicture.replace(/ /g, '%20')}`
   : '';
   const initialValues = {
-    name: '',
+    firstName: '',
+    lastname:'',
+
     email: '',
     phone: '',
     dob: '',
@@ -39,7 +42,9 @@ const ShowProfileData = () => {
     if (userdata) {
       setFormValues((prevState) => ({
         ...prevState,
-        name: userdata.name || '',
+        firstName: userdata.firstName || '',
+        lastName: userdata.lastName || '',
+
         email: userdata.email || '',
         phone: userdata.phone || '',
         dob: userdata.dob || '',
@@ -110,12 +115,24 @@ const ShowProfileData = () => {
 
         <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Name</Typography>
         <TextField
-          name="name"
-          placeholder="Name"
+          name="firstName"
+          placeholder="First Name"
           fullWidth
           size="small"
           sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
-          value={formValues.name}
+          value={formValues.firstName}
+          onChange={handleChange}
+          disabled={!isEditing} // Disable field if not editing
+        />
+
+<Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Last Name</Typography>
+        <TextField
+          name="lastName"
+          placeholder="Last Name"
+          fullWidth
+          size="small"
+          sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
+          value={formValues.firstName}
           onChange={handleChange}
           disabled={!isEditing} // Disable field if not editing
         />

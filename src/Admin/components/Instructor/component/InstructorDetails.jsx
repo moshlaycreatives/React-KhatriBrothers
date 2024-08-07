@@ -80,19 +80,19 @@ const [instructorData , setInstructorData] = useState({})
 
 
       const handleSearch = () => {
-        const userType = 'student'
-    
+        const userType = 'instructor'
+
         if (!searchTerm.trim()) {
           console.log('Search cannot be empty');
           return;
         }
 
-        console.log('Searching for:', searchTerm);
+        console.log('Searching for:', userType);
 
         dispatch(sendSearchTerm(searchTerm, userType))
           .then((res) => {
-            setStudentData(res?.data?.data);
-            setTotalPages(res?.data?.totalPages); // Update total pages based on search results
+            setInstructorData(res?.data?.data);
+            // setTotalPages(res?.data?.totalPages); // Update total pages based on search results
           })
           .catch((error) => {
             console.error('Failed to send searchTerm', error);
@@ -118,7 +118,7 @@ const [instructorData , setInstructorData] = useState({})
 
       <Box sx={{
         display:'flex',
-        justifyContent:'space-between', 
+        justifyContent:'space-between',
         alignItems:'start'
       }}>
        <Box >
@@ -135,7 +135,7 @@ const [instructorData , setInstructorData] = useState({})
           </Typography>
 
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {instructorData.role}
+            {instructorData.instructorRole}
           </Typography>
           <br/>
 
@@ -220,7 +220,7 @@ const [instructorData , setInstructorData] = useState({})
                     <TableCell>Course Type</TableCell>
                     <TableCell>Class Type</TableCell>
                     <TableCell>Course Fee</TableCell>
-                    <TableCell>Action</TableCell>
+
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -245,19 +245,12 @@ const [instructorData , setInstructorData] = useState({})
                         {/* {row.courseId.price} */}
                         {row.courseId.price}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <IconButton onClick={(events) => handleMenuClick(events)}>
                           <MoreVertIcon />
                         </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={handleMenuClose}
-                        >
-                          <MenuItem >View</MenuItem>
-                          <MenuItem>Delete</MenuItem>
-                        </Menu>
-                      </TableCell>
+
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>

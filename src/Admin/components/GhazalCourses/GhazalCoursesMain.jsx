@@ -3,12 +3,12 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddBeginnerCourse from './components/AddBegginerCourse';
-import ViewBeginnerCourse from './components/ViewBeginnerCourse';
+import AddBeginnerCourse from './components/AddGhazalCourse';
+import ViewBeginnerCourse from './components/ViewGhazalCourse';
 import { useDispatch } from 'react-redux';
 import { getBeginnerCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
 
-const BeginnerCoursesMain = () => {
+const GhazalCoursesMain = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentRowId, setCurrentRowId] = useState(null);
@@ -25,9 +25,11 @@ const BeginnerCoursesMain = () => {
     setLoading(true);
     try {
       const res = await dispatch(getAllCourse());
-const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'beginner')
+      const data = res.data.data
+      const filteredCourses = data.filter(course => course.courseType === 'ghazal')
       setCourseData(filteredCourses);
+
+
     } catch (err) {
       console.error("Failed to fetch beginner courses:", err);
       setLoading(false);
@@ -106,7 +108,7 @@ const data = res.data.data
                 fontSize: '2rem',
               }}
             >
-              Beginner Courses
+              Ghazal Courses
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>
@@ -189,4 +191,4 @@ const data = res.data.data
   );
 };
 
-export default BeginnerCoursesMain;
+export default GhazalCoursesMain;

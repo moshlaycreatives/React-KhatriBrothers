@@ -222,7 +222,7 @@ import InstructorDetails from './component/InstructorDetails';
                           {`${row.firstName} ${row.lastName}`}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                          {row.role}
+                          {row.instructorRole}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
                           {row.gender}
