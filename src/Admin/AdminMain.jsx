@@ -23,6 +23,7 @@ import GhazalCoursesMain from './components/GhazalCourses/GhazalCoursesMain';
 import BhajjanCoursesMain from './components/BhajjanCourses/BhajjanCoursesMain';
 import TablaCoursesMain from './components/TablaCourses/TablaCoursesMain';
 import { IoIosNotificationsOutline } from "react-icons/io";
+import ContactDetails from './components/ContactDetails/ContactDetails';
 
 const drawerWidth = 240;
 
@@ -46,6 +47,8 @@ const listData = [
   { title: 'Instructors', icon: <ArticleIcon /> },
   { title: 'Message', icon: <AccountCircleIcon /> },
   { title: 'Testimonial', icon: <AccountCircleIcon /> },
+  { title: 'Contact Details', icon: <AccountCircleIcon /> },
+
   { title: 'Terms & Conditions', icon: <AccountCircleIcon /> },
   { title: 'Settings', icon: <AccountCircleIcon /> },
   { title: 'Logout', icon: <AccountCircleIcon /> },
@@ -129,7 +132,7 @@ const profilePictureUrl = base + userData?.profilePicture;
               <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
                 <Box>
                 <IoIosNotificationsOutline/>
-                
+
                   <FormControl sx={{ padding: 0 }}>
                     <Select
                       sx={{
@@ -253,6 +256,8 @@ const profilePictureUrl = base + userData?.profilePicture;
             {selectedItem === 'Message' && <MessagesMain />}
             {selectedItem === 'Testimonial' && <Testimonials />}
             {selectedItem === 'Terms & Conditions' && <TermsConditionsMain />}
+            {selectedItem === 'Contact Details' && <ContactDetails />}
+
             {selectedItem === 'Settings' && <SettingsMain />}
             {selectedItem === 'ManageProfile' && <ShowProfileData />}
           </Box>
