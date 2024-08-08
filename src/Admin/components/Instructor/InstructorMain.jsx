@@ -151,7 +151,7 @@ import AddInstructor from './component/AddInstructor';
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
           </Button>
-          <AddInstructor />
+          <AddInstructor/>
         </>
       ) :
         isEdited && currentRowId ? (

@@ -311,11 +311,6 @@ const MessageMain = () => {
     []
   );
 
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
@@ -327,15 +322,10 @@ const MessageMain = () => {
         console.error("Error fetching users:", error);
       });
   }, [dispatch]);
-<<<<<<< Updated upstream
-  
-  const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
-=======
 
   const filteredUsers = allUsers?.filter(
     (user) => user?.role === "user" && user?._id !== userId
   );
->>>>>>> Stashed changes
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {

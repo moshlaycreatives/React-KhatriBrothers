@@ -264,3 +264,29 @@ export const getPublicTestimonial = () => async (dispatch) => {
     throw err;
   }
 };
+
+
+export const addInstructor = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.post("/addInstructor", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+
+
+export const getAllContacts = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllContacts`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
