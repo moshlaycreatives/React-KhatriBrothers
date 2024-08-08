@@ -29,11 +29,14 @@ import {
     sendSearchTerm
   } from '../../../store/actions/courseActions'; // Import sendSearchTerm
 import InstructorDetails from './component/InstructorDetails';
+import AddInstructor from './component/AddInstructor';
   // import ViewStudent from './component/ViewStudent';
 
   const InstructorMain = () => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
+  const [isAddingInstructor, setIsAddingInstructor] = useState(false);
+
     const [searchTerm, setSearchTerm] = useState('');
     const [InstructorData, setInstructorData] = useState([]);
     const [currentRowId, setCurrentRowId] = useState(null);
@@ -42,6 +45,10 @@ import InstructorDetails from './component/InstructorDetails';
     const [isEdited, setIsEdited] = useState(false);
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
+
+    const handleAddInstructorClick = () => {
+      setIsAddingInstructor(true);
+    };
 
     useEffect(() => {
       const fetchData = async () => {
@@ -126,6 +133,7 @@ import InstructorDetails from './component/InstructorDetails';
 
     const handleBackClick = () => {
       setIsEdited(false);
+      setIsAddingInstructor(false);
       setCurrentRowId(null);
     };
 
@@ -135,7 +143,18 @@ import InstructorDetails from './component/InstructorDetails';
     console.log('instructor data first file',InstructorData)
     return (
       <>
-        {isEdited && currentRowId ? (
+
+
+
+{isAddingInstructor ? (
+        <>
+          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+            &lt; Back to Courses
+          </Button>
+          <AddInstructor />
+        </>
+      ) :
+        isEdited && currentRowId ? (
           <>
             <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
               &lt; Back to Instructor
@@ -158,9 +177,9 @@ import InstructorDetails from './component/InstructorDetails';
               Instructor
             </Typography>
 
-            {/* <Button variant='outlined' >
-              + Add Course
-            </Button> */}
+            <Button variant='outlined' onClick={handleAddInstructorClick}>
+              + Add Instructor
+            </Button>
           </Box>
             <Box>
               <TableContainer component={Paper} sx={{ padding: '1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>

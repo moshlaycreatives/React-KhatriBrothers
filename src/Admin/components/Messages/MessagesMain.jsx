@@ -22,14 +22,16 @@
 //   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 //   const [message, setMessage] = useState("");
 //   const [receiverId, setReceiverId] = useState("");
-
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
 //     () => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"),
 //     []
 //   );
-//   const [allUsers, setAllUsers] = useState([]);
+
+
+
+//     const [allUsers, setAllUsers] = useState([]);
 
 //   useEffect(() => {
 //     dispatch(getAllUsers())
@@ -41,9 +43,7 @@
 //       });
 //   }, [dispatch]);
 
-//   const filteredUsers = allUsers.filter(user => user.role === 'user' && user._id !== userId);
-
-
+//   const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
 
 //   useEffect(() => {
 //     socket.on("getUsers", (msgs) => {
@@ -54,13 +54,7 @@
 //       setMsgsData(res?.messages);
 //       console.log(res, "res");
 //     });
-//   }, []);
-
-//   useEffect(() => {
-//     socket.on("getMessage", (res) => {
-
-//     });
-//   }, []);
+//   }, [socket]);
 
 //   useEffect(() => {
 //     socket.on("connect", () => {
@@ -69,7 +63,7 @@
 
 //     socket.on("getMessage", (msg) => {
 //       console.log(msg, "msss");
-//       setMessage((prevMessage) => [...prevMessage, msg]);
+//       setMsgsData((prevMsgs=[]) => [...prevMsgs, msg]);
 //     });
 
 //     return () => {
@@ -81,27 +75,34 @@
 //   const handleSend = () => {
 //     if (message.trim() && receiverId) {
 //       const newMessage = {
-//         receiverId,
+//         receiverId:receiverId,
 //         text: message,
 //         senderId: userId,
 //         imgUrl: "",
 //         createdAt: new Date().toLocaleTimeString([], {
 //           hour: "2-digit",
 //           minute: "2-digit",
+//           hour12: true,
 //         }),
 //       };
 //       socket.emit("sendMessage", newMessage);
 //       console.log(newMessage, 'new')
-//       setMessage((prevMessage) => [...prevMessage, newMessage]);
+//       setMsgsData((prevMsgs = []) => [...prevMsgs, newMessage]);
 //       setMessage("");
 //     }
-
 //   };
 
 //   const handleSelectChat = (id) => {
 //     socket.emit("addUser", userId, id);
 //     setReceiverId(id);
 //   };
+// console.log(msgsData, 'ffff')
+
+
+// // const filteredMsgsData = msgsData.filter(
+// //   (msg) => msg.senderId === receiverId || msg.receiverId === receiverId
+// // );
+
 
 //   return (
 //     <>
@@ -122,6 +123,7 @@
 //           display: "flex",
 //           justifyContent: "space-between",
 //           alignItems: "start",
+//           maxWidth:'80%'
 //         }}
 //       >
 //         <Box>
@@ -137,30 +139,29 @@
 //                   receiverId === val._id ? "transparent" : "transparent",
 //               }}
 //             >
-// <Box sx={{display:'flex', alignItems:'center'}}>
-
-// <Avatar/>
-//             <Box sx={{marginLeft:'0.5rem'}}>
-//             <Typography
-//                 sx={{
-//                   color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-//                   fontWeight: receiverId === val._id ? "bold" : "normal",
-//                   fontSize:'0.9rem'
-//                 }}
-//               >
-//                 {val.firstName}
-//               </Typography>
-//               <Typography
-//                 sx={{
-//                   fontSize:'0.8rem',
-//                   color:'grey'
-//                 }}
-//               >
-//                 Lorem ipsum dolor sit amet.
-//               </Typography>
-//             </Box>
-
-// </Box>              <Divider/>
+//               <Box sx={{display:'flex', alignItems:'center'}}>
+//                 <Avatar/>
+//                 <Box sx={{marginLeft:'0.5rem'}}>
+//                   <Typography
+//                     sx={{
+//                       color: receiverId === val._id ? theme.palette.primary.main : "inherit",
+//                       fontWeight: receiverId === val._id ? "bold" : "normal",
+//                       fontSize:'0.9rem'
+//                     }}
+//                   >
+//                     {val.firstName}
+//                   </Typography>
+//                   <Typography
+//                     sx={{
+//                       fontSize:'0.8rem',
+//                       color:'grey'
+//                     }}
+//                   >
+//                     Lorem ipsum dolor sit amet.
+//                   </Typography>
+//                 </Box>
+//               </Box>
+//               <Divider/>
 //             </Box>
 //           ))}
 //         </Box>
@@ -170,6 +171,7 @@
 //             width: isMobile ? "100%" : "60%",
 //             margin: "20px auto",
 //             padding: "16px",
+
 //             borderRadius: "8px",
 //           }}
 //         >
@@ -198,28 +200,33 @@
 //                 sx={{
 //                   display: "flex",
 //                   justifyContent:
-//                     msg.sender === userId ? "flex-end" : "flex-start",
+//                     msg.senderId === userId ? "flex-end" : "flex-start",
 //                   marginBottom: "8px",
-
 //                 }}
 //               >
 //                 <Box
 //                   sx={{
 //                     backgroundColor:
-//                       msg?.sender === userId
+//                       msg?.senderId === userId
 //                         ? theme.palette.primary.main
 //                         : "#dfb3cc",
 //                     color:
-//                       msg?.sender === userId
+//                       msg?.senderId === userId
 //                         ? "white"
 //                         : theme.palette.primary.main,
 //                     padding: "8px 12px",
 //                     borderRadius: "12px",
 //                     maxWidth: "60%",
 //                     wordWrap: "break-word",
+
 //                   }}
 //                 >
-//                   <Typography variant="body2">{msg?.message}</Typography>
+
+//                   <Typography variant="body2"
+
+
+
+//                   >{msg?.text}</Typography>
 //                   <Typography
 //                     variant="caption"
 //                     sx={{
@@ -271,6 +278,7 @@
 
 
 
+
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
@@ -296,14 +304,18 @@ const MessageMain = () => {
   const [message, setMessage] = useState("");
   const [receiverId, setReceiverId] = useState("");
   const [msgsData, setMsgsData] = useState([]);
+  const [image, setImage] = useState(null); // State to handle image
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
     () => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"),
     []
   );
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
@@ -315,8 +327,15 @@ const MessageMain = () => {
         console.error("Error fetching users:", error);
       });
   }, [dispatch]);
+<<<<<<< Updated upstream
   
   const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
+=======
+
+  const filteredUsers = allUsers?.filter(
+    (user) => user?.role === "user" && user?._id !== userId
+  );
+>>>>>>> Stashed changes
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
@@ -336,7 +355,7 @@ const MessageMain = () => {
 
     socket.on("getMessage", (msg) => {
       console.log(msg, "msss");
-      setMsgsData((prevMsgs=[]) => [...prevMsgs, msg]);
+      setMsgsData((prevMsgs = []) => [...prevMsgs, msg]);
     });
 
     return () => {
@@ -346,12 +365,12 @@ const MessageMain = () => {
   }, []);
 
   const handleSend = () => {
-    if (message.trim() && receiverId) {
+    if ((message.trim() || image) && receiverId) {
       const newMessage = {
-        receiverId:receiverId,
+        receiverId: receiverId,
         text: message,
         senderId: userId,
-        imgUrl: "",
+        imgUrl: image ? URL.createObjectURL(image) : "", // Send image URL
         createdAt: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -359,9 +378,9 @@ const MessageMain = () => {
         }),
       };
       socket.emit("sendMessage", newMessage);
-      console.log(newMessage, 'new')
       setMsgsData((prevMsgs = []) => [...prevMsgs, newMessage]);
       setMessage("");
+      setImage(null); // Clear the image after sending
     }
   };
 
@@ -369,13 +388,16 @@ const MessageMain = () => {
     socket.emit("addUser", userId, id);
     setReceiverId(id);
   };
-console.log(msgsData, 'ffff')
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSend();
+    }
+  };
 
-// const filteredMsgsData = msgsData.filter(
-//   (msg) => msg.senderId === receiverId || msg.receiverId === receiverId
-// );
-
+  const handleImageUpload = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   return (
     <>
@@ -396,7 +418,7 @@ console.log(msgsData, 'ffff')
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
-          maxWidth:'80%'
+          maxWidth: "80%",
         }}
       >
         <Box>
@@ -407,34 +429,41 @@ console.log(msgsData, 'ffff')
               sx={{
                 cursor: "pointer",
                 padding: "8px",
-                "&:hover": { backgroundColor: theme.palette.primary.main, color:'white' },
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                },
                 backgroundColor:
                   receiverId === val._id ? "transparent" : "transparent",
               }}
             >
-              <Box sx={{display:'flex', alignItems:'center'}}>
-                <Avatar/>
-                <Box sx={{marginLeft:'0.5rem'}}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Avatar />
+                <Box sx={{ marginLeft: "0.5rem" }}>
                   <Typography
                     sx={{
-                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val._id ? "bold" : "normal",
-                      fontSize:'0.9rem'
+                      color:
+                        receiverId === val._id
+                          ? theme.palette.primary.main
+                          : "inherit",
+                      fontWeight:
+                        receiverId === val._id ? "bold" : "normal",
+                      fontSize: "0.9rem",
                     }}
                   >
                     {val.firstName}
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize:'0.8rem',
-                      color:'grey'
+                      fontSize: "0.8rem",
+                      color: "grey",
                     }}
                   >
                     Lorem ipsum dolor sit amet.
                   </Typography>
                 </Box>
               </Box>
-              <Divider/>
+              <Divider />
             </Box>
           ))}
         </Box>
@@ -444,7 +473,6 @@ console.log(msgsData, 'ffff')
             width: isMobile ? "100%" : "60%",
             margin: "20px auto",
             padding: "16px",
-
             borderRadius: "8px",
           }}
         >
@@ -463,7 +491,6 @@ console.log(msgsData, 'ffff')
             sx={{
               height: "40vh",
               overflowY: "auto",
-              // marginBottom: "16px",
               padding: "8px",
             }}
           >
@@ -473,7 +500,9 @@ console.log(msgsData, 'ffff')
                 sx={{
                   display: "flex",
                   justifyContent:
-                    msg.senderId === userId ? "flex-end" : "flex-start",
+                    msg.senderId === userId
+                      ? "flex-end"
+                      : "flex-start",
                   marginBottom: "8px",
                 }}
               >
@@ -491,15 +520,20 @@ console.log(msgsData, 'ffff')
                     borderRadius: "12px",
                     maxWidth: "60%",
                     wordWrap: "break-word",
-
                   }}
                 >
-
-                  <Typography variant="body2"
-
-
-
-                  >{msg?.text}</Typography>
+                  {msg.imgUrl && (
+                    <img
+                      src={msg.imgUrl}
+                      alt="Message"
+                      style={{
+                        maxWidth: "100%",
+                        borderRadius: "8px",
+                        marginBottom: "8px",
+                      }}
+                    />
+                  )}
+                  <Typography variant="body2">{msg?.text}</Typography>
                   <Typography
                     variant="caption"
                     sx={{
@@ -514,6 +548,30 @@ console.log(msgsData, 'ffff')
               </Box>
             ))}
           </Box>
+<Divider/>
+          {/* Image Preview Section */}
+          {image && (
+            <Box
+              sx={{
+                marginBottom: "16px",
+                textAlign: "start",
+              }}
+            >
+              <Box sx={{display:'flex', justifyContent:'start'}}>
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Selected"
+                style={{
+
+                  width: "5rem",
+                  borderRadius: "8px",
+                  marginTop: "8px",
+                }}
+              />
+              </Box>
+            </Box>
+          )}
+
           <Box
             display="flex"
             alignItems="center"
@@ -521,6 +579,18 @@ console.log(msgsData, 'ffff')
             borderTop="1px solid #e0e0e0"
             pt={1}
           >
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              id="upload-image"
+              onChange={handleImageUpload}
+            />
+            <label htmlFor="upload-image">
+              <IconButton component="span">
+                <AttachFileIcon />
+              </IconButton>
+            </label>
             <TextField
               fullWidth
               variant="outlined"
@@ -528,13 +598,7 @@ console.log(msgsData, 'ffff')
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton>
-                    <AttachFileIcon />
-                  </IconButton>
-                ),
-              }}
+              onKeyPress={handleKeyPress} // Handle Enter key
             />
             <IconButton color="primary" onClick={handleSend}>
               <SendIcon />
