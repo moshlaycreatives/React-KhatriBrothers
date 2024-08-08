@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const BegginerCoursesCard = () => {
   const filteredCourses = useSelector((state) =>
-    state?.courses?.beginnerCourses?.filter(course => course.courseType === 'beginner')
+    state?.courses?.allCourses?.filter(course => course?.courseType === 'beginner')
   );
 
   console.log(filteredCourses, 'filteredCourses');
@@ -24,7 +24,7 @@ const BegginerCoursesCard = () => {
   return (
     <Box sx={{ padding: "3rem 10%" }}>
       <Grid container spacing={5}>
-        {filteredCourses.map((course, index) => (
+        {filteredCourses?.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
               <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'200vh'} />

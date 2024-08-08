@@ -1,172 +1,183 @@
 import {
-    Box,
-    Button,
-    CircularProgress,
-    IconButton,
-    InputAdornment,
-    Menu,
-    MenuItem,
-    Pagination,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TextField,
-    Typography,
-    useTheme
-  } from '@mui/material';
-  import React, { useEffect, useState } from 'react';
-  import MoreVertIcon from '@mui/icons-material/MoreVert';
-  import { CiSearch } from "react-icons/ci";
-  import { useDispatch } from 'react-redux';
-  import {
-    getInstructors,
-    getSingleStudent,
-    getStudentData,
-    sendSearchTerm
-  } from '../../../store/actions/courseActions'; // Import sendSearchTerm
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  Menu,
+  MenuItem,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+  Pagination,
+  useTheme
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { CiSearch } from "react-icons/ci";
+import { useDispatch } from 'react-redux';
+import {
+  deleteInstructor,
+  getInstructors,
+  getSingleStudent,
+  sendSearchTerm
+} from '../../../store/actions/courseActions';
 import InstructorDetails from './component/InstructorDetails';
 import AddInstructor from './component/AddInstructor';
-  // import ViewStudent from './component/ViewStudent';
 
-  const InstructorMain = () => {
-    const theme = useTheme();
-    const [anchorEl, setAnchorEl] = useState(null);
+const ITEMS_PER_PAGE = 10; // Define the number of items per page
+
+const InstructorMain = () => {
+  const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState(null);
   const [isAddingInstructor, setIsAddingInstructor] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [InstructorData, setInstructorData] = useState([]);
+  const [currentRowId, setCurrentRowId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isEdited, setIsEdited] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [InstructorData, setInstructorData] = useState([]);
-    const [currentRowId, setCurrentRowId] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1); // State for current page
-    const [totalPages, setTotalPages] = useState(1); // State for total pages
-    const [isEdited, setIsEdited] = useState(false);
-    const [loading, setLoading] = useState(true)
-    const dispatch = useDispatch();
+  const handleAddInstructorClick = () => {
+    setIsAddingInstructor(true);
+  };
 
-    const handleAddInstructorClick = () => {
-      setIsAddingInstructor(true);
-    };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await dispatch(getInstructors(currentPage));
+        setInstructorData(res.data.data);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const res = await dispatch(getInstructors());
-          setInstructorData(res.data.data);
-          console.log('Student data:', res.data);
-          setLoading(false);
-        } catch (error) {
-          console.error('Failed to fetch student data', error);
-          setLoading(false);
-        }finally{
-          setLoading(false);
-        }
-      };
+        // Calculate total pages based on the total number of records
+        const totalRecords = res.data.total; // Assuming `total` is the total number of records
+        const totalPagesCalculated = Math.ceil(totalRecords / ITEMS_PER_PAGE);
+        setTotalPages(totalPagesCalculated);
 
-      fetchData();
-    }, [dispatch]);
-
-    const handleSearch = () => {
-      const userType = 'instructor'
-      if (!searchTerm.trim()) {
-        console.log('Search cannot be empty');
-        return;
-      }
-
-      dispatch(sendSearchTerm(searchTerm, userType))
-        .then((res) => {
-          setStudentData(res?.data?.data);
-        })
-        .catch((error) => {
-          console.error('Failed to send searchTerm', error);
-        });
-    };
-
-    const handleChange = (e) => {
-      setSearchTerm(e.target.value);
-      dispatch(sendSearchTerm(searchTerm))
-        .then((res) => {
-          setStudentData(res?.data?.data);
-        })
-        .catch((error) => {
-          console.error('Failed to send searchTerm', error);
-        });
-    };
-
-    const handleKeyPress = (e) => {
-      if (e.key === 'Enter') {
-        handleSearch();
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch instructor data', error);
+        setLoading(false);
       }
     };
 
-    const handleOpenMenu = (events) => {
-      setAnchorEl(events.currentTarget);
-    };
+    fetchData();
+  }, [dispatch, currentPage]);
 
-    const handleMenuClose = () => {
-      setAnchorEl(null);
-    };
+  const handleSearch = () => {
+    const userType = 'instructor';
+    if (!searchTerm.trim()) {
+      console.log('Search cannot be empty');
+      return;
+    }
 
-    const handleMenuClick = (events, id) => {
-      setAnchorEl(events.currentTarget);
-      setCurrentRowId(id);
-      console.log('current student id:', currentRowId);
-    };
+    dispatch(sendSearchTerm(searchTerm, userType))
+      .then((res) => {
+        setInstructorData(res?.data?.data);
+      })
+      .catch((error) => {
+        console.error('Failed to send searchTerm', error);
+      });
+  };
 
-    const handleEditClick = () => {
-      setIsEdited(true);
-      handleMenuClose();
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+    dispatch(sendSearchTerm(e.target.value))
+      .then((res) => {
+        setInstructorData(res?.data?.data);
+      })
+      .catch((error) => {
+        console.error('Failed to send searchTerm', error);
+      });
+  };
 
-      if (currentRowId) {
-        dispatch(getSingleStudent(currentRowId))
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleOpenMenu = (events) => {
+    setAnchorEl(events.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuClick = (events, id) => {
+    setAnchorEl(events.currentTarget);
+    setCurrentRowId(id);
+  };
+
+  const handleEditClick = () => {
+    setIsEdited(true);
+    handleMenuClose();
+
+    if (currentRowId) {
+      dispatch(getSingleStudent(currentRowId))
+        .then((res) => {
+          console.log('Single student data:', res.data);
+        })
+        .catch((error) => {
+          console.error('Failed to fetch student data:', error);
+        });
+    }
+  };
+
+  const handleBackClick = () => {
+    setIsEdited(false);
+    setIsAddingInstructor(false);
+    setCurrentRowId(null);
+  };
+
+  const handleDeleteInstructor = (id) => {
+    dispatch(deleteInstructor(id))
+      .then(() => {
+        dispatch(getInstructors(currentPage))
           .then((res) => {
-            console.log('Single student data:', res.data); // Process the data as needed
+            setInstructorData(res.data.data);
           })
           .catch((error) => {
-            console.error('Failed to fetch student data:', error);
+            console.error('Failed to fetch instructor data after deletion', error);
           });
-      }
-    };
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-    const handleBackClick = () => {
-      setIsEdited(false);
-      setIsAddingInstructor(false);
-      setCurrentRowId(null);
-    };
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
-    const handlePageChange = (events,value)=>{
-      setCurrentPage(value)
-    }
-    console.log('instructor data first file',InstructorData)
-    return (
-      <>
-
-
-
-{isAddingInstructor ? (
+  return (
+    <>
+      {isAddingInstructor ? (
         <>
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
           </Button>
-          <AddInstructor/>
+          <AddInstructor />
         </>
-      ) :
-        isEdited && currentRowId ? (
-          <>
-            <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
-              &lt; Back to Instructor
-            </Button>
-            <InstructorDetails instructorId={currentRowId} />
-          </>
-        ) :
-
-
-         (
-          <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      ) : isEdited && currentRowId ? (
+        <>
+          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+            &lt; Back to Instructor
+          </Button>
+          <InstructorDetails instructorId={currentRowId} />
+        </>
+      ) : (
+        <Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography
               sx={{
                 color: theme.palette.primary.main,
@@ -176,66 +187,63 @@ import AddInstructor from './component/AddInstructor';
             >
               Instructor
             </Typography>
-
             <Button variant='outlined' onClick={handleAddInstructorClick}>
               + Add Instructor
             </Button>
           </Box>
-            <Box>
-              <TableContainer component={Paper} sx={{ padding: '1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '2rem'
+          <Box>
+            <TableContainer component={Paper} sx={{ padding: '1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '2rem'
+                }}
+              >
+                <TextField
+                  variant='outlined'
+                  placeholder='Search...'
+                  value={searchTerm}
+                  onChange={handleChange}
+                  onKeyPress={handleKeyPress}
+                  size='small'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CiSearch />
+                      </InputAdornment>
+                    )
                   }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSearch}
+                  startIcon={<CiSearch />}
                 >
-                  <TextField
-                    variant='outlined'
-                    placeholder='Search...'
-                    value={searchTerm}
-                    onChange={handleChange}
-                    onKeyPress={handleKeyPress}
-                    size='small'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <CiSearch />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSearch}
-                    startIcon={<CiSearch />}
-                  >
-                    Search
-                  </Button>
-                </Box>
+                  Search
+                </Button>
+              </Box>
 
-
-                {loading ? (
+              {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
                   <CircularProgress />
                 </Box>
               ) : (
-
-
+                <>
                 <Table size='small' aria-label='a dense table'>
                   <TableHead>
                     <TableRow>
                       <TableCell>Instructor Name</TableCell>
                       <TableCell>Instructor Role</TableCell>
                       <TableCell>Gender</TableCell>
-                      <TableCell>Cuntry</TableCell>
+                      <TableCell>Country</TableCell>
                       <TableCell>Phone</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {InstructorData.map((row) => (
+                    {InstructorData?.map((row) => (
                       <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
                           {`${row.firstName} ${row.lastName}`}
@@ -247,7 +255,7 @@ import AddInstructor from './component/AddInstructor';
                           {row.gender}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
-                        {row.country}
+                          {row.country}
                         </TableCell>
                         <TableCell sx={{ color: 'gray' }}>
                           {row.phone}
@@ -262,27 +270,34 @@ import AddInstructor from './component/AddInstructor';
                             onClose={handleMenuClose}
                           >
                             <MenuItem onClick={handleEditClick}>View</MenuItem>
-                            <MenuItem>Delete</MenuItem>
+                            <MenuItem onClick={() => handleDeleteInstructor(row._id)}>Delete</MenuItem>
                           </Menu>
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
+
+                <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                  />
+                </Box>
+
+                </>
               )}
-              </TableContainer>
-            </Box>
+            </TableContainer>
           </Box>
-        )}
-      </>
+        </Box>
+      )}
+    </>
+  );
+};
 
-
-
-    );
-  };
-
-  export default InstructorMain;
-
+export default InstructorMain;
 
 
 

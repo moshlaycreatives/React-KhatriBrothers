@@ -9,10 +9,12 @@ const PaymentSuccess = () => {
 
   const enrollCustomer=localStorage.getItem('paymentId2')
   const Installment=localStorage.getItem('installment')
+  const classType=localStorage.getItem('classType')
+
 
 
   useEffect(()=>{
-    dispatch(EnrollCustomer(enrollCustomer, Installment))
+    dispatch(EnrollCustomer(enrollCustomer, Installment, classType))
   },[''])
     const navigate = useNavigate()
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, useMediaQuery, Dialog, DialogActions, DialogContent, DialogContentText, IconButton } from '@mui/material';
+import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, useMediaQuery, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu,   MenuItem as MuiMenuItem, } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -13,7 +13,9 @@ import TermsConditionsMain from './components/TermsConditions/TermsConditionsMai
 import SettingsMain from './components/Settings/SettingsMain';
 import { userLogout } from '../store/actions/authActions';
 import ShowProfileData from './components/ManageProfile/ShowProfileData';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import { getNotification } from '../store/actions/courseActions';
 
 const drawerWidth = 240;
 
@@ -36,6 +38,10 @@ const StudentMain = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 const userData = useSelector((state)=>state?.auth?.user)
 console.log(userData, 'data')
+const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  console.log(userData, "data");
+const dispatch = useDispatch()
 
 
 const profilePictureUrl = base + userData.profilePicture;
@@ -68,6 +74,29 @@ const profilePictureUrl = base + userData.profilePicture;
     setDrawerOpen(!drawerOpen);
   };
 
+
+
+
+  const handleNotificationClick = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+    // Fetch notifications when the dropdown is opened
+    dispatch(getNotification())
+      .then((response) => {
+        console.log(response.data.data, 'haha')
+        setNotifications(response.data.data); // Assuming the API returns data in this format
+      });
+  };
+
+
+
+ const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
+  const open = Boolean(notificationAnchorEl);
+
+
+
   return (
     <>
       <Helmet>
@@ -91,6 +120,73 @@ const profilePictureUrl = base + userData.profilePicture;
                 Logo
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+
+
+
+              <IconButton
+                  color="inherit"
+                  onClick={handleNotificationClick}
+                >
+                  <IoIosNotificationsOutline
+                    style={{
+                      color: theme.palette.primary.main,
+                      fontSize: "1.5rem",
+                    }}
+                  />
+                </IconButton>
+
+<Menu
+                  anchorEl={notificationAnchorEl}
+                  open={open}
+                  onClose={handleNotificationClose}
+                  PaperProps={{
+                    sx: {
+                      width: 250,
+                      maxWidth: '90%',
+                    },
+                  }}
+                >
+<Typography sx={{fontSize:'0.9rem', fontWeight:'800', paddingLeft:'1.5rem', marginBottom:'5px'}}>Notifications</Typography>
+{
+  notifications?.map((notification, index) => (
+
+                      <>
+
+            
+<Box sx={{padding:'0rem 2rem'}}>
+<Typography sx={{fontSize:'0.8rem', fontWeight:600, color:theme.palette.primary.main}}>
+{notification?.title}
+
+</Typography>
+<Typography sx={{fontSize:'0.6rem', }}>
+{notification?.body}
+
+</Typography>
+
+<Divider/>
+<br/>
+
+
+</Box>
+                      {/* <MuiMenuItem key={index} onClick={() => handleNotificationClose()}>
+
+
+<br/>
+
+
+                        <Typography>{notification?.body}</Typography>
+                      </MuiMenuItem>
+ */}
+
+                      </>
+
+
+
+
+                      ))
+}
+
+                </Menu>
                 <Box>
                   <FormControl sx={{ padding: 0 }}>
                     <Select
