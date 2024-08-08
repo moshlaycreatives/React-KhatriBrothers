@@ -45,7 +45,7 @@ const navigate = useNavigate()
       </Box>
       <Box sx={{ padding: "2rem 10%" }}>
         <Grid container spacing={4}>
-          {course.slice(0, 3).map((val, ind) => (
+          {course?.slice(0, 3).map((val, ind) => (
             <Grid
               key={ind}
               item
