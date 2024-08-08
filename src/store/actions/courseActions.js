@@ -54,9 +54,9 @@ export const getAdvanceCourse = () => async (dispatch) => {
   }
 };
 
-export const getStudentData = () => async (dispatch) => {
+export const getStudentData = (page) => async (dispatch) => {
   try {
-    const res = await api.get("/getAllEnrolledStudents",);
+    const res = await api.get(`/getAllEnrolledStudents?page=${page}`,);
     dispatch({
       type: 'STUDENT_DATA',
       payload: { student: res.data.data }
@@ -181,9 +181,9 @@ console.log(res, 'urlllll')
 
 
 
-export const getInstructors = () => async (dispatch) => {
+export const getInstructors = (page) => async (dispatch) => {
   try {
-    const res = await api.get("/getAllInstructor");
+    const res = await api.get(`/getAllInstructor?page=${page}`);
 
     return res;
 
@@ -206,9 +206,9 @@ export const assignInstructor = (instructorId, enrollmentId) => async (dispatch)
   }
 };
 
-export const assignedStudents = (instructorId) => async (dispatch) => {
+export const assignedStudents = (instructorId, currentPage) => async (dispatch) => {
   try {
-    const res = await api.get(`/getAssignedCoursesByInstructor/${instructorId}`,);
+    const res = await api.get(`/getAssignedCoursesByInstructor/${instructorId}?page=${currentPage}`,);
 
     return res;
   } catch (err) {
@@ -284,6 +284,30 @@ export const addInstructor = (formValues) => async (dispatch) => {
 export const getAllContacts = () => async (dispatch) => {
   try {
     const res = await api.get(`getAllContacts`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const getNotification = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllNotifications`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
+export const deleteInstructor = (Id) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/deleteInstructor/${Id}`);
 
     return res;
   } catch (err) {

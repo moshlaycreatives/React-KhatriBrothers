@@ -73,7 +73,7 @@ const handleViewAll = ()=>{
         <Grid container spacing={3}>
 
 
-{course.slice(0, 4).map((val, ind)=>(
+{course?.slice(0, 4).map((val, ind)=>(
     <Grid key={ind} item lg={3} md={3} sm={12} xs={12} onClick={()=>handleOpenCourse(val._id)}>
             <Box>
               <img src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height={'200vh'} />

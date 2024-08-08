@@ -30,11 +30,15 @@ const cardStyles = {
 
 const AddInstructor = () => {
   const initialValues = {
-    instructorName: "",
+    firstName:'',
+    lastName:'',
     instructorRole: "",
     gender: "",
     country: "",
     phone: "",
+    email:'',
+    password:'',
+    confirmPassword:''
   };
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -62,10 +66,17 @@ const AddInstructor = () => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append("instructorName", formValues.instructorName);
+    formData.append("firstName", formValues.firstName);
+    formData.append("lastName", formValues.lastName);
+
     formData.append("instructorRole", formValues.instructorRole);
     formData.append("gender", formValues.gender);
     formData.append("phone", formValues.phone);
+    formData.append("email", formValues.email);
+    formData.append("password", formValues.password);
+    formData.append("confirmPassword", formValues.confirmPassword);
+
+
     formData.append("country", formValues.country);
 
     dispatch(addInstructor(formData))
@@ -90,11 +101,17 @@ const AddInstructor = () => {
 
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Instructor Name", name: "instructorName", type: "text" },
+            { label: "First Name", name: "firstName", type: "text" },
+            { label: "Last Name", name: "lastName", type: "text" },
+
             { label: "Instructor Role", name: "instructorRole", type: "text" },
             { label: "Gender", name: "gender", type: "text" },
             { label: "Country", name: "country", type: "text" },
             { label: "phone", name: "phone", type: "number" },
+            { label: "Email", name: "email", type: "text" },
+            { label: "Password", name: "password", type: "text" },
+            { label: "Confirm Password", name: "confirmPassword", type: "text" },
+
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
               <Typography sx={labelStyles}>{field.label}</Typography>
