@@ -29,6 +29,7 @@ import PaymentSuccess from "./Pages/PaymentPages/PaymentSuccess";
 import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 import BhajjanCoursesMain from "./Pages/OtherCourses/BhajjanCourse/BhajjanCoursesMain";
+import InstructorMain from "./Instructor/InstructorMain";
 
 
 export default function Router() {
@@ -124,6 +125,10 @@ export default function Router() {
     {
       path: "/cancel",
       element: <PaymentCancel />,
+    },
+     {
+      path: "/instructor-dashboard",
+      element: <InstructorMain />,
     },
 
     // {
