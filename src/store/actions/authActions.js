@@ -170,3 +170,15 @@ export const EnrollCustomer = (courseId, installment, classType) => async (dispa
     throw err;
   }
 };
+
+
+
+export const getAllConversations = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllChats",);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

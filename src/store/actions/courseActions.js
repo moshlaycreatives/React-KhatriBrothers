@@ -16,6 +16,8 @@ export const addAdvance = (formValues) => async (dispatch) => {
 };
 
 
+
+
 export const getAllCourse = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllCourses",);
@@ -23,6 +25,18 @@ export const getAllCourse = () => async (dispatch) => {
       type: 'ALL_COURSES',
       payload: { courses: res.data.data }
     })
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+export const getAssignedStudents = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllStudentsByInstructor/${id}`);
     return res;
 
   } catch (err) {
@@ -281,6 +295,8 @@ export const addInstructor = (formValues) => async (dispatch) => {
 
 
 
+
+
 export const getAllContacts = () => async (dispatch) => {
   try {
     const res = await api.get(`getAllContacts`);
@@ -308,6 +324,56 @@ export const getNotification = () => async (dispatch) => {
 export const deleteInstructor = (Id) => async (dispatch) => {
   try {
     const res = await api.patch(`/deleteInstructor/${Id}`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
+
+export const createGroup = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.post("/createGroup", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+
+export const getAllGroups = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllGroupsByInstructorId`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
+export const deleteGroupMember = (groupid, studentIndex) => async (dispatch) => {
+  try {
+    const res = await api.patch(`deleteGroupMember/${groupid}`, studentIndex);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+export const createClass = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.post(`/createClass`, formValues);
 
     return res;
   } catch (err) {

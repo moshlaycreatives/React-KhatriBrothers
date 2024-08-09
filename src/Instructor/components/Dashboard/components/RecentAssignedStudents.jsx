@@ -1,12 +1,38 @@
 import { useTheme } from '@emotion/react'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper';
 import { FaEye } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAssignedStudents } from '../../../../store/actions/courseActions';
 
 
 const RecentAssignedStudents = () => {
   const theme = useTheme()
+
+  const InstructorId = useSelector((state)=>state?.auth?.user?._id)
+
+  const [assignedStudent, setAssignedStudent] = useState([])
+
+
+const dispatch = useDispatch()
+useEffect(() => {
+  dispatch(getAssignedStudents(InstructorId))
+    .then((response) => {
+      console.log(response.data.data, 'ressssss');
+setAssignedStudent(response.data.data)
+    })
+    .catch((error) => {
+      console.error('Error fetching assigned students:', error);
+    });
+}, [dispatch, InstructorId]);
+
+
+
+
+
+
+
   const rows =[
     {
         coursename:'Hindustani vocal advanced A series',
@@ -79,18 +105,18 @@ const RecentAssignedStudents = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {assignedStudent.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" sx={{color:'grey'}}>
-                {row.coursename}
+                {row.courseId.title}
               </TableCell>
-              <TableCell sx={{color:'grey'}}>{row.teacher}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.date}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.time}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.lecture}</TableCell>
+              <TableCell sx={{color:'grey'}}>{row.studentId.firstName}</TableCell>
+              <TableCell sx={{color:'grey'}}>{row.courseId.title}</TableCell>
+              <TableCell sx={{color:'grey'}}>{row.studentId.gender}</TableCell>
+              <TableCell sx={{color:'grey'}}>{row.studentId.country}</TableCell>
               <TableCell sx={{ color:theme.palette.primary.main }}>
                   <FaEye
                     style={{ fontSize: '2rem', cursor: 'pointer' }}

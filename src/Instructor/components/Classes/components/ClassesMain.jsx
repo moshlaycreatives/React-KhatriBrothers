@@ -1,3 +1,6 @@
+
+
+
 import { useTheme } from "@emotion/react";
 import {
   Box,
@@ -5,131 +8,102 @@ import {
   Card,
   CircularProgress,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography,
   useMediaQuery,
+  TableContainer
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
-import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
-// import { addStudentsTestimonial, getBeginnerCourse } from "../../../store/actions/courseActions";
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
-import { Label } from "@mui/icons-material";
+import { createClass, getAllCourse } from "../../../../store/actions/courseActions";
 
 const ClassesMain = () => {
   const theme = useTheme();
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const initialValues ={
-    title:'',
-    courseId:'',
-    video:null
-  }
+  const initialValues = {
+    title: '',
+    courseId: '7777777',
+    video: null,
+    classType: '',
+    group: '',
+    student: '',
+    date: '',
+    startTime: '',
+    endTime: ''
+  };
 
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
-  const [testimonialData ,setTestimonialData] = useState([]);
-  const [currentCourseId ,setCurrentCourseId] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
+  const [testimonialData, setTestimonialData] = useState([]);
+  const [coursesData, setCoursesData] = useState([]);
+
   const [formValues, setFormValues] = useState(initialValues);
-  const [loading ,setLoading]= useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
- 
-  const handleFromData =(e)=>{
-    const {name , value} = e.target;
-    setFormValues((formValues)=>({...formValues, [name]: value})) 
-    console.log('kkkkkkkk' ,formValues);
-  }
+  const handleFormData = (e) => {
+    const { name, value } = e.target;
+    setFormValues((formValues) => ({ ...formValues, [name]: value }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const res = await dispatch(getBeginnerCourse());
-        setTestimonialData(res.data.data);
-        console.log('testtimonial  data:', res. data);
+        const res = await dispatch(getAllCourse());
+        setCoursesData(res.data.data);
+        console.log('courses data:', res.data);
       } catch (error) {
-        console.error('Failed to fetch student data', error);
+        console.error('Failed to fetch data', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [dispatch]);
 
-  const handleChange = (event) => {
-    // setSelectedCourse(event.target.value);
-    const selectedId = event.target.value;
-    setSelectedCourse(selectedId);
-    setFormValues((formValues)=>({...formValues, courseId:selectedId}));
-  };
-
-  const handleVideoChange =(e)=>{
-    const file = e.target.files[0];
-    setFormValues((formValues)=>({...formValues , video : file}))
-  }
-
-  const handleAddTestimonial = () => {
-    setIsAdding(true);
+  const handleClassTypeChange = (event) => {
+    const selectedType = event.target.value;
+    setFormValues((formValues) => ({ ...formValues, classType: selectedType }));
   };
 
   const handleCancel = () => {
     setIsAdding(false);
   };
 
-  const handleSubmit = ()=>{
+  const handleSubmit = async () => {
+    const formData = {
+      courseType: formValues.classType,
+      group: formValues.classType === 'group' ? formValues.group : undefined,
+      studentId: formValues.classType === 'one2one' ? formValues.student : undefined,
+      courseId: formValues.courseId,
+      zoomLink: formValues.video,
+      date: formValues.date,
+      startTime: formValues.startTime,
+      endTime: formValues.endTime,
+      courseId: formValues.courseId,
+      zoomLink:'https://example.com'
+    };
 
-    const formData = new FormData();
-  formData.append('stuName', formValues.title);
-  formData.append('courseId', formValues.courseId)
-  if (formValues.video) {
-    formData.append('video', formValues.video)
-  }
+    // Remove undefined properties
+    Object.keys(formData).forEach(key => formData[key] === undefined && delete formData[key]);
 
-  dispatch(addStudentsTestimonial(formData)).then((res)=>{
-    enqueueSnackbar(res.data.message,  {variant:'success'})
-    setFormValues(initialValues);
-  }).catch((error)=>{
-    enqueueSnackbar(error.data.message, {varient:'error'})
-  })
-  }
-
-  
-
-  // const handleCouseClick  = (e , id)=>{
-  //   setCurrentCourseId(id);
-
-  //   const {name } = e.target;
-  //   setFormValues((formValues)=>({...formValues, [name]: id}))
-  //   console.log('kkkkkkkk' ,formValues);
-    
-  // }
-  // console.log('course test id', currentCourseId);
-
-
-
-
-  const rows = [
-    {
-      coursename: "Hindustani vocal advanced A series",
-      teacher: "Faraz",
-      image: "/ggg.png",
-    },
-  ];
+    try {
+      await dispatch(createClass(formData));
+      enqueueSnackbar('Class created successfully!', { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar('Failed to create class.', { variant: 'error' });
+      console.error('Error creating class:', error);
+    }
+  };
 
   return (
     <Box>
@@ -151,204 +125,182 @@ const ClassesMain = () => {
             >
               Create Class
             </Typography>
-{/* 
-            <Box>
-              <Button
-                variant="outlined"
-                onClick={handleAddTestimonial}
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0px",
-                  fontWeight: 400,
-                  fontSize: isMobile ? '0.8rem' : "1.2rem",
-                }}
-              >
-                + Create Class
-              </Button>
-            </Box> */}
           </Box>
 
           <br />
 
           {loading ? (
-            <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'50vh'}}>
-              <CircularProgress/>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+              <CircularProgress />
             </Box>
           ) : (
             <>
-            <TableContainer
-            component={Paper}
-            sx={{
-              padding: "1rem 1rem",
-              boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <Typography sx={{fontWeight:'600', fontSize:'1.1rem'}}>
-              Add Details
-            </Typography>
-            <br /><br />
+              <TableContainer
+                component={Paper}
+                sx={{
+                  padding: "1rem 1rem",
+                  boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <Typography sx={{ fontWeight: '600', fontSize: '1.1rem' }}>
+                  Add Details
+                </Typography>
+                <br /><br />
 
-           <Box>
-           <Typography> Class Type</Typography>
-           {/* <br /> */}
-            <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">please select class type</InputLabel>
+                <FormControl fullWidth>
+  <InputLabel id="course-select-label">Select Course</InputLabel>
   <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    // value={age}
-    label="Please select class type"
-    onChange={handleChange}
+    labelId="course-select-label"
+    id="course-select"
+    name="courseId"
+    value={formValues.courseId}
+    onChange={handleFormData}
   >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
+    {coursesData.map((course) => (
+      <MenuItem key={course._id} value={course._id}>
+        {course.title}
+      </MenuItem>
+    ))}
   </Select>
 </FormControl>
-           </Box>
 
-           <br />
 
-           <Box>
-           <Typography>Select Group</Typography>
-           {/* <br /> */}
-            <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">please select group</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    // value={age}
-    label="Please select group"
-    onChange={handleChange}
-  >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-  </Select>
-</FormControl>
-           </Box>
 
-           <br />
 
-           <Box>
-           <Typography variant="subtitle1">Date</Typography>
-      <TextField
-        // id="date-picker"
-        // label="MM/DD/YYYY" // Adjust the format as needed
-        type="date"
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          inputProps: {
-            // Set the min and max dates if needed, e.g.:
-            // min: '2020-01-01',
-            // max: '2030-12-31',
-          },
-        }}
-      />
-           </Box>
 
-           <br />
+                <Box>
+                  <Typography>Class Type</Typography>
+                  <FormControl fullWidth>
+                    <InputLabel id="class-type-select-label">Please select class type</InputLabel>
+                    <Select
+                      labelId="class-type-select-label"
+                      id="class-type-select"
+                      name="classType"
+                      value={formValues.classType}
+                      label="Please select class type"
+                      onChange={handleClassTypeChange}
+                    >
+                      <MenuItem value={'group'}>Group</MenuItem>
+                      <MenuItem value={'one2one'}>One to One</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
 
-           <Box>
-           <Typography variant="subtitle1">Start Time</Typography>
-      <TextField
-        // id="date-picker"
-        // label="00 : 00" // Adjust the format as needed
-        type="time"
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          inputProps: {
-            // Set the min and max dates if needed, e.g.:
-            // min: '2020-01-01',
-            // max: '2030-12-31',
-          },
-        }}
-      />
-           </Box>
+                <br />
 
-           <br />
+                {formValues.classType === 'group' && (
+                  <Box>
+                    <Typography>Select Group</Typography>
+                    <FormControl fullWidth>
+                      <InputLabel id="group-select-label">Please select group</InputLabel>
+                      <Select
+                        labelId="group-select-label"
+                        id="group-select"
+                        name="group"
+                        value={formValues.group}
+                        label="Please select group"
+                        onChange={handleFormData}
+                      >
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                )}
 
-           <Box>
-           <Typography variant="subtitle1">End Time</Typography>
-      <TextField
-        // id="date-picker"
-        // label="00 : 00" // Adjust the format as needed
-        type="time"
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          inputProps: {
-            // Set the min and max dates if needed, e.g.:
-            // min: '2020-01-01',
-            // max: '2030-12-31',
-          },
-        }}
-      />
-           </Box>
+                {formValues.classType === 'one2one' && (
+                  <Box>
+                    <Typography>Select Student</Typography>
+                    <FormControl fullWidth>
+                      <InputLabel id="student-select-label">Please select student</InputLabel>
+                      <Select
+                        labelId="student-select-label"
+                        id="student-select"
+                        name="student"
+                        value={formValues.student}
+                        label="Please select student"
+                        onChange={handleFormData}
+                      >
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                )}
 
-           <br />
+                <br />
 
-           <Box sx={{width:'100%', display:'flex', gap:2}}>
-           <Box sx={{width:'50%'}}>
-           <Button variant="outlined" sx={{width:'100%'}}>Cancel</Button>
-           </Box>
-           <Box sx={{width:'50%'}}>
-           <Button variant="contained" sx={{width:'100%'}}>Create</Button>
-           </Box>
-           </Box>
-
-            {/* <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Course name</TableCell>
-                  <TableCell>Video</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      paddingBottom: "1rem",
-                      alignItems: "start",
+                <Box>
+                  <Typography variant="subtitle1">Date</Typography>
+                  <TextField
+                    type="date"
+                    variant="outlined"
+                    fullWidth
+                    name="date"
+                    value={formValues.date}
+                    onChange={handleFormData}
+                    InputLabelProps={{
+                      shrink: true,
                     }}
-                  >
-                    <TableCell component="th" scope="row" sx={{ color: "grey" }}>
-                      {row.coursename}
-                    </TableCell>
-                    <TableCell sx={{ color: "grey" }}>{row.teacher}</TableCell>
-                    <TableCell sx={{ color: "grey" }}>
-                      <Box>
-                        <img src={row.image} alt="" width={"50px"} />
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table> */}
-          </TableContainer>
+                  />
+                </Box>
+
+                <br />
+
+                <Box>
+                  <Typography variant="subtitle1">Start Time</Typography>
+                  <TextField
+                    type="time"
+                    variant="outlined"
+                    fullWidth
+                    name="startTime"
+                    value={formValues.startTime}
+                    onChange={handleFormData}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Box>
+
+                <br />
+
+                <Box>
+                  <Typography variant="subtitle1">End Time</Typography>
+                  <TextField
+                    type="time"
+                    variant="outlined"
+                    fullWidth
+                    name="endTime"
+                    value={formValues.endTime}
+                    onChange={handleFormData}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Box>
+
+                <br />
+
+                <Box sx={{ width: '100%', display: 'flex', gap: 2 }}>
+                  <Box sx={{ width: '50%' }}>
+                    <Button variant="outlined" onClick={handleCancel} sx={{ width: '100%' }}>Cancel</Button>
+                  </Box>
+                  <Box sx={{ width: '50%' }}>
+                    <Button variant="contained" onClick={handleSubmit} sx={{ width: '100%' }}>Create</Button>
+                  </Box>
+                </Box>
+              </TableContainer>
             </>
           )}
-          
+
         </>
       ) : (
         <Card
           sx={{
             boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
-            position: 'relative', // Position relative for the close button
+            position: 'relative',
           }}
         >
           <CloseIcon
@@ -377,75 +329,15 @@ const ClassesMain = () => {
                 sx={{ borderRadius: "0px", marginBottom: "0.8rem" }}
                 name="title"
                 value={formValues.title}
-                onChange={handleFromData}
+                onChange={handleFormData}
               />
 
-              <br />
-
-              
-              <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
-                Course Name
-              </Typography>
-
-              <FormControl fullWidth size="small" sx={{ marginBottom: "0.8rem" }}>
-                <Select
-                  value={selectedCourse}
-                  onChange={handleChange}
-                  displayEmpty
-                >
-                  <MenuItem value="" disabled>
-                    Select
-                  </MenuItem>
-                  {testimonialData.map((course, index) => (
-                    <MenuItem key={index}
-                     value={course._id}
-                    // onClick={(events)=>handleCouseClick(events, course._id)}
-                    name="courseId"
-                    >
-                      {course.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <br />
-
-              <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
-                Add Video
-              </Typography>
-
-              <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
-                <input type="file"  onChange={handleVideoChange}/>
-              </Box>
-
-              <br />
-              <br />
-
-              <Box sx={{ display: "flex", alignItems: "center" }} gap={3}>
-                <Button
-                  variant="outlined"
-                  onClick={handleCancel}
-                  fullWidth
-                  sx={{
-                    borderRadius: "0px",
-                    padding: "0.7rem 0rem",
-                    textTransform: "none",
-                  }}
-                >
+              <Box sx={{ width: '100%', display: 'flex', gap: 2 }}>
+                <Button variant="outlined" sx={{ width: '100%' }} onClick={handleCancel}>
                   Cancel
                 </Button>
-
-                <Button
-                  variant="contained"
-                  fullWidth
-                  sx={{
-                    borderRadius: "0px",
-                    textTransform: "none",
-                    fontWeight: "400",
-                    padding: "0.7rem 0rem",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Add
+                <Button variant="contained" sx={{ width: '100%' }} onClick={handleSubmit}>
+                  Create
                 </Button>
               </Box>
             </form>
