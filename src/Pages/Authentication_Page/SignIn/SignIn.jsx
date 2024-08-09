@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -27,6 +28,7 @@ const SignIn = () => {
   const userdata = useSelector((state) => state?.auth?.user?.user);
   console.log(userdata, 'user data')
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false)
 
   const location = useLocation()
 
@@ -47,7 +49,7 @@ const SignIn = () => {
   };
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-
+setLoading(true)
     dispatch(userLogin(formValues))
       .then((res) => {
 
@@ -60,19 +62,20 @@ const role = res.data.data.role
 if(role === 'admin'){
   navigate('/admin-dashboard')
 }else if(role === 'user'){
-  navigate('/student-dashboard')
+  navigate('/')
 }else{
   navigate(from)
 
 }
 
         setFormValues(initialValues);
-
+setLoading(false)
       })
       .catch((err) => {
         enqueueSnackbar(err.response.data.message, {
           variant: "error",
         });
+        setLoading(false)
 
         console.log(err);
       });
@@ -180,8 +183,12 @@ if(role === 'admin'){
                     </Link>
 
                     <div>
-                      <Button
-                        type="submit"
+
+
+
+                    <Button
+
+  type="submit"
 variant="contained"
                         sx={{
 
@@ -193,9 +200,26 @@ variant="contained"
                           width: "100%",
                           marginBottom: ".5rem",
                         }}
-                      >
-                        Sign In
-                      </Button>
+  disabled={loading} // Disable button while loading
+>
+  {loading && (
+    <CircularProgress
+      size={24}
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        marginTop: "-12px",
+        marginLeft: "-12px",
+      }}
+    />
+  )}
+  Sign in
+</Button>
+
+
+
+
                     </div>
                   </form>
 

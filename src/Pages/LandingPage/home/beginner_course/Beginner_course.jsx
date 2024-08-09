@@ -11,32 +11,20 @@ function Beginner_course() {
  const theme = useTheme()
 
  const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
- const course = useSelector((state)=>state?.courses?.beginnerCourses)
+
+
+
+ const course = useSelector((state)=>state?.courses?.allCourses)
 const navigate = useNavigate()
 
- const advanceData = [
-  {
-      image:'advancecourse.png',
-      desc:'Lorem ipsum dolor sit amet.',
-      _id:1
-  },
-  {
-    _id:2
-,
-      image:'advancecourse.png',
-      desc:'Lorem ipsum dolor sit amet.',
-  },
-  {
-    _id:3,
-    image:'advancecourse.png',
-    desc:'Lorem ipsum dolor sit amet.',
-},
-{
-  _id:4,
-    image:'advancecourse.png',
-    desc:'Lorem ipsum dolor sit amet.',
-},
-]
+
+const beginnerCourses = course?.filter(val => val.courseType === 'beginner')
+
+
+
+
+
+
 const handleOpenCourse = (id) => {
   navigate(`course-details/${id}`);
 };
@@ -73,7 +61,7 @@ const handleViewAll = ()=>{
         <Grid container spacing={3}>
 
 
-{course?.slice(0, 4).map((val, ind)=>(
+{beginnerCourses?.slice(0, 4).map((val, ind)=>(
     <Grid key={ind} item lg={3} md={3} sm={12} xs={12} onClick={()=>handleOpenCourse(val._id)}>
             <Box>
               <img src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height={'200vh'} />

@@ -56,7 +56,8 @@ const Header = () => {
     navigate(route);
     setAnchorEl(null);
   };
-
+const auth = useSelector((state)=>state?.auth?.isAuthenticated)
+console.log(auth, 'auth')
   const currentPath = location.pathname;
 
   const isHidden =
@@ -147,7 +148,31 @@ const Header = () => {
         ))}
       </Box>
 
-      <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
+
+
+
+
+{auth ? (
+  <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
+        <Button
+          onClick={()=>navigate('/student-dashboard')}
+          variant="contained"
+          size="small"
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            padding: "0.5rem 2rem",
+            textTransform: "none",
+            fontSize: "0.9rem",
+            marginLeft: "1rem",
+            borderRadius: "0px",
+          }}
+        >
+          Go to Dashboard
+        </Button>
+      </Box>
+
+):(
+  <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
         <Button
           onClick={handleLogin}
           variant="contained"
@@ -164,6 +189,11 @@ const Header = () => {
           Get Started
         </Button>
       </Box>
+
+)}
+
+
+
 
       <Box sx={{ display: { xs: "flex", sm: "none" } }}>
         <IconButton onClick={handleDrawerOpen} sx={{ color: "white" }}>
@@ -206,7 +236,27 @@ const Header = () => {
                 {index < menuItems.length - 1 && <Divider />}
               </Box>
             ))}
-            <Box sx={{ marginTop: 2 }}>
+
+
+            {auth ? (
+
+              <Box sx={{ marginTop: 2 }}>
+              <Button
+                variant="contained"
+                onClick={()=>navigate('/student-dashboard')}
+                sx={{
+                  padding: "0.8rem 0rem",
+                  borderRadius: "0px",
+                  width: "100%",
+                }}
+              >
+                Go to Dashboard
+              </Button>
+            </Box>
+
+            ):(
+
+              <Box sx={{ marginTop: 2 }}>
               <Button
                 variant="contained"
                 onClick={handleLogin}
@@ -219,6 +269,9 @@ const Header = () => {
                 Get Started
               </Button>
             </Box>
+
+            )}
+
           </Box>
         </Drawer>
       </Box>
