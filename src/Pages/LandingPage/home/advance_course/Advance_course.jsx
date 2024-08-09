@@ -9,8 +9,10 @@ import { useNavigate } from "react-router";
 
 function Advance_course() {
 
-  const course = useSelector((state)=>state?.courses?.advancedCourses)
+  const course = useSelector((state)=>state?.courses?.allCourses)
+  const AdvanceCourses = course?.filter(val => val.courseType === 'advanced')
 
+  console.log(course, 'all course on advance code ')
   const theme = useTheme();
   const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
 
@@ -45,7 +47,7 @@ const navigate = useNavigate()
       </Box>
       <Box sx={{ padding: "2rem 10%" }}>
         <Grid container spacing={4}>
-          {course?.slice(0, 3).map((val, ind) => (
+          {AdvanceCourses?.slice(0, 3).map((val, ind) => (
             <Grid
               key={ind}
               item

@@ -1,38 +1,50 @@
 import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  InputAdornment,
-  TextField,
-  Typography,
-  useMediaQuery,
   useTheme,
+  CircularProgress,
+  Box,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import HomeProducts from "../ShopPage/HomeProducts";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { useDispatch } from "react-redux";
-import { getAllCategories } from "../../store/actions/categoriesActions";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Home from "./home/Home";
 import Page from "../../components/page";
+import { getAllCourse } from "../../store/actions/courseActions";
 
 const Landing = () => {
   const theme = useTheme();
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  },[])
+  const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllCourse()).then(() => {
+      setLoading(false); // Stop the loader when the API call is successful
+    }).catch((err)=>{
+setLoading(false)
+    })
+  }, [dispatch]);
 
   return (
     <>
-<Page title='Khatri Brothers'>
-<Home/>
-
-</Page>
+      <Page title="Khatri Brothers">
+        {loading ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Home />
+        )}
+      </Page>
     </>
   );
 };

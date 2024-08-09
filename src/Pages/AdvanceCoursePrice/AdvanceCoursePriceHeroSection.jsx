@@ -8,6 +8,9 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
   Typography,
   useMediaQuery,
   useTheme,
@@ -25,7 +28,6 @@ import {
 
 import axios from 'axios';
 
-
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -35,19 +37,57 @@ const AdvanceCoursePriceHeroSection = () => {
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [selectedClassType, setSelectedClassType] = useState('one2one'); // New state for class type
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingEnroll, setLoadingEnroll] = useState(false);
   const [country, setCountry] = useState('');
   const [classType, setClassType] = useState('one2one');
+  const [disableInstallment, setDisableInstallment] = useState(false);
 
-const [disableInstallment, setDisableInstallment] = useState(false)
   const handleDialogOpen = () => {
     setOpen(true);
   };
 
+  const handleDialogClose = (option) => {
+    setOpen(false);
+    if (option) {
+      handleEnroll(option);
+    }
+  };
 
+  const handleClassTypeChange = (event) => {
+    setSelectedClassType(event.target.value);
+    localStorage.setItem('classType', event.target.value); // Save selected class type to local storage
+  };
+
+  const handleEnroll = (installment) => {
+    if (auth === true) {
+      setLoadingEnroll(true);
+      dispatch(firstPaymentApi({ name, email }))
+        .then((res) => {
+          const paymentId = res.data.data.id;
+          localStorage.setItem('paymentId2', id);
+          localStorage.setItem('installment', installment);
+          localStorage.setItem('classType', selectedClassType); // Save selected class type to local storage
+
+          if (paymentId) {
+            dispatch(payment(price, paymentId, installment, currency))
+              .then((res) => {
+                const testCheckoutUrl = res.data.session.url;
+                window.location.href = testCheckoutUrl;
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoadingEnroll(false);
+        });
+    } else {
+      navigate("/sign-in", { state: { from: location.pathname } });
+    }
+  };
 
   useEffect(() => {
     const fetchCountry = async () => {
@@ -62,86 +102,14 @@ const [disableInstallment, setDisableInstallment] = useState(false)
     fetchCountry();
   }, []);
 
-  const getPriceByCountry = (countryCode) => {
-    const priceMap = {
-      US: courseData.usaPrice,
-      PK: courseData.indianPrice,
-      IN: courseData.indianPrice,
-      GB: courseData.ukPrice,
-      KE: courseData.kenyaPrice,
-      UG: courseData.ugandaPrice,
-      UAE: courseData.uaePrice,
-      CAN: courseData.canadaPrice,
-      CA: courseData.canadaPrice,
-      AU: courseData.australiaPrice,
-      AUS: courseData.australiaPrice,
-    };
-    return priceMap[countryCode] || courseData.indianPrice;
-  };
-
-
-
-  const getCurrencySymbol = (countryCode) => {
-    const currencyMap = {
-      US: '$',
-      PK: 'Rs',
-      IN: '₹',
-      GB: '£',
-      KE: 'KSh',
-      UG: 'USh',
-      UAE: 'د.إ',
-      CAN: 'C$',
-      CA: 'C$',
-      AU: 'A$',
-      AUS: 'A$',
-    };
-    return currencyMap[countryCode] || '₹';
-  };
-
-
-
-  const currencySymbol = getCurrencySymbol(country);
-
-  const price = getPriceByCountry(country);
-
-  const getCurrencyType = (countryCode) => {
-
-  const currencyType = {
-    US: 'USD',
-    PK: 'USD',
-    IN: 'INR',
-    GB: 'GBP',
-    KE: 'KES',
-    UG: 'UGX',
-    UAE: 'AED',
-    CAN: 'CAD',
-    CA: 'CAD',
-    AU: 'AUD',
-    AUS: 'AUD',
-  };
-  return currencyType[countryCode] || 'INR';
-};
-
-const currency = getCurrencyType(country)
-
-  const handleDialogClose = (option) => {
-    setOpen(false);
-    setPaymentOption(option);
-    if (option) {
-      handleEnroll(option);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-
       try {
+        setLoading(true);
         const res = await dispatch(getSingleCourse(id));
-
         setCourseData(res.data.data);
-        if(res.data.data.courseType === 'bhajjan' || res.data.data.courseType === 'tabla' || res.data.data.courseType === 'ghazal' ){
-          setDisableInstallment(true)
+        if (res.data.data.courseType === 'bhajjan' || res.data.data.courseType === 'tabla' || res.data.data.courseType === 'ghazal') {
+          setDisableInstallment(true);
         }
         dispatch(getRelatedCourses(res.data.data.courseType))
           .then((res) => {
@@ -160,6 +128,7 @@ const currency = getCurrencyType(country)
 
     fetchData();
   }, [dispatch]);
+
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [related, setRelated] = useState([]);
@@ -169,58 +138,63 @@ const currency = getCurrencyType(country)
   const email = userData?.email;
   const name = userData?.firstName;
 
-  const handleEnroll = (values, installment, currency) => {
-
-    console.log(installment, 'installmen values')
-    if (auth === true) {
-      setLoadingEnroll(true);
-      const res = dispatch(firstPaymentApi({ name, email }))
-        .then((res) => {
-          const paymentId = res.data.data.id;
-          const paymentId2 = localStorage.setItem('paymentId2', id)
-          localStorage.setItem('installment', installment)
-          localStorage.setItem('classType', classType)
-
-
-
-
-          if (paymentId) {
-            const resdata = dispatch(payment(values, paymentId, installment, currency)).then((res) => {
-              console.log(res.data.session.url, "secondapi");
-              const testCheckoutUrl = res.data.session.url;
-
-              window.location.href = testCheckoutUrl;
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoadingEnroll(false);
-        });
-    } else {
-      navigate("/sign-in", { state: { from: location.pathname } });
-    }
-  };
-  useEffect(() => {
-    const fetchCountry = async () => {
-      try {
-        const response = await axios.get('https://ipinfo.io/json');
-        console.log(response.data.country, 'country');
-setCountry(response.data.country)
-
-
-
-      } catch (error) {
-        console.error('Error fetching user country:', error);
-      }
+  const getPriceByCountry = (countryCode) => {
+    const priceMap = {
+      US: courseData.usaPrice,
+      PK: courseData.indianPrice,
+      IN: courseData.indianPrice,
+      GB: courseData.ukPrice,
+      KE: courseData.kenyaPrice,
+      UG: courseData.ugandaPrice,
+      UAE: courseData.uaePrice,
+      CAN: courseData.canadaPrice,
+      CA: courseData.canadaPrice,
+      AU: courseData.australiaPrice,
+      AUS: courseData.australiaPrice,
     };
+    return priceMap[countryCode] || courseData.indianPrice;
+  };
 
-    fetchCountry();
-  }, []);
+  const getCurrencySymbol = (countryCode) => {
+    const currencyMap = {
+      US: '$',
+      PK: 'Rs',
+      IN: '₹',
+      GB: '£',
+      KE: 'KSh',
+      UG: 'USh',
+      UAE: 'د.إ',
+      CAN: 'C$',
+      CA: 'C$',
+      AU: 'A$',
+      AUS: 'A$',
+    };
+    return currencyMap[countryCode] || '₹';
+  };
 
+  const getCurrencyType = (countryCode) => {
+    const currencyType = {
+      US: 'USD',
+      PK: 'USD',
+      IN: 'INR',
+      GB: 'GBP',
+      KE: 'KES',
+      UG: 'UGX',
+      UAE: 'AED',
+      CAN: 'CAD',
+      CA: 'CAD',
+      AU: 'AUD',
+      AUS: 'AUD',
+    };
+    return currencyType[countryCode] || 'INR';
+  };
+
+  const currencySymbol = getCurrencySymbol(country);
+  const price = getPriceByCountry(country);
+  const currency = getCurrencyType(country);
 
   const truncateText = (text, wordLimit) => {
-    const words = text.split(' ');
+    const words = text?.split(' ');
     if (words.length > wordLimit) {
       return words.slice(0, wordLimit).join(' ') + '...';
     }
@@ -246,10 +220,10 @@ setCountry(response.data.country)
     <>
       <Box
         sx={{
-          minHeight:isSmall ? '80vh' : '70vh',
-
-          display:'flex',
-          justifyContent:'center', alignItems:'center',
+          minHeight: isSmall ? '80vh' : '70vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           padding: isSmall ? "5rem 10% 0rem 10%" : "2rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
@@ -260,10 +234,9 @@ setCountry(response.data.country)
               {courseData.title}
             </Typography>
             <Box>
-            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>
-        {truncateText(courseData.overview, 30)}
-      </Typography>
-
+              <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>
+                {truncateText(courseData.overview, 30)}
+              </Typography>
               <Button
                 variant="contained"
                 sx={{
@@ -275,13 +248,10 @@ setCountry(response.data.country)
                   textTransform: "none",
                   fontSize: "0.8rem",
                   '&:hover': {
-          backgroundColor: 'white',
-        },
+                    backgroundColor: 'white',
+                  },
                 }}
-                // onClick={() => handleEnroll(courseData.price)}
-
                 onClick={handleDialogOpen}
-
               >
                 {loadingEnroll ? (
                   <CircularProgress
@@ -298,7 +268,7 @@ setCountry(response.data.country)
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: isSmall ? '0rem ':"4rem" }}>
+            <Box sx={{ padding: isSmall ? '0rem ' : "4rem" }}>
               <img
                 src={`${base}${courseData.image.replace(/ /g, "%20")}`}
                 alt="image"
@@ -324,7 +294,6 @@ setCountry(response.data.country)
             <Typography sx={{ color: "grey" }}>
               {courseData.overview}
             </Typography>
-
             <br />
             <Typography
               sx={{
@@ -338,11 +307,9 @@ setCountry(response.data.country)
             <Typography sx={{ color: "grey" }}>
               {courseData.prerequisites}
             </Typography>
-
             <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
               Tanpura app or Electronic Tanpura needed
             </Typography>
-
             <br />
             <Typography
               sx={{
@@ -351,13 +318,10 @@ setCountry(response.data.country)
                 fontSize: "1.8rem",
               }}
             >
-              Topic covered:{" "}
+              Topics covered:{" "}
             </Typography>
-
             {courseData.topics.map((topic, index) => (
-              <>
-                <Typography sx={{ color: "grey", mb: 1 }}>● {topic}</Typography>
-              </>
+              <Typography sx={{ color: "grey", mb: 1 }} key={index}>● {topic}</Typography>
             ))}
           </Grid>
 
@@ -373,7 +337,6 @@ setCountry(response.data.country)
                 Course Feature
               </Typography>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -381,7 +344,7 @@ setCountry(response.data.country)
                   justifyContent: "space-between",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <MdDateRange
                     style={{
                       fontSize: "1.5rem",
@@ -390,7 +353,6 @@ setCountry(response.data.country)
                   />
                   <Typography sx={{ fontWeight: 600 }}>Enrolled :</Typography>
                 </Box>
-
                 <span
                   style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
                 >
@@ -398,7 +360,6 @@ setCountry(response.data.country)
                 </span>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -426,7 +387,6 @@ setCountry(response.data.country)
                 </Box>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -443,7 +403,6 @@ setCountry(response.data.country)
                   />
                   <Typography sx={{ fontWeight: 600 }}>Lectures :</Typography>
                 </Box>
-
                 <span
                   style={{ color: "grey", fontWeight: 600, fontSize: "0.9rem" }}
                 >
@@ -451,7 +410,6 @@ setCountry(response.data.country)
                 </span>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -471,11 +429,10 @@ setCountry(response.data.country)
                 <span
                   style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
                 >
-                  Begginer to Professional
+                  Beginner to Professional
                 </span>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -501,7 +458,6 @@ setCountry(response.data.country)
                 </span>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -520,7 +476,6 @@ setCountry(response.data.country)
                     Max Class Size :
                   </Typography>
                 </Box>
-
                 <span
                   style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
                 >
@@ -528,7 +483,6 @@ setCountry(response.data.country)
                 </span>
               </Box>
               <br />
-
               <Box
                 sx={{
                   display: "flex",
@@ -555,7 +509,6 @@ setCountry(response.data.country)
                   {/* Convert to INR? */}
                 </Typography>
               </Box>
-
               <br />
               <Button
                 variant="contained"
@@ -566,11 +519,7 @@ setCountry(response.data.country)
                   borderRadius: "0px",
                   position: "relative",
                 }}
-                // onClick={() => handleEnroll(courseData.price)}
                 onClick={handleDialogOpen}
-
-
-
               >
                 {loadingEnroll ? (
                   <CircularProgress
@@ -630,41 +579,50 @@ setCountry(response.data.country)
         </Box>
       </Box>
 
-
       <Dialog open={open} onClose={() => handleDialogClose(null)}>
         <DialogTitle>Select Payment Option</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please select your preferred payment option.
+            Please select your preferred class type and payment option.
           </DialogContentText>
+          <RadioGroup
+            value={selectedClassType}
+            onChange={handleClassTypeChange}
+            sx={{ marginBottom: 2 }}
+          >
+            <FormControlLabel
+              value="one2one"
+              control={<Radio />}
+              label="One2One"
+            />
+            <FormControlLabel
+              value="group"
+              control={<Radio />}
+              label="Group"
+            />
+          </RadioGroup>
         </DialogContent>
         <DialogActions>
-
-{disableInstallment ? (
-  <Button onClick={() => handleEnroll(price, true, currency)} disabled  color="primary">
+          <Button
+            onClick={() => handleEnroll(true)}
+            color="primary"
+            disabled={disableInstallment}
+          >
             Installment
           </Button>
-
-):(
-
-  <Button onClick={() => handleEnroll(price, true, currency)}  color="primary">
-            Installment
-          </Button>
-
-)}
-          <Button onClick={() => handleEnroll(price, false, currency)} color="primary">
+          <Button
+            onClick={() => handleEnroll(false)}
+            color="primary"
+          >
             Full Fee
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </>
   );
 };
 
 export default AdvanceCoursePriceHeroSection;
-
 
 
 

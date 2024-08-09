@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -47,6 +48,8 @@ const SignUp = () => {
   };
 
   const [formValues, setFormValues] = useState(initialValues);
+  const [loading, setLoading] = useState(false); // New state for loading
+
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
@@ -69,7 +72,7 @@ const SignUp = () => {
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const alphabetRegex = /[a-zA-Z]/;
     const numberRegex = /\d/;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -84,11 +87,13 @@ const SignUp = () => {
         "Password must contain alphabets, numbers, and special characters",
         { variant: "error" }
       );
+      setLoading(false);
       return;
     }
 
     if (formValues.password !== formValues.confirmPassword) {
       enqueueSnackbar("Passwords do not match", { variant: "error" });
+      setLoading(false)
       return;
     }
     const dobString = `${formValues.dob.month} ${formValues.dob.day}, ${formValues.dob.year}`;
@@ -110,10 +115,12 @@ const SignUp = () => {
         navigate("/sign-in");
       })
       .catch((err) => {
-        // setLoading(false);
+        setLoading(false);
         // console.log(res.data.payload, 'payloaddddddd')
         console.log(err, "errorrrrrr");
         enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
+      }).finally(() => {
+        setLoading(false); // Ensure loading is stopped
       });
   };
 
@@ -146,16 +153,16 @@ const SignUp = () => {
   ];
 
   const [countries, setCountries] = useState([]);
-  useEffect(() => {
-    fetch(
-      "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setCountries(data.countries);
-        console.log(data.countries, "countries");
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setCountries(data.countries);
+  //       console.log(data.countries, "countries");
+  //     });
+  // }, []);
 
   //  const name = countries.map((country)=>country.label.split(' ').at(1))
 
@@ -486,20 +493,34 @@ const SignUp = () => {
                       />
                     </Box>
                     <Button
-                      variant="contained"
-                      type="submit"
-                      sx={{
-                        fontSize: "1.1rem",
-                        fontWeight: "400",
-                        // backgroundColor: theme.palette.primary.main,
-                        color: "white",
-                        marginTop: "2rem",
-                        width: "100%",
-                        marginBottom: ".5rem",
-                      }}
-                    >
-                      Sign Up
-                    </Button>
+  variant="contained"
+  type="submit"
+  sx={{
+    fontSize: "1.1rem",
+    fontWeight: "400",
+    color: "white",
+    marginTop: "2rem",
+    width: "100%",
+    marginBottom: ".5rem",
+    position: "relative",
+  }}
+  disabled={loading} // Disable button while loading
+>
+  {loading && (
+    <CircularProgress
+      size={24}
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        marginTop: "-12px",
+        marginLeft: "-12px",
+      }}
+    />
+  )}
+  Sign Up
+</Button>
+
                   </form>
                   <Typography
                     sx={{
