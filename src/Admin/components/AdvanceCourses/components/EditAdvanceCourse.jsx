@@ -78,10 +78,19 @@ const EditAdvanceCourse = ({ courseData }) => {
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
     topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
-    price: courseData.price || '',
+    // price: courseData.price || '',
     courseDuration: courseData.courseDuration || '',
     lectureDuration: courseData.lectureDuration || '',
     courseImage: PictureUrl || null,
+
+    usaPrice: courseData.usaPrice || '',    // Add prices for each country
+    indianPrice: courseData.indianPrice || '',
+    ukPrice: courseData.ukPrice || '',
+    uaePrice: courseData.uaePrice || '',
+    kenyaPrice: courseData.kenyaPrice || '',
+    ugandaPrice: courseData.ugandaPrice || '',
+    canadaPrice: courseData.canadaPrice || '',
+    australiaPrice: courseData.australiaPrice || '',
   };
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -100,10 +109,20 @@ const EditAdvanceCourse = ({ courseData }) => {
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
       topicsCovered: topicss || '',
-      price: courseData.price || '',
+      // price: courseData.price || '',
       courseDuration: courseData.courseDuration || '',
       lectureDuration: courseData.lectureDuration || '',
       courseImage: PictureUrl || null,
+
+      usaPrice: courseData.usaPrice || '',    // Add prices for each country
+      indianPrice: courseData.indianPrice || '',
+      ukPrice: courseData.ukPrice || '',
+      uaePrice: courseData.uaePrice || '',
+      kenyaPrice: courseData.kenyaPrice || '',
+      ugandaPrice: courseData.ugandaPrice || '',
+      canadaPrice: courseData.canadaPrice || '',
+      australiaPrice: courseData.australiaPrice || '',
+    
     });
     setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
   }, [courseData]);
@@ -152,8 +171,18 @@ const EditAdvanceCourse = ({ courseData }) => {
     formData.append('topics', topics.join(','));
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
-    formData.append('price', formValues.price);
+    // formData.append('price', formValues.price);
     formData.append('courseType', 'advanced');
+
+    formData.append('indianPrice', formValues.indianPrice);
+    formData.append('ukPrice', formValues.ukPrice);
+    formData.append('usaPrice', formValues.usaPrice);
+    formData.append('canadaPrice', formValues.canadaPrice);
+    formData.append('uaePrice', formValues.uaePrice);
+    formData.append('australiaPrice', formValues.australiaPrice);
+    formData.append('kenyaPrice', formValues.kenyaPrice);
+    formData.append('ugandaPrice', formValues.ugandaPrice);
+
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
@@ -183,9 +212,19 @@ const EditAdvanceCourse = ({ courseData }) => {
             { label: "Course Name", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
             { label: "Prerequisites", name: "prerequisites", type: 'text' },
-            { label: "Price", name: "price", type: 'number' },
+            // { label: "Price", name: "price", type: 'number' },
             { label: "Course Duration", name: "courseDuration", type: 'number' },
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
+
+            { label: "Indian Price", name: "indianPrice", type: 'number' },
+            { label: "UK Price", name: "ukPrice", type: 'number' },
+            { label: "USA price", name: "usaPrice", type: 'number' },
+            { label: "Canada Price", name: "canadaPrice", type: 'number' },
+            { label: "UAE Price", name: "uaePrice", type: 'number' },
+            { label: "Australia Price", name: "australiaPrice", type: 'number' },
+            { label: "Kenya Price", name: "kenyaPrice", type: 'number' },
+            { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
+
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
               <Typography sx={labelStyles}>{field.label}</Typography>
