@@ -100,7 +100,7 @@ const profilePictureUrl = base + userData.profilePicture;
   return (
     <>
       <Helmet>
-        <title>Admin_Dashboard</title>
+        <title>Student Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <Box sx={{ display: isMobile ? 'block':'flex' }}>
@@ -143,6 +143,7 @@ const profilePictureUrl = base + userData.profilePicture;
                     sx: {
                       width: 250,
                       maxWidth: '90%',
+                      minHeight:'80vh'
                     },
                   }}
                 >
@@ -152,7 +153,7 @@ const profilePictureUrl = base + userData.profilePicture;
 
                       <>
 
-            
+
 <Box sx={{padding:'0rem 2rem'}}>
 <Typography sx={{fontSize:'0.8rem', fontWeight:600, color:theme.palette.primary.main}}>
 {notification?.title}

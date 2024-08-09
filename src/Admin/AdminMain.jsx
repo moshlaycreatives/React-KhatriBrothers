@@ -160,7 +160,7 @@ const dispatch = useDispatch()
   return (
     <>
       <Helmet>
-        <title>Admin_Dashboard</title>
+        <title>Admin Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <Box sx={{ display: isMobile ? "block" : "flex" }}>

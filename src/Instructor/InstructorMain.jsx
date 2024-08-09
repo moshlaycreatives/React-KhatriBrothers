@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, useMediaQuery, Dialog, DialogActions, DialogContent, DialogContentText, IconButton } from '@mui/material';
+import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, useMediaQuery, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import ArticleIcon from '@mui/icons-material/Article';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -16,6 +16,7 @@ import ShowProfileData from './components/ManageProfile/ShowProfileData';
 import { useSelector } from 'react-redux';
 import StudentMain from './components/CourseInfo/StudentMain';
 import ClassesMain from './components/Classes/components/ClassesMain';
+import { IoIosNotificationsOutline } from 'react-icons/io';
 
 const drawerWidth = 240;
 
@@ -72,6 +73,27 @@ console.log(userData, 'data')
     setDrawerOpen(!drawerOpen);
   };
 
+
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+
+  const handleNotificationClick = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+    // Fetch notifications when the dropdown is opened
+    dispatch(getNotification())
+      .then((response) => {
+        console.log(response.data.data, 'haha')
+        setNotifications(response.data.data); // Assuming the API returns data in this format
+      });
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
+  const open = Boolean(notificationAnchorEl);
+
+
   return (
     <>
       <Helmet>
@@ -94,7 +116,77 @@ console.log(userData, 'data')
               <Typography variant="h6" noWrap component="div" sx={{ color: theme.palette.primary.main, fontSize: '2rem' }}>
                 Logo
               </Typography>
+
+
+
+
+
+
+
               <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+
+              <IconButton
+                  color="inherit"
+                  onClick={handleNotificationClick}
+                >
+                  <IoIosNotificationsOutline
+                    style={{
+                      color: theme.palette.primary.main,
+                      fontSize: "1.5rem",
+                    }}
+                  />
+                </IconButton>
+
+                <Menu
+                  anchorEl={notificationAnchorEl}
+                  open={open}
+                  onClose={handleNotificationClose}
+                  PaperProps={{
+                    sx: {
+                      width: 250,
+                      maxWidth: '90%',
+                      minHeight:'80vh'
+                    },
+                  }}
+                >
+<Typography sx={{fontSize:'0.9rem', fontWeight:'800', paddingLeft:'1.5rem', marginBottom:'5px'}}>Notifications</Typography>
+{
+  notifications?.map((notification, index) => (
+
+                      <>
+
+
+<Box sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
+<Typography sx={{fontSize:'0.8rem', fontWeight:600, color:theme.palette.primary.main}}>
+{notification?.title}
+
+</Typography>
+<Typography sx={{fontSize:'0.6rem', }}>
+{notification?.body}
+
+</Typography>
+
+<Divider/>
+
+
+
+</Box>
+
+
+                      </>
+
+
+
+
+                      ))
+}
+
+                </Menu>
+
+
+
+
+
                 <Box>
                   <FormControl sx={{ padding: 0 }}>
                     <Select
