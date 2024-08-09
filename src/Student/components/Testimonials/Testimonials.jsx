@@ -287,7 +287,9 @@ const Testimonials = () => {
               </Typography>
 
               <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
-                <input type="file"  onChange={handleVideoChange}/>
+                <input type="file"  onChange={handleVideoChange}
+                
+                />
               </Box>
 
               <br />

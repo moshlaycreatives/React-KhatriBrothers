@@ -54,9 +54,10 @@ function Student_testimonials() {
   <div className="slider-container">
       <Slider  {...settings}>
         {publicTestimonial.map((row)=>(
-           <div>
+           <div key={row._id}>
             {/* <TY></TY> */}
            <img 
+           width='300rem'
            src={`${base}${row.video.replace(/ /g, "%20")}`} 
            alt="Testimonial 1" />
          </div>

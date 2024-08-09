@@ -30,6 +30,9 @@ import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 import BhajjanCoursesMain from "./Pages/OtherCourses/BhajjanCourse/BhajjanCoursesMain";
 import InstructorMain from "./Instructor/InstructorMain";
+import TablaCoursesMain from "./Pages/OtherCourses/Tablaourse/TablaCoursesMain";
+import GhazalCoursesMain from "./Pages/OtherCourses/GhazalCourse/GhazalCoursesMain";
+import IntermediateCoursesMain from "./Pages/OtherCourses/IntermediateCourse/IntermediateCoursesMain";
 
 
 export default function Router() {
@@ -85,6 +88,19 @@ export default function Router() {
     {
       path: "/bhajjan-course",
       element: <BhajjanCoursesMain />,
+    },
+    {
+      path: "/intermediate-course",
+      element: <IntermediateCoursesMain />,
+    },
+   
+    {
+      path: "/tabla-course",
+      element: <TablaCoursesMain />,
+    },
+    {
+      path: "/ghazal-course",
+      element: <GhazalCoursesMain />,
     },
 
     {
