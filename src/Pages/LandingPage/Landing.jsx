@@ -13,37 +13,20 @@ const Landing = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    dispatch(getAllCourse()).then(() => {
-      setLoading(false); // Stop the loader when the API call is successful
-    }).catch((err)=>{
-setLoading(false)
-    })
+    dispatch(getAllCourse())
   }, [dispatch]);
 
   return (
     <>
       <Page title="Khatri Brothers">
-        {loading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100vh',
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        ) : (
-          <Home />
-        )}
+      <Home />
+        
       </Page>
     </>
   );

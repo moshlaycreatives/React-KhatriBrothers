@@ -21,12 +21,7 @@ function Home() {
   },[])
 
 
-const navigate = useNavigate()
-const dispatch = useDispatch()
 
-useEffect(() => {
-  dispatch(getAllCourse())
-}, []);
 
 
   return (

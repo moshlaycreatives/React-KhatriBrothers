@@ -73,13 +73,33 @@ const EditBeginnerCourse = ({ courseData }) => {
 
 
   const courseId = courseData._id
+
+
+
   const initialValues = {
     courseName: courseData.title || '',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
     topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
-    price: courseData.price || '',
-    courseDuration: courseData.courseDuration || '',
+
+
+
+
+
+    usaPrice: courseData.usaPrice || '',    // Add prices for each country
+  indianPrice: courseData.indianPrice || '',
+  ukPrice: courseData.ukPrice || '',
+  uaePrice: courseData.uaePrice || '',
+  kenyaPrice: courseData.kenyaPrice || '',
+  ugandaPrice: courseData.ugandaPrice || '',
+  canadaPrice: courseData.canadaPrice || '',
+  australiaPrice: courseData.australiaPrice || '',
+
+
+
+
+
+  courseDuration: courseData.courseDuration || '',
     lectureDuration: courseData.lectureDuration || '',
     courseImage: PictureUrl || null,
   };
@@ -100,8 +120,24 @@ const EditBeginnerCourse = ({ courseData }) => {
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
       topicsCovered: topicss || '',
-      price: courseData.price || '',
-      courseDuration: courseData.courseDuration || '',
+
+
+
+
+      usaPrice: courseData.usaPrice || '',    // Add prices for each country
+  indianPrice: courseData.indianPrice || '',
+  ukPrice: courseData.ukPrice || '',
+  uaePrice: courseData.uaePrice || '',
+  kenyaPrice: courseData.kenyaPrice || '',
+  ugandaPrice: courseData.ugandaPrice || '',
+  canadaPrice: courseData.canadaPrice || '',
+  australiaPrice: courseData.australiaPrice || '',
+
+
+
+
+
+  courseDuration: courseData.courseDuration || '',
       lectureDuration: courseData.lectureDuration || '',
       courseImage: PictureUrl || null,
     });
@@ -152,7 +188,21 @@ const EditBeginnerCourse = ({ courseData }) => {
     formData.append('topics', topics.join(','));
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
-    formData.append('price', formValues.price);
+
+
+
+    formData.append('indianPrice', formValues.indianPrice);
+    formData.append('ukPrice', formValues.ukPrice);
+    formData.append('usaPrice', formValues.usaPrice);
+    formData.append('canadaPrice', formValues.canadaPrice);
+    formData.append('uaePrice', formValues.uaePrice);
+    formData.append('australiaPrice', formValues.australiaPrice);
+    formData.append('kenyaPrice', formValues.kenyaPrice);
+    formData.append('ugandaPrice', formValues.ugandaPrice);
+
+
+
+
     formData.append('courseType', 'beginner');
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
@@ -175,7 +225,7 @@ const EditBeginnerCourse = ({ courseData }) => {
     <Box sx={{ padding: "1rem 3rem" }}>
       <Card sx={cardStyles}>
         <Typography sx={{ fontSize: "1.2rem", fontWeight: 700 }}>
-          Edit Course
+          Edit Beginner Course
         </Typography>
 
         <form onSubmit={handleSubmit}>
@@ -183,7 +233,22 @@ const EditBeginnerCourse = ({ courseData }) => {
             { label: "Course Name", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
             { label: "Prerequisites", name: "prerequisites", type: 'text' },
-            { label: "Price", name: "price", type: 'number' },
+
+
+
+            { label: "Indian Price", name: "indianPrice", type: 'number' },
+            { label: "UK Price", name: "ukPrice", type: 'number' },
+            { label: "USA price", name: "usaPrice", type: 'number' },
+            { label: "Canada Price", name: "canadaPrice", type: 'number' },
+            { label: "UAE Price", name: "uaePrice", type: 'number' },
+            { label: "Australia Price", name: "australiaPrice", type: 'number' },
+            { label: "Kenya Price", name: "kenyaPrice", type: 'number' },
+            { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
+
+
+
+
+
             { label: "Course Duration", name: "courseDuration", type: 'number' },
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (
