@@ -7,6 +7,7 @@ import WhoWeAre from "./WhoWeAre";
 import CounterCards from "./CounterCards";
 import Student_testimonials from "../LandingPage/home/student_testimonials/Student_testimonials";
 import Our_mission from "../LandingPage/home/our_mission/Our_mission";
+import Hero_card from "../LandingPage/home/hero-card/Hero_card";
 const AboutUs = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -16,8 +17,13 @@ const AboutUs = () => {
 
 <AboutSection1/>
 <WhoWeAre/>
-<CounterCards/>
-<Student_testimonials/>
+{/* <CounterCards/> */}
+<Box sx={{
+  marginTop:'7rem', marginBottom:'-3rem'
+}}>
+<Hero_card />
+</Box>
+<Student_testimonials />
 <Our_mission/>
 
 

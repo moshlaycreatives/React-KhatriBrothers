@@ -393,3 +393,15 @@ export const createClass = (formValues) => async (dispatch) => {
     throw err;
   }
 };
+
+// get counter card data =======================================
+
+export const getCounterCardData = () => async (dispatch) => {
+  try {
+    const res = await api.get("/homepageReporting");
+
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
