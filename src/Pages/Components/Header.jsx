@@ -71,7 +71,10 @@ console.log(auth, 'auth')
     currentPath === "/success" ||
     currentPath === "/cancel" ||
     currentPath === "/participant-registered"||
-    currentPath === "/student-dashboard";
+    currentPath === "/student-dashboard"||
+    currentPath === "/instructor-dashboard";
+
+
 
 
   if (isHidden) {

@@ -38,8 +38,9 @@ const authReducer = (state = initialState, action) => {
       };
     }
 
-    case "SUCCESS_LOGOUT": {
+    case "LOGOUT_SUCCESS": {
       localStorage.removeItem("token");
+      console.log("Logout successful, token removed from localStorage and Redux store");
       return {
         token: null,
         isAuthenticated: false,
@@ -47,6 +48,7 @@ const authReducer = (state = initialState, action) => {
         user: null,
       };
     }
+
     case "VERIFY_OTP": {
       localStorage.setItem("token", action.payload.data.token);
       // console.log(action.payload);

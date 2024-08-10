@@ -15,6 +15,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { getAllUsers } from "../../../store/actions/authActions";
+import { getAssignedStudents } from "../../../store/actions/courseActions";
 
 const MessageMain = () => {
   const dispatch = useDispatch();
@@ -29,12 +30,14 @@ const MessageMain = () => {
     []
   );
 
+  const InstructorId = useSelector((state)=>state?.auth?.user?._id)
 
 
     const [allUsers, setAllUsers] = useState([]);
 
+    console.log(allUsers, 'message inst user s')
   useEffect(() => {
-    dispatch(getAllUsers())
+    dispatch(getAssignedStudents(InstructorId))
       .then((users) => {
         setAllUsers(users.data.data);
       })
@@ -45,6 +48,7 @@ const MessageMain = () => {
 
   const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
 
+  console.log(filteredUsers, 'ok g')
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
       console.log(msgs);
@@ -127,29 +131,29 @@ console.log(msgsData, 'ffff')
         }}
       >
         <Box>
-          {filteredUsers.map((val) => (
+          {allUsers.map((val) => (
             <Box
-              key={val._id}
-              onClick={() => handleSelectChat(val._id)}
+              key={val.studentId._id}
+              onClick={() => handleSelectChat(val.studentId._id)}
               sx={{
                 cursor: "pointer",
                 padding: "8px",
                 "&:hover": { backgroundColor: theme.palette.primary.main, color:'white' },
                 backgroundColor:
-                  receiverId === val._id ? "transparent" : "transparent",
+                  receiverId === val.studentId._id ? "transparent" : "transparent",
               }}
             >
               <Box sx={{display:'flex', alignItems:'center'}}>
-                <Avatar/>
+                {/* <Avatar/> */}
                 <Box sx={{marginLeft:'0.5rem'}}>
                   <Typography
                     sx={{
-                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val._id ? "bold" : "normal",
+                      color: receiverId === val.studentId._id ? theme.palette.primary.main : "inherit",
+                      fontWeight: receiverId === val.studentId._id ? "bold" : "normal",
                       fontSize:'0.9rem'
                     }}
                   >
-                    {val.firstName}
+                    {val.studentId.firstName}
                   </Typography>
                   <Typography
                     sx={{
@@ -255,13 +259,13 @@ console.log(msgsData, 'ffff')
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton>
-                    <AttachFileIcon />
-                  </IconButton>
-                ),
-              }}
+              // InputProps={{
+              //   endAdornment: (
+              //     <IconButton>
+              //       <AttachFileIcon />
+              //     </IconButton>
+              //   ),
+              // }}
             />
             <IconButton color="primary" onClick={handleSend}>
               <SendIcon />

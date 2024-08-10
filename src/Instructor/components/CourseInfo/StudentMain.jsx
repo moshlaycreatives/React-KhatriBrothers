@@ -54,7 +54,7 @@ const StudentMain = () => {
   const [totalPages, setTotalPages] = useState(1); // State for total pages
   const [loading, setLoading] = useState(true); // State for loading status
   const dispatch = useDispatch();
-  
+
   const InstructorId = useSelector((state)=>state?.auth?.user?._id)
 
   useEffect(() => {
@@ -229,7 +229,13 @@ const StudentMain = () => {
                               {row.studentId.country}
                             </TableCell>
                             <TableCell>
-                              <IconButton onClick={(events) => handleMenuClick(events, row._id)} sx={{color:theme.palette.primary.main}}>
+                              <IconButton
+
+                              // onClick={(events) => handleMenuClick(events, row._id)}
+
+onClick={handleEditClick}
+
+                               sx={{color:theme.palette.primary.main}}>
                                 {/* <MoreVertIcon /> */}
                                 <FaEye />
                               </IconButton>

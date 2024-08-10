@@ -209,7 +209,7 @@ const GroupMain = () => {
                       width={"100%"}
                     >
                        <TableHead backgroundColor={'red'}  >
-                    <TableRow sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', width:'137%'  }}>
+                    <TableRow sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', width:'100%'  }}>
                     <TableCell sx={{ justifyContent: 'start',  }}>Group name</TableCell>
                    <TableCell sx={{ display:'flex', justifyContent: 'end',  }}>Action</TableCell>
                     </TableRow>

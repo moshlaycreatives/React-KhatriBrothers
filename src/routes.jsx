@@ -43,6 +43,19 @@ export default function Router() {
 
 
   let element = useRoutes([
+
+
+    {
+
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [{ path: "/admin-dashboard", element: <AdminMain /> }],
+    },
+
+    {
+
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [{ path: "/student-dashboard", element: <StudentMain /> }],
+    },
     {
       path: "/",
       element: <Landing />,
@@ -93,7 +106,7 @@ export default function Router() {
       path: "/intermediate-course",
       element: <IntermediateCoursesMain />,
     },
-   
+
     {
       path: "/tabla-course",
       element: <TablaCoursesMain />,
