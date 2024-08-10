@@ -26,6 +26,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { CgFileDocument } from "react-icons/cg";
 import { PiVideo } from "react-icons/pi";
 import { useNavigate } from 'react-router';
+import LectureInstructureMain from './components/LectureInstructure/LectureInstructureMain';
 
 
 
@@ -355,7 +356,7 @@ navigate('/sign-in')
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Groups" && <Testimonials />}
             {selectedItem === "Classes" && <ClassesMain />}
-            {selectedItem === "Lectures" && <TermsConditionsMain />}
+            {selectedItem === "Lectures" && <LectureInstructureMain/>}
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}
           </Box>

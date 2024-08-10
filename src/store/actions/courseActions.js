@@ -375,6 +375,19 @@ export const getAllGroups = () => async (dispatch) => {
 
 
 
+export const getInstructorClass = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllClassDetailsInstructor`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
 export const deleteGroupMember = (groupid, studentIndex) => async (dispatch) => {
   try {
     const res = await api.patch(`deleteGroupMember/${groupid}`, studentIndex);
@@ -387,6 +400,17 @@ export const deleteGroupMember = (groupid, studentIndex) => async (dispatch) => 
 export const createClass = (formValues) => async (dispatch) => {
   try {
     const res = await api.post(`/createClass`, formValues);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const createLectureContent = (data) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/uploadContent`, data);
 
     return res;
   } catch (err) {
