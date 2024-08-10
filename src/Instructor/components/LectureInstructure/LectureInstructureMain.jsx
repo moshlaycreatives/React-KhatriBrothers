@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import AddClass from './AddClass';
 import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { getInstructorClass } from '../../../../store/actions/courseActions';
+import AddClass from '../Classes/components/AddClass';
+import { getInstructorClass } from '../../../store/actions/courseActions';
+import { FaEye, FaRegEdit } from 'react-icons/fa';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import AddLecture from './AddLecture';
 
-const ClassesMain = () => {
+const LectureInstructureMain = () => {
   const theme = useTheme();
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [classData, setClassData] = useState([]);
@@ -74,7 +77,7 @@ const ClassesMain = () => {
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
             &lt; Back to Courses
           </Button>
-          <AddClass />
+          <AddLecture />
         </>
       ) : (
         <>
@@ -86,10 +89,10 @@ const ClassesMain = () => {
                 fontSize: '2rem',
               }}
             >
-              All Classes
+              All Lectures
             </Typography>
             <Button variant='outlined' onClick={handleAddCourseClick}>
-              + Add Class
+              + Add Lecture
             </Button>
           </Box>
           <br />
@@ -104,9 +107,8 @@ const ClassesMain = () => {
                   <TableRow>
                     <TableCell>Course Name</TableCell>
                     <TableCell>Group/Student</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time</TableCell>
-                    <TableCell>Lecture</TableCell>
+
+                    <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -127,20 +129,23 @@ const ClassesMain = () => {
                         <TableCell sx={{ color: 'grey' }}>
                           {row.courseType === 'group' ? row.group.name : `${row.studentId.firstName} ${row.studentId.lastName}`}
                         </TableCell>
-                        <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
-                        <TableCell sx={{ color: 'grey' }}>{formattedStartTime} - {formattedEndTime}</TableCell>
 
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ borderRadius: '0px', textTransform: 'none' }}
-                            onClick={() => joinable && handleRedirect(row.zoomLink)}
-                            disabled={!joinable}
-                          >
-                            Join
-                          </Button>
-                        </TableCell>
+
+
+
+                        <TableCell sx={{ }}>
+
+                  <FaRegEdit style={{ fontSize: '1.5rem', cursor: 'pointer',color:'green', marginRight:'.5rem' }} />
+                  <RiDeleteBin6Line style={{ fontSize: '1.5rem', cursor: 'pointer', color:'red' }}/>
+                </TableCell>
+
+
+
+
+
+
+
+
                       </TableRow>
                     );
                   })}
@@ -154,4 +159,4 @@ const ClassesMain = () => {
   );
 }
 
-export default ClassesMain;
+export default LectureInstructureMain;

@@ -375,6 +375,19 @@ export const getAllGroups = () => async (dispatch) => {
 
 
 
+export const getInstructorClass = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllClassDetailsInstructor`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
 export const deleteGroupMember = (groupid, studentIndex) => async (dispatch) => {
   try {
     const res = await api.patch(`deleteGroupMember/${groupid}`, studentIndex);
@@ -401,6 +414,15 @@ export const getCounterCardData = () => async (dispatch) => {
     const res = await api.get("/homepageReporting");
 
     return res.data;
+  }catch (err) {
+    throw err;
+  }};
+
+export const createLectureContent = (data) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/uploadContent`, data);
+
+    return res;
   } catch (err) {
     throw err;
   }

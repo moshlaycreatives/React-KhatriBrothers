@@ -28,6 +28,7 @@ import { PiVideo } from "react-icons/pi";
 import { useNavigate } from 'react-router';
 import { PiStudent } from "react-icons/pi";
 import { FaLayerGroup } from "react-icons/fa";
+import LectureInstructureMain from './components/LectureInstructure/LectureInstructureMain';
 
 
 
@@ -357,7 +358,7 @@ navigate('/sign-in')
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Groups" && <Testimonials />}
             {selectedItem === "Classes" && <ClassesMain />}
-            {selectedItem === "Lectures" && <TermsConditionsMain />}
+            {selectedItem === "Lectures" && <LectureInstructureMain/>}
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}
           </Box>
