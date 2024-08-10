@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router'
 function Beginner_course() {
  const theme = useTheme()
 
- const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
+ const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
 
 
 

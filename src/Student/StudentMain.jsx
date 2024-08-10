@@ -16,21 +16,29 @@ import ShowProfileData from './components/ManageProfile/ShowProfileData';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { getNotification } from '../store/actions/courseActions';
+import { BiMessageAltDetail } from "react-icons/bi";import { TbMessage2Cog } from "react-icons/tb";
+import { IoSettingsOutline } from "react-icons/io5";
+import { IoMdContacts } from "react-icons/io";
+import { MdLogout } from "react-icons/md";
+import { SiGoogleclassroom } from "react-icons/si";
+import { RxDashboard } from "react-icons/rx";
+import { CgFileDocument } from "react-icons/cg";import { PiVideo } from "react-icons/pi";
+
 
 const drawerWidth = 240;
 
 const listData = [
-  { title: 'Dashboard', icon: <WorkIcon /> },
-  { title: 'Course Info', icon: <ArticleIcon /> },
-  { title: 'Message', icon: <AccountCircleIcon /> },
-  { title: 'Testimonial', icon: <AccountCircleIcon /> },
-  { title: 'Terms & Conditions', icon: <AccountCircleIcon /> },
-  { title: 'Settings', icon: <AccountCircleIcon /> },
-  { title: 'Logout', icon: <AccountCircleIcon /> },
+  { title: 'Dashboard', icon: <RxDashboard /> },
+  { title: 'Course Info', icon: <PiVideo /> },
+  { title: 'Message', icon: <BiMessageAltDetail /> },
+  { title: 'Testimonial', icon: <TbMessage2Cog />},
+  { title: 'Terms & Conditions', icon: <CgFileDocument /> },
+  { title: 'Settings', icon: <IoSettingsOutline /> },
+  { title: 'Logout', icon: <MdLogout /> },
 ];
 
 const StudentMain = () => {
-  const base = 'https://wv9pfwh9-4545.inc1.devtunnels.ms'
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -246,19 +254,21 @@ const profilePictureUrl = base + userData.profilePicture;
           <Box sx={{ overflow: 'auto', backgroundColor: theme.palette.primary.main, height: '100vh' }}>
             <List>
               {listData.map((val, ind) => (
-                <ListItem
+               <>
+               
+               <ListItem
                   key={ind}
                   disablePadding
                   sx={{
                     backgroundColor: selectedItem === val.title ? 'white' : 'transparent',
-                    mt: 2,
+                    py:1,
                     borderRadius: '0px',
                     color: selectedItem === val.title ? theme.palette.primary.main : '#fff',
                   }}
                   onClick={() => handleItemClick(val.title)}
                 >
                   <ListItemButton>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
+                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff', fontSize:'1.5rem' }}>
                       {val.icon}
                     </ListItemIcon>
                     <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
@@ -266,8 +276,11 @@ const profilePictureUrl = base + userData.profilePicture;
                     </ListItemIcon>
 
                   </ListItemButton>
-                </ListItem>
+                </ListItem >
+                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
+               </>
               ))}
+
             </List>
             <Divider />
           </Box>

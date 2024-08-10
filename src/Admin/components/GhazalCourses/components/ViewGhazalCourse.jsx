@@ -5,7 +5,7 @@ import { getSingleCourse } from "../../../../store/actions/courseActions";
 import EditBeginnerCourse from "./EditGhazalCourse";
 
 const ViewGhazalCourse = ({ courseId }) => {
-  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});

@@ -32,7 +32,7 @@ const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   const { id } = useParams();
   const location = useLocation();
@@ -658,7 +658,7 @@ export default AdvanceCoursePriceHeroSection;
 // const AdvanceCoursePriceHeroSection = () => {
 //   const theme = useTheme();
 //   const navigate = useNavigate();
-//   const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+//   const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 //   const { id } = useParams();
 //   const location = useLocation();
 //   const [open, setOpen] = useState(false);

@@ -26,7 +26,7 @@
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"),
+//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
 //     []
 //   );
 
@@ -320,7 +320,7 @@ const MessageMain = () => {
   const [showConversations, setShowConversations] = useState(false); // Manage view state
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("https://wv9pfwh9-4545.inc1.devtunnels.ms"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 

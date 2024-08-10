@@ -52,18 +52,30 @@ import TablaCoursesMain from "./components/TablaCourses/TablaCoursesMain";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import ContactDetails from "./components/ContactDetails/ContactDetails";
 import { getNotification } from "../store/actions/courseActions";
+import { RxDashboard } from "react-icons/rx";
+import { BiMessageAltDetail } from "react-icons/bi";import { TbMessage2Cog } from "react-icons/tb";
+import { IoSettingsOutline } from "react-icons/io5";
+import { IoMdContacts } from "react-icons/io";
+import { MdLogout } from "react-icons/md";
+import { CiMicrophoneOn } from "react-icons/ci";
+import { CgFileDocument } from "react-icons/cg";
+import { PiVideo } from "react-icons/pi";
+
+
+
+
+
 
 const drawerWidth = 240;
 
 const listData = [
-  { title: "Dashboard", icon: <WorkIcon /> },
+  { title: "Dashboard", icon: <RxDashboard /> },
   {
-    title: "Hindustani Vocal Courses",
-    icon: <ArticleIcon />,
+    title: "Hindustani Vocal Courses", icon: <CiMicrophoneOn />,
     submenu: [
-      { title: "Beginner Course", icon: <ArticleIcon /> },
-      { title: "Intermediate Course", icon: <ArticleIcon /> },
-      { title: "Advance Course", icon: <ArticleIcon /> },
+      { title: "Beginner Course", icon: <BiMessageAltDetail /> },
+      { title: "Intermediate Course", icon: <BiMessageAltDetail /> },
+      { title: "Advance Course", icon: <BiMessageAltDetail /> },
     ],
   },
 
@@ -71,19 +83,19 @@ const listData = [
   { title: "Gazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
 
-  { title: "Students", icon: <ArticleIcon /> },
-  { title: "Instructors", icon: <ArticleIcon /> },
-  { title: "Message", icon: <AccountCircleIcon /> },
-  { title: "Testimonial", icon: <AccountCircleIcon /> },
-  { title: "Contact Details", icon: <AccountCircleIcon /> },
+  { title: "Students", icon: <BiMessageAltDetail /> },
+  { title: "Instructors", icon: <BiMessageAltDetail /> },
+  { title: "Message", icon: <BiMessageAltDetail /> },
+  { title: "Testimonial", icon: <TbMessage2Cog /> },
+  { title: "Contact Details", icon: <IoMdContacts />  },
 
-  { title: "Terms & Conditions", icon: <AccountCircleIcon /> },
-  { title: "Settings", icon: <AccountCircleIcon /> },
-  { title: "Logout", icon: <AccountCircleIcon /> },
+  { title: "Terms & Conditions", icon: <CgFileDocument /> },
+  { title: "Settings", icon: <IoSettingsOutline /> },
+  { title: "Logout", icon: <MdLogout />  },
 ];
 
 const AdminMain = () => {
-  const base = "https://wv9pfwh9-4545.inc1.devtunnels.ms";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -102,18 +114,26 @@ const dispatch = useDispatch()
       setLogoutModalOpen(true);
     } else if (hasSubMenu) {
       setOpenSubMenu(openSubMenu === title ? null : title); // Toggle submenu visibility
+  
+      // On mobile, do not close the drawer
+      if (!isMobile) {
+        setDrawerOpen(false); // Close the drawer on larger screens
+      }
     } else {
       setSelectedItem(title);
       setOpenSubMenu(null); // Close any open submenu
-    }
-    if (isMobile) {
-      setDrawerOpen(false);
+  
+      // On mobile, close the drawer
+      if (isMobile) {
+        setDrawerOpen(false);
+      }
     }
   };
+  
 
   const handleSubItemClick = (parentTitle, subTitle) => {
     setSelectedItem(`${parentTitle} - ${subTitle}`);
-    setOpenSubMenu(null); // Close submenu
+    // setOpenSubMenu(null); // Close submenu
     if (isMobile) {
       setDrawerOpen(false);
     }
@@ -341,13 +361,15 @@ const dispatch = useDispatch()
             <List>
               {listData.map((val, ind) => (
                 <React.Fragment key={ind}>
+
+                  <>
                   <ListItem
                     disablePadding
                     sx={{
                       backgroundColor: selectedItem.includes(val.title)
                         ? "white"
                         : "transparent",
-
+                        py:1,
                       borderRadius: "0px",
                       color: selectedItem.includes(val.title)
                         ? theme.palette.primary.main
@@ -361,6 +383,7 @@ const dispatch = useDispatch()
                           color: selectedItem.includes(val.title)
                             ? theme.palette.primary.main
                             : "#fff",
+                            fontSize:'1.5rem'
                         }}
                       >
                         {val.icon}
@@ -375,6 +398,10 @@ const dispatch = useDispatch()
                       />
                     </ListItemButton>
                   </ListItem>
+                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
+                  
+                  </>
+
                   {val.submenu && openSubMenu === val.title && (
                     <List sx={{ pl: 4 }}>
                       {val.submenu.map((subItem, subIndex) => (
@@ -410,9 +437,12 @@ const dispatch = useDispatch()
                             />
                           </ListItemButton>
                         </ListItem>
+                        
                       ))}
                     </List>
                   )}
+                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
+
                 </React.Fragment>
               ))}
             </List>
