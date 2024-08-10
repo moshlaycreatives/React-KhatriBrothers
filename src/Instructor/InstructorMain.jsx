@@ -13,7 +13,7 @@ import TermsConditionsMain from './components/TermsConditions/TermsConditionsMai
 import SettingsMain from './components/Settings/SettingsMain';
 import { userLogout } from '../store/actions/authActions';
 import ShowProfileData from './components/ManageProfile/ShowProfileData';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import StudentMain from './components/CourseInfo/StudentMain';
 import ClassesMain from './components/Classes/components/ClassesMain';
 import { RxDashboard } from "react-icons/rx";
@@ -25,6 +25,7 @@ import { MdLogout } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { CgFileDocument } from "react-icons/cg";
 import { PiVideo } from "react-icons/pi";
+import { useNavigate } from 'react-router';
 
 
 
@@ -46,21 +47,20 @@ const InstructorMain = () => {
 
   const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-const userData = useSelector((state)=>state?.auth?.user)
-console.log(userData, 'data')
-
-
-// const profilePictureUrl = base + userData.profilePicture;
-
+  const userData = useSelector((state) => state?.auth?.user);
+  console.log(userData, "data");
+const dispatch = useDispatch()
+const navigate = useNavigate()
+  // const profilePictureUrl = base + userData.profilePicture;
 
   const handleItemClick = (title) => {
-    if (title === 'Logout') {
+    if (title === "Logout") {
       setLogoutModalOpen(true);
-    } else if (title === 'ManageProfile') {
+    } else if (title === "ManageProfile") {
       setSelectedItem(title);
     } else {
       setSelectedItem(title);
@@ -72,7 +72,8 @@ console.log(userData, 'data')
 
   const handleLogout = () => {
     // Replace this with actual dispatch if you use redux
-    // dispatch(userLogout());
+    dispatch(userLogout());
+navigate('/sign-in')
     setLogoutModalOpen(false);
   };
 
@@ -84,18 +85,16 @@ console.log(userData, 'data')
     setDrawerOpen(!drawerOpen);
   };
 
-
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
     // Fetch notifications when the dropdown is opened
-    dispatch(getNotification())
-      .then((response) => {
-        console.log(response.data.data, 'haha')
-        setNotifications(response.data.data); // Assuming the API returns data in this format
-      });
+    dispatch(getNotification()).then((response) => {
+      console.log(response.data.data, "haha");
+      setNotifications(response.data.data); // Assuming the API returns data in this format
+    });
   };
 
   const handleNotificationClose = () => {
@@ -104,42 +103,60 @@ console.log(userData, 'data')
 
   const open = Boolean(notificationAnchorEl);
 
-
   return (
     <>
       <Helmet>
         <title>Instructor_Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <Box sx={{ display: isMobile ? 'block':'flex' }}>
+      <Box sx={{ display: isMobile ? "block" : "flex" }}>
         {/* <CssBaseline /> */}
-        <AppBar position="fixed" sx={{ backgroundColor: 'white', padding: '0.3rem 0rem', zIndex: (theme) => theme.zIndex.drawer + 1, }}>
+        <AppBar
+          position="fixed"
+          sx={{
+            backgroundColor: "white",
+            padding: "0.3rem 0rem",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+        >
           <Toolbar>
             <IconButton
               color="inherit"
               edge="start"
-              sx={{ mr: 2, display: isMobile ? 'block' : 'none', color:theme.palette.primary.main }}
+              sx={{
+                mr: 2,
+                display: isMobile ? "block" : "none",
+                color: theme.palette.primary.main,
+              }}
               onClick={handleDrawerToggle}
             >
               <MenuIcon />
             </IconButton>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-              <Typography variant="h6" noWrap component="div" sx={{ color: theme.palette.primary.main, fontSize: '2rem' }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ color: theme.palette.primary.main, fontSize: "2rem" }}
+              >
                 Logo
               </Typography>
 
-
-
-
-
-
-
-              <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-
-              <IconButton
-                  color="inherit"
-                  onClick={handleNotificationClick}
-                >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <IconButton color="inherit" onClick={handleNotificationClick}>
                   <IoIosNotificationsOutline
                     style={{
                       color: theme.palette.primary.main,
@@ -155,48 +172,69 @@ console.log(userData, 'data')
                   PaperProps={{
                     sx: {
                       width: 250,
-                      maxWidth: '90%',
-                      minHeight:'80vh'
+                      maxWidth: "90%",
+                      minHeight: "80vh",
                     },
                   }}
                 >
-<Typography sx={{fontSize:'0.9rem', fontWeight:'800', paddingLeft:'1.5rem', marginBottom:'5px'}}>Notifications</Typography>
-{
-  notifications?.map((notification, index) => (
+                  <Typography
+                    sx={{
+                      fontSize: "0.9rem",
+                      fontWeight: "800",
+                      paddingLeft: "1.5rem",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Notifications
+                  </Typography>
+                  {/* {notifications?.map((notification, index) => (
+                    <>
+                      <Box
+                        sx={{
+                          padding: "0.5rem 2rem",
+                          backgroundColor: notification.isRead
+                            ? "transparent"
+                            : "#d7d7d7",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: "0.8rem",
+                            fontWeight: 600,
+                            color: theme.palette.primary.main,
+                          }}
+                        >
+                          {notification?.title}
+                        </Typography>
+                        <Typography sx={{ fontSize: "0.6rem" }}>
+                          {notification?.body}
+                        </Typography>
 
-                      <>
+                        <Divider />
+                      </Box>
+                    </>
+                  ))} */}
+                  {
+  notifications && notifications.length > 0 ? (
+    notifications.map((notification, index) => (
+      <Box key={index} sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
+        <Typography sx={{fontSize:'0.8rem', fontWeight:600, color: theme.palette.primary.main}}>
+          {notification?.title}
+        </Typography>
+        <Typography sx={{fontSize:'0.6rem'}}>
+          {notification?.body}
+        </Typography>
+        <Divider />
+      </Box>
+    ))
+  ) : (
+    <Typography sx={{fontSize:'0.8rem', padding:'0.5rem 2rem', color:'gray'}}>
+      No notifications available right now
+    </Typography>
+  )}
 
-
-<Box sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
-<Typography sx={{fontSize:'0.8rem', fontWeight:600, color:theme.palette.primary.main}}>
-{notification?.title}
-
-</Typography>
-<Typography sx={{fontSize:'0.6rem', }}>
-{notification?.body}
-
-</Typography>
-
-<Divider/>
-
-
-
-</Box>
-
-
-                      </>
-
-
-
-
-                      ))
-}
 
                 </Menu>
-
-
-
-
 
                 <Box>
                   <FormControl sx={{ padding: 0 }}>
@@ -216,18 +254,25 @@ console.log(userData, 'data')
                       renderValue={(selected) => (
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Avatar
-                          // src={profilePictureUrl}
+                            // src={profilePictureUrl}
                             alt=""
-                            sx={{ height: "2rem", width: "2rem", marginRight: "8px" }}
+                            sx={{
+                              height: "2rem",
+                              width: "2rem",
+                              marginRight: "8px",
+                            }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {/* {userData.firstName} */} student
+                            {userData?.firstName}
                           </Typography>
                         </Box>
                       )}
                       onChange={(event) => handleItemClick(event.target.value)}
                     >
-                      <MenuItem sx={{ fontSize: "0.8rem" }} value="ManageProfile">
+                      <MenuItem
+                        sx={{ fontSize: "0.8rem" }}
+                        value="ManageProfile"
+                      >
                         Manage Profile
                       </MenuItem>
 
@@ -243,17 +288,26 @@ console.log(userData, 'data')
         </AppBar>
 
         <Drawer
-          variant={isMobile ? 'temporary' : 'permanent'}
+          variant={isMobile ? "temporary" : "permanent"}
           open={!isMobile ? true : drawerOpen}
           onClose={() => setDrawerOpen(false)}
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
           }}
         >
           <Toolbar />
-          <Box sx={{ overflow: 'auto', backgroundColor: theme.palette.primary.main, height: '100vh' }}>
+          <Box
+            sx={{
+              overflow: "auto",
+              backgroundColor: theme.palette.primary.main,
+              height: "100vh",
+            }}
+          >
             <List>
               {listData.map((val, ind) => (
                 <>
@@ -272,10 +326,16 @@ console.log(userData, 'data')
                     <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff', fontSize:'1.5rem' }}>
                       {val.icon}
                     </ListItemIcon>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff' }}>
+                    <ListItemIcon
+                      sx={{
+                        color:
+                          selectedItem === val.title
+                            ? theme.palette.primary.main
+                            : "#fff",
+                      }}
+                    >
                       {val.title}
                     </ListItemIcon>
-
                   </ListItemButton>
                 </ListItem>
                  <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
@@ -290,30 +350,44 @@ console.log(userData, 'data')
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Box>
-            {selectedItem === 'Dashboard' && <Dashboard />}
-            {selectedItem === 'Students' && <StudentMain />}
-            {selectedItem === 'Message' && <MessagesMain />}
-            {selectedItem === 'Groups' && <Testimonials />}
-            {selectedItem === 'Classes' && <ClassesMain />}
-            {selectedItem === 'Lectures' && <TermsConditionsMain />}
-            {selectedItem === 'Settings' && <SettingsMain />}
-            {selectedItem === 'ManageProfile' && <ShowProfileData />}
+            {selectedItem === "Dashboard" && <Dashboard />}
+            {selectedItem === "Students" && <StudentMain />}
+            {selectedItem === "Message" && <MessagesMain />}
+            {selectedItem === "Groups" && <Testimonials />}
+            {selectedItem === "Classes" && <ClassesMain />}
+            {selectedItem === "Lectures" && <TermsConditionsMain />}
+            {selectedItem === "Settings" && <SettingsMain />}
+            {selectedItem === "ManageProfile" && <ShowProfileData />}
           </Box>
         </Box>
       </Box>
 
-      <Dialog open={logoutModalOpen} onClose={handleCloseModal} sx={{ borderRadius: '0 !important' }}>
-        <DialogContent sx={{ borderRadius: '0 !important' }}>
-          <DialogContentText sx={{ color: 'black', paddingRight: isMobile ? '0rem' : '10rem' }}>
+      <Dialog
+        open={logoutModalOpen}
+        onClose={handleCloseModal}
+        sx={{ borderRadius: "0 !important" }}
+      >
+        <DialogContent sx={{ borderRadius: "0 !important" }}>
+          <DialogContentText
+            sx={{ color: "black", paddingRight: isMobile ? "0rem" : "10rem" }}
+          >
             Are you sure you want to logout?
           </DialogContentText>
         </DialogContent>
         <br />
         <DialogActions>
-          <Button onClick={handleLogout} sx={{ fontWeight: '400' }} color="primary" autoFocus>
+          <Button
+            onClick={handleLogout}
+            sx={{ fontWeight: "400" }}
+            color="primary"
+            autoFocus
+          >
             Logout
           </Button>
-          <Button onClick={handleCloseModal} sx={{ color: 'grey', fontWeight: '400' }}>
+          <Button
+            onClick={handleCloseModal}
+            sx={{ color: "grey", fontWeight: "400" }}
+          >
             Cancel
           </Button>
         </DialogActions>

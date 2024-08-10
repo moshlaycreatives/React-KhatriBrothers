@@ -46,6 +46,19 @@ export const getAssignedStudents = (id) => async (dispatch) => {
 
 
 
+
+export const getAssignedCourses = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`getAssignedCoursesByInstructor/${id}`);
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
 export const getBeginnerCourse = () => async (dispatch) => {
   try {
     const res = await api.get("/getAllCourses",);

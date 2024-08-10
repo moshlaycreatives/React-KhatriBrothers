@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 function Advance_course() {
 
   const course = useSelector((state)=>state?.courses?.allCourses)
-  
+
   const AdvanceCourses = course?.filter(val => val.courseType === 'advanced')
 
   console.log(course, 'all course on advance code ')

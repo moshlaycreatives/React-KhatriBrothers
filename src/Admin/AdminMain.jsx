@@ -65,6 +65,7 @@ import { PiVideo } from "react-icons/pi";
 
 
 
+import { useNavigate } from "react-router";
 
 const drawerWidth = 240;
 
@@ -106,7 +107,8 @@ const AdminMain = () => {
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   console.log(userData, "data");
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const profilePictureUrl = base + userData?.profilePicture;
 
   const handleItemClick = (title, hasSubMenu = false) => {
@@ -114,7 +116,7 @@ const dispatch = useDispatch()
       setLogoutModalOpen(true);
     } else if (hasSubMenu) {
       setOpenSubMenu(openSubMenu === title ? null : title); // Toggle submenu visibility
-  
+
       // On mobile, do not close the drawer
       if (!isMobile) {
         setDrawerOpen(false); // Close the drawer on larger screens
@@ -122,14 +124,14 @@ const dispatch = useDispatch()
     } else {
       setSelectedItem(title);
       setOpenSubMenu(null); // Close any open submenu
-  
+
       // On mobile, close the drawer
       if (isMobile) {
         setDrawerOpen(false);
       }
     }
   };
-  
+
 
   const handleSubItemClick = (parentTitle, subTitle) => {
     setSelectedItem(`${parentTitle} - ${subTitle}`);
@@ -141,7 +143,8 @@ const dispatch = useDispatch()
 
   const handleLogout = () => {
     // Replace this with actual dispatch if you use redux
-    // dispatch(userLogout());
+    dispatch(userLogout());
+    navigate("/");
     setLogoutModalOpen(false);
   };
 
@@ -153,29 +156,20 @@ const dispatch = useDispatch()
     setDrawerOpen(!drawerOpen);
   };
 
-
-
-
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
     // Fetch notifications when the dropdown is opened
-    dispatch(getNotification())
-      .then((response) => {
-        console.log(response.data.data, 'haha')
-        setNotifications(response.data.data); // Assuming the API returns data in this format
-      });
+    dispatch(getNotification()).then((response) => {
+      console.log(response.data.data, "haha");
+      setNotifications(response.data.data); // Assuming the API returns data in this format
+    });
   };
 
-
-
- const handleNotificationClose = () => {
+  const handleNotificationClose = () => {
     setNotificationAnchorEl(null);
   };
 
   const open = Boolean(notificationAnchorEl);
-
-
-
 
   return (
     <>
@@ -229,11 +223,7 @@ const dispatch = useDispatch()
                   cursor: "pointer",
                 }}
               >
-
-<IconButton
-                  color="inherit"
-                  onClick={handleNotificationClick}
-                >
+                <IconButton color="inherit" onClick={handleNotificationClick}>
                   <IoIosNotificationsOutline
                     style={{
                       color: theme.palette.primary.main,
@@ -241,7 +231,6 @@ const dispatch = useDispatch()
                     }}
                   />
                 </IconButton>
-
                 <Menu
                   anchorEl={notificationAnchorEl}
                   open={open}
@@ -249,44 +238,41 @@ const dispatch = useDispatch()
                   PaperProps={{
                     sx: {
                       width: 250,
-                      maxWidth: '90%',
-                      minHeight:'80vh'
+                      maxWidth: "90%",
+                      minHeight: "80vh",
                     },
                   }}
                 >
-<Typography sx={{fontSize:'0.9rem', fontWeight:'800', paddingLeft:'1.5rem', marginBottom:'5px'}}>Notifications</Typography>
-{
-  notifications?.map((notification, index) => (
-
-                      <>
-
-
-<Box sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
-<Typography sx={{fontSize:'0.8rem', fontWeight:600, color:theme.palette.primary.main}}>
-{notification?.title}
-
-</Typography>
-<Typography sx={{fontSize:'0.6rem', }}>
-{notification?.body}
-
-</Typography>
-
-<Divider/>
-
-
-
-</Box>
-
-
-                      </>
-
-
-
-
-                      ))
-}
-
-                </Menu>                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: "0.9rem",
+                      fontWeight: "800",
+                      paddingLeft: "1.5rem",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Notifications
+                  </Typography>
+                  {
+  notifications && notifications.length > 0 ? (
+    notifications.map((notification, index) => (
+      <Box key={index} sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
+        <Typography sx={{fontSize:'0.8rem', fontWeight:600, color: theme.palette.primary.main}}>
+          {notification?.title}
+        </Typography>
+        <Typography sx={{fontSize:'0.6rem'}}>
+          {notification?.body}
+        </Typography>
+        <Divider />
+      </Box>
+    ))
+  ) : (
+    <Typography sx={{fontSize:'0.8rem', padding:'0.5rem 2rem', color:'gray'}}>
+      No notifications available right now
+    </Typography>
+  )}
+                </Menu>{" "}
+                <Box>
                   <FormControl sx={{ padding: 0 }}>
                     <Select
                       sx={{
@@ -399,7 +385,7 @@ const dispatch = useDispatch()
                     </ListItemButton>
                   </ListItem>
                  <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
-                  
+
                   </>
 
                   {val.submenu && openSubMenu === val.title && (
@@ -437,7 +423,7 @@ const dispatch = useDispatch()
                             />
                           </ListItemButton>
                         </ListItem>
-                        
+
                       ))}
                     </List>
                   )}

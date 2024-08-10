@@ -63,9 +63,12 @@ if(role === 'admin'){
   navigate('/admin-dashboard')
 }else if(role === 'user'){
   navigate('/')
+}else if(role === 'instructor'){
+  navigate('/instructor-dashboard')
+
+
 }else{
   navigate(from)
-
 }
 
         setFormValues(initialValues);
