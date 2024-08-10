@@ -26,6 +26,8 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { CgFileDocument } from "react-icons/cg";
 import { PiVideo } from "react-icons/pi";
 import { useNavigate } from 'react-router';
+import { PiStudent } from "react-icons/pi";
+import { FaLayerGroup } from "react-icons/fa";
 
 
 
@@ -34,11 +36,11 @@ const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <RxDashboard /> },
-  { title: 'Students', icon: <PiVideo /> },
+  { title: 'Students', icon: <PiStudent /> },
   { title: 'Message', icon: <BiMessageAltDetail /> },
-  { title: 'Groups', icon: <TbMessage2Cog /> },
+  { title: 'Groups', icon: <FaLayerGroup /> },
   { title: 'Classes', icon: <SiGoogleclassroom />  },
-  { title: 'Lectures', icon: < CgFileDocument/> },
+  { title: 'Lectures', icon: < PiVideo/> },
   { title: 'Settings', icon: <IoSettingsOutline /> },
   { title: 'Logout', icon: <MdLogout />  },
 ];

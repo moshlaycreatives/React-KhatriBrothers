@@ -60,6 +60,12 @@ import { MdLogout } from "react-icons/md";
 import { CiMicrophoneOn } from "react-icons/ci";
 import { CgFileDocument } from "react-icons/cg";
 import { PiVideo } from "react-icons/pi";
+import { PiStudent } from "react-icons/pi";
+import { GiTeacher } from "react-icons/gi";
+import { TbMessage2Star } from "react-icons/tb";
+
+
+
 
 
 
@@ -84,10 +90,10 @@ const listData = [
   { title: "Gazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
 
-  { title: "Students", icon: <BiMessageAltDetail /> },
-  { title: "Instructors", icon: <BiMessageAltDetail /> },
+  { title: "Students", icon: <PiStudent /> },
+  { title: "Instructors", icon: <GiTeacher /> },
   { title: "Message", icon: <BiMessageAltDetail /> },
-  { title: "Testimonial", icon: <TbMessage2Cog /> },
+  { title: "Testimonial", icon: <TbMessage2Star /> },
   { title: "Contact Details", icon: <IoMdContacts />  },
 
   { title: "Terms & Conditions", icon: <CgFileDocument /> },

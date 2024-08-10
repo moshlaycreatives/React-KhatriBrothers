@@ -23,15 +23,18 @@ import { MdLogout } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { RxDashboard } from "react-icons/rx";
 import { CgFileDocument } from "react-icons/cg";import { PiVideo } from "react-icons/pi";
+import { GoInfo } from "react-icons/go";
+import { TbMessage2Star } from "react-icons/tb";
+
 
 
 const drawerWidth = 240;
 
 const listData = [
   { title: 'Dashboard', icon: <RxDashboard /> },
-  { title: 'Course Info', icon: <PiVideo /> },
+  { title: 'Course Info', icon: <GoInfo /> },
   { title: 'Message', icon: <BiMessageAltDetail /> },
-  { title: 'Testimonial', icon: <TbMessage2Cog />},
+  { title: 'Testimonial', icon: <TbMessage2Star />},
   { title: 'Terms & Conditions', icon: <CgFileDocument /> },
   { title: 'Settings', icon: <IoSettingsOutline /> },
   { title: 'Logout', icon: <MdLogout /> },
