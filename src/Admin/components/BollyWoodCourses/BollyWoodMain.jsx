@@ -3,12 +3,12 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddAdvanceCourse from './components/AddBhajjanCourse';
-import ViewAdvanceCourse from './components/ViewBhajjanCourse';
+import AddAdvanceCourse from './components/AddBollyWoodCourse';
+import ViewAdvanceCourse from './components/ViewBollyWoodCourse';
 import { useDispatch } from 'react-redux';
 import { getAdvanceCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
 
-const BhajjanCoursesMain = () => {
+const BollyWoodMain = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentRowId, setCurrentRowId] = useState(null);
@@ -28,7 +28,7 @@ const BhajjanCoursesMain = () => {
         const res = await dispatch(getAllCourse());
 
         const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'bhajjan')
+      const filteredCourses = data.filter(course => course.courseType === 'bollywood')
       setCourseData(filteredCourses);
       } catch (err) {
         console.error("Failed to fetch advanced courses:", err);
@@ -108,7 +108,7 @@ const BhajjanCoursesMain = () => {
                 fontSize: '2rem',
               }}
             >
-              Bhajjan Courses
+              Bollywood Courses
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>
@@ -194,4 +194,4 @@ const BhajjanCoursesMain = () => {
   );
 };
 
-export default BhajjanCoursesMain;
+export default BollyWoodMain;

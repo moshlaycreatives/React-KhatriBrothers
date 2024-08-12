@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router';
 import { PiStudent } from "react-icons/pi";
 import { FaLayerGroup } from "react-icons/fa";
 import LectureInstructureMain from './components/LectureInstructure/LectureInstructureMain';
+import { getNotification } from '../store/actions/courseActions';
 
 
 

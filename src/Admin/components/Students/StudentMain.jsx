@@ -205,7 +205,7 @@ const StudentMain = () => {
                             Group
                           </TableCell>
                           <TableCell sx={{ color: 'gray' }}>
-                            {row.courseId.price}
+                          ₹ {row.courseId.indianPrice}
                           </TableCell>
                           <TableCell>
                             <IconButton onClick={(events) => handleMenuClick(events, row._id)}>

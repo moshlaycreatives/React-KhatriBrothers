@@ -30,7 +30,7 @@ const IntermediateCoursesMain = () => {
       const filteredCourses = data.filter(course => course.courseType === 'intermediate')
       setCourseData(filteredCourses);
 
-    
+
       } catch (err) {
         console.error("Failed to fetch advanced courses:", err);
       } finally {
@@ -146,7 +146,9 @@ const IntermediateCoursesMain = () => {
                       </TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.courseDuration} weeks</TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.lectureDuration} hours</TableCell>
-                      <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell>
+                      {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
+                      <TableCell sx={{ color: 'grey' }}>₹ {row.indianPrice}</TableCell>
+
                       <TableCell>
                         <IconButton onClick={(event) => handleMenuClick(event, row._id)}>
                           <MoreVertIcon />

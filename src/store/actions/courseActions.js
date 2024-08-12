@@ -386,6 +386,55 @@ export const getInstructorClass = () => async (dispatch) => {
 };
 
 
+export const getStudentClass = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllClassDetailsStudent`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getPrevClass = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getPreviousClassDetailsStudent`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getStudentEnrolledCourses = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllCoursesByStudent`);
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+export const getStudentTestimonial = () => async (dispatch) => {
+  try {
+    const res = await api.get(`getAllOwnTestimonial`);
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
+
+
 
 
 export const deleteGroupMember = (groupid, studentIndex) => async (dispatch) => {
@@ -427,3 +476,27 @@ export const createLectureContent = (data) => async (dispatch) => {
     throw err;
   }
 };
+
+
+
+export const getAllStudentClassDetails = (courseId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/getAllClassDetailsStudentCourse/${courseId}`);
+
+    return res.data;
+  }catch (err) {
+    throw err;
+  }};
+
+
+
+export const getAllInstructorClassDetails = (courseId) => async (dispatch) => {
+  try {
+    const res = await api.get(`/getCourseDetailsByLecture/${courseId}`);
+
+    return res.data;
+  }catch (err) {
+    throw err;
+  }};
+
+

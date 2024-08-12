@@ -89,7 +89,7 @@ const Testimonials = () => {
   };
 
   useEffect(() => {
-    
+
 
     fetchData();
   }, [dispatch]);
@@ -180,13 +180,13 @@ const Testimonials = () => {
                     <TableCell sx={{ color: "grey" }}>{row.courseId.title}</TableCell>
                     <TableCell sx={{ color: "grey" }}>
                       <Box>
-                        <img 
+                        <img
                          src={`${base}${row.video.replace(/ /g, "%20")}`}
-                        alt="" width={"50px"} />
+                        alt="" width={"50px"} style={{height:'50px'}} />
                       </Box>
                     </TableCell>
                     <TableCell >
-                      
+
                       {row.status ? (
                         <Typography sx={{color:'green'}}>Approved</Typography>
                       ) : (
@@ -201,7 +201,7 @@ const Testimonials = () => {
                         <IoIosArrowDown />
                         </IconButton>
                       </Button>
-                      <Menu 
+                      <Menu
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
                       onClose={handlePendingClose}

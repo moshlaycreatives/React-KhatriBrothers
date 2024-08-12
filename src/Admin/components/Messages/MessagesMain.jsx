@@ -468,7 +468,7 @@ const MessageMain = () => {
                           color: 'grey'
                         }}
                       >
-                        Lorem ipsum dolor sit amet.
+                        Hi
                       </Typography>
                     </Box>
                   </Box>
@@ -558,13 +558,13 @@ const MessageMain = () => {
                   placeholder="Type your message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <IconButton>
-                        <AttachFileIcon />
-                      </IconButton>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   endAdornment: (
+                  //     <IconButton>
+                  //       <AttachFileIcon />
+                  //     </IconButton>
+                  //   ),
+                  // }}
                 />
                 <IconButton color="primary" onClick={handleSend}>
                   <SendIcon />

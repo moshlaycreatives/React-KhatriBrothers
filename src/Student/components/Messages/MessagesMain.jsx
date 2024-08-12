@@ -15,6 +15,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { getAllUsers } from "../../../store/actions/authActions";
+import { getStudentEnrolledCourses } from "../../../store/actions/courseActions";
 
 const MessageMain = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,9 @@ const MessageMain = () => {
     const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllUsers())
+    dispatch(getStudentEnrolledCourses())
       .then((users) => {
+        console.log(users.data.data, 'instructors for messagesssss')
         setAllUsers(users.data.data);
       })
       .catch((error) => {
@@ -127,16 +129,16 @@ console.log(msgsData, 'ffff')
         }}
       >
         <Box>
-          {filteredUsers.map((val) => (
+          {allUsers.map((val) => (
             <Box
-              key={val._id}
-              onClick={() => handleSelectChat(val._id)}
+              key={val.instructorId._id}
+              onClick={() => handleSelectChat(val.instructorId._id)}
               sx={{
                 cursor: "pointer",
                 padding: "8px",
                 "&:hover": { backgroundColor: theme.palette.primary.main, color:'white' },
                 backgroundColor:
-                  receiverId === val._id ? "transparent" : "transparent",
+                  receiverId === val.instructorId._id ? "transparent" : "transparent",
               }}
             >
               <Box sx={{display:'flex', alignItems:'center'}}>
@@ -144,12 +146,12 @@ console.log(msgsData, 'ffff')
                 <Box sx={{marginLeft:'0.5rem'}}>
                   <Typography
                     sx={{
-                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val._id ? "bold" : "normal",
+                      color: receiverId === val.instructorId._id ? theme.palette.primary.main : "inherit",
+                      fontWeight: receiverId === val.instructorId._id ? "bold" : "normal",
                       fontSize:'0.9rem'
                     }}
                   >
-                    {val.firstName}
+                    {val.instructorId.firstName}
                   </Typography>
                   <Typography
                     sx={{
@@ -157,7 +159,7 @@ console.log(msgsData, 'ffff')
                       color:'grey'
                     }}
                   >
-                    Lorem ipsum dolor sit amet.
+                    Hi
                   </Typography>
                 </Box>
               </Box>

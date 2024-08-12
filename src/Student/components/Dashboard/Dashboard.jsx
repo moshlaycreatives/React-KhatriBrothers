@@ -1,11 +1,18 @@
 import { Box, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsDatabase } from "react-icons/bs";
 import PrevLectures from "./components/PrevLectures";
+import { useDispatch } from "react-redux";
+import { getPrevClass } from "../../../store/actions/courseActions";
 
 const Dashboard = () => {
   const theme = useTheme();
+
+
+
+
+
 
   const cardData = [
     {

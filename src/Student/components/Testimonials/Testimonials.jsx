@@ -21,8 +21,8 @@ import {
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close'; // Import Close Icon
-import { addStudentsTestimonial, getBeginnerCourse } from "../../../store/actions/courseActions";
-import { useDispatch } from "react-redux";
+import { addStudentsTestimonial, getAllTestimonial, getBeginnerCourse, getStudentEnrolledCourses, getStudentTestimonial } from "../../../store/actions/courseActions";
+import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 
 const Testimonials = () => {
@@ -30,8 +30,11 @@ const Testimonials = () => {
   const {enqueueSnackbar} = useSnackbar();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+const studentId = useSelector((state)=>state?.auth?.user?._id)
+console.log(studentId,'ids')
 
-  const initialValues ={
+
+const initialValues ={
     title:'',
     courseId:'',
     video:null
@@ -39,16 +42,17 @@ const Testimonials = () => {
 
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const [testimonialData ,setTestimonialData] = useState([]);
   const [currentCourseId ,setCurrentCourseId] = useState(null);
   const [formValues, setFormValues] = useState(initialValues);
   const [loading ,setLoading]= useState(false);
 
   // const courses = ['Course 1', 'Course 2', 'Course 3', 'Course 4', 'Course 5'];
- 
+
   const handleFromData =(e)=>{
     const {name , value} = e.target;
-    setFormValues((formValues)=>({...formValues, [name]: value})) 
+    setFormValues((formValues)=>({...formValues, [name]: value}))
     console.log('kkkkkkkk' ,formValues);
   }
 
@@ -56,9 +60,9 @@ const Testimonials = () => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const res = await dispatch(getBeginnerCourse());
+        const res = await dispatch(getStudentEnrolledCourses());
         setTestimonialData(res.data.data);
-        console.log('testtimonial  data:', res. data);
+        console.log('testtimonial  data:', res.data.data);
       } catch (error) {
         console.error('Failed to fetch student data', error);
       } finally {
@@ -106,7 +110,7 @@ const Testimonials = () => {
   })
   }
 
-  
+
 
   // const handleCouseClick  = (e , id)=>{
   //   setCurrentCourseId(id);
@@ -114,7 +118,7 @@ const Testimonials = () => {
   //   const {name } = e.target;
   //   setFormValues((formValues)=>({...formValues, [name]: id}))
   //   console.log('kkkkkkkk' ,formValues);
-    
+
   // }
   // console.log('course test id', currentCourseId);
 
@@ -128,6 +132,26 @@ const Testimonials = () => {
       image: "/ggg.png",
     },
   ];
+
+
+
+const [allTestimonials, setAllTestimonials] = useState([])
+ const fetchData = async () => {
+    try {
+      const res = await dispatch(getStudentTestimonial());
+      setAllTestimonials(res.data.data);
+      console.log('testtimonial  data:', res.data.data);
+    } catch (error) {
+      console.error('Failed to fetch all testimonial data', error);
+    }
+  };
+
+  useEffect(() => {
+
+
+    fetchData();
+  }, []);
+
 
   return (
     <Box>
@@ -190,9 +214,9 @@ const Testimonials = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {allTestimonials.map((row) => (
                   <TableRow
-                    key={row.name}
+                    key={row._id}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       paddingBottom: "1rem",
@@ -200,12 +224,12 @@ const Testimonials = () => {
                     }}
                   >
                     <TableCell component="th" scope="row" sx={{ color: "grey" }}>
-                      {row.coursename}
+                      {row.stuName}
                     </TableCell>
-                    <TableCell sx={{ color: "grey" }}>{row.teacher}</TableCell>
+                    <TableCell sx={{ color: "grey" }}>{row.courseId.title}</TableCell>
                     <TableCell sx={{ color: "grey" }}>
                       <Box>
-                        <img src={row.image} alt="" width={"50px"} />
+                        <img src={`${base}${row.video.replace(/ /g, "%20")}`} alt="" width={"250px"} />
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -215,7 +239,7 @@ const Testimonials = () => {
           </TableContainer>
             </>
           )}
-          
+
         </>
       ) : (
         <Card
@@ -240,7 +264,7 @@ const Testimonials = () => {
 
             <form>
               <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
-                Title
+                Student Name
               </Typography>
 
               <TextField
@@ -255,7 +279,7 @@ const Testimonials = () => {
 
               <br />
 
-              
+
               <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>
                 Course Name
               </Typography>
@@ -271,11 +295,11 @@ const Testimonials = () => {
                   </MenuItem>
                   {testimonialData.map((course, index) => (
                     <MenuItem key={index}
-                     value={course._id}
+                     value={course.courseId._id}
                     // onClick={(events)=>handleCouseClick(events, course._id)}
                     name="courseId"
                     >
-                      {course.title}
+                      {course.courseId.title}
                     </MenuItem>
                   ))}
                 </Select>
@@ -288,7 +312,7 @@ const Testimonials = () => {
 
               <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
                 <input type="file"  onChange={handleVideoChange}
-                
+
                 />
               </Box>
 

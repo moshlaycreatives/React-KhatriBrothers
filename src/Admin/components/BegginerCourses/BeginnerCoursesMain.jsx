@@ -143,7 +143,7 @@ const data = res.data.data
                       </TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.courseDuration} weeks</TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.lectureDuration} hours</TableCell>
-                      <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell>
+                      <TableCell sx={{ color: 'grey' }}>₹ {row.indianPrice}</TableCell>
                       <TableCell>
                         <IconButton onClick={(event) => handleMenuClick(event, row._id)}>
                           <MoreVertIcon />

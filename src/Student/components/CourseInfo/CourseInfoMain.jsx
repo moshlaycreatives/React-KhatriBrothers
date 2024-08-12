@@ -1,17 +1,44 @@
 import { useTheme } from '@emotion/react';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import { FaEye } from "react-icons/fa";
 import ViewLecturesMain from './components/ViewLecturesMain';
 import { useDispatch } from 'react-redux';
+import { getStudentEnrolledCourses } from '../../../store/actions/courseActions';
 
 const CourseInfoMain = () => {
   const theme = useTheme();
   const [selectedCourseId, setSelectedCourseId] = useState(null); // State to track the selected course
   const [isEdited, setIsEdited] = useState(false);
+  const [courseData, setCourseData] = useState([]);
+
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const res = await dispatch(getStudentEnrolledCourses());
+        const data = res.data.data;
+        setCourseData(data);
+      } catch (err) {
+        console.error("Failed to fetch advanced courses:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
+
+
+
+
+console.log(courseData, 'courseInfdo')
   const rows = [
     { coursename: 'Hindustani vocal advanced A series', teacher: 'Faraz', fee: '500$', duration: '12 weeks', _id: 1 },
     { coursename: 'Hindustani vocal advanced A series', teacher: 'Faraz', fee: '500$', duration: '12 weeks', _id: 2 },
@@ -66,21 +93,21 @@ const CourseInfoMain = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {courseData?.map((row) => (
               <TableRow
-                key={row._id}
+                key={row.courseId._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row" sx={{ color: 'grey' }}>
-                  {row.coursename}
+                  {row.courseId.title}
                 </TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.teacher}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.fee}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.duration}</TableCell>
+                <TableCell sx={{ color: 'grey' }}>{row.instructorId.firstName}</TableCell>
+                <TableCell sx={{ color: 'grey' }}>{row.courseId.australiaPrice}</TableCell>
+                <TableCell sx={{ color: 'grey' }}>{row.courseId.courseDuration}</TableCell>
                 <TableCell sx={{ color: 'grey' }}>
                   <FaEye
                     style={{ fontSize: '2rem', cursor: 'pointer' }}
-                    onClick={() => handleViewClick(row._id)} // Pass the course ID to the handler
+                    onClick={() => handleViewClick(row.courseId._id)} // Pass the course ID to the handler
                   />
                 </TableCell>
               </TableRow>

@@ -1,47 +1,33 @@
 import { useTheme } from '@emotion/react'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper';
+import { getStudentData } from '../../../../store/actions/courseActions';
+import { useDispatch } from 'react-redux';
 const RecentEnrollments = () => {
   const theme = useTheme()
-  const rows =[
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'01',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'02',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'03',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'04',
+const dispatch = useDispatch()
 
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'05',
-    },
-  ]
+  const [enrolledStudents, setEnrolledStudents] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const res = await dispatch(getStudentData());
+        setEnrolledStudents(res.data.data);
+        console.log('testtimonial  data:', res.data.data);
+      } catch (error) {
+        console.error('Failed to fetch student data', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+
+  console.log(enrolledStudents, 'enrolled ')
+
+
 
     return (
     <>
@@ -68,25 +54,35 @@ const RecentEnrollments = () => {
         <TableHead>
           <TableRow>
             <TableCell>Course Name</TableCell>
-            <TableCell >Teacher</TableCell>
-            <TableCell >Date</TableCell>
-            <TableCell >Time</TableCell>
-            <TableCell >Lecture</TableCell>
+            <TableCell >Student Name</TableCell>
+            <TableCell >Class Type</TableCell>
+             <TableCell >Enrollment Date</TableCell>
+            {/* <TableCell >Lecture</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {enrolledStudents.map((row) => (
             <TableRow
-              key={row.name}
+              key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" sx={{color:'grey'}}>
-                {row.coursename}
+                {row.courseId.title}
               </TableCell>
-              <TableCell sx={{color:'grey'}}>{row.teacher}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.date}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.time}</TableCell>
-              <TableCell sx={{color:'grey'}}>{row.lecture}</TableCell>
+              <TableCell sx={{color:'grey'}}>{row.studentId.firstName}</TableCell>
+              {/* <TableCell sx={{color:'grey'}}>{row.classType}</TableCell> */}
+
+
+              <TableCell sx={{ color: 'grey' }}>
+  {row.classType === 'one2one' ? 'One to One' : 'Group'}
+</TableCell>
+
+              <TableCell sx={{ color: 'grey' }}>
+  {new Date(row.createdAt).toLocaleDateString()}
+</TableCell>
+
+
+
             </TableRow>
           ))}
         </TableBody>

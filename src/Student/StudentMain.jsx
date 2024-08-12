@@ -25,6 +25,7 @@ import { RxDashboard } from "react-icons/rx";
 import { CgFileDocument } from "react-icons/cg";import { PiVideo } from "react-icons/pi";
 import { GoInfo } from "react-icons/go";
 import { TbMessage2Star } from "react-icons/tb";
+import StudentLectures from './components/StudentLectures/StudentLectures';
 
 
 
@@ -33,6 +34,7 @@ const drawerWidth = 240;
 const listData = [
   { title: 'Dashboard', icon: <RxDashboard /> },
   { title: 'Course Info', icon: <GoInfo /> },
+  { title: 'Classes', icon: <GoInfo /> },
   { title: 'Message', icon: <BiMessageAltDetail /> },
   { title: 'Testimonial', icon: <TbMessage2Star />},
   { title: 'Terms & Conditions', icon: <CgFileDocument /> },
@@ -317,6 +319,8 @@ const StudentMain = () => {
           <Box>
             {selectedItem === "Dashboard" && <Dashboard />}
             {selectedItem === "Course Info" && <CourseInfoMain />}
+            {selectedItem === "Classes" && <StudentLectures />}
+
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Testimonial" && <Testimonials />}
             {selectedItem === "Terms & Conditions" && <TermsConditionsMain />}

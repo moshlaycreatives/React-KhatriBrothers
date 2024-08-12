@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import AddClass from '../Classes/components/AddClass';
-import { getInstructorClass } from '../../../store/actions/courseActions';
-import { FaEye, FaRegEdit } from 'react-icons/fa';
-import { RiDeleteBin6Line } from 'react-icons/ri';
-import AddLecture from './AddLecture';
-import ViewInstructorLecture from './ViewInstructorLecture';
+import { getInstructorClass, getStudentClass } from '../../../store/actions/courseActions';
 
-const LectureInstructureMain = () => {
+const StudentLectures = () => {
   const theme = useTheme();
-  const [isEdited, setIsEdited] = useState(false);
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
-  const handleViewClick = (courseId) => {
-    setSelectedCourseId(courseId); // Set the selected course ID
-    setIsEdited(true); // Set the state to indicate that a course is selected
-  };
-
-
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [classData, setClassData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +15,7 @@ const LectureInstructureMain = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await dispatch(getInstructorClass());
+        const res = await dispatch(getStudentClass());
         const data = res.data.data;
         setClassData(data);
       } catch (err) {
@@ -60,25 +47,30 @@ const LectureInstructureMain = () => {
     return { formattedDate, formattedTime };
   };
 
+  // Function to check if current time is within class start and end times
+  const isJoinable = (startTime, endTime) => {
+    const now = new Date();
+    const start = new Date(startTime);
+    const end = new Date(endTime);
 
+    return now >= start && now <= end;
+  };
+
+  // Function to handle redirection with URL validation
+  const handleRedirect = (url) => {
+    try {
+      new URL(url); // Validate URL
+      window.location.href = url;
+    } catch (err) {
+      console.error('Invalid URL:', url);
+    }
+  };
 
   return (
     <Box>
       {isAddingCourse ? (
         <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
-            &lt; Back to Courses
-          </Button>
-          <AddLecture />
 
-        </>
-      ) : isEdited ? (
-        <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
-            &lt; Back to Courses
-          </Button>
-
-          <ViewInstructorLecture courseId={selectedCourseId}/>
         </>
       ) : (
         <>
@@ -90,11 +82,9 @@ const LectureInstructureMain = () => {
                 fontSize: '2rem',
               }}
             >
-              All Lectures
+              All Classes
             </Typography>
-            <Button variant='outlined' onClick={handleAddCourseClick}>
-              + Add Lecture
-            </Button>
+
           </Box>
           <br />
           {loading ? (
@@ -107,15 +97,18 @@ const LectureInstructureMain = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Course Name</TableCell>
-                    <TableCell>Group/Student</TableCell>
-                    <TableCell>Created Date</TableCell>
-
-
-                    <TableCell>Action</TableCell>
+                    <TableCell>Instructor</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Time</TableCell>
+                    <TableCell>Lecture</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {classData.map((row) => {
+                    const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(row.startTime);
+                    const { formattedTime: formattedEndTime } = formatDateAndTime(row.endTime);
+
+                    const joinable = isJoinable(row.startTime, row.endTime);
 
                     return (
                       <TableRow
@@ -125,33 +118,24 @@ const LectureInstructureMain = () => {
                         <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
                           {row.courseId.title}
                         </TableCell>
+
                         <TableCell sx={{ color: 'grey' }}>
-                          {row.courseType === 'group' ? row.group.name : `${row.studentId.firstName} ${row.studentId.lastName}`}
+                          {`${row.instructorId.firstName} ${row.instructorId.lastName}`}
                         </TableCell>
+                        <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
+                        <TableCell sx={{ color: 'grey' }}>{formattedStartTime} - {formattedEndTime}</TableCell>
 
-<TableCell>
-  {row.createdAt}
-</TableCell>
-
-
-                        <TableCell >
-
-                  <FaEye
-                    style={{ fontSize: '2rem', cursor: 'pointer' }}
-                    onClick={() => handleViewClick(row._id)} // Pass the course ID to the handler
-                  />
-
-                  <FaRegEdit style={{ fontSize: '1.5rem', cursor: 'pointer',color:'green', marginRight:'.5rem' }} />
-                  <RiDeleteBin6Line style={{ fontSize: '1.5rem', cursor: 'pointer', color:'red' }}/>
-                </TableCell>
-
-
-
-
-
-
-
-
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ borderRadius: '0px', textTransform: 'none' }}
+                            onClick={() => joinable && handleRedirect(row.zoomLink)}
+                            disabled={!joinable}
+                          >
+                            Join
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -165,4 +149,4 @@ const LectureInstructureMain = () => {
   );
 }
 
-export default LectureInstructureMain;
+export default StudentLectures;

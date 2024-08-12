@@ -1,12 +1,3 @@
-// import { useTheme } from '@emotion/react';
-// import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-// import React, { useState } from 'react';
-// import Paper from '@mui/material/Paper';
-// import { FaEye } from "react-icons/fa";
-import ViewLecturesMain from './components/ViewStudentDetails';
-// import { useDispatch } from 'react-redux';
-
-
 
 import {
   Box,
@@ -195,11 +186,11 @@ const StudentMain = () => {
                   <Table size='small' aria-label='a dense table'>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Student Name</TableCell>
                         <TableCell>Course Name</TableCell>
+                        <TableCell>Student Name</TableCell>
                         <TableCell>Course Type</TableCell>
-                        <TableCell>Class Type</TableCell>
-                        <TableCell>Course Fee</TableCell>
+                        <TableCell>Gender</TableCell>
+                        <TableCell>Country</TableCell>
                         <TableCell>Action</TableCell>
                       </TableRow>
                     </TableHead>
@@ -218,7 +209,7 @@ const StudentMain = () => {
                             </TableCell>
 
                             <TableCell sx={{ color: 'gray' }}>
-                              {row.courseId.courseType}
+                              {row.classType}
                             </TableCell>
 
                             <TableCell sx={{ color: 'gray' }}>
@@ -231,12 +222,12 @@ const StudentMain = () => {
                             <TableCell>
                               <IconButton
 
-                              // onClick={(events) => handleMenuClick(events, row._id)}
+                              // onClick={(events) => handleEditClick(events, row._id)}
 
 onClick={handleEditClick}
 
                                sx={{color:theme.palette.primary.main}}>
-                                {/* <MoreVertIcon /> */}
+
                                 <FaEye />
                               </IconButton>
                               <Menu
