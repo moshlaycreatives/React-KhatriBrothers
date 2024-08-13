@@ -33,6 +33,7 @@ import InstructorMain from "./Instructor/InstructorMain";
 import TablaCoursesMain from "./Pages/OtherCourses/Tablaourse/TablaCoursesMain";
 import GhazalCoursesMain from "./Pages/OtherCourses/GhazalCourse/GhazalCoursesMain";
 import IntermediateCoursesMain from "./Pages/OtherCourses/IntermediateCourse/IntermediateCoursesMain";
+import BollywoodCoursesMain from "./Pages/OtherCourses/Bollywood/BollywoodCoursesMain";
 
 
 export default function Router() {
@@ -101,6 +102,10 @@ export default function Router() {
     {
       path: "/bhajjan-course",
       element: <BhajjanCoursesMain />,
+    },
+    {
+      path: "/bollywood-course",
+      element: <BollywoodCoursesMain />,
     },
     {
       path: "/intermediate-course",

@@ -43,10 +43,12 @@ const LectureInstructureMain = () => {
 
   const handleAddCourseClick = () => {
     setIsAddingCourse(true);
+
   };
 
   const handleBackClick = () => {
     setIsAddingCourse(false);
+    setIsEdited(false);
   };
 
   // Function to format date and time
@@ -60,6 +62,11 @@ const LectureInstructureMain = () => {
     return { formattedDate, formattedTime };
   };
 
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString(); // Customize date format as needed
+  };
 
 
   return (
@@ -129,20 +136,20 @@ const LectureInstructureMain = () => {
                           {row.courseType === 'group' ? row.group.name : `${row.studentId.firstName} ${row.studentId.lastName}`}
                         </TableCell>
 
-<TableCell>
-  {row.createdAt}
-</TableCell>
+                        <TableCell>
+                        {formatDate(row.createdAt)} {/* Apply the formatDate function here */}
+                      </TableCell>
 
 
                         <TableCell >
 
                   <FaEye
-                    style={{ fontSize: '2rem', cursor: 'pointer' }}
+                    style={{ fontSize: '1.3rem', color:theme.palette.primary.main, cursor: 'pointer' }}
                     onClick={() => handleViewClick(row._id)} // Pass the course ID to the handler
                   />
-
+{/*
                   <FaRegEdit style={{ fontSize: '1.5rem', cursor: 'pointer',color:'green', marginRight:'.5rem' }} />
-                  <RiDeleteBin6Line style={{ fontSize: '1.5rem', cursor: 'pointer', color:'red' }}/>
+                  <RiDeleteBin6Line style={{ fontSize: '1.5rem', cursor: 'pointer', color:'red' }}/> */}
                 </TableCell>
 
 

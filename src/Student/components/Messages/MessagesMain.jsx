@@ -9,6 +9,7 @@ import {
   useTheme,
   Divider,
   Avatar,
+  CircularProgress,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -24,7 +25,10 @@ const MessageMain = () => {
   const [message, setMessage] = useState("");
   const [receiverId, setReceiverId] = useState("");
   const [msgsData, setMsgsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const userId = useSelector((state) => state?.auth?.user?._id);
+  const [selectedUser, setSelectedUser] = useState('');
   const socket = useMemo(
     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
@@ -35,15 +39,19 @@ const MessageMain = () => {
     const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
+
     dispatch(getStudentEnrolledCourses())
       .then((users) => {
         console.log(users.data.data, 'instructors for messagesssss')
         setAllUsers(users.data.data);
+        setLoading(false)
       })
       .catch((error) => {
+        setLoading(false)
+
         console.error("Error fetching users:", error);
       });
-  }, [dispatch]);
+  }, []);
 
   const filteredUsers = allUsers?.filter(user => user?.role === 'instructor' && user?._id !== userId);
 
@@ -94,16 +102,48 @@ const MessageMain = () => {
     }
   };
 
-  const handleSelectChat = (id) => {
+  // const handleSelectChat = (id) => {
+  //   socket.emit("addUser", userId, id);
+  //   setReceiverId(id);
+  //   const user = allUsers.find(user => user._id === id);
+  //   setSelectedUser(user);
+
+  //   console.log(user, 'selected user ')
+
+
+  // };
+
+  const handleSelectChat = (id, firstName) => {
     socket.emit("addUser", userId, id);
     setReceiverId(id);
+    setSelectedUser(firstName);
+    console.log(firstName, 'first name')
   };
+
+
+
+
 console.log(msgsData, 'ffff')
 
 
 // const filteredMsgsData = msgsData.filter(
 //   (msg) => msg.senderId === receiverId || msg.receiverId === receiverId
 // );
+
+if(loading){
+  return(
+    <>
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+      <CircularProgress/>
+
+      </Box>
+    </>
+  )
+}
+
+
+
+
 
 
   return (
@@ -132,7 +172,7 @@ console.log(msgsData, 'ffff')
           {allUsers.map((val) => (
             <Box
               key={val.instructorId._id}
-              onClick={() => handleSelectChat(val.instructorId._id)}
+              onClick={() => handleSelectChat(val.instructorId._id, val.instructorId.firstName)}
               sx={{
                 cursor: "pointer",
                 padding: "8px",
@@ -184,9 +224,9 @@ console.log(msgsData, 'ffff')
               marginBottom: "16px",
             }}
           >
-            <Typography variant="h6" align="center" color="primary">
-              Khatri Brother Academy
-            </Typography>
+           <Typography variant="h6" align="center" color="primary">
+      {selectedUser || "Select Instructor"}
+    </Typography>
           </Box>
           <Box
             sx={{
@@ -257,19 +297,22 @@ console.log(msgsData, 'ffff')
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton>
-                    <AttachFileIcon />
-                  </IconButton>
-                ),
-              }}
+              // InputProps={{
+              //   endAdornment: (
+              //     <IconButton>
+              //       <AttachFileIcon />
+              //     </IconButton>
+              //   ),
+              // }}
             />
             <IconButton color="primary" onClick={handleSend}>
               <SendIcon />
             </IconButton>
           </Box>
+
+      <Typography sx={{color:theme.palette.primary.main, mt:1, fontSize:'0.8rem', textAlign:'center'}}>Disclaimer : Your chat is not private, Admin can view your chat</Typography>
         </Paper>
+
       </Box>
     </>
   );

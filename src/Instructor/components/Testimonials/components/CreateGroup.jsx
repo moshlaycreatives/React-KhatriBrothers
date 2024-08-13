@@ -23,7 +23,7 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { useSnackbar } from "notistack";
 
-  const CreateGroup = () => {
+  const CreateGroup = ({onBackClick}) => {
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
     const theme = useTheme();
@@ -140,6 +140,14 @@ console.log(data, 'data saved ')
 
     return (
       <Box>
+
+
+{/*
+<Button onClick={onBackClick} variant="outlined">
+        Back to Groups
+      </Button> */}
+
+
         <Box>
           <Typography
             sx={{

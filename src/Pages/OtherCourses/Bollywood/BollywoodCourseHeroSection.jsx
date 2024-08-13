@@ -1,19 +1,22 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
 
-const BlogDetailHeroSection = () => {
+import { Box, Button, Grid, Typography } from '@mui/material'
+import React from 'react'
+
+const BollywoodHeroSection = () => {
   return (
     <>
-      <Box
+
+<Box
         sx={{
-          padding: "0rem 10%",
+          padding: "5rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
         <Grid container sx={{ alignItems: "center" }}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Typography variant="h5" fontWeight="550" color="white">
-              Lorem ipsum dolor sit amet, consect etur adipiscing elit.
+            <Typography variant="h4" fontWeight="550" color="white">
+              Bollywood 
+              {/* <span style={{ fontSize: "2rem", fontWeight: "500" }}>Level</span> */}
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
@@ -39,14 +42,15 @@ const BlogDetailHeroSection = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "5rem" }}>
+            <Box sx={{ padding: "4rem" }}>
               <img src="/BegginerImage.png" alt="image" width={"100%"} />
             </Box>
           </Grid>
         </Grid>
       </Box>
-    </>
-  );
-};
 
-export default BlogDetailHeroSection;
+    </>
+  )
+}
+
+export default BollywoodHeroSection

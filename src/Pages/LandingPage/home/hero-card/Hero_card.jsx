@@ -13,13 +13,13 @@ import { getCounterCardData } from '../../../../store/actions/courseActions';
 
 function Hero_card() {
   const theme = useTheme();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const [counterCardData , setCounterCardData] = useState([]);
   const [counterData , setCounterData] = useState({});
 
 
 
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,7 +34,7 @@ function Hero_card() {
     fetchData();
   }, [dispatch]);
 
-  
+
   return (
     <>
     <section className='hero-card-section'>
@@ -155,7 +155,7 @@ function Hero_card() {
               <CountUp style={{ fontSize: "2rem" }} start={0} end={counterData.totalLectures} />+
             </Typography>
 
-            <Typography>Online Clsasses</Typography>
+            <Typography>Online Classes</Typography>
           </Box>
         </Box>
       </Grid>

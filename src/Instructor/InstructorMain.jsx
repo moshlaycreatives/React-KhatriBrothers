@@ -1,55 +1,77 @@
-import React, { useState } from 'react';
-import { Box, Drawer, AppBar, CssBaseline, Toolbar, List, Typography, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Button, FormControl, MenuItem, Select, useTheme, useMediaQuery, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu } from '@mui/material';
-import WorkIcon from '@mui/icons-material/Work';
-import ArticleIcon from '@mui/icons-material/Article';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MenuIcon from '@mui/icons-material/Menu'; // Import MenuIcon for opening drawer
-import { Helmet } from 'react-helmet';
-import Dashboard from './components/Dashboard/Dashboard';
-import MessagesMain from './components/Messages/MessagesMain';
-import CourseInfoMain from './components/CourseInfo/StudentMain';
-import Testimonials from './components/Testimonials/GroupMain';
-import TermsConditionsMain from './components/TermsConditions/TermsConditionsMain';
-import SettingsMain from './components/Settings/SettingsMain';
-import { userLogout } from '../store/actions/authActions';
-import ShowProfileData from './components/ManageProfile/ShowProfileData';
-import { useDispatch, useSelector } from 'react-redux';
-import StudentMain from './components/CourseInfo/StudentMain';
-import ClassesMain from './components/Classes/components/ClassesMain';
+import React, { useState } from "react";
+import {
+  Box,
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  useTheme,
+  useMediaQuery,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  IconButton,
+  Menu,
+} from "@mui/material";
+import WorkIcon from "@mui/icons-material/Work";
+import ArticleIcon from "@mui/icons-material/Article";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import MenuIcon from "@mui/icons-material/Menu"; // Import MenuIcon for opening drawer
+import { Helmet } from "react-helmet";
+import Dashboard from "./components/Dashboard/Dashboard";
+import MessagesMain from "./components/Messages/MessagesMain";
+import CourseInfoMain from "./components/CourseInfo/StudentMain";
+import Testimonials from "./components/Testimonials/GroupMain";
+import TermsConditionsMain from "./components/TermsConditions/TermsConditionsMain";
+import SettingsMain from "./components/Settings/SettingsMain";
+import { userLogout } from "../store/actions/authActions";
+import ShowProfileData from "./components/ManageProfile/ShowProfileData";
+import { useDispatch, useSelector } from "react-redux";
+import StudentMain from "./components/CourseInfo/StudentMain";
+import ClassesMain from "./components/Classes/components/ClassesMain";
 import { RxDashboard } from "react-icons/rx";
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import { BiMessageAltDetail } from "react-icons/bi";import { TbMessage2Cog } from "react-icons/tb";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { BiMessageAltDetail } from "react-icons/bi";
+import { TbMessage2Cog } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdContacts } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { CgFileDocument } from "react-icons/cg";
 import { PiVideo } from "react-icons/pi";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 import { PiStudent } from "react-icons/pi";
 import { FaLayerGroup } from "react-icons/fa";
-import LectureInstructureMain from './components/LectureInstructure/LectureInstructureMain';
-import { getNotification } from '../store/actions/courseActions';
-
-
-
+import LectureInstructureMain from "./components/LectureInstructure/LectureInstructureMain";
+import { getNotification } from "../store/actions/courseActions";
 
 const drawerWidth = 240;
 
 const listData = [
-  { title: 'Dashboard', icon: <RxDashboard /> },
-  { title: 'Students', icon: <PiStudent /> },
-  { title: 'Message', icon: <BiMessageAltDetail /> },
-  { title: 'Groups', icon: <FaLayerGroup /> },
-  { title: 'Classes', icon: <SiGoogleclassroom />  },
-  { title: 'Lectures', icon: < PiVideo/> },
-  { title: 'Settings', icon: <IoSettingsOutline /> },
-  { title: 'Logout', icon: <MdLogout />  },
+  { title: "Dashboard", icon: <RxDashboard /> },
+  { title: "Students", icon: <PiStudent /> },
+  { title: "Message", icon: <BiMessageAltDetail /> },
+  { title: "Groups", icon: <FaLayerGroup /> },
+  { title: "Classes", icon: <SiGoogleclassroom /> },
+  { title: "Lectures", icon: <PiVideo /> },
+  { title: "Settings", icon: <IoSettingsOutline /> },
+  { title: "Logout", icon: <MdLogout /> },
 ];
 
 const InstructorMain = () => {
-
-  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -57,8 +79,8 @@ const InstructorMain = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const userData = useSelector((state) => state?.auth?.user);
   console.log(userData, "data");
-const dispatch = useDispatch()
-const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // const profilePictureUrl = base + userData.profilePicture;
 
   const handleItemClick = (title) => {
@@ -77,7 +99,7 @@ const navigate = useNavigate()
   const handleLogout = () => {
     // Replace this with actual dispatch if you use redux
     dispatch(userLogout());
-navigate('/sign-in')
+    navigate("/sign-in");
     setLogoutModalOpen(false);
   };
 
@@ -191,9 +213,11 @@ navigate('/sign-in')
                   >
                     Notifications
                   </Typography>
-                  {/* {notifications?.map((notification, index) => (
-                    <>
+
+                  {notifications && notifications.length > 0 ? (
+                    notifications.map((notification, index) => (
                       <Box
+                        key={index}
                         sx={{
                           padding: "0.5rem 2rem",
                           backgroundColor: notification.isRead
@@ -213,31 +237,20 @@ navigate('/sign-in')
                         <Typography sx={{ fontSize: "0.6rem" }}>
                           {notification?.body}
                         </Typography>
-
                         <Divider />
                       </Box>
-                    </>
-                  ))} */}
-                  {
-  notifications && notifications.length > 0 ? (
-    notifications.map((notification, index) => (
-      <Box key={index} sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
-        <Typography sx={{fontSize:'0.8rem', fontWeight:600, color: theme.palette.primary.main}}>
-          {notification?.title}
-        </Typography>
-        <Typography sx={{fontSize:'0.6rem'}}>
-          {notification?.body}
-        </Typography>
-        <Divider />
-      </Box>
-    ))
-  ) : (
-    <Typography sx={{fontSize:'0.8rem', padding:'0.5rem 2rem', color:'gray'}}>
-      No notifications available right now
-    </Typography>
-  )}
-
-
+                    ))
+                  ) : (
+                    <Typography
+                      sx={{
+                        fontSize: "0.8rem",
+                        padding: "0.5rem 2rem",
+                        color: "gray",
+                      }}
+                    >
+                      No notifications available right now
+                    </Typography>
+                  )}
                 </Menu>
 
                 <Box>
@@ -315,36 +328,53 @@ navigate('/sign-in')
             <List>
               {listData.map((val, ind) => (
                 <>
-                <ListItem
-                  key={ind}
-                  disablePadding
-                  sx={{
-                    backgroundColor: selectedItem === val.title ? 'white' : 'transparent',
-                    py: 2,
-                    borderRadius: '0px',
-                    color: selectedItem === val.title ? theme.palette.primary.main : '#fff',
-                  }}
-                  onClick={() => handleItemClick(val.title)}
-                >
-                  <ListItemButton>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff', fontSize:'1.5rem' }}>
-                      {val.icon}
-                    </ListItemIcon>
-                    <ListItemIcon
-                      sx={{
-                        color:
-                          selectedItem === val.title
-                            ? theme.palette.primary.main
-                            : "#fff",
-                      }}
-                    >
-                      {val.title}
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ListItem>
-                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
+                  <ListItem
+                    key={ind}
+                    disablePadding
+                    sx={{
+                      backgroundColor:
+                        selectedItem === val.title ? "white" : "transparent",
+                      py: 2,
+                      borderRadius: "0px",
+                      color:
+                        selectedItem === val.title
+                          ? theme.palette.primary.main
+                          : "#fff",
+                    }}
+                    onClick={() => handleItemClick(val.title)}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon
+                        sx={{
+                          color:
+                            selectedItem === val.title
+                              ? theme.palette.primary.main
+                              : "#fff",
+                          fontSize: "1.5rem",
+                        }}
+                      >
+                        {val.icon}
+                      </ListItemIcon>
+                      <ListItemIcon
+                        sx={{
+                          color:
+                            selectedItem === val.title
+                              ? theme.palette.primary.main
+                              : "#fff",
+                        }}
+                      >
+                        {val.title}
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider
+                    sx={{
+                      backgroundColor: "white",
+                      width: "100%",
+                      color: "white",
+                    }}
+                  />
                 </>
-
               ))}
             </List>
             {/* <Divider /> */}
@@ -359,7 +389,7 @@ navigate('/sign-in')
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Groups" && <Testimonials />}
             {selectedItem === "Classes" && <ClassesMain />}
-            {selectedItem === "Lectures" && <LectureInstructureMain/>}
+            {selectedItem === "Lectures" && <LectureInstructureMain />}
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}
           </Box>

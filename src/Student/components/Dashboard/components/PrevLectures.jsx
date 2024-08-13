@@ -29,7 +29,7 @@ const PrevLectures = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const handleAddCourseClick = () => {
     setIsAddingCourse(true);
@@ -69,47 +69,6 @@ const PrevLectures = () => {
     }
   };
 
-
-
-  const rows =[
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'01',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'02',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'03',
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'04',
-
-    },
-    {
-        coursename:'Hindustani vocal advanced A series',
-        teacher:'Faraz',
-        date:'12-3-2024',
-        time:'11AM -12AM',
-        lecture:'05',
-    },
-  ]
-
     return (
     <>
 
@@ -142,7 +101,7 @@ const PrevLectures = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-                  {classData.map((row) => {
+                  {classData.map((row, index) => {
                     const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(row.startTime);
                     const { formattedTime: formattedEndTime } = formatDateAndTime(row.endTime);
 
@@ -164,7 +123,7 @@ const PrevLectures = () => {
                         <TableCell sx={{ color: 'grey' }}>{formattedStartTime} - {formattedEndTime}</TableCell>
 
                         <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
-                          01
+                          {index + 1}
                         </TableCell>
                       </TableRow>
                     );

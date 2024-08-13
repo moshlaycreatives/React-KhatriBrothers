@@ -112,9 +112,10 @@ const StudentMain = () => {
     console.log('current student id:', currentRowId);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (id) => {
     setIsEdited(true);
-    handleMenuClose();
+    setCurrentRowId(id);
+
   };
 
   const handleBackClick = () => {
@@ -224,7 +225,8 @@ const StudentMain = () => {
 
                               // onClick={(events) => handleEditClick(events, row._id)}
 
-onClick={handleEditClick}
+// onClick={handleEditClick}
+                            onClick={() => handleEditClick(row._id)}
 
                                sx={{color:theme.palette.primary.main}}>
 

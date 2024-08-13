@@ -1,4 +1,4 @@
-import { Box, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material'
+import { Box, Card, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getAllContacts } from '../../../store/actions/courseActions'
@@ -9,12 +9,16 @@ const ContactDetails = () => {
     const theme = useTheme()
 const dispatch = useDispatch()
 const [details, setDetails] = useState([])
+const [loading, setLoading] = useState(true)
+
 const fetchData = async () => {
     try {
         const res = await dispatch(getAllContacts());
 setDetails(res.data.data)
         console.log('Contacts fetched successfully:', res);
+        setLoading(false)
     } catch (error) {
+      setLoading(false)
 
         console.error('Error fetching contacts:', error);
     }
@@ -26,10 +30,19 @@ useEffect(() => {
 
     fetchData();
 
-}, [dispatch]);
+}, []);
 
 
+if(loading){
+  return(
+    <>
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+      <CircularProgress/>
 
+      </Box>
+    </>
+  )
+}
 
     return (
     <>

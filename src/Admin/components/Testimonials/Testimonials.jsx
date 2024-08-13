@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   FormControl,
   IconButton,
   InputLabel,
@@ -35,7 +36,9 @@ const Testimonials = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [selectedCourse, setSelectedCourse] = useState('');
-  const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
+  const [isAdding, setIsAdding] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [allTestimonial , setAllTestimonial]= useState([]);
   const [testimonialStatus, setTestimonialStatus] = useState('');
@@ -61,30 +64,15 @@ const Testimonials = () => {
     setAnchorEl(event.currentTarget)
   ]
 
-  // const rows = [
-  //   {
-  //     coursename: "Hindustani vocal advanced A series",
-  //     teacher: "Faraz",
-  //     image: "/ggg.png",
-  //   },
-  //   {
-  //     coursename: "Hindustani vocal advanced A series",
-  //     teacher: "Faraz",
-  //     image: "/ggg.png",
-  //   },
-  //   {
-  //     coursename: "Hindustani vocal advanced A series",
-  //     teacher: "Faraz",
-  //     image: "/ggg.png",
-  //   },
-  // ];
   const fetchData = async () => {
     try {
       const res = await dispatch(getAllTestimonial());
       setAllTestimonial(res.data.data);
       console.log('testtimonial  data:', res.data);
+      setLoading(false)
     } catch (error) {
       console.error('Failed to fetch all testimonial data', error);
+      setLoading(false)
     }
   };
 
@@ -92,13 +80,12 @@ const Testimonials = () => {
 
 
     fetchData();
-  }, [dispatch]);
+  }, []);
   console.log('nenwnewnn', allTestimonial);
 
   const handleTestimonialStatus =(events , id)=>{
     setAnchorEl(null);
-    console.log('ududududuudu',id)
-    // setTestimonialStatus(id);
+
     dispatch(acceptTestimonial(id))
     .then((res)=>{
       enqueueSnackbar(res.data.message, {variant:'success'})
@@ -107,6 +94,17 @@ const Testimonials = () => {
     .catch((err)=>{
       enqueueSnackbar(err.data.message, {variant:'Error'})
     })
+  }
+
+
+  if(loading){
+    return(
+      <>
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+          <CircularProgress/>
+        </Box>
+      </>
+    )
   }
 
   return (
@@ -131,18 +129,7 @@ const Testimonials = () => {
             </Typography>
 
             <Box>
-              {/* <Button
-                variant="outlined"
-                onClick={handleAddTestimonial}
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "0px",
-                  fontWeight: 400,
-                  fontSize: isMobile ? '0.8rem' : "1.2rem",
-                }}
-              >
-                + Add Testimonial
-              </Button> */}
+
             </Box>
           </Box>
 
@@ -206,8 +193,8 @@ const Testimonials = () => {
                       open={Boolean(anchorEl)}
                       onClose={handlePendingClose}
                        >
-                        <MenuItem>Delete</MenuItem>
-                        <MenuItem onClick={(events)=>handleTestimonialStatus(events, row._id)}>Accpet</MenuItem>
+
+                        <MenuItem onClick={(events)=>handleTestimonialStatus(events, row._id)}>Approve</MenuItem>
                       </Menu>
                         </>
                       )}

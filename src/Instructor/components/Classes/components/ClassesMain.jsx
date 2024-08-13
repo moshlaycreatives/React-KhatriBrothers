@@ -27,7 +27,7 @@ const ClassesMain = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const handleAddCourseClick = () => {
     setIsAddingCourse(true);
@@ -43,7 +43,7 @@ const ClassesMain = () => {
     const formattedDate = date.toLocaleDateString(); // Customize date format as needed
 
     // Format time as 'h:mm AM/PM'
-    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', hour12: true });
+    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',   hour12: true });
 
     return { formattedDate, formattedTime };
   };

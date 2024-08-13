@@ -1,44 +1,44 @@
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsDatabase } from "react-icons/bs";
 import RecentEnrollments from "./components/RecentEnrollments";
-import { getStudentData } from "../../../store/actions/courseActions";
+import { getAdminDashboardDetail, getStudentData } from "../../../store/actions/courseActions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 
 const Dashboard = () => {
   const theme = useTheme();
-  
+const navigate = useNavigate()
+  const [detail, setDetail] = useState({})
+const dispatch = useDispatch()
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await dispatch(getAdminDashboardDetail());
+        const data = res.data;
+        console.log(res.data, 'res d')
+        setDetail(data);
+      } catch (err) {
+        console.error("Failed to fetch advanced courses:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+console.log(detail, 'detailsssss')
 
 
 
-  const cardData = [
-    {
-      title: "Students",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "$100",
-    },
-    {
-      title: "Total Earn",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "$67630",
-    },
-    {
-      title: "Teachers",
-      icon: <BsDatabase style={{ fontSize: "1.6rem" }} />,
-      price: "20",
-    },
-    {
-      title: "Total Courses",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "08",
-    },
-  ];
 
   return (
     <>
       <Box sx={{width:'100%'}}>
-        <Typography
+       <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+       <Typography
           sx={{
             color: theme.palette.primary.main,
             fontWeight: "550",
@@ -46,12 +46,16 @@ const Dashboard = () => {
           }}
         >
           Dashboard
-        </Typography>
 
+        </Typography>
+        <Button sx={{textTransform:'none'}} variant="outlined" onClick={()=>navigate('/')}>Go to Website</Button>
+
+
+       </Box>
+<br/>
         <Box>
           <Grid container spacing={5}>
-            {cardData.map((val, ind) => (
-              <Grid item lg={6} md={6} sm={12} xs={12} key={ind}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
                 <Box
                   sx={{
                     padding: "2rem",
@@ -70,22 +74,145 @@ const Dashboard = () => {
                     }}
                   >
                     <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                      {val.title}
+                      Students
                     </Typography>
-                    {/* <Typography sx={{fontSize:'2rem'}}></Typography> */}
-                    {val.icon}
+
+                    <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
+
                   </Box>
 
                   <br />
 
                   <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
-                    {val.price}
+                    {detail.totalStudent}
                   </Typography>
                 </Box>
               </Grid>
-            ))}
+
+
+
+
+
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Box
+                  sx={{
+                    padding: "2rem",
+                    color: "white",
+                    background: "linear-gradient(to bottom, #901953, #35041f)",
+                    width: "100%",
+                    borderRadius: "5px",
+                    minHeight: "20vh",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
+                      Total Earn
+                    </Typography>
+                    {/* <Typography sx={{fontSize:'2rem'}}></Typography> */}
+                    <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
+
+                  </Box>
+
+                  <br />
+
+                  <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
+                    $ 566
+                  </Typography>
+                </Box>
+              </Grid>
+
+
+
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Box
+                  sx={{
+                    padding: "2rem",
+                    color: "white",
+                    background: "linear-gradient(to bottom, #901953, #35041f)",
+                    width: "100%",
+                    borderRadius: "5px",
+                    minHeight: "20vh",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
+                    Total Instructors
+                    </Typography>
+
+                    <BsDatabase style={{ fontSize: "1.6rem" }} />
+
+                  </Box>
+
+                  <br />
+
+                  <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
+                    {detail.totalInstructor}
+                  </Typography>
+                </Box>
+              </Grid>
+
+
+
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <Box
+                  sx={{
+                    padding: "2rem",
+                    color: "white",
+                    background: "linear-gradient(to bottom, #901953, #35041f)",
+                    width: "100%",
+                    borderRadius: "5px",
+                    minHeight: "20vh",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
+                    Total Courses
+                    </Typography>
+                    <BsDatabase style={{ fontSize: "1.6rem" }} />
+
+                  </Box>
+
+                  <br />
+
+                  <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
+                    {detail.totalCourses}
+                  </Typography>
+                </Box>
+              </Grid>
+
+
           </Grid>
         </Box>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <RecentEnrollments/>
       </Box>

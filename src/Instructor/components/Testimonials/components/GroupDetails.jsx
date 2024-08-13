@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React from 'react'
 import Paper from '@mui/material/Paper';
 import { FaRegEdit } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'; // Import useDispatch
 import { useSnackbar } from 'notistack'; // Import useSnackbar
 import { deleteGroupMember } from '../../../../store/actions/courseActions';
 
-const GroupDetails = ({ groupdata }) => {
+const GroupDetails = ({ groupdata, onBackClick }) => {
   const theme = useTheme();
 
 
@@ -22,7 +22,7 @@ const groupId = groupdata._id
       const studentId = groupdata.students[index]; // Assuming each student has an _id field
       await dispatch(deleteGroupMember(groupId, studentId));
       enqueueSnackbar('Student deleted successfully', { variant: 'success' });
-      
+
     } catch (error) {
       enqueueSnackbar('Failed to delete student', { variant: 'error' });
     }
@@ -30,6 +30,12 @@ const groupId = groupdata._id
 
   return (
     <Box>
+
+
+<Button onClick={onBackClick} variant="outlined">
+        Back to Group
+      </Button>
+
       <Typography
         sx={{
           color: theme.palette.primary.main,
@@ -40,6 +46,8 @@ const groupId = groupdata._id
         Group Details
       </Typography>
       <br />
+
+
       <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)", }}>
         <Table size="small" aria-label="a dense table">
           <TableHead>

@@ -73,6 +73,7 @@ import { TbMessage2Star } from "react-icons/tb";
 
 import { useNavigate } from "react-router";
 import BollyWoodMain from "./components/BollyWoodCourses/BollyWoodMain";
+import AdminBlogsMain from "./components/Blogs/AdminBlogsMain";
 
 const drawerWidth = 240;
 
@@ -98,6 +99,8 @@ const listData = [
   { title: "Message", icon: <BiMessageAltDetail /> },
   { title: "Testimonial", icon: <TbMessage2Star /> },
   { title: "Contact Details", icon: <IoMdContacts />  },
+  { title: "Blogs", icon: <IoMdContacts />  },
+
 
   { title: "Terms & Conditions", icon: <CgFileDocument /> },
   { title: "Settings", icon: <IoSettingsOutline /> },
@@ -474,6 +477,8 @@ const AdminMain = () => {
             {selectedItem === "Testimonial" && <Testimonials />}
             {selectedItem === "Terms & Conditions" && <TermsConditionsMain />}
             {selectedItem === "Contact Details" && <ContactDetails />}
+            {selectedItem === "Blogs" && <AdminBlogsMain />}
+
 
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}

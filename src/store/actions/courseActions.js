@@ -500,3 +500,57 @@ export const getAllInstructorClassDetails = (courseId) => async (dispatch) => {
   }};
 
 
+
+  export const getStudentDashboardDetail = () => async (dispatch) => {
+    try {
+      const res = await api.get(`/studentReporting`);
+
+      return res;
+    }catch (err) {
+      throw err;
+    }};
+
+
+    export const getAdminDashboardDetail = () => async (dispatch) => {
+      try {
+        const res = await api.get(`/adminReporting`);
+
+        return res;
+      }catch (err) {
+        throw err;
+      }};
+
+
+    export const getInstructorDashboardDetail = () => async (dispatch) => {
+      try {
+        const res = await api.get(`/instructorReporting`);
+
+        return res;
+      }catch (err) {
+        throw err;
+      }};
+
+
+
+      export const addBlogs = (formValues) => async (dispatch) => {
+        try {
+          const res = await api.post("/createArticle", formValues);
+
+          console.log('Response from API:', res);
+
+          return res;
+        } catch (err) {
+          throw err;
+
+        }
+      };
+
+
+      export const getBlogs = () => async (dispatch) => {
+        try {
+          const res = await api.get(`/getAllArticles`);
+
+          return res;
+        }catch (err) {
+          throw err;
+        }};

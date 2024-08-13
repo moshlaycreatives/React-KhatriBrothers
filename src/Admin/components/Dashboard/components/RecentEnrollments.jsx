@@ -61,7 +61,7 @@ const dispatch = useDispatch()
           </TableRow>
         </TableHead>
         <TableBody>
-          {enrolledStudents.map((row) => (
+          {enrolledStudents.slice(0,5).map((row) => (
             <TableRow
               key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

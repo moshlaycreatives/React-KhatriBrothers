@@ -301,6 +301,7 @@ import {
   Divider,
   Avatar,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -315,6 +316,10 @@ const MessageMain = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [message, setMessage] = useState("");
   const [receiverId, setReceiverId] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const [loading, setLoading] = useState(true);
+
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [showConversations, setShowConversations] = useState(false); // Manage view state
@@ -328,11 +333,13 @@ const MessageMain = () => {
     dispatch(getAllUsers())
       .then((users) => {
         setAllUsers(users.data.data);
+        setLoading(false)
       })
       .catch((error) => {
+        setLoading(false)
         console.error("Error fetching users:", error);
       });
-  }, [dispatch]);
+  }, []);
 
   const filteredUsers = allUsers?.filter(user => user?.role === 'instructor' && user?._id !== userId);
 
@@ -383,9 +390,10 @@ const MessageMain = () => {
     }
   };
 
-  const handleSelectChat = (id) => {
+  const handleSelectChat = (id, firstName) => {
     socket.emit("addUser", userId, id);
     setReceiverId(id);
+    setSelectedUser(firstName)
   };
 
   const handleViewAllConversations = () => {
@@ -395,6 +403,20 @@ const MessageMain = () => {
   const handleBackToMessages = () => {
     setShowConversations(false);
   };
+
+
+  if(loading){
+    return(
+      <>
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+        <CircularProgress/>
+
+        </Box>
+      </>
+    )
+  }
+
+
 
   return (
     <>
@@ -441,7 +463,7 @@ const MessageMain = () => {
               {filteredUsers.map((val) => (
                 <Box
                   key={val._id}
-                  onClick={() => handleSelectChat(val._id)}
+                  onClick={() => handleSelectChat(val._id, val.firstName)}
                   sx={{
                     cursor: "pointer",
                     padding: "8px",
@@ -493,7 +515,7 @@ const MessageMain = () => {
                 }}
               >
                 <Typography variant="h6" align="center" color="primary">
-                  Khatri Brother Academy
+                  {selectedUser || 'Select User For Chat'}
                 </Typography>
               </Box>
               <Box

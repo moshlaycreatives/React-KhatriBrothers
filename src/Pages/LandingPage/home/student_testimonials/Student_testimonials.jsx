@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
  import "./Student_testimonials.css"
 import { getPublicTestimonial } from "../../../../store/actions/courseActions";
 import { useDispatch } from "react-redux";
+import { Typography } from "@mui/material";
 
 function Student_testimonials() {
 
@@ -43,7 +44,7 @@ function Student_testimonials() {
 
 
 
-
+console.log(publicTestimonial, 'public testimonials')
 
   return (
     <>
@@ -56,13 +57,18 @@ function Student_testimonials() {
         {publicTestimonial.map((row)=>(
            <div key={row._id}>
             {/* <TY></TY> */}
-           <img 
+           <img
            width='300rem'
-           src={`${base}${row.video.replace(/ /g, "%20")}`} 
+           src={`${base}${row.video.replace(/ /g, "%20")}`}
            alt="Testimonial 1" />
+
+{/* <Typography sx={{marginTop:'-3rem', zIndex:'9999999'}}>{row.stuName}</Typography> */}
+
+
+
          </div>
         ))}
-       
+
         {/* <div>
           <img src="assets/student_testimonial/test_1.png" alt="Testimonial 2" />
         </div>
