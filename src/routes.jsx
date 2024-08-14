@@ -142,9 +142,13 @@ export default function Router() {
     },
 
     {
-      path: "/blog-detail",
+      path: "/blogs/:id",
       element: <BlogDetailPage />,
     },
+    // {
+    //   path: "/blog-detail",
+    //   element: <BlogDetailPage />,
+    // },
 
     {
       path: "/faqs",

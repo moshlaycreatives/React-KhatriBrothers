@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsDatabase } from "react-icons/bs";
@@ -11,6 +11,7 @@ const Dashboard = () => {
   const theme = useTheme();
 const navigate = useNavigate()
   const [detail, setDetail] = useState({})
+  const [loading, setLoading] = useState(true)
 const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,9 @@ const dispatch = useDispatch()
         const data = res.data;
         console.log(res.data, 'res d')
         setDetail(data);
+        setLoading(false)
       } catch (err) {
+        setLoading(false)
         console.error("Failed to fetch advanced courses:", err);
       }
     };
@@ -30,28 +33,15 @@ const dispatch = useDispatch()
 
 console.log(detail, 'detailsssss')
 
-  const cardData = [
-    {
-      title: "Course Fee",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "$100",
-    },
-    {
-      title: "Duration Weeks",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "12",
-    },
-    {
-      title: "Teacher Fee",
-      icon: <BsDatabase style={{ fontSize: "1.6rem" }} />,
-      price: "$20",
-    },
-    {
-      title: "Remaining Lectures",
-      icon: <FaCalendarAlt style={{ fontSize: "1.6rem" }} />,
-      price: "08",
-    },
-  ];
+if(loading){
+  return(
+    <>
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+      <CircularProgress/>
+      </Box>
+    </>
+  )
+}
 
   return (
     <>
@@ -78,77 +68,11 @@ console.log(detail, 'detailsssss')
 
         <Box>
           <Grid container spacing={5}>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Box
-                  sx={{
-                    padding: "2rem",
-                    color: "white",
-                    background: "linear-gradient(to bottom, #901953, #35041f)",
-                    width: "100%",
-                    borderRadius: "5px",
-                    minHeight: "20vh",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                      Course Fee
-                    </Typography>
-
-                    <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
-
-                  </Box>
-
-                  <br />
-
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
-                    {detail.price}
-                  </Typography>
-                </Box>
-              </Grid>
 
 
 
 
 
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Box
-                  sx={{
-                    padding: "2rem",
-                    color: "white",
-                    background: "linear-gradient(to bottom, #901953, #35041f)",
-                    width: "100%",
-                    borderRadius: "5px",
-                    minHeight: "20vh",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                    Duration Weeks
-                    </Typography>
-                    {/* <Typography sx={{fontSize:'2rem'}}></Typography> */}
-                    <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
-
-                  </Box>
-
-                  <br />
-
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
-                    {detail.duration}
-                  </Typography>
-                </Box>
-              </Grid>
 
 
 

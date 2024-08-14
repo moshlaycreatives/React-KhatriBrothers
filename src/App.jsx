@@ -5,16 +5,16 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Router from './routes';
 import './App.css';
 import Header from './Pages/Components/Header';
-import { useLocation } from 'react-router-dom'; // Import the useLocation hook
+import { useLocation } from 'react-router-dom';
 import Footer from './Pages/LandingPage/footer/Footer';
 
 function App() {
-  const location = useLocation(); // Get the current location using useLocation hook
-  const showHeaderAndFooter = location.pathname !== '/admin/dashboard' && location.pathname !== '/seller/dashboard'; // Determine whether to show header and footer based on current path
+  const location = useLocation();
+  const showHeaderAndFooter = location.pathname !== '/admin/dashboard' && location.pathname !== '/seller/dashboard';
 
   return (
     <div>
-    
+
       <ThemeProvider theme={theme}>
         <StyledEngineProvider injectFirst>
           <SnackbarProvider

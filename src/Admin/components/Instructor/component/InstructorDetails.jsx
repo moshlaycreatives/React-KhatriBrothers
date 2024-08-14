@@ -297,7 +297,7 @@ import {
   useTheme
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { assignedStudents, getSingleInstructor, sendSearchTerm } from '../../../../store/actions/courseActions';
+import { assignedStudents, getSingleInstructor, searchStudentsOfInstructor, sendSearchTerm } from '../../../../store/actions/courseActions';
 import { useDispatch } from 'react-redux';
 import { CiSearch } from "react-icons/ci";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -329,44 +329,60 @@ const InstructorDetails = ({ instructorId }) => {
     fetchInstructorData();
   }, [dispatch, instructorId]);
 
+  const fetchStudentData = async () => {
+    try {
+      const res = await dispatch(assignedStudents(instructorId, currentPage));
+      setStudentData(res.data.data);
+      setTotalPages(Math.ceil(res.data.total / ITEMS_PER_PAGE)); // Calculate total pages
+    } catch (err) {
+      console.error("Failed to fetch students:", err);
+    }
+  };
+
   useEffect(() => {
-    const fetchStudentData = async () => {
-      try {
-        const res = await dispatch(assignedStudents(instructorId, currentPage));
-        setStudentData(res.data.data);
-        setTotalPages(Math.ceil(res.data.total / ITEMS_PER_PAGE)); // Calculate total pages
-      } catch (err) {
-        console.error("Failed to fetch students:", err);
-      }
-    };
 
     fetchStudentData();
   }, [dispatch, instructorId, currentPage]);
 
-  const handleSearch = () => {
-    const userType = 'instructor';
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.trim()) {
+        handleSearch();
+      } else {
+        fetchStudentData();
+      }
+    }, 300);
 
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+
+
+
+  const handleSearch = () => {
+    const userType = "user";
     if (!searchTerm.trim()) {
-      console.log('Search cannot be empty');
-      return;
+      return fetchStudentData();
     }
 
-    dispatch(sendSearchTerm(searchTerm, userType))
+    dispatch(searchStudentsOfInstructor(searchTerm, instructorId))
       .then((res) => {
         setStudentData(res?.data?.data);
         setTotalPages(Math.ceil(res?.data?.total / ITEMS_PER_PAGE)); // Update total pages based on search results
+
       })
       .catch((error) => {
-        console.error('Failed to send searchTerm', error);
+        console.error("Failed to send searchTerm", error);
       });
   };
+  const handleChange = (e) => {
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
+
+
+setSearchTerm(e.target.value);
+
+
   };
-
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -451,8 +467,7 @@ const InstructorDetails = ({ instructorId }) => {
                 placeholder='Search...'
                 value={searchTerm}
                 size='small'
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onChange={handleChange}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>

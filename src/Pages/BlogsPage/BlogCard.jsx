@@ -25,7 +25,7 @@ const BlogCard = () => {
     };
 
     fetchBlogData();
-  }, [dispatch]);
+  }, []);
 
   const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
@@ -37,7 +37,9 @@ const BlogCard = () => {
   };
 
   const handleCardClick = (id) => {
-    navigate(`/detail/${id}`); // Navigate to the detail page with the blog ID
+
+    console.log(id, 'blog id')
+    navigate(`/blogs/${id}`); // Navigate to the detail page with the blog ID
   };
 
   return (
@@ -52,7 +54,7 @@ const BlogCard = () => {
             <Grid item lg={4} md={4} sm={12} xs={12} key={val.id}>
               <Card
                 sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
-                onClick={() => handleCardClick(val.id)} // Add onClick handler
+                onClick={() => handleCardClick(val._id)} // Add onClick handler
               >
                 <Box sx={{ height: '200px', overflow: 'hidden' }}>
                   <img

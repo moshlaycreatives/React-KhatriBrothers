@@ -57,14 +57,14 @@ const StudentLectures = () => {
   };
 
   // Function to handle redirection with URL validation
-  const handleRedirect = (url) => {
-    try {
-      new URL(url); // Validate URL
-      window.location.href = url;
-    } catch (err) {
-      console.error('Invalid URL:', url);
-    }
-  };
+const handleRedirect = (url) => {
+  try {
+    new URL(url); // Validate URL
+    window.open(url, '_blank'); // Open the URL in a new tab
+  } catch (err) {
+    console.error('Invalid URL:', url);
+  }
+};
 
   return (
     <Box>

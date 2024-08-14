@@ -20,23 +20,23 @@ const IntermediateCoursesMain = () => {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getAllCourse());
+      const data = res.data.data
+    const filteredCourses = data.filter(course => course.courseType === 'intermediate')
+    setCourseData(filteredCourses);
 
+
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getAllCourse());
-        const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'intermediate')
-      setCourseData(filteredCourses);
 
-
-      } catch (err) {
-        console.error("Failed to fetch advanced courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, [dispatch]);
@@ -61,9 +61,7 @@ const IntermediateCoursesMain = () => {
     try {
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
-      // Refetch data to update UI
-      const res = await dispatch(getAdvanceCourse());
-      setCourseData(res.data.data);
+fetchData()
     } catch (err) {
       console.error("Failed to delete course:", err);
     }

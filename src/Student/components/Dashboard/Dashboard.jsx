@@ -52,7 +52,7 @@ const dispatch = useDispatch()
 
         <Box>
           <Grid container spacing={5}>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          {/* <Grid item lg={6} md={6} sm={12} xs={12}>
                 <Box
                   sx={{
                     padding: "2rem",
@@ -71,7 +71,7 @@ const dispatch = useDispatch()
                     }}
                   >
                     <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                      Price
+                     Recent Enrolled Course Price
                     </Typography>
 
                     <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
@@ -84,7 +84,7 @@ const dispatch = useDispatch()
                     {detail.price}
                   </Typography>
                 </Box>
-              </Grid>
+              </Grid> */}
 
 
 
@@ -109,7 +109,7 @@ const dispatch = useDispatch()
                     }}
                   >
                     <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                      Duration
+                     Recent Enrolled Course Duration
                     </Typography>
                     {/* <Typography sx={{fontSize:'2rem'}}></Typography> */}
                     <FaCalendarAlt style={{ fontSize: "1.6rem" }} />
@@ -145,7 +145,7 @@ const dispatch = useDispatch()
                     }}
                   >
                     <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                      Remaining Lectures
+                     Recent Course Remaining Lectures
                     </Typography>
 
                     <BsDatabase style={{ fontSize: "1.6rem" }} />
@@ -181,7 +181,7 @@ const dispatch = useDispatch()
                     }}
                   >
                     <Typography sx={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                    Enrolled Courses
+                    Total Enrolled Courses
                     </Typography>
                     <BsDatabase style={{ fontSize: "1.6rem" }} />
 

@@ -113,7 +113,7 @@ const ShowProfileData = () => {
           <Typography>{formValues.name}</Typography>
         </Box>
 
-        <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>Name</Typography>
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: '400' }}>First Name</Typography>
         <TextField
           name="firstName"
           placeholder="First Name"

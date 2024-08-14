@@ -31,7 +31,7 @@ import {
 import InstructorDetails from './component/InstructorDetails';
 import AddInstructor from './component/AddInstructor';
 
-const ITEMS_PER_PAGE = 10; // Define the number of items per page
+const ITEMS_PER_PAGE = 10;
 
 const InstructorMain = () => {
   const theme = useTheme();
@@ -50,59 +50,71 @@ const InstructorMain = () => {
     setIsAddingInstructor(true);
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getInstructors(currentPage));
+      setInstructorData(res.data.data);
+
+      const totalRecords = res.data.total;
+      const totalPagesCalculated = Math.ceil(totalRecords / ITEMS_PER_PAGE);
+      setTotalPages(totalPagesCalculated);
+
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch instructor data', error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getInstructors(currentPage));
-        setInstructorData(res.data.data);
 
-        // Calculate total pages based on the total number of records
-        const totalRecords = res.data.total; // Assuming `total` is the total number of records
-        const totalPagesCalculated = Math.ceil(totalRecords / ITEMS_PER_PAGE);
-        setTotalPages(totalPagesCalculated);
-
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch instructor data', error);
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, [dispatch, currentPage]);
 
+
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.trim()) {
+        handleSearch();
+      } else {
+        fetchData();
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+
+
+
   const handleSearch = () => {
-    const userType = 'instructor';
+    const userType = "instructor";
+setLoading(true)
     if (!searchTerm.trim()) {
-      console.log('Search cannot be empty');
-      return;
+      return fetchData();
     }
 
     dispatch(sendSearchTerm(searchTerm, userType))
       .then((res) => {
         setInstructorData(res?.data?.data);
+        setTotalPages(Math.ceil(res?.data?.total / ITEMS_PER_PAGE)); // Update total pages based on search results
+setLoading(false)
+
       })
       .catch((error) => {
-        console.error('Failed to send searchTerm', error);
+        console.error("Failed to send searchTerm", error);
       });
   };
-
   const handleChange = (e) => {
-    setSearchTerm(e.target.value);
-    dispatch(sendSearchTerm(e.target.value))
-      .then((res) => {
-        setInstructorData(res?.data?.data);
-      })
-      .catch((error) => {
-        console.error('Failed to send searchTerm', error);
-      });
-  };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
+
+
+setSearchTerm(e.target.value);
+
+
   };
 
   const handleOpenMenu = (events) => {
@@ -139,20 +151,35 @@ const InstructorMain = () => {
     setCurrentRowId(null);
   };
 
-  const handleDeleteInstructor = (id) => {
-    dispatch(deleteInstructor(id))
+
+  console.log(currentRowId, 'current id')
+
+
+  const handleDeleteInstructor = () => {
+
+    if (currentRowId) {
+      dispatch(deleteInstructor(currentRowId))
       .then(() => {
+        handleMenuClose();
+        setLoading(true)
         dispatch(getInstructors(currentPage))
           .then((res) => {
             setInstructorData(res.data.data);
+setLoading(false)
           })
           .catch((error) => {
             console.error('Failed to fetch instructor data after deletion', error);
+          setLoading(false)
           });
       })
       .catch((err) => {
         console.error(err);
       });
+    }
+
+
+
+
   };
 
   const handlePageChange = (event, value) => {
@@ -205,7 +232,7 @@ const InstructorMain = () => {
                   placeholder='Search...'
                   value={searchTerm}
                   onChange={handleChange}
-                  onKeyPress={handleKeyPress}
+
                   size='small'
                   InputProps={{
                     startAdornment: (
@@ -270,7 +297,7 @@ const InstructorMain = () => {
                             onClose={handleMenuClose}
                           >
                             <MenuItem onClick={handleEditClick}>View</MenuItem>
-                            <MenuItem onClick={() => handleDeleteInstructor(row._id)}>Delete</MenuItem>
+                            <MenuItem onClick={handleDeleteInstructor}>Delete</MenuItem>
                           </Menu>
                         </TableCell>
                       </TableRow>
@@ -298,217 +325,3 @@ const InstructorMain = () => {
 };
 
 export default InstructorMain;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // import { Box, Button, IconButton, InputAdornment, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from '@mui/material';
-  // import React, { useEffect, useState } from 'react';
-  // import MoreVertIcon from '@mui/icons-material/MoreVert';
-  // import { CiSearch } from "react-icons/ci";
-  // import { useDispatch } from 'react-redux';
-  // import { getSingleCourse, getSingleStudent, getStudentData, sendSearchTerm } from '../../../store/actions/courseActions'; // Import sendSearchTerm
-  // import { useAsyncError } from 'react-router';
-
-  // const StudentMain = () => {
-  //   const theme = useTheme();
-  //   const [anchorEl, setAnchorEl] = useState(null);
-  //   const [searchTerm, setSearchTerm] = useState('');
-  //   const [studentData, setStudentData] = useState([]);
-  //   const [currentRowId, setCurrentRowId] = useState(null);
-  //   const [isEdited, setIsEdited] = useState(false);
-  //   const dispatch = useDispatch();
-
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const res = await dispatch(getStudentData());
-  //         setStudentData(res.data.data);
-  //         console.log('Student data:', res.data);
-  //       } catch (error) {
-  //         console.error('Failed to fetch student data', error);
-  //       }
-  //     };
-
-  //     fetchData();
-  //   }, [dispatch]);
-
-  //   const handleSearch = () => {
-  //     if (!searchTerm.trim()) {
-  //       console.log('Search cannot be empty');
-  //       return;
-  //     }
-
-  //     dispatch(sendSearchTerm(searchTerm))
-  //       .then((res) => {
-  //         setStudentData(res?.data?.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Failed to send searchTerm', error);
-  //       });
-  //   };
-
-  //   const handleChange = (e) => {
-  //     setSearchTerm(e.target.value);
-  //     dispatch(sendSearchTerm(searchTerm))
-  //     .then((res) => {
-  //       setStudentData(res?.data?.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to send searchTerm', error);
-  //     });
-  //     // console.log(searchTerm)
-  //   };
-  // //   console.log(searchTerm);
-
-  //   const handleKeyPress = (e) => {
-  //     if (e.key === 'Enter') {
-  //       handleSearch();
-  //     }
-  //   };
-
-  //   const handleOpenMenu = (events) => {
-  //     setAnchorEl(events.currentTarget);
-  //   };
-
-  //   const handleMenuClose = () => {
-  //     setAnchorEl(null);
-  //   };
-
-  //   const handleMenuClick =(events, id)=>{
-  //     setAnchorEl(events.currentTarget)
-  //     setCurrentRowId(id)
-  //     console.log('cureent id student ',currentRowId);
-  //   }
-
-  //   const handleEditClick = () => {
-  //     setIsEdited(true);
-  //     handleMenuClose();
-
-  //     if (currentRowId) {
-  //       dispatch(getSingleStudent(currentRowId))
-  //         .then((res) => {
-  //           console.log('Single student data:', res.data); // Process the data as needed
-  //         })
-  //         .catch((error) => {
-  //           console.error('Failed to fetch student data:', error);
-  //         });
-  //     }
-
-  //     }
-
-
-  //   return (
-  //     <>
-  //       <Box>
-  //         <Box>
-  //           <Typography sx={{
-  //             color: theme.palette.primary.main,
-  //             fontSize: '2rem',
-  //             fontWeight: 550
-  //           }}>
-  //             Students
-  //           </Typography>
-  //         </Box>
-  //         <Box>
-  //           <TableContainer component={Paper} sx={{ padding: '1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
-  //             <Box sx={{
-  //               display: 'flex',
-  //               justifyContent: 'space-between',
-  //               marginBottom: '2rem'
-  //             }}>
-  //               <TextField
-  //                 variant='outlined'
-  //                 placeholder='Search...'
-  //                 value={searchTerm}
-  //                 onChange={handleChange}
-  //                 onKeyPress={handleKeyPress}
-  //                 InputProps={{
-  //                   startAdornment: (
-  //                     <InputAdornment position='start'>
-  //                       <CiSearch />
-  //                     </InputAdornment>
-  //                   )
-  //                 }}
-  //               />
-  //               <Button
-  //                 variant="contained"
-  //                 color="primary"
-  //                 onClick={handleSearch}
-  //                 startIcon={<CiSearch />}
-  //               >
-  //                 Search
-  //               </Button>
-  //             </Box>
-  //             <Table size='small' aria-label='a dense table'>
-  //               <TableHead>
-  //                 <TableRow>
-  //                   <TableCell>Student Name</TableCell>
-  //                   <TableCell>Course Name</TableCell>
-  //                   <TableCell>Course Type</TableCell>
-  //                   <TableCell>Class Type</TableCell>
-  //                   <TableCell>Course Fee</TableCell>
-  //                   <TableCell>Action</TableCell>
-  //                 </TableRow>
-  //               </TableHead>
-  //               <TableBody>
-  //                 {studentData.map((row) => (
-  //                   <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-  //                     <TableCell component='th' scope='row ' sx={{ color: 'gray' }}>
-  //                       {`${row.studentId.firstName} ${row.studentId.lastName}`}
-  //                     </TableCell>
-  //                     <TableCell sx={{ color: 'gray' }}>
-  //                       {row.courseId.title}
-  //                     </TableCell>
-  //                     <TableCell sx={{ color: 'gray' }}>
-  //                       {row.courseId.courseType}
-  //                     </TableCell>
-  //                     <TableCell sx={{ color: 'gray' }}>
-  //                       Group
-  //                     </TableCell>
-  //                     <TableCell sx={{ color: 'gray' }}>
-  //                       {row.courseId.price}
-  //                     </TableCell>
-  //                     <IconButton  onClick={(events)=>handleMenuClick(events,row._id)}>
-  //                       <MoreVertIcon />
-  //                     </IconButton>
-  //                     <Menu
-  //                       anchorEl={anchorEl}
-  //                       open={Boolean(anchorEl)}
-  //                       onClose={handleMenuClose}
-  //                     >
-  //                       <MenuItem onClick={handleEditClick}>View</MenuItem>
-  //                       <MenuItem>Delete</MenuItem>
-  //                     </Menu>
-  //                   </TableRow>
-  //                 ))}
-  //               </TableBody>
-  //             </Table>
-  //           </TableContainer>
-  //         </Box>
-  //       </Box>
-  //     </>
-  //   );
-  // };
-
-  // export default StudentMain;

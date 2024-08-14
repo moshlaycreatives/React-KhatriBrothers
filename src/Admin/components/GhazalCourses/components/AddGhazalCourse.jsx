@@ -71,7 +71,7 @@ const AddGhazalCourse = () => {
     ugandaPrice:'',
 canadaPrice:'',
 australiaPrice:'',
-    // courseDuration: '',
+    courseDuration: '',
     lectureDuration: '',
     courseImage: null,
   };
@@ -122,7 +122,7 @@ australiaPrice:'',
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));
-    // formData.append('courseDuration', formValues.courseDuration);
+    formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
 
     formData.append('indianPrice', formValues.indianPrice);
@@ -179,6 +179,7 @@ australiaPrice:'',
 
 
 
+            { label: "Course Duration", name: "courseDuration", type: 'number' },
 
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (

@@ -1,23 +1,49 @@
 import { Box, Button, Card, Grid, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { getBlogs } from '../../store/actions/courseActions';
 
 const RelatedBlogs = () => {
 
 const theme = useTheme()
-    const threecard = [
-        {
-            image:'/BegginerImage.png',
-            desc:'Lorem ipsum, dolor sit amet consectetur ...'
-        },
-        {
-            image:'/BegginerImage.png',
-            desc:'Lorem ipsum, dolor sit amet consectetur ...'
-        },
-        {
-            image:'/BegginerImage.png',
-            desc:'Lorem ipsum, dolor sit amet consectetur ...'
-        }
-    ]
+
+
+
+
+const dispatch = useDispatch();
+const navigate = useNavigate(); // Initialize useNavigate
+const [blogsData, setBlogsData] = useState([]);
+const [loading, setLoading] = useState(true); // New loading state
+
+useEffect(() => {
+  const fetchBlogData = async () => {
+    try {
+      const res = await dispatch(getBlogs());
+      const data = res.data.data;
+      console.log(data, "blog data");
+      setBlogsData(data);
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    }
+  };
+
+  fetchBlogData();
+}, []);
+
+const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+
+const formatDate = (dateString) => {
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('en-GB', options).format(date);
+};
+
+const handleCardClick = (id) => {
+
+  console.log(id, 'blog id')
+  navigate(`/blogs/${id}`); // Navigate to the detail page with the blog ID
+};
 
   return (
     <>
@@ -28,42 +54,62 @@ const theme = useTheme()
 
 <Box sx={{padding:'2rem 0%'}}>
 
-<Typography sx={{color:theme.palette.primary.main, textAlign:'center', fontWeight:'600', fontSize:'2rem'}}>Related Posts</Typography>
+<Typography sx={{color:theme.palette.primary.main, textAlign:'center', fontWeight:'600', fontSize:'2rem'}}>Related Blogs</Typography>
 
 <br/>
 
 <Grid container spacing={4}>
 
-{threecard.map((val, ind)=>(
-  <Grid item lg={4} md={4} sm={12} xs={12} key={ind}>
-      <Card>
-        <Box>
-          <img src={val.image} alt="" width={"100%"} />
-        </Box>
+{blogsData.slice(0,3).map((val) => (
+            <Grid item lg={4} md={4} sm={12} xs={12} key={val.id}>
+              <Card
+                sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+                onClick={() => handleCardClick(val._id)} // Add onClick handler
+              >
+                <Box sx={{ height: '200px', overflow: 'hidden' }}>
+                  <img
+                    src={`${base}${val.images[0]}`}
+                    alt="Blog Image"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </Box>
 
-        <Button
-          variant="contained"
-          sx={{
-            marginLeft: "1rem",
-            marginTop: "-2rem",
-            borderRadius: "0px",
-            padding: "0.5rem 1.8rem",
-            textTransform: "none",
-          }}
-        >
-          {" "}
-          27 january 2024
-        </Button>
-        <Box sx={{ padding: "1rem" }}>
-          <Typography sx={{ color: "grey" }}>
-            {val.desc}
-          </Typography>
+                <Box sx={{ padding: "1rem" }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      position: 'absolute',
+                      bottom: 90,
+                      left: 10,
+                      borderRadius: "0px",
+                      padding: "0.5rem 1.8rem",
+                      textTransform: "none",
+                      margin: '1rem',
+                      zIndex: 1,
+                    }}
+                  >
+                    {formatDate(val.createdAt)}
+                  </Button>
 
-          <Button sx={{ textTransform: "none" }}>Read More &rarr; </Button>
-        </Box>
-      </Card>
-    </Grid>
-))}
+                  <Typography
+                    sx={{
+                      color: "grey",
+                      marginTop: '2rem',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {val.description}
+                  </Typography>
+
+                  <Button sx={{ textTransform: "none" }}>
+                    Read More &rarr;{" "}
+                  </Button>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
 
 </Grid>
 

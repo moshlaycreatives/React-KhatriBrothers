@@ -91,7 +91,7 @@ const listData = [
   { title: "Bhajan", icon: <ArticleIcon /> },
   { title: "Gazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
-  { title: "Bollywood", icon: <ArticleIcon /> },
+  { title: "Bollywood Public Filmy Songs", icon: <ArticleIcon /> },
 
 
   { title: "Students", icon: <PiStudent /> },
@@ -268,11 +268,11 @@ const AdminMain = () => {
                   {
   notifications && notifications.length > 0 ? (
     notifications.map((notification, index) => (
-      <Box key={index} sx={{padding:'0.5rem 2rem', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
-        <Typography sx={{fontSize:'0.8rem', fontWeight:600, color: theme.palette.primary.main}}>
+      <Box key={index} sx={{padding:'0.5rem 2rem', cursor:'alias', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
+        <Typography sx={{fontSize:'0.8rem',cursor:'alias', fontWeight:600, color: theme.palette.primary.main}}>
           {notification?.title}
         </Typography>
-        <Typography sx={{fontSize:'0.6rem'}}>
+        <Typography sx={{fontSize:'0.6rem', cursor:'allias'}}>
           {notification?.body}
         </Typography>
         <Divider />
@@ -468,7 +468,7 @@ const AdminMain = () => {
 
             {selectedItem === "Gazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
-            {selectedItem === "Bollywood" && <BollyWoodMain />}
+            {selectedItem === "Bollywood Public Filmy Songs" && <BollyWoodMain />}
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}

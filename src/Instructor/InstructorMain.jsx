@@ -81,7 +81,7 @@ const InstructorMain = () => {
   console.log(userData, "data");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const profilePictureUrl = base + userData.profilePicture;
+  const profilePictureUrl = base + userData.profilePicture;
 
   const handleItemClick = (title) => {
     if (title === "Logout") {
@@ -271,7 +271,7 @@ const InstructorMain = () => {
                       renderValue={(selected) => (
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Avatar
-                            // src={profilePictureUrl}
+                            src={profilePictureUrl}
                             alt=""
                             sx={{
                               height: "2rem",

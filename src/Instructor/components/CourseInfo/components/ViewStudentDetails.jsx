@@ -208,6 +208,8 @@ const ViewStudentDetails = ({ student_Id }) => {
     const { enqueueSnackbar } = useSnackbar()
     const [studentData, setStudentData] = useState({})
     const [courseData, setCourseData] = useState({})
+
+    console.log(courseData, 'data type')
     const [teachers, setTeachers] = useState([]) // State to store the list of teachers
     const [selectedTeacher, setSelectedTeacher] = useState('') // State to store selected teacher
     const [loading, setLoading] = useState(true) // Loading state
@@ -273,7 +275,7 @@ const ViewStudentDetails = ({ student_Id }) => {
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.firstName}</Typography>
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Type</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.title}</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType}</Typography>
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Age</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.learnerType}</Typography>
@@ -284,9 +286,8 @@ const ViewStudentDetails = ({ student_Id }) => {
                     </Box>
 
                     <Box>
-                        <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Email</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.email}</Typography>
-                        <br />
+
+                        
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Name</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType}</Typography>
                         <br />

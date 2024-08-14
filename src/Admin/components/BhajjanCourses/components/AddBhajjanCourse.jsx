@@ -71,7 +71,7 @@ const AddBhajjanCourse = () => {
     ugandaPrice:'',
 canadaPrice:'',
 australiaPrice:'',
-
+courseDuration:'',
     lectureDuration: '',
     courseImage: null,
   };
@@ -124,6 +124,8 @@ australiaPrice:'',
     formData.append('topics', topics.join(','));
 
     formData.append('lectureDuration', formValues.lectureDuration);
+    formData.append('courseDuration', formValues.courseDuration);
+
 
     formData.append('indianPrice', formValues.indianPrice);
     formData.append('ukPrice', formValues.ukPrice);
@@ -164,7 +166,7 @@ australiaPrice:'',
 
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Course Name", name: "courseName", type: 'text' },
+            { label: "Course Name *", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
             { label: "Prerequisites", name: "prerequisites", type: 'text' },
             { label: "Indian Price", name: "indianPrice", type: 'number' },
@@ -177,6 +179,7 @@ australiaPrice:'',
             { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
 
 
+            { label: "Course Duration", name: "courseDuration", type: 'number' },
 
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (
@@ -231,7 +234,7 @@ australiaPrice:'',
           </Box>
 
           <Box sx={inputStyles}>
-            <Typography sx={labelStyles}>Add Image</Typography>
+            <Typography sx={labelStyles}>Add Image *</Typography>
             <Box sx={boxStyles}>
               <TextField
                 fullWidth

@@ -27,6 +27,7 @@ import {
   getAssignedStudents,
   getSingleStudent,
   getStudentData,
+  searchStudentsOfInstructor,
   sendSearchTerm
 } from '../../../store/actions/courseActions'; // Import sendSearchTerm
 // import ViewStudent from './component/ViewStudent';
@@ -39,6 +40,7 @@ const StudentMain = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [studentData, setStudentData] = useState([]);
+
   const [currentRowId, setCurrentRowId] = useState(null);
   const [isEdited, setIsEdited] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // State for current page
@@ -47,51 +49,62 @@ const StudentMain = () => {
   const dispatch = useDispatch();
 
   const InstructorId = useSelector((state)=>state?.auth?.user?._id)
-
+  const fetchData = async () => {
+    setLoading(true); // Start loading
+    try {
+      const res = await dispatch(getAssignedStudents(InstructorId));
+      setStudentData(res.data.data);
+      // Assuming totalPages is returned from the API
+      console.log('Student data:', res.data);
+    } catch (error) {
+      console.error('Failed to fetch student data', error);
+    } finally {
+      setLoading(false); // End loading
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true); // Start loading
-      try {
-        const res = await dispatch(getAssignedStudents(InstructorId));
-        setStudentData(res.data.data);
-        // Assuming totalPages is returned from the API
-        console.log('Student data:', res.data);
-      } catch (error) {
-        console.error('Failed to fetch student data', error);
-      } finally {
-        setLoading(false); // End loading
-      }
-    };
+
 
     fetchData();
   }, []);
 
-  const handleSearch = () => {
-    const userType = 'student'
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.trim()) {
+        handleSearch();
+      } else {
+        fetchData();
+      }
+    }, 300);
 
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+
+
+  const handleSearch = () => {
+    const userType = "user";
     if (!searchTerm.trim()) {
-      console.log('Search cannot be empty');
-      return;
+      return fetchData();
     }
 
-    dispatch(sendSearchTerm(searchTerm, userType))
+    dispatch(searchStudentsOfInstructor(searchTerm, InstructorId))
       .then((res) => {
         setStudentData(res?.data?.data);
-        setTotalPages(res?.data?.totalPages); // Update total pages based on search results
+        setTotalPages(Math.ceil(res?.data?.total / ITEMS_PER_PAGE)); // Update total pages based on search results
+
       })
       .catch((error) => {
-        console.error('Failed to send searchTerm', error);
+        console.error("Failed to send searchTerm", error);
       });
   };
-
   const handleChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
+
+
+setSearchTerm(e.target.value);
+
+
   };
 
   const handlePageChange = (event, value) => {
@@ -159,7 +172,7 @@ const StudentMain = () => {
                   placeholder='Search...'
                   value={searchTerm}
                   onChange={handleChange}
-                  onKeyPress={handleKeyPress}
+
                   size='small'
                   InputProps={{
                     startAdornment: (

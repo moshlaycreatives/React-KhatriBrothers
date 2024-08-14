@@ -58,10 +58,9 @@ const data = res.data.data
     try {
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
-      // Refetch data to update UI
-      const res = await dispatch(getBeginnerCourse());
-      setCourseData(res.data.data);
-    } catch (err) {
+      
+      fetchData()
+          } catch (err) {
       console.error("Failed to delete course:", err);
     }
   };

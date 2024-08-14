@@ -42,6 +42,8 @@ import {
         { id: 'course4', name: 'Ghazal' },
         { id: 'course5', name: 'Bhajan' },
         { id: 'course5', name: 'Tabla' },
+        { id: 'course5', name: 'Bollywood' },
+
 
     ];
 

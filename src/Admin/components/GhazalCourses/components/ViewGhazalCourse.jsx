@@ -87,12 +87,80 @@ const ViewGhazalCourse = ({ courseId }) => {
             </Typography>
           ))}
 
+
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
-            Course Fee
+            Indian Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            ${courseData.price}
+          ₹ {courseData.indianPrice}
+
           </Typography>
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            USA Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          $ {courseData.usaPrice}
+          </Typography>
+
+
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            Canada Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          C$ {courseData.canadaPrice}
+          </Typography>
+
+
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+          Australia Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          A$ {courseData.ukPrice}
+          </Typography>
+
+
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            UAE Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          د.إ {courseData.uaePrice}
+          </Typography>
+
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            UK Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          £ {courseData.ukPrice}
+          </Typography>
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            Kenya Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          KSh {courseData.kenyaPrice}
+          </Typography>
+
+
+
+          <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+            Uganda Price
+          </Typography>
+          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          USh {courseData.ugandaPrice}
+          </Typography>
+
+
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Duration

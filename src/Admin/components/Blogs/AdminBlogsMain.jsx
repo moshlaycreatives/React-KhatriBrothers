@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import AddAdvanceCourse from '../AdvanceCourses/components/AddAdvanceCourse';
 import ViewAdvanceCourse from '../AdvanceCourses/components/ViewAdvanceCourse';
-import { deleteSingleData, getAdvanceCourse, getAllCourse, getBlogs } from '../../../store/actions/courseActions';
+import { deleteBlog, deleteSingleData, getAdvanceCourse, getAllCourse, getBlogs } from '../../../store/actions/courseActions';
 import AddKhatriBlogs from './components/AddKhatriBlogs';
 
 const AdminBlogsMain = () => {
@@ -44,20 +44,20 @@ const AdminBlogsMain = () => {
     fetchData();
   }, [dispatch]);
 
+  const fetchBlogData = async () => {
 
+    try {
+      const res = await dispatch(getBlogs());
+
+      const data = res.data.data
+      console.log(data, 'blog data')
+    setBlogsData(data);
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    }
+  };
   useEffect(() => {
-    const fetchBlogData = async () => {
 
-      try {
-        const res = await dispatch(getBlogs());
-
-        const data = res.data.data
-        console.log(data, 'blog data')
-      setBlogsData(data);
-      } catch (err) {
-        console.error("Failed to fetch advanced courses:", err);
-      }
-    };
 
     fetchBlogData();
   }, [dispatch]);
@@ -80,11 +80,10 @@ const AdminBlogsMain = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await dispatch(deleteSingleData(currentRowId));
+      await dispatch(deleteBlog(currentRowId));
+      fetchBlogData()
+
       setConfirmDialogOpen(false);
-      // Refetch data to update UI
-      const res = await dispatch(getAdvanceCourse());
-      setCourseData(res.data.data);
     } catch (err) {
       console.error("Failed to delete course:", err);
     }
@@ -179,7 +178,7 @@ const AdminBlogsMain = () => {
                           open={Boolean(anchorEl)}
                           onClose={handleMenuClose}
                         >
-                          <MenuItem onClick={handleEditClick}>View</MenuItem>
+                          {/* <MenuItem onClick={handleEditClick}>View</MenuItem> */}
                           <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                         </Menu>
                       </TableCell>

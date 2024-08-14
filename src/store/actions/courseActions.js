@@ -163,10 +163,40 @@ export const getRelatedCourses = (courseType) => async (dispatch) => {
   }
 };
 
+
+
+
+
 export const sendSearchTerm = (searchTerm,userType) => async (dispatch) => {
-  console.log('hhhhh', searchTerm)
+  console.log('userType', userType)
   try {
     const res = await api.post(`/searchApi?searchTerm=${encodeURIComponent(searchTerm)}`, {userType:userType});
+
+    return res;
+  } catch (err) {
+    console.error('searchterm send error',err)
+    throw err;
+  }
+};
+
+
+export const groupSearch = (searchTerm) => async (dispatch) => {
+  try {
+    const res = await api.get(`/searchGroup?searchTerm=${encodeURIComponent(searchTerm)}`,);
+
+    return res;
+  } catch (err) {
+    console.error('searchterm send error',err)
+    throw err;
+  }
+};
+
+
+
+export const searchStudentsOfInstructor = (searchTerm, instructorId) => async (dispatch) => {
+  console.log(instructorId, 'api inst id')
+  try {
+    const res = await api.post(`/searchStudentsOfInstructor?searchTerm=${searchTerm}`, {instructorId});
 
     return res;
   } catch (err) {
@@ -554,3 +584,23 @@ export const getAllInstructorClassDetails = (courseId) => async (dispatch) => {
         }catch (err) {
           throw err;
         }};
+
+
+
+      export const getDetailBlog = (id) => async (dispatch) => {
+        try {
+          const res = await api.get(`/getArticleById/${id}`);
+
+          return res;
+        }catch (err) {
+          throw err;
+        }};
+
+        export const deleteBlog = (id) => async (dispatch) => {
+          try {
+            const res = await api.patch(`/deleteArticle/${id}`);
+
+            return res;
+          }catch (err) {
+            throw err;
+          }};

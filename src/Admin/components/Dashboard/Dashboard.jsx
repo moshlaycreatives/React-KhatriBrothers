@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsDatabase } from "react-icons/bs";
@@ -12,6 +12,7 @@ const Dashboard = () => {
   const theme = useTheme();
 const navigate = useNavigate()
   const [detail, setDetail] = useState({})
+  const [loading, setLoading] = useState(true)
 const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +21,10 @@ const dispatch = useDispatch()
         const data = res.data;
         console.log(res.data, 'res d')
         setDetail(data);
+        setLoading(false)
       } catch (err) {
         console.error("Failed to fetch advanced courses:", err);
+
       }
     };
 
@@ -32,7 +35,15 @@ const dispatch = useDispatch()
 console.log(detail, 'detailsssss')
 
 
-
+if(loading){
+  return(
+    <>
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+<CircularProgress/>
+       </Box>
+    </>
+  )
+}
 
   return (
     <>
@@ -201,18 +212,6 @@ console.log(detail, 'detailsssss')
 
           </Grid>
         </Box>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <RecentEnrollments/>
       </Box>

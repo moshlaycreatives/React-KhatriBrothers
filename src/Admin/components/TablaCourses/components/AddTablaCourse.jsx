@@ -71,6 +71,7 @@ const AddBhajjanCourse = () => {
     ugandaPrice:'',
 canadaPrice:'',
 australiaPrice:'',
+courseDuration: '',
 
     lectureDuration: '',
     courseImage: null,
@@ -124,6 +125,8 @@ australiaPrice:'',
     formData.append('topics', topics.join(','));
 
     formData.append('lectureDuration', formValues.lectureDuration);
+    formData.append('courseDuration', formValues.courseDuration);
+
 
     formData.append('indianPrice', formValues.indianPrice);
     formData.append('ukPrice', formValues.ukPrice);
@@ -177,6 +180,7 @@ australiaPrice:'',
             { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
 
 
+            { label: "Course Duration", name: "courseDuration", type: 'number' },
 
             { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
           ].map((field, index) => (

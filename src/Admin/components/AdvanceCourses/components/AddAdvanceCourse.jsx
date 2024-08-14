@@ -164,7 +164,7 @@ australiaPrice:'',
 
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Course Name", name: "courseName", type: 'text' },
+            { label: "Course *", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
             { label: "Prerequisites", name: "prerequisites", type: 'text' },
             { label: "Indian Price", name: "indianPrice", type: 'number' },
@@ -231,7 +231,7 @@ australiaPrice:'',
           </Box>
 
           <Box sx={inputStyles}>
-            <Typography sx={labelStyles}>Add Image</Typography>
+            <Typography sx={labelStyles}>Add Image *</Typography>
             <Box sx={boxStyles}>
               <TextField
                 fullWidth

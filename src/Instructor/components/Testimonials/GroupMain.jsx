@@ -290,6 +290,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import {
   getAllGroups,
+  groupSearch,
 } from "../../../store/actions/courseActions";
 import GroupDetails from "./components/GroupDetails";
 import CreateGroup from "./components/CreateGroup";
@@ -308,21 +309,82 @@ const GroupMain = () => {
   const [viewDetails, setViewDetails] = useState(false);
   const [selectedGroupData, setSelectedGroupData] = useState(null);
 
+
+
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getAllGroups(currentPage));
+      setTestimonialData(res.data.data);
+    } catch (error) {
+      console.error("Failed to fetch student data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getAllGroups(currentPage));
-        setTestimonialData(res.data.data);
-      } catch (error) {
-        console.error("Failed to fetch student data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, [dispatch, currentPage]);
+
+
+
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.trim()) {
+        handleSearch();
+      } else {
+        fetchData();
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+
+
+
+  const handleSearch = () => {
+    const userType = "user";
+    if (!searchTerm.trim()) {
+      return fetchData();
+    }
+
+    dispatch(groupSearch(searchTerm))
+      .then((res) => {
+        setTestimonialData(res?.data?.data);
+        // setTotalPages(Math.ceil(res?.data?.total / ITEMS_PER_PAGE)); // Update total pages based on search results
+
+      })
+      .catch((error) => {
+        console.error("Failed to send searchTerm", error);
+      });
+  };
+  const handleChange = (e) => {
+
+
+
+setSearchTerm(e.target.value);
+
+
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const handleAddTestimonial = () => {
     setIsAdding(true);
@@ -364,7 +426,7 @@ const GroupMain = () => {
                     fontSize: isMobile ? "1.5rem" : "2rem",
                   }}
                 >
-                  Group
+                  Groups
                 </Typography>
 
                 <Box>
@@ -375,7 +437,7 @@ const GroupMain = () => {
                       textTransform: "none",
                       borderRadius: "0px",
                       fontWeight: 400,
-                      fontSize: isMobile ? "0.8rem" : "1.2rem",
+                      fontSize: isMobile ? "0.8rem" : "1rem",
                     }}
                   >
                     + Create Group
@@ -406,34 +468,37 @@ const GroupMain = () => {
                       width: "100%",
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "2rem",
-                      }}
-                    >
-                      <TextField
-                        variant="outlined"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        size="small"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <CiSearch />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<CiSearch />}
-                      >
-                        Search
-                      </Button>
-                    </Box>
+                   <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '2rem'
+                }}
+              >
+                <TextField
+                  variant='outlined'
+                  placeholder='Search...'
+                  value={searchTerm}
+                  onChange={handleChange}
+
+                  size='small'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CiSearch />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSearch}
+                  startIcon={<CiSearch />}
+                >
+                  Search
+                </Button>
+              </Box>
 
                     <Table
                       size="small"

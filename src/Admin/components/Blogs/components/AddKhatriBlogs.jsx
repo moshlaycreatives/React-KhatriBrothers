@@ -151,6 +151,9 @@ const AddKhatriBlogs = () => {
               style={{ height: '200px', marginBottom: '1rem' }}
             />
           </Box>
+<br/>
+<br/>
+<br/>
 
           <Box sx={inputStyles}>
             <Typography sx={labelStyles}>Read Time (in minutes)</Typography>

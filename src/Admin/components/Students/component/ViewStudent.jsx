@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   FormControl,
   IconButton,
   InputLabel,
@@ -28,6 +29,7 @@ const ViewStudent = ({ student_Id }) => {
   const [courseData, setCourseData] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
 const [instructorId, setInstructorId] = useState('')
+const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch();
 
@@ -38,13 +40,14 @@ const [instructorId, setInstructorId] = useState('')
 
         setStudentData(res.data.data.studentId);
         setCourseData(res.data.data.courseId);
-
         setInstructorId(res.data.data.instructorId)
-
+setLoading(false)
       } catch (err) {
         console.error("Failed to fetch student:", err);
+      setLoading(false)
       } finally {
-        // setLoading(false); // Set loading to false after data is fetched or if an error occurs
+
+        setLoading(false); // Set loading to false after data is fetched or if an error occurs
       }
     };
 
@@ -109,6 +112,15 @@ console.log(instructor1.firstName, 'name')
 
   console.log(instructorExists,'existssss');
 
+  if(loading){
+    return(
+      <>
+        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
+          <CircularProgress/>
+        </Box>
+      </>
+    )
+  }
 
   return (
     <>

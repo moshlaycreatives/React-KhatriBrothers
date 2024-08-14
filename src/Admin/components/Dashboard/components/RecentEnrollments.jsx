@@ -57,7 +57,7 @@ const dispatch = useDispatch()
             <TableCell >Student Name</TableCell>
             <TableCell >Class Type</TableCell>
              <TableCell >Enrollment Date</TableCell>
-            {/* <TableCell >Lecture</TableCell> */}
+            <TableCell >Fee Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -80,6 +80,11 @@ const dispatch = useDispatch()
               <TableCell sx={{ color: 'grey' }}>
   {new Date(row.createdAt).toLocaleDateString()}
 </TableCell>
+
+
+<TableCell component="th" scope="row" sx={{color:'grey'}}>
+                {row.installment === true ? 'Installment' :"Full Paid"}
+              </TableCell>
 
 
 
