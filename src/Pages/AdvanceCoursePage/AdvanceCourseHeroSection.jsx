@@ -1,11 +1,10 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, Grid, Typography } from "@mui/material";
+import React from "react";
 
 const AdvanceCourseHeroSection = () => {
   return (
     <>
-
-<Box
+      <Box
         sx={{
           padding: "3rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
@@ -47,9 +46,8 @@ const AdvanceCourseHeroSection = () => {
           </Grid>
         </Grid>
       </Box>
-
     </>
-  )
-}
+  );
+};
 
-export default AdvanceCourseHeroSection
+export default AdvanceCourseHeroSection;

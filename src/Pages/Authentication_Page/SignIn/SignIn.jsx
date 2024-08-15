@@ -233,7 +233,7 @@ variant="contained"
                       textAlign: "center",
                     }}
                   >
-                    Don't have an account?<Link to="/sign-up">Sign Up</Link>
+                    Don't have an account? <Link style={{textDecoration:'none', color:theme.palette.primary.main}} to="/sign-up">Sign Up</Link>
                   </Typography>
                 </Box>
               </Box>

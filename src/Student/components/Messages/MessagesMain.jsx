@@ -37,6 +37,8 @@ const MessageMain = () => {
 
 
     const [allUsers, setAllUsers] = useState([]);
+    const [adminUsers, setAdminUsers] = useState([]);
+
 
   useEffect(() => {
 
@@ -53,7 +55,24 @@ const MessageMain = () => {
       });
   }, []);
 
-  const filteredUsers = allUsers?.filter(user => user?.role === 'instructor' && user?._id !== userId);
+
+
+  useEffect(() => {
+
+    dispatch(getAllUsers())
+      .then((users) => {
+        console.log(users.data.data, 'instructors for messagesssss')
+        setAdminUsers(users.data.data);
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+
+        console.error("Error fetching users:", error);
+      });
+  }, []);
+
+  const filteredUsers = adminUsers?.filter(user => user?.role === 'admin' && user?._id !== userId);
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
@@ -102,16 +121,6 @@ const MessageMain = () => {
     }
   };
 
-  // const handleSelectChat = (id) => {
-  //   socket.emit("addUser", userId, id);
-  //   setReceiverId(id);
-  //   const user = allUsers.find(user => user._id === id);
-  //   setSelectedUser(user);
-
-  //   console.log(user, 'selected user ')
-
-
-  // };
 
   const handleSelectChat = (id, firstName) => {
     socket.emit("addUser", userId, id);
@@ -125,10 +134,6 @@ const MessageMain = () => {
 
 console.log(msgsData, 'ffff')
 
-
-// const filteredMsgsData = msgsData.filter(
-//   (msg) => msg.senderId === receiverId || msg.receiverId === receiverId
-// );
 
 if(loading){
   return(
@@ -168,7 +173,59 @@ if(loading){
           maxWidth:'80%'
         }}
       >
-        <Box>
+      <Box>
+       <br/>
+       <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Admin</Typography>
+       <Box>
+
+          {filteredUsers.map((val) => (
+            <Box
+
+              key={val._id}
+              onClick={() => handleSelectChat(val._id, val.firstName)}
+              sx={{
+                cursor: "pointer",
+
+                padding: "8px",
+                "&:hover": { backgroundColor: theme.palette.primary.main, color: 'white' },
+                backgroundColor:
+                  receiverId === val._id ? "transparent" : "transparent",
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {/* <Avatar /> */}
+                <Box sx={{ marginLeft: '0.5rem' }}>
+                  <Typography
+                    sx={{
+                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
+                      fontWeight: receiverId === val._id ? "bold" : "bold",
+                      fontSize: '1.1rem'
+                    }}
+                  >
+                    {val.firstName}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.8rem',
+                      color: 'grey'
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+        <br/>
+<Divider/>
+
+        <br/>
+
+        <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Students</Typography>
+
+
+
           {allUsers.map((val) => (
             <Box
               key={val.instructorId._id}

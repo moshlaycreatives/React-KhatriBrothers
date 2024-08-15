@@ -17,6 +17,8 @@ const BhajjanCoursesMain = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
   const [courseData, setCourseData] = useState([]);
+  const [customCourseData, setCustomCourseData] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
@@ -27,15 +29,18 @@ const BhajjanCoursesMain = () => {
       const res = await dispatch(getAllCourse());
 
       const data = res.data.data
-    const filteredCourses = data.filter(course => course.courseType === 'bhajjan')
+    const filteredCourses = data.filter(course => course.courseType === 'bhajjan' && course.addedBy === 'admin')
+    const filterCustomCourses = data.filter(course => course.addedBy === 'user' && course.courseType === 'bhajjan' && (!course.ukPrice || !course.indianPrice || !course.usaPrice || !course.australiaPrice || !course.canadaPrice || !course.kenyaPrice || !course.ugandaPrice || !course.uaePrice))
+
     setCourseData(filteredCourses);
+    setCustomCourseData(filterCustomCourses)
     } catch (err) {
       console.error("Failed to fetch advanced courses:", err);
     } finally {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
 
 
@@ -167,7 +172,88 @@ fetchData()
               </Table>
             </TableContainer>
           )}
+
+
+          <>
+          <br/>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography
+              sx={{
+                color: theme.palette.primary.main,
+                fontWeight: '550',
+                fontSize: '2rem',
+              }}
+            >
+              Bhajjan Custom Courses
+            </Typography>
+
+
+          </Box>
+
+          <br />
+
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
+              <Table size='small' aria-label='a dense table'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Course Name</TableCell>
+                    <TableCell>Course Duration</TableCell>
+                    <TableCell>Lecture Duration</TableCell>
+                    <TableCell>Course Fee</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {customCourseData.map((row) => (
+                    <TableRow
+                      key={row._id} // Use unique ID as key
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
+                        {row.title}
+                      </TableCell>
+                      <TableCell sx={{ color: 'grey' }}>{row.courseDuration} weeks</TableCell>
+                      <TableCell sx={{ color: 'grey' }}>{row.lectureDuration} hours</TableCell>
+                      {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
+                      <TableCell sx={{ color: 'grey' }}>₹ {row.indianPrice}</TableCell>
+
+                      <TableCell>
+                        <IconButton onClick={(event) => handleMenuClick(event, row._id)}>
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={handleMenuClose}
+                        >
+                          <MenuItem onClick={handleEditClick}>View</MenuItem>
+                          <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+                        </Menu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </>
+
+
+
+
+
+
+
+        </>
+
+
+
+
       )}
 
 

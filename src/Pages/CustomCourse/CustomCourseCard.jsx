@@ -2,23 +2,25 @@
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBeginnerCourse, getCustomCourse } from "../../store/actions/courseActions";
+import { getCustomCourse } from "../../store/actions/courseActions";
 import { useNavigate } from "react-router-dom";
 
-const BegginerCoursesCard = () => {
-  const filteredCourses = useSelector((state) =>
-    state?.courses?.allCourses?.filter(course => course?.courseType === 'beginner')
-  );
+const CustomCourseCard = () => {
+
+    const [customCourses, setCustomCourses] = useState([])
+
 const dispatch = useDispatch()
+useEffect(() => {
+    dispatch(getCustomCourse())
+      .then((res) => {
+        console.log(res.data.data, 'Response for custom courses');
+        setCustomCourses(res.data.data); // Update state with the data from the response
+      })
+      .catch((error) => {
+        console.error('Error fetching custom courses:', error);
+      });
+  }, []);
 
-  useEffect(()=>{
-
-    const res = dispatch(getCustomCourse())
-    console.log(res, 'rs for custom ')
-
-  },[])
-
-  console.log(filteredCourses, 'filteredCourses');
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -30,9 +32,29 @@ const dispatch = useDispatch()
 
 
   return (
-    <Box sx={{ padding: "3rem 10%" }}>
+
+
+   <>
+
+
+   {customCourses.length === 0 ? (
+<>
+
+<Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'30vh'}}>
+    <Typography>
+        Dont Have any Custom Course
+    </Typography>
+</Box>
+
+
+
+</>
+   ):(
+<>
+
+<Box sx={{ padding: "3rem 10%" }}>
       <Grid container spacing={5}>
-        {filteredCourses?.map((course, index) => (
+        {customCourses?.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
               <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'200vh'} />
@@ -57,7 +79,12 @@ const dispatch = useDispatch()
         ))}
       </Grid>
     </Box>
+
+</>
+   )}
+
+   </>
   );
 };
 
-export default BegginerCoursesCard;
+export default CustomCourseCard;

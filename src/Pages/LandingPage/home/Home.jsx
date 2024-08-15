@@ -13,6 +13,7 @@ import { getAdvanceCourse, getAllCourse, getBeginnerCourse } from '../../../stor
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import IntermediateHomePage from './intermediate_course/IntermediateHomePage'
+import CategoryBasedCoursesHome from './CategoryBasedCoursesHome/CategoryBasedCoursesHome'
 
 
 
@@ -31,11 +32,19 @@ function Home() {
         <Hero/>
         <Hero_card/>
         <About/>
-        <Beginner_course/>
+
+
+
+
+<CategoryBasedCoursesHome/>
+
+
+
+        {/* <Beginner_course/>
 
 
         <IntermediateHomePage/>
-        <Advance_course/>
+        <Advance_course/> */}
 
 
         <Our_mission/>

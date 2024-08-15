@@ -1,16 +1,19 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import AddCustomCourse from './AddCustomCourse';
 
-const BhajjanCourseHeroSection = () => {
+const CustomCourse = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const courseType = location.state?.courseType;
+const theme = useTheme()
 
-  const handleCustomCourseClick = () => {
-    navigate('/form', { state: { courseType: 'bhajjan' } });
-  };
-
+  console.log(courseType)
   return (
-    <Box
+<>
+
+<Box
       sx={{
         padding: '5rem 10% 0rem 10%',
         background: 'linear-gradient(to bottom, #901953, #000000)',
@@ -19,7 +22,7 @@ const BhajjanCourseHeroSection = () => {
       <Grid container sx={{ alignItems: 'center' }}>
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <Typography variant="h4" fontWeight="550" color="white">
-            Bhajjan
+            Custom Course
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>
@@ -44,26 +47,6 @@ const BhajjanCourseHeroSection = () => {
             >
               Start Learning
             </Button>
-
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: 'white',
-                mt: 4,
-                ml: 5,
-                color: '#8d1851',
-                borderRadius: '0px',
-                padding: '0.8rem 2rem',
-                textTransform: 'none',
-                fontSize: '0.8rem',
-                ':hover': {
-                  color: 'white',
-                },
-              }}
-              onClick={handleCustomCourseClick}
-            >
-              Want Custom Course?
-            </Button>
           </Box>
         </Grid>
 
@@ -74,7 +57,28 @@ const BhajjanCourseHeroSection = () => {
         </Grid>
       </Grid>
     </Box>
+
+
+<Box sx={{padding:'3rem 10%', display:'flex', justifyContent:'center', alignItems:'start', minHeight:'100vh',}}>
+
+<Box>
+
+<Typography sx={{ fontSize: "2rem", fontWeight: 700, color:theme.palette.primary.main }}>
+          Add Details, What you want to learn from Khatri Brothers Academy?
+        </Typography>
+
+
+<AddCustomCourse courseType={courseType}/>
+</Box>
+
+</Box>
+
+
+
+</>
+
+
   );
 };
 
-export default BhajjanCourseHeroSection;
+export default CustomCourse;

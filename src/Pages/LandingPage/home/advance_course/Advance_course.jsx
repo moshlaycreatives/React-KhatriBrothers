@@ -20,11 +20,11 @@ function Advance_course() {
 const navigate = useNavigate()
 
   const handleViewAll = () => {
-    navigate("advanced-course");
+    navigate("/advanced-course");
   };
 
   const handleOpenCourse = (id) => {
-    navigate(`course-details/${id}`);
+    navigate(`/course-details/${id}`);
   };
 
 

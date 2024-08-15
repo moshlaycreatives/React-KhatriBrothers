@@ -529,7 +529,7 @@ const SignUp = () => {
                       textAlign: "center",
                     }}
                   >
-                    Already have an account? <Link to="/sign-in">Sign In</Link>
+                    Already have an account?  <Link style={{textDecoration:'none', color:theme.palette.primary.main}} to="/sign-in">Login</Link>
                   </Typography>
                 </Box>
               </Box>

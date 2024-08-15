@@ -37,12 +37,10 @@ const ClassesMain = () => {
     setIsAddingCourse(false);
   };
 
-  // Function to format date and time
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);
-    const formattedDate = date.toLocaleDateString(); // Customize date format as needed
+    const formattedDate = date.toLocaleDateString();
 
-    // Format time as 'h:mm AM/PM'
     const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',   hour12: true });
 
     return { formattedDate, formattedTime };

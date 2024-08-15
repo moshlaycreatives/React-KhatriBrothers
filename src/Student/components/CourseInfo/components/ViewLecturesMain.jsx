@@ -21,6 +21,7 @@ const ViewLecturesMain = ({ courseId }) => {
       try {
         const res = await dispatch(getAllStudentClassDetails(courseId));
         const data = res.data;
+
         setLectureData(data);
         setLoading(false)
       } catch (err) {
@@ -38,6 +39,11 @@ const ViewLecturesMain = ({ courseId }) => {
   const normalizePath = (path) => path.replace(/\\/g, '/');
   const isPDF = (url) => normalizePath(url).endsWith('.pdf');
   const isVideo = (url) => normalizePath(url).endsWith('.mp4');
+
+
+
+
+
 
   const encodeSpacesAndSpecialChars = (str) => {
     // Ensure str is a string
@@ -143,6 +149,11 @@ const ViewLecturesMain = ({ courseId }) => {
                       alt="PDF icon"
                     />
                     <CardContent>
+
+                      <Typography>
+{pdfFile}
+                      </Typography>
+
                       <Link to={fullUrl} variant="body2" color="secondary">
                         View File
                       </Link>

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import AdminMain from "../src/Admin/AdminMain";
 import Main from "./Pages/Authentication_Page/Main";
-
 import SingleProduct from "./Pages/ShopPage/SingleProduct";
 import ComingSoon from "./components/ComingSoon";
 import AboutUs from "./Pages/AboutUS/AboutUs";
@@ -27,33 +26,29 @@ import SetNewPassword from "./Pages/Authentication_Page/Components/SetNewPasswor
 import StudentMain from "./Student/StudentMain";
 import PaymentSuccess from "./Pages/PaymentPages/PaymentSuccess";
 import PaymentCancel from "./Pages/PaymentPages/PaymentCancel";
-import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
+import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import BhajjanCoursesMain from "./Pages/OtherCourses/BhajjanCourse/BhajjanCoursesMain";
 import InstructorMain from "./Instructor/InstructorMain";
 import TablaCoursesMain from "./Pages/OtherCourses/Tablaourse/TablaCoursesMain";
 import GhazalCoursesMain from "./Pages/OtherCourses/GhazalCourse/GhazalCoursesMain";
 import IntermediateCoursesMain from "./Pages/OtherCourses/IntermediateCourse/IntermediateCoursesMain";
 import BollywoodCoursesMain from "./Pages/OtherCourses/Bollywood/BollywoodCoursesMain";
-
+import HindiVocalCoursesPage from "./Pages/LandingPage/home/HindiVocalCoursesPage/HindiVocalCoursesPage";
+import CustomCourse from "./Pages/CustomCourse/CustomCourse";
+import UserCustomCourseView from "./Pages/CustomCourse/UserCustomCourseView";
 
 export default function Router() {
-
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-      const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   let element = useRoutes([
-
-
     {
-
       element: <ProtectedRoutes isLogged={isAuthenticated} />,
       children: [{ path: "/admin-dashboard", element: <AdminMain /> }],
     },
 
     {
-
       element: <ProtectedRoutes isLogged={isAuthenticated} />,
       children: [{ path: "/student-dashboard", element: <StudentMain /> }],
     },
@@ -145,10 +140,6 @@ export default function Router() {
       path: "/blogs/:id",
       element: <BlogDetailPage />,
     },
-    // {
-    //   path: "/blog-detail",
-    //   element: <BlogDetailPage />,
-    // },
 
     {
       path: "/faqs",
@@ -164,35 +155,40 @@ export default function Router() {
       path: "/cancel",
       element: <PaymentCancel />,
     },
-     {
-      path: "/instructor-dashboard",
-      element: <InstructorMain />,
-    },
-
-    // {
-    //   path: "/admin-dashboard",
-    //   element: <AdminMain />,
-    // },
-
-    // {
-    //   path: "/student-dashboard",
-    //   element: <StudentMain />,
-    // },
-
 
     {
+      path: "/hindi-vocal-course",
+      element: <HindiVocalCoursesPage />,
+    },
 
+    {
       element: <ProtectedRoutes isLogged={isAuthenticated} />,
       children: [{ path: "/admin-dashboard", element: <AdminMain /> }],
     },
 
     {
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [
+        { path: "/instructor-dashboard", element: <InstructorMain /> },
+      ],
+    },
 
+    {
       element: <ProtectedRoutes isLogged={isAuthenticated} />,
       children: [{ path: "/student-dashboard", element: <StudentMain /> }],
     },
 
+    {
+      element: <ProtectedRoutes isLogged={isAuthenticated} />,
+      children: [
+        { path: "/custom-courses", element: <UserCustomCourseView /> },
+      ],
+    },
 
+    {
+      path: "/form",
+      element: <CustomCourse />,
+    },
   ]);
   return element;
 }

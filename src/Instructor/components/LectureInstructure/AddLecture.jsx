@@ -6,7 +6,7 @@ import { createLectureContent, getInstructorClass } from "../../../store/actions
 
 const inputStyles = {
   marginBottom: "0.5rem",
-  marginTop: "0.9rem",
+  marginTop: "1.1rem",
 };
 
 const labelStyles = {
@@ -24,10 +24,13 @@ const AddLecture = () => {
   const [formValues, setFormValues] = useState({
     classContent: [], // Initialize as an empty array to store the file
     classId: "",
+    name:''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
   const [fileName, setFileName] = useState("");
+  const [name, setName] = useState("");
+
   const [fileType, setFileType] = useState(""); // Added state to keep track of file type
   const [classData, setClassData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,12 +89,16 @@ const AddLecture = () => {
     const formData = new FormData();
     formData.append("classContent", formValues.classContent[0]); // Append the file directly from the array
     formData.append("classId", formValues.classId);
+    formData.append("name", formValues.name);
+
 
     dispatch(createLectureContent(formData))
       .then((res) => {
-        setFormValues({ classContent: [], classId: "" }); // Reset to an empty array
+        setFormValues({ classContent: [], classId: "", name:'' }); // Reset to an empty array
         setFilePreview(null);
         setFileName("");
+        setName("");
+
         setFileType("");
         setIsLoading(false);
         setIsUploading(false);
@@ -110,8 +117,26 @@ const AddLecture = () => {
         <Typography sx={{ fontSize: "1.2rem", fontWeight: 700 }}>Add Lecture</Typography>
 
         <form onSubmit={handleSubmit}>
-          <Box sx={inputStyles}>
-            <Typography sx={labelStyles}>Upload File</Typography>
+
+<Box sx={inputStyles}>
+<Typography sx={{fontWeight:600, fontSize:'1rem'}}>Select Class</Typography>
+
+  <TextField
+
+placeholder="Enter File Name"
+value={formValues.name}
+onChange={handleChange}
+fullWidth
+size='small'
+name='name'
+
+  />
+</Box>
+
+
+          <Box sx={inputStyles} >
+          <Typography sx={{fontWeight:600, fontSize:'1rem'}}>Upload File</Typography>
+
             <Box>
               <TextField
                 fullWidth
@@ -136,12 +161,14 @@ const AddLecture = () => {
           </Box>
 
           <Box sx={inputStyles}>
+          <Typography sx={{fontWeight:600, fontSize:'1rem'}}>Select Class</Typography>
             <FormControl fullWidth>
-              <InputLabel id="dropdown-label">Select Class</InputLabel>
+
               <Select
                 labelId="dropdown-label"
                 id="title"
                 name="classId"
+                size='small'
                 value={formValues.classId}
                 label="Select Class"
                 onChange={handleChange}

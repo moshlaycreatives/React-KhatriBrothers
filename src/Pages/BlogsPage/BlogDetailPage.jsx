@@ -159,6 +159,38 @@ const BlogDetailPage = () => {
             >
               {blogData.title}
             </Typography>
+
+
+
+          </Box>
+<br/>
+
+          <Box sx={{ padding: "0rem 0%", textAlign:'center' }}>
+          <Typography
+      component="a" // Treat Typography as an anchor tag
+      href={blogData.youtubeLink} // Set the link URL
+      target="_blank" // Open in a new tab
+      rel="noopener noreferrer" // Security best practice
+      sx={{
+        color: theme.palette.primary.main,
+        fontWeight: 600,
+        fontSize: "1rem",
+
+        textDecoration: 'underline', // Optional: Add underline on hover
+
+        textDecoration: "none", // Optional: Remove underline if you want
+        '&:hover': {
+          textDecoration: 'underline' // Optional: Add underline on hover
+        }
+      }}
+    >
+      {blogData.youtubeLink}
+    </Typography>
+
+    <br/>
+    <br/>
+
+
           </Box>
 
           <Box sx={{ padding: "0rem 15%" }}>

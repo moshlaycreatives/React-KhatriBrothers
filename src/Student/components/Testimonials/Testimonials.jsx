@@ -211,6 +211,8 @@ const [allTestimonials, setAllTestimonials] = useState([])
                   <TableCell>Title</TableCell>
                   <TableCell>Course name</TableCell>
                   <TableCell>Video</TableCell>
+                  <TableCell>Status</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -232,6 +234,14 @@ const [allTestimonials, setAllTestimonials] = useState([])
                         <img src={`${base}${row.video.replace(/ /g, "%20")}`} alt="" width={"250px"} />
                       </Box>
                     </TableCell>
+
+                    <TableCell sx={{ color: row.status ? "green" : "red", fontWeight:600 }}>
+  {row.status ? 'Reviewed' : 'Under-Review'}
+</TableCell>
+
+
+
+
                   </TableRow>
                 ))}
               </TableBody>

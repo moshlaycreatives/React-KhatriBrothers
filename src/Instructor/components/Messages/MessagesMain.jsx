@@ -298,6 +298,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { getAssignedStudents } from "../../../store/actions/courseActions";
+import { getAllUsers } from "../../../store/actions/authActions";
 
 const MessageMain = () => {
   const dispatch = useDispatch();
@@ -307,6 +308,8 @@ const MessageMain = () => {
   const [receiverId, setReceiverId] = useState("");
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [adminUsers, setAdminUser] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const [selectedUserName, setSelectedUserName] = useState(""); // New state for selected user's name
@@ -331,7 +334,23 @@ const MessageMain = () => {
       });
   }, [dispatch, InstructorId]);
 
-  const filteredUsers = allUsers?.filter(user => user?.role === 'user' && user?._id !== userId);
+
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+      .then((res) => {
+        setAdminUser(res.data.data);
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        setLoading(false)
+      });
+  }, []);
+
+
+
+  const filteredUsers = adminUsers?.filter(user => user?.role === 'admin' && user?._id !== userId);
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
@@ -420,6 +439,60 @@ const MessageMain = () => {
           maxWidth: '80%'
         }}
       >
+       <Box>
+       <br/>
+       <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Admin</Typography>
+       <Box>
+
+          {filteredUsers.map((val) => (
+            <Box
+
+              key={val._id}
+              onClick={() => handleSelectChat(val._id, val.firstName)}
+              sx={{
+                cursor: "pointer",
+
+                padding: "8px",
+                "&:hover": { backgroundColor: theme.palette.primary.main, color: 'white' },
+                backgroundColor:
+                  receiverId === val._id ? "transparent" : "transparent",
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {/* <Avatar /> */}
+                <Box sx={{ marginLeft: '0.5rem' }}>
+                  <Typography
+                    sx={{
+                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
+                      fontWeight: receiverId === val._id ? "bold" : "bold",
+                      fontSize: '1.1rem'
+                    }}
+                  >
+                    {val.firstName}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.8rem',
+                      color: 'grey'
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+
+
+
+        <br/>
+<Divider/>
+
+        <br/>
+
+        <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Students</Typography>
+
         <Box>
           {allUsers.map((val) => (
             <Box
@@ -459,6 +532,7 @@ const MessageMain = () => {
             </Box>
           ))}
         </Box>
+       </Box>
 
         <Paper
           sx={{

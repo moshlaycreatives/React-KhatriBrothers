@@ -26,14 +26,14 @@ const beginnerCourses = course?.filter(val => val.courseType === 'beginner')
 
 
 const handleOpenCourse = (id) => {
-  navigate(`course-details/${id}`);
+  navigate(`/course-details/${id}`);
 };
 
 
 
 
 const handleViewAll = ()=>{
-  navigate('beginner-course')
+  navigate('/beginner-course')
   }
 
   return (

@@ -16,11 +16,11 @@ function IntermediateHomePage() {
 const navigate = useNavigate()
 
   const handleViewAll = () => {
-    navigate("intermediate-course");
+    navigate("/intermediate-course");
   };
 
   const handleOpenCourse = (id) => {
-    navigate(`course-details/${id}`);
+    navigate(`/course-details/${id}`);
   };
 
 

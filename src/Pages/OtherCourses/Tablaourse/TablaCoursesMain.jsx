@@ -4,12 +4,14 @@ import Student_testimonials from '../../LandingPage/home/student_testimonials/St
 import { useSelector } from 'react-redux'
 import TablaCourseHeroSection from './TablaCourseHeroSection'
 import TablaCourseCard from './TablaCourseCard'
+import { useNavigate } from 'react-router'
 
 const TablaCoursesMain = () => {
 
   useEffect(()=>{
     window.scrollTo(0,0)
   },[])
+
 
 
   return (

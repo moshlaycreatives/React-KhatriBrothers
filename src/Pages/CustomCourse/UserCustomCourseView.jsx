@@ -1,16 +1,12 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Grid, Typography } from '@mui/material'
+import React from 'react'
+import CustomCourseCard from './CustomCourseCard'
 
-const BhajjanCourseHeroSection = () => {
-  const navigate = useNavigate();
-
-  const handleCustomCourseClick = () => {
-    navigate('/form', { state: { courseType: 'bhajjan' } });
-  };
-
+const UserCustomCourseView = () => {
   return (
-    <Box
+    <>
+
+<Box
       sx={{
         padding: '5rem 10% 0rem 10%',
         background: 'linear-gradient(to bottom, #901953, #000000)',
@@ -19,7 +15,7 @@ const BhajjanCourseHeroSection = () => {
       <Grid container sx={{ alignItems: 'center' }}>
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <Typography variant="h4" fontWeight="550" color="white">
-            Bhajjan
+            Your Custom Courses
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>
@@ -44,26 +40,6 @@ const BhajjanCourseHeroSection = () => {
             >
               Start Learning
             </Button>
-
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: 'white',
-                mt: 4,
-                ml: 5,
-                color: '#8d1851',
-                borderRadius: '0px',
-                padding: '0.8rem 2rem',
-                textTransform: 'none',
-                fontSize: '0.8rem',
-                ':hover': {
-                  color: 'white',
-                },
-              }}
-              onClick={handleCustomCourseClick}
-            >
-              Want Custom Course?
-            </Button>
           </Box>
         </Grid>
 
@@ -74,7 +50,25 @@ const BhajjanCourseHeroSection = () => {
         </Grid>
       </Grid>
     </Box>
-  );
-};
 
-export default BhajjanCourseHeroSection;
+
+<CustomCourseCard/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </>
+  )
+}
+
+export default UserCustomCourseView

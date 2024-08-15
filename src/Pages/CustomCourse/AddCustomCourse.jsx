@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Card, TextField, Typography, Button, Chip, useTheme, IconButton, CircularProgress } from "@mui/material";
-import { addAdvance, updateCourse } from "../../../../store/actions/courseActions";
+
 import { Cancel as CancelIcon } from '@mui/icons-material';
 import { useSnackbar } from "notistack";
+import { studentAddCourse } from "../../store/actions/courseActions";
 
 const inputStyles = {
   marginBottom: "0.5rem",
@@ -56,88 +57,31 @@ const chipDeleteIconStyles = {
   padding: "1px",
   color: 'white'
 };
-const EditBhajjanCourse = ({ courseData }) => {
 
-
-
-
-
-
-    const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
-    const PictureUrl = base + courseData?.image;
-    const topicss = courseData.topics.map((topic)=>topic)
-
-    console.log(topicss, 'ccccccccccccccccccccccc')
-    const theme = useTheme()
-
-
-
-  const courseId = courseData._id
+const AddCustomCourse = ({courseType}) => {
   const initialValues = {
-    courseName: courseData.title || '',
-    courseOverview: courseData.overview || '',
-    prerequisites: courseData.prerequisites || '',
-    topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
-    // price: courseData.price || '',
-    courseDuration: courseData.courseDuration || '',
-    lectureDuration: courseData.lectureDuration || '',
-    courseImage: PictureUrl || null,
+    courseName: '',
+    courseOverview: '',
+    topicsCovered: '',
 
-    usaPrice: courseData.usaPrice || '',    // Add prices for each country
-    indianPrice: courseData.indianPrice || '',
-    ukPrice: courseData.ukPrice || '',
-    uaePrice: courseData.uaePrice || '',
-    kenyaPrice: courseData.kenyaPrice || '',
-    ugandaPrice: courseData.ugandaPrice || '',
-    canadaPrice: courseData.canadaPrice || '',
-    australiaPrice: courseData.australiaPrice || '',
-
+    courseDuration: '',
+    courseImage: null,
   };
-
+  const {enqueueSnackbar} = useSnackbar()
+  const theme = useTheme();
   const [formValues, setFormValues] = useState(initialValues);
-  const [topics, setTopics] = useState(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+  const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(PictureUrl);
+  const [imagePreview, setImagePreview] = useState(null);
   const [imageName, setImageName] = useState("");
 
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
 
-  // Update form values when courseData changes
-  useEffect(() => {
-    setFormValues({
-      courseName: courseData.title || '',
-      courseOverview: courseData.overview || '',
-      prerequisites: courseData.prerequisites || '',
-      topicsCovered: topicss || '',
-      // price: courseData.price || '',
-      courseDuration: courseData.courseDuration || '',
-      lectureDuration: courseData.lectureDuration || '',
-      courseImage: PictureUrl || null,
-
-
-      usaPrice: courseData.usaPrice || '',    // Add prices for each country
-  indianPrice: courseData.indianPrice || '',
-  ukPrice: courseData.ukPrice || '',
-  uaePrice: courseData.uaePrice || '',
-  kenyaPrice: courseData.kenyaPrice || '',
-  ugandaPrice: courseData.ugandaPrice || '',
-  canadaPrice: courseData.canadaPrice || '',
-  australiaPrice: courseData.australiaPrice || '',
-
-
-
-    });
-    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
-  }, [courseData]);
-
-  // Handle form change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setFormValues((prev) => ({ ...prev, courseImage: file }));
@@ -145,12 +89,10 @@ const EditBhajjanCourse = ({ courseData }) => {
     setImageName(file.name);
   };
 
-  // Handle topic input change
   const handleTopicChange = (e) => {
     setFormValues((prev) => ({ ...prev, topicsCovered: e.target.value }));
   };
 
-  // Handle adding a topic
   const handleTopicAdd = () => {
     if (formValues.topicsCovered && !topics.includes(formValues.topicsCovered)) {
       setTopics([...topics, formValues.topicsCovered]);
@@ -158,12 +100,11 @@ const EditBhajjanCourse = ({ courseData }) => {
     }
   };
 
-  // Handle deleting a topic
   const handleTopicDelete = (topicToDelete) => () => {
     setTopics((prev) => prev.filter((topic) => topic !== topicToDelete));
   };
 
-  // Handle form submission
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -171,66 +112,39 @@ const EditBhajjanCourse = ({ courseData }) => {
     const formData = new FormData();
     formData.append('title', formValues.courseName);
     formData.append('overview', formValues.courseOverview);
-    formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));
     formData.append('courseDuration', formValues.courseDuration);
-    formData.append('lectureDuration', formValues.lectureDuration);
-    // formData.append('price', formValues.price);
-    formData.append('courseType', 'tabla');
 
-
-    formData.append('indianPrice', formValues.indianPrice);
-    formData.append('ukPrice', formValues.ukPrice);
-    formData.append('usaPrice', formValues.usaPrice);
-    formData.append('canadaPrice', formValues.canadaPrice);
-    formData.append('uaePrice', formValues.uaePrice);
-    formData.append('australiaPrice', formValues.australiaPrice);
-    formData.append('kenyaPrice', formValues.kenyaPrice);
-    formData.append('ugandaPrice', formValues.ugandaPrice);
-
-
+    formData.append('courseType', courseType);
     if (formValues.courseImage) {
       formData.append('image', formValues.courseImage);
     }
 
-    dispatch(updateCourse(courseId, formData)).then((res) => {
-
-
-
-
+    dispatch(studentAddCourse(formData)).then((res) => {
+      setFormValues(initialValues);
+      setTopics([]);
+      setImagePreview(null);
+      setImageName("");
       setIsLoading(false);
-      enqueueSnackbar(res.data.message, { variant: 'success' });
-    }).catch((err) => {
+      enqueueSnackbar(res.data.message, {variant :'success'})
+    }).catch((err)=>{
       setIsLoading(false);
-      enqueueSnackbar(err.response.data.message, { variant: 'error' });
+      enqueueSnackbar(err.response.data.message, {variant :'error'})
     });
   };
 
   return (
     <Box sx={{ padding: "1rem 3rem" }}>
       <Card sx={cardStyles}>
-        <Typography sx={{ fontSize: "1.2rem", fontWeight: 700 }}>
-          Edit Course
-        </Typography>
+
 
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Course Name", name: "courseName", type: 'text' },
+            { label: "Course Name *", name: "courseName", type: 'text' },
             { label: "Course Overview", name: "courseOverview", type: 'text' },
-            { label: "Prerequisites", name: "prerequisites", type: 'text' },
-            // { label: "Price", name: "price", type: 'number' },
+
+
             { label: "Course Duration", name: "courseDuration", type: 'number' },
-            { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
-
-            { label: "Indian Price", name: "indianPrice", type: 'number' },
-            { label: "UK Price", name: "ukPrice", type: 'number' },
-            { label: "USA price", name: "usaPrice", type: 'number' },
-            { label: "Canada Price", name: "canadaPrice", type: 'number' },
-            { label: "UAE Price", name: "uaePrice", type: 'number' },
-            { label: "Australia Price", name: "australiaPrice", type: 'number' },
-            { label: "Kenya Price", name: "kenyaPrice", type: 'number' },
-            { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
-
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
               <Typography sx={labelStyles}>{field.label}</Typography>
@@ -265,7 +179,7 @@ const EditBhajjanCourse = ({ courseData }) => {
                 }}
               />
             </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', marginTop: '0.5rem', color: 'white' }}>
               {topics.map((topic, index) => (
                 <Chip
                   key={index}
@@ -283,7 +197,7 @@ const EditBhajjanCourse = ({ courseData }) => {
           </Box>
 
           <Box sx={inputStyles}>
-            <Typography sx={labelStyles}>Add Image</Typography>
+            <Typography sx={labelStyles}>Add Image *</Typography>
             <Box sx={boxStyles}>
               <TextField
                 fullWidth
@@ -314,12 +228,10 @@ const EditBhajjanCourse = ({ courseData }) => {
           </Box>
 
           <Box sx={{ marginTop: "1rem", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} gap={4}>
-            <Button variant="outlined" color="primary" fullWidth sx={{ fontWeight: 400, borderRadius: '0px' }}>
-              Cancel
-            </Button>
+
 
             <Button type="submit" variant="contained" color="primary" fullWidth sx={{ fontWeight: 400, borderRadius: '0px' }}>
-              {isLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Update'}
+              {isLoading ? <CircularProgress size={24} sx={{color:'white'}} /> : 'Submit'}
             </Button>
           </Box>
         </form>
@@ -328,4 +240,4 @@ const EditBhajjanCourse = ({ courseData }) => {
   );
 };
 
-export default EditBhajjanCourse;
+export default AddCustomCourse;

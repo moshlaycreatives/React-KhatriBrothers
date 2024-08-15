@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  IconButton,
-  Typography,
-  useTheme,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../store/actions/authActions";
+// import React, { useState } from "react";
+// import {
+//   Box,
+//   Button,
+//   Divider,
+//   Drawer,
+//   IconButton,
+//   Typography,
+//   useTheme,
+//   Menu,
+//   MenuItem,
+// } from "@mui/material";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import CloseIcon from "@mui/icons-material/Close";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { userLogout } from "../../store/actions/authActions";
 
 // const Header = () => {
 //   const location = useLocation();
@@ -24,7 +24,10 @@ import { userLogout } from "../../store/actions/authActions";
 //   const dispatch = useDispatch();
 
 //   const [drawerOpen, setDrawerOpen] = useState(false);
-//   const [anchorEl, setAnchorEl] = useState(null); // State for dropdown anchor
+//   const [anchorEl, setAnchorEl] = useState(null);
+
+//   const auth = useSelector((state) => state?.auth?.isAuthenticated);
+//   const role = useSelector((state) => state?.auth?.user?.role);
 
 //   const handleDrawerOpen = () => {
 //     setDrawerOpen(true);
@@ -56,8 +59,18 @@ import { userLogout } from "../../store/actions/authActions";
 //     navigate(route);
 //     setAnchorEl(null);
 //   };
-// const auth = useSelector((state)=>state?.auth?.isAuthenticated)
-// console.log(auth, 'auth')
+
+//   const handleDashboardNavigation = () => {
+//     if (role === "instructor") {
+//       navigate('/instructor-dashboard');
+//     } else if (role === "admin") {
+//       navigate('/admin-dashboard');
+//     } else if (role === "user") {
+//       navigate('/student-dashboard');
+//     }
+//     setDrawerOpen(false);
+//   };
+
 //   const currentPath = location.pathname;
 
 //   const isHidden =
@@ -73,9 +86,6 @@ import { userLogout } from "../../store/actions/authActions";
 //     currentPath === "/participant-registered"||
 //     currentPath === "/student-dashboard"||
 //     currentPath === "/instructor-dashboard";
-
-
-
 
 //   if (isHidden) {
 //     return null;
@@ -100,6 +110,7 @@ import { userLogout } from "../../store/actions/authActions";
 //     { label: "Bhajjan", route: "/bhajjan-course" },
 //     { label: "Tabla", route: "/tabla-course" },
 //     { label: "Ghazal", route: "/ghazal-course" },
+//     { label: "Bollywood Public filmy Songs", route: "/bollywood-course" },
 
 //   ];
 
@@ -119,7 +130,7 @@ import { userLogout } from "../../store/actions/authActions";
 //         zIndex: 1000,
 //       }}
 //     >
-//       <Box onClick={()=>navigate('/')}>
+//       <Box onClick={() => navigate('/')}>
 //         <Typography variant="h5" sx={{ fontWeight: "bold", cursor: "pointer" }}>
 //           Logo
 //         </Typography>
@@ -151,52 +162,43 @@ import { userLogout } from "../../store/actions/authActions";
 //         ))}
 //       </Box>
 
-
-
-
-
-// {auth ? (
-//   <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
-//         <Button
-//           onClick={()=>navigate('/student-dashboard')}
-//           variant="contained"
-//           size="small"
-//           sx={{
-//             backgroundColor: theme.palette.primary.main,
-//             padding: "0.5rem 2rem",
-//             textTransform: "none",
-//             fontSize: "0.9rem",
-//             marginLeft: "1rem",
-//             borderRadius: "0px",
-//           }}
-//         >
-//           Go to Dashboard
-//         </Button>
-//       </Box>
-
-// ):(
-//   <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
-//         <Button
-//           onClick={handleLogin}
-//           variant="contained"
-//           size="small"
-//           sx={{
-//             backgroundColor: theme.palette.primary.main,
-//             padding: "0.5rem 2rem",
-//             textTransform: "none",
-//             fontSize: "0.9rem",
-//             marginLeft: "1rem",
-//             borderRadius: "0px",
-//           }}
-//         >
-//           Get Started
-//         </Button>
-//       </Box>
-
-// )}
-
-
-
+//       {auth ? (
+//         <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
+//           <Button
+//             onClick={handleDashboardNavigation}
+//             variant="contained"
+//             size="small"
+//             sx={{
+//               backgroundColor: theme.palette.primary.main,
+//               padding: "0.5rem 2rem",
+//               textTransform: "none",
+//               fontSize: "0.9rem",
+//               marginLeft: "1rem",
+//               borderRadius: "0px",
+//             }}
+//           >
+//             Go to Dashboard
+//           </Button>
+//         </Box>
+//       ) : (
+//         <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
+//           <Button
+//             onClick={handleLogin}
+//             variant="contained"
+//             size="small"
+//             sx={{
+//               backgroundColor: theme.palette.primary.main,
+//               padding: "0.5rem 2rem",
+//               textTransform: "none",
+//               fontSize: "0.9rem",
+//               marginLeft: "1rem",
+//               borderRadius: "0px",
+//             }}
+//           >
+//             Get Started
+//           </Button>
+//         </Box>
+//       )}
 
 //       <Box sx={{ display: { xs: "flex", sm: "none" } }}>
 //         <IconButton onClick={handleDrawerOpen} sx={{ color: "white" }}>
@@ -210,8 +212,8 @@ import { userLogout } from "../../store/actions/authActions";
 //             >
 //               <CloseIcon />
 //             </IconButton>
-//             <br/>
-//             <br/>
+//             <br />
+//             <br />
 
 //             {menuItems.map((item, index) => (
 //               <Box key={index}>
@@ -222,7 +224,7 @@ import { userLogout } from "../../store/actions/authActions";
 //                       navigate(item.route);
 //                       setDrawerOpen(false);
 //                     }}
-//                     sx={{ marginBottom: 2, marginTop:1, cursor: "pointer" }}
+//                     sx={{ marginBottom: 2, marginTop: 1, cursor: "pointer" }}
 //                   >
 //                     {item.label}
 //                   </Typography>
@@ -230,7 +232,7 @@ import { userLogout } from "../../store/actions/authActions";
 //                   <Typography
 //                     variant="h6"
 //                     onClick={handleCoursesClick}
-//                     sx={{ marginBottom: 2, marginTop:1, cursor: "pointer", display: 'flex', alignItems: 'center' }}
+//                     sx={{ marginBottom: 2, marginTop: 1, cursor: "pointer", display: 'flex', alignItems: 'center' }}
 //                   >
 //                     {item.label}
 //                     <ArrowDropDownIcon sx={{ marginLeft: 1 }} />
@@ -240,45 +242,38 @@ import { userLogout } from "../../store/actions/authActions";
 //               </Box>
 //             ))}
 
-
 //             {auth ? (
-
 //               <Box sx={{ marginTop: 2 }}>
-//               <Button
-//                 variant="contained"
-//                 onClick={()=>navigate('/student-dashboard')}
-//                 sx={{
-//                   padding: "0.8rem 0rem",
-//                   borderRadius: "0px",
-//                   width: "100%",
-//                 }}
-//               >
-//                 Go to Dashboard
-//               </Button>
-//             </Box>
-
-//             ):(
-
+//                 <Button
+//                   variant="contained"
+//                   onClick={handleDashboardNavigation}
+//                   sx={{
+//                     padding: "0.8rem 0rem",
+//                     borderRadius: "0px",
+//                     width: "100%",
+//                   }}
+//                 >
+//                   Go to Dashboard
+//                 </Button>
+//               </Box>
+//             ) : (
 //               <Box sx={{ marginTop: 2 }}>
-//               <Button
-//                 variant="contained"
-//                 onClick={handleLogin}
-//                 sx={{
-//                   padding: "0.8rem 0rem",
-//                   borderRadius: "0px",
-//                   width: "100%",
-//                 }}
-//               >
-//                 Get Started
-//               </Button>
-//             </Box>
-
+//                 <Button
+//                   variant="contained"
+//                   onClick={handleLogin}
+//                   sx={{
+//                     padding: "0.8rem 0rem",
+//                     borderRadius: "0px",
+//                     width: "100%",
+//                   }}
+//                 >
+//                   Get Started
+//                 </Button>
+//               </Box>
 //             )}
-
 //           </Box>
 //         </Drawer>
 //       </Box>
-
 
 //       <Menu
 //         anchorEl={anchorEl}
@@ -303,6 +298,26 @@ import { userLogout } from "../../store/actions/authActions";
 
 
 
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  Popover,
+  useTheme,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../store/actions/authActions";
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -310,7 +325,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null); // State for dropdown anchor
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [nestedAnchorEl, setNestedAnchorEl] = useState(null);
 
   const auth = useSelector((state) => state?.auth?.isAuthenticated);
   const role = useSelector((state) => state?.auth?.user?.role);
@@ -328,22 +344,18 @@ const Header = () => {
     setDrawerOpen(false);
   };
 
-  const handleMenuItemClick = (value) => {
-    if (value === "Logout") {
-      dispatch(userLogout());
-      dispatch({
-        type: "RESET_STATE",
-      });
-    }
-  };
-
   const handleCoursesClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleHindustaniVocalClick = (event) => {
+    setNestedAnchorEl(event.currentTarget);
   };
 
   const handleMenuItemSelect = (route) => {
     navigate(route);
     setAnchorEl(null);
+    setNestedAnchorEl(null);
   };
 
   const handleDashboardNavigation = () => {
@@ -369,8 +381,8 @@ const Header = () => {
     currentPath === "/contact-us" ||
     currentPath === "/success" ||
     currentPath === "/cancel" ||
-    currentPath === "/participant-registered"||
-    currentPath === "/student-dashboard"||
+    currentPath === "/participant-registered" ||
+    currentPath === "/student-dashboard" ||
     currentPath === "/instructor-dashboard";
 
   if (isHidden) {
@@ -390,13 +402,20 @@ const Header = () => {
   ];
 
   const courseOptions = [
-    { label: "Beginner Course", route: "/beginner-course" },
-    { label: "Intermediate Course", route: "/intermediate-course" },
-    { label: "Advanced Course", route: "/advanced-course" },
+    {
+      label: "Hindustani Vocal",
+      subOptions: [
+        { label: "Beginner Course", route: "/beginner-course" },
+        { label: "Intermediate Course", route: "/intermediate-course" },
+        { label: "Advanced Course", route: "/advanced-course" },
+      ],
+    },
     { label: "Bhajjan", route: "/bhajjan-course" },
     { label: "Tabla", route: "/tabla-course" },
     { label: "Ghazal", route: "/ghazal-course" },
     { label: "Bollywood Public filmy Songs", route: "/bollywood-course" },
+    { label: "Custom Courses", route: "/custom-courses" },
+
 
   ];
 
@@ -561,20 +580,53 @@ const Header = () => {
         </Drawer>
       </Box>
 
+      {/* Main Courses Dropdown */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
       >
-        {courseOptions.map((option) => (
-          <MenuItem
-            key={option.label}
-            onClick={() => handleMenuItemSelect(option.route)}
-          >
-            {option.label}
-          </MenuItem>
+        {courseOptions.map((option, index) => (
+          <React.Fragment key={index}>
+            {option.subOptions ? (
+              <MenuItem
+                onMouseEnter={handleHindustaniVocalClick}
+                onClick={() => setNestedAnchorEl(anchorEl)}
+              >
+                {option.label}
+              </MenuItem>
+            ) : (
+              <MenuItem onClick={() => handleMenuItemSelect(option.route)}>
+                {option.label}
+              </MenuItem>
+            )}
+          </React.Fragment>
         ))}
       </Menu>
+
+      {/* Nested Hindustani Vocal Dropdown */}
+      <Popover
+        anchorEl={nestedAnchorEl}
+        open={Boolean(nestedAnchorEl)}
+        onClose={() => setNestedAnchorEl(null)}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        {courseOptions[0].subOptions.map((subOption, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => handleMenuItemSelect(subOption.route)}
+          >
+            {subOption.label}
+          </MenuItem>
+        ))}
+      </Popover>
     </Box>
   );
 };

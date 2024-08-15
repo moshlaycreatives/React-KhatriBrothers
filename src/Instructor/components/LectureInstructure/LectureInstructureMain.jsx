@@ -133,7 +133,7 @@ const LectureInstructureMain = () => {
                           {row.courseId.title}
                         </TableCell>
                         <TableCell sx={{ color: 'grey' }}>
-                          {row.courseType === 'group' ? row.group.name : `${row.studentId.firstName} ${row.studentId.lastName}`}
+                          {row.courseType === 'group' ? row?.group?.name : `${row?.studentId?.firstName} ${row?.studentId?.lastName}`}
                         </TableCell>
 
                         <TableCell>

@@ -122,7 +122,7 @@ const EditBhajjanCourse = ({ courseData }) => {
       ugandaPrice: courseData.ugandaPrice || '',
       canadaPrice: courseData.canadaPrice || '',
       australiaPrice: courseData.australiaPrice || '',
-    
+
     });
     setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
   }, [courseData]);
@@ -172,7 +172,7 @@ const EditBhajjanCourse = ({ courseData }) => {
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     // formData.append('price', formValues.price);
-    formData.append('courseType', 'advanced');
+    formData.append('courseType', 'bhajjan');
 
     formData.append('indianPrice', formValues.indianPrice);
     formData.append('ukPrice', formValues.ukPrice);

@@ -17,6 +17,34 @@ export const addAdvance = (formValues) => async (dispatch) => {
 
 
 
+export const studentAddCourse = (formValues) => async (dispatch) => {
+  // console.log('Starting API call at:', new Date().toISOString());
+  try {
+    const res = await api.post("/studentAddCourse", formValues);
+
+    console.log('Response from API:', res);
+    // console.log('API call completed at:', new Date().toISOString());
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+
+export const getCustomCourse = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllCustomCourses",);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
 
 export const getAllCourse = () => async (dispatch) => {
   try {
@@ -183,6 +211,18 @@ export const sendSearchTerm = (searchTerm,userType) => async (dispatch) => {
 export const groupSearch = (searchTerm) => async (dispatch) => {
   try {
     const res = await api.get(`/searchGroup?searchTerm=${encodeURIComponent(searchTerm)}`,);
+
+    return res;
+  } catch (err) {
+    console.error('searchterm send error',err)
+    throw err;
+  }
+};
+
+
+export const adminMessageSearch = (searchTerm) => async (dispatch) => {
+  try {
+    const res = await api.get(`/searchChat?searchTerm=${encodeURIComponent(searchTerm)}`,);
 
     return res;
   } catch (err) {

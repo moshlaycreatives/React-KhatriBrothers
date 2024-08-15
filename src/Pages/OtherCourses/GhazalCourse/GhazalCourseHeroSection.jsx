@@ -1,8 +1,20 @@
 
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router';
 
 const GhazalCourseHeroSection = () => {
+
+
+  const navigate = useNavigate()
+
+  const handleCustomCourseClick = () => {
+    navigate('/form', { state: { courseType: 'ghazal' } });
+  };
+
+
+
+
   return (
     <>
 
@@ -38,6 +50,27 @@ const GhazalCourseHeroSection = () => {
               >
                 Start Learning
               </Button>
+
+
+              <Button
+              variant="contained"
+              sx={{
+                backgroundColor: 'white',
+                mt: 4,
+                ml: 5,
+                color: '#8d1851',
+                borderRadius: '0px',
+                padding: '0.8rem 2rem',
+                textTransform: 'none',
+                fontSize: '0.8rem',
+                ':hover': {
+                  color: 'white',
+                },
+              }}
+              onClick={handleCustomCourseClick}
+            >
+              Want Custom Course?
+            </Button>
             </Box>
           </Grid>
 

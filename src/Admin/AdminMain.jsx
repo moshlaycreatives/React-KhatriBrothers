@@ -74,6 +74,7 @@ import { TbMessage2Star } from "react-icons/tb";
 import { useNavigate } from "react-router";
 import BollyWoodMain from "./components/BollyWoodCourses/BollyWoodMain";
 import AdminBlogsMain from "./components/Blogs/AdminBlogsMain";
+import PendingCustomCourseMain from "./components/PendingCustomCourses/PendingCustomCourseMain";
 
 const drawerWidth = 240;
 
@@ -93,6 +94,7 @@ const listData = [
   { title: "Tabla", icon: <ArticleIcon /> },
   { title: "Bollywood Public Filmy Songs", icon: <ArticleIcon /> },
 
+  { title: "Pending Custom Courses", icon: <PiStudent /> },
 
   { title: "Students", icon: <PiStudent /> },
   { title: "Instructors", icon: <GiTeacher /> },
@@ -469,6 +471,7 @@ const AdminMain = () => {
             {selectedItem === "Gazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
             {selectedItem === "Bollywood Public Filmy Songs" && <BollyWoodMain />}
+            {selectedItem === "Pending Custom Courses" && <PendingCustomCourseMain />}
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}

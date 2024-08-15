@@ -280,6 +280,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Menu,
@@ -306,6 +307,7 @@ const ITEMS_PER_PAGE = 10; // Number of items per page
 
 const InstructorDetails = ({ instructorId }) => {
   const theme = useTheme();
+  const [loading, setLoading] = useState(true)
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [studentData, setStudentData] = useState([]);
@@ -321,7 +323,9 @@ const InstructorDetails = ({ instructorId }) => {
       try {
         const res = await dispatch(getSingleInstructor(instructorId));
         setInstructorData(res.data.data);
+        setLoading(false)
       } catch (err) {
+setLoading(false)
         console.error("Failed to fetch instructor:", err);
       }
     };
@@ -334,7 +338,10 @@ const InstructorDetails = ({ instructorId }) => {
       const res = await dispatch(assignedStudents(instructorId, currentPage));
       setStudentData(res.data.data);
       setTotalPages(Math.ceil(res.data.total / ITEMS_PER_PAGE)); // Calculate total pages
+   setLoading(false)
     } catch (err) {
+   setLoading(false)
+
       console.error("Failed to fetch students:", err);
     }
   };
@@ -369,9 +376,11 @@ const InstructorDetails = ({ instructorId }) => {
       .then((res) => {
         setStudentData(res?.data?.data);
         setTotalPages(Math.ceil(res?.data?.total / ITEMS_PER_PAGE)); // Update total pages based on search results
-
+setLoading(false)
       })
       .catch((error) => {
+   setLoading(false)
+
         console.error("Failed to send searchTerm", error);
       });
   };
@@ -394,6 +403,19 @@ setSearchTerm(e.target.value);
   const handleMenuClick = (events) => {
     setAnchorEl(events.currentTarget);
   };
+
+  if(loading){
+    return(
+
+      <>
+      <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'70vh'}}>
+        <CircularProgress/>
+      </Box>
+    </>
+    )
+  }
+
+
 
   return (
     <>
@@ -511,7 +533,7 @@ setSearchTerm(e.target.value);
                       Group
                     </TableCell>
                     <TableCell sx={{ color: 'gray' }}>
-                      {row.courseId.price}
+                    ₹ {row.courseId.indianPrice}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -519,7 +541,7 @@ setSearchTerm(e.target.value);
             </Table>
           </Box>
         </Card>
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
           <Pagination
             count={totalPages}
             page={currentPage}

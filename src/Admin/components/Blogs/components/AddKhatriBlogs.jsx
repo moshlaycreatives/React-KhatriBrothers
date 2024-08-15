@@ -54,6 +54,8 @@ const fileButtonStyles = {
 const AddKhatriBlogs = () => {
   const initialValues = {
     title: '',
+    youtubeLink: '',
+
     description: '',
     content: '',
     readTime: '',
@@ -90,6 +92,8 @@ const AddKhatriBlogs = () => {
 
     const formData = new FormData();
     formData.append('title', formValues.title);
+    formData.append('youtubeLink', formValues.youtubeLink);
+
     formData.append('description', formValues.description);
     formData.append('content', formValues.content);
     formData.append('readTime', formValues.readTime);
@@ -129,6 +133,22 @@ const AddKhatriBlogs = () => {
               onChange={handleChange}
             />
           </Box>
+
+          <Box sx={inputStyles}>
+            <Typography sx={labelStyles}>Youtube Link</Typography>
+            <TextField
+              placeholder="Enter Youtube Link"
+              fullWidth
+              size="small"
+              name="youtubeLink"
+              value={formValues.youtubeLink}
+              onChange={handleChange}
+            />
+          </Box>
+
+
+
+
 
           <Box sx={inputStyles}>
             <Typography sx={labelStyles}>Description</Typography>

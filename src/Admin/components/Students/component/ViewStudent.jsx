@@ -149,8 +149,8 @@ console.log(instructor1.firstName, 'name')
 
             <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
               {courseData.title}
-              <br />
             </Typography>
+            <br />
 
             <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
               Age
@@ -167,12 +167,21 @@ console.log(instructor1.firstName, 'name')
               {studentData.gender}
             </Typography>
             <br />
-
+{/*
             <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
               Course Fee
             </Typography>
             <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
               {courseData.price}
+            </Typography> */}
+
+
+
+            <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+              Country
+            </Typography>
+            <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+              {studentData.country}
             </Typography>
           </Box>
 
@@ -192,7 +201,7 @@ console.log(instructor1.firstName, 'name')
               {studentData.phone}
               <br />
             </Typography>
-
+<br/>
             <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
               Course Type
             </Typography>
@@ -207,14 +216,7 @@ console.log(instructor1.firstName, 'name')
             <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
               Group
             </Typography>
-            <br />
 
-            <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
-              Country
-            </Typography>
-            <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-              {studentData.country}
-            </Typography>
           </Box>
           {/* <Button>click</Button> */}
           <div></div>

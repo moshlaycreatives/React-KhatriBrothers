@@ -28,6 +28,7 @@ import {
   sendSearchTerm,
 } from "../../../store/actions/courseActions";
 import ViewStudent from "./component/ViewStudent";
+import { BsEye } from "react-icons/bs";
 
 const ITEMS_PER_PAGE = 10; // Number of items per page
 
@@ -117,8 +118,10 @@ const StudentMain = () => {
   };
 
   const handleMenuClick = (events, id) => {
-    setAnchorEl(events.currentTarget);
+    // setAnchorEl(events.currentTarget);
     setCurrentRowId(id);
+    setIsEdited(true);
+
     console.log("current student id:", currentRowId);
   };
 
@@ -252,9 +255,11 @@ const StudentMain = () => {
                                 handleMenuClick(events, row._id)
                               }
                             >
-                              <MoreVertIcon />
+                              {/* <MoreVertIcon /> */}
+
+                              <BsEye style={{color:theme.palette.primary.main}}/>
                             </IconButton>
-                            <Menu
+                            {/* <Menu
                               anchorEl={anchorEl}
                               open={Boolean(anchorEl)}
                               onClose={handleMenuClose}
@@ -262,7 +267,7 @@ const StudentMain = () => {
                               <MenuItem onClick={handleEditClick}>
                                 View
                               </MenuItem>
-                            </Menu>
+                            </Menu> */}
                           </TableCell>
                         </TableRow>
                       ))}
