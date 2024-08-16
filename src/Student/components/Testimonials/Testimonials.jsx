@@ -231,7 +231,7 @@ const [allTestimonials, setAllTestimonials] = useState([])
                     <TableCell sx={{ color: "grey" }}>{row.courseId.title}</TableCell>
                     <TableCell sx={{ color: "grey" }}>
                       <Box>
-                        <img src={`${base}${row.video.replace(/ /g, "%20")}`} alt="" width={"250px"} />
+                        <img src={`${base}${row.video.replace(/ /g, "%20")}`} alt="" width={"200px"} height='100vh' />
                       </Box>
                     </TableCell>
 
@@ -321,7 +321,7 @@ const [allTestimonials, setAllTestimonials] = useState([])
               </Typography>
 
               <Box sx={{ width: '100%', border: '1px solid #7c7c7c', borderRadius: '3px', color: 'grey', padding: '0.5rem' }}>
-                <input type="file"  onChange={handleVideoChange}
+                <input type="file" accept="video/*" onChange={handleVideoChange}
 
                 />
               </Box>

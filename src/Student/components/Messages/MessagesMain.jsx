@@ -235,7 +235,7 @@ if(loading){
                 padding: "8px",
                 "&:hover": { backgroundColor: theme.palette.primary.main, color:'white' },
                 backgroundColor:
-                  receiverId === val.instructorId._id ? "transparent" : "transparent",
+                  receiverId === val?.instructorId?._id ? "transparent" : "transparent",
               }}
             >
               <Box sx={{display:'flex', alignItems:'center'}}>

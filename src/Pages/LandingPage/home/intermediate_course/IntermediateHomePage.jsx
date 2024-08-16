@@ -55,7 +55,7 @@ const navigate = useNavigate()
               onClick={()=>handleOpenCourse(val._id)}
             >
               <Box>
-                <img  src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height='200vh' />
+                <img  src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height='250vh' />
               </Box>
               <Box>
                 <Typography sx={{ color: "grey" }}>{val.title}</Typography>

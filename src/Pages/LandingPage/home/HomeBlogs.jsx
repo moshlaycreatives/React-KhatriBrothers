@@ -62,7 +62,7 @@ const HomeBlogs = () => {
           {blogData.slice(0, 3).map((val, ind) => (
             <Grid item lg={4} md={4} sm={12} xs={12} key={ind}>
               <Card sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
-                <Box sx={{ height: '200px', overflow: 'hidden' }}>
+                <Box sx={{ height: '300px', overflow: 'hidden' }}>
                   <img
                     src={`${base}${val.images[0]}`}
                     alt="Blog Image"

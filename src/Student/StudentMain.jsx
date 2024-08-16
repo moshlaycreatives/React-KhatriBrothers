@@ -26,6 +26,7 @@ import { CgFileDocument } from "react-icons/cg";import { PiVideo } from "react-i
 import { GoInfo } from "react-icons/go";
 import { TbMessage2Star } from "react-icons/tb";
 import StudentLectures from './components/StudentLectures/StudentLectures';
+import StudentTrailJoin from './components/FreeTrailStudent/StudentTrailJoin';
 
 
 
@@ -34,7 +35,10 @@ const drawerWidth = 240;
 const listData = [
   { title: 'Dashboard', icon: <RxDashboard /> },
   { title: 'Course Info', icon: <GoInfo /> },
+
   { title: 'Classes', icon: <GoInfo /> },
+  { title: 'Join Free Trail Class', icon: <GoInfo /> },
+
   { title: 'Message', icon: <BiMessageAltDetail /> },
   { title: 'Testimonial', icon: <TbMessage2Star />},
   { title: 'Terms & Conditions', icon: <CgFileDocument /> },
@@ -105,7 +109,7 @@ const StudentMain = () => {
 
   useEffect(()=>{
 
-    
+
 
 
 
@@ -337,6 +341,7 @@ const StudentMain = () => {
             {selectedItem === "Dashboard" && <Dashboard />}
             {selectedItem === "Course Info" && <CourseInfoMain />}
             {selectedItem === "Classes" && <StudentLectures />}
+            {selectedItem === "Join Free Trail Class" && <StudentTrailJoin/>}
 
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Testimonial" && <Testimonials />}

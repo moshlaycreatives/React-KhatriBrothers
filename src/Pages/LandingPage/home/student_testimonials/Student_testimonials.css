@@ -69,3 +69,23 @@ margin-bottom: 1.5rem;
             font-size: 1rem;
             }
   }
+
+
+
+
+  .slick-dots {
+    bottom: -30px;
+  }
+
+  .slick-dots li button:before {
+    font-size: 0.8rem;
+    color: #961a56;
+    opacity: 1;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: #961a56;
+    border:'1px solid green';
+
+    /* Optional: Different color for the active dot */
+  }

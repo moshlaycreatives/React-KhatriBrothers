@@ -204,17 +204,24 @@
 
 // export default ViewInstructorLecture;
 
-
-
-import { Box, Card, CardContent, CardMedia, Grid, Typography, useTheme, CircularProgress } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { CleaningServices } from '@mui/icons-material';
-import { getAllInstructorClassDetails } from '../../../store/actions/courseActions';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { CleaningServices } from "@mui/icons-material";
+import { getAllInstructorClassDetails } from "../../../store/actions/courseActions";
 
 const ViewInstructorLecture = ({ courseId }) => {
-  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const [playingIndex, setPlayingIndex] = useState(null);
   const [lectureData, setLectureData] = useState([]);
@@ -239,15 +246,13 @@ const ViewInstructorLecture = ({ courseId }) => {
     fetchData();
   }, [courseId, dispatch]);
 
-  const normalizePath = (path) => path.replace(/\\/g, '/');
-  const isPDF = (url) => normalizePath(url).endsWith('.pdf');
-  const isVideo = (url) => normalizePath(url).endsWith('.mp4');
+  const normalizePath = (path) => path.replace(/\\/g, "/");
+  const isPDF = (url) => normalizePath(url).endsWith(".pdf");
+  const isVideo = (url) => normalizePath(url).endsWith(".mp4");
 
   const encodeSpacesAndSpecialChars = (str) => {
     const stringifiedStr = String(str);
-    return stringifiedStr
-      .replace(/ /g, '%20')
-      .replace(/\\/g, '/');
+    return stringifiedStr.replace(/ /g, "%20").replace(/\\/g, "/");
   };
 
   const handleVideoClick = (index) => {
@@ -258,8 +263,12 @@ const ViewInstructorLecture = ({ courseId }) => {
     event.preventDefault();
   };
 
-  const pdfFiles = lectureData.flatMap(item => item.classContent.filter(isPDF));
-  const videoFiles = lectureData.flatMap(item => item.classContent.filter(isVideo));
+  const pdfFiles = lectureData.flatMap((item) =>
+    item.classContent.filter(isPDF)
+  );
+  const videoFiles = lectureData.flatMap((item) =>
+    item.classContent.filter(isVideo)
+  );
 
   return (
     <>
@@ -270,36 +279,53 @@ const ViewInstructorLecture = ({ courseId }) => {
           fontSize: "2rem",
         }}
       >
-        Course Details
+        Lectures Details
       </Typography>
 
-      <Card sx={{ padding: '2rem' }}>
+      <Card sx={{ padding: "2rem" }}>
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "60vh",
+            }}
+          >
             <CircularProgress />
           </Box>
         ) : (
-<>
-{lectureData.length === 0 || lectureData.every(val => val.classContent.length === 0) ? (
-        <Typography variant="h6" color="textSecondary" align="center">
-          No lecture available for this class. Please add a lecture.
-        </Typography>
-
-
+          <>
+            {lectureData.length === 0 ||
+            lectureData.every((val) => val.classContent.length === 0) ? (
+              <Typography variant="h6" color="textSecondary" align="center">
+                No lecture available for this class. Please add a lecture.
+              </Typography>
             ) : (
               <>
                 {lectureData.map((val, ind) => (
-                  <Box key={ind} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box
+                    key={ind}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
                     <Box>
-                      <Typography sx={{fontWeight:600}}>Course Name</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        Course Name
+                      </Typography>
                       <Typography>{val.courseId.title}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{fontWeight:600}}>Course Fee</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        Course Fee
+                      </Typography>
                       <Typography>{val.courseId.indianPrice}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{fontWeight:600}}>Duration</Typography>
+                      <Typography sx={{ fontWeight: 600 }}>Duration</Typography>
                       <Typography>{val.courseId.courseDuration}</Typography>
                     </Box>
                   </Box>
@@ -308,25 +334,55 @@ const ViewInstructorLecture = ({ courseId }) => {
                 <br />
                 <br />
 
-                <Typography sx={{fontWeight:600, fontSize:'1.1rem', mb:1}}>PDFs</Typography>
+                <Typography sx={{ fontWeight: 600, fontSize: "1.1rem", mb: 1 }}>
+                  PDFs
+                </Typography>
                 <Box>
                   <Grid container spacing={2}>
                     {pdfFiles.map((pdfFile, index) => {
-                      const encodedFileName = encodeSpacesAndSpecialChars(pdfFile);
+
+                      const fileName = pdfFile.split('/').pop(); // Gets the full file name with timestamp
+
+// Remove the timestamp part from the file name
+// Assuming the timestamp part ends with "-",
+// split by "-" and join from the second element onward
+const [dateTimePrefix, ...nameParts] = fileName.split('-');
+const fileNameWithoutDate = nameParts.join('-');
+
+// Remove the extra characters after the file name (if necessary)
+const cleanFileName = fileNameWithoutDate.replace(/.*T\d+.*Z-/, '');
+
+
+
+
+                      const encodedFileName =
+                        encodeSpacesAndSpecialChars(pdfFile);
                       const fullUrl = `${base}${encodedFileName}`;
                       return (
                         <Grid item xs={12} sm={4} key={index}>
-                          <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: 2 }}>
+                          <Card
+                            variant="outlined"
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "start",
+                              padding: 2,
+                            }}
+                          >
                             <CardMedia
                               component="img"
-                              sx={{ width: 30, height: 40, marginLeft: '1rem' }}
+                              sx={{ width: 30, height: 40, marginLeft: "1rem" }}
                               image="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
                               alt="PDF icon"
                             />
                             <CardContent>
-                              <Link to={fullUrl} variant="body2" color="secondary">
-                                View File
-                              </Link>
+                            <Typography variant="body1">
+      {cleanFileName}
+    </Typography>
+<br/>
+                      <Link to={fullUrl} variant="body2" color="secondary" style={{textDecoration:'none', color:theme.palette.primary.main, fontWeight:600}}>
+                        View File
+                      </Link>
                             </CardContent>
                           </Card>
                         </Grid>
@@ -337,10 +393,26 @@ const ViewInstructorLecture = ({ courseId }) => {
 
                 <br />
 
-                <Typography sx={{fontWeight:600, fontSize:'1.1rem', mb:1}}>Video Lectures</Typography>
+                <Typography sx={{ fontWeight: 600, fontSize: "1.1rem", mb: 1 }}>
+                  Video Lectures
+                </Typography>
                 <Grid container spacing={2}>
                   {videoFiles.map((videoFile, index) => {
-                    const encodedFileName = encodeSpacesAndSpecialChars(videoFile);
+                    const fileName = videoFile.split('/').pop(); // Gets the full file name with timestamp
+
+// Remove the timestamp part from the file name
+// Assuming the timestamp part ends with "-",
+// split by "-" and join from the second element onward
+const [dateTimePrefix, ...nameParts] = fileName.split('-');
+const fileNameWithoutDate = nameParts.join('-');
+
+// Remove the extra characters after the file name (if necessary)
+const cleanFileName = fileNameWithoutDate.replace(/.*T\d+.*Z-/, '');
+
+
+
+                    const encodedFileName =
+                      encodeSpacesAndSpecialChars(videoFile);
                     const fullVideoUrl = `${base}${encodedFileName}`;
                     return (
                       <Grid item xs={12} sm={3} key={index}>
@@ -356,21 +428,24 @@ const ViewInstructorLecture = ({ courseId }) => {
                               onClick={() => handleVideoClick(index)}
                             />
                           ) : (
-                            <Box onClick={() => handleVideoClick(index)} sx={{ position: 'relative', cursor: 'pointer' }}>
+                            <Box
+                              onClick={() => handleVideoClick(index)}
+                              sx={{ position: "relative", cursor: "pointer" }}
+                            >
                               <CardMedia
                                 component="img"
-                                image="https://via.placeholder.com/150" // Placeholder thumbnail
+                                image="/videothumbnail.png" // Placeholder thumbnail
                                 alt="Video thumbnail"
                                 sx={{ height: 140 }}
                               />
                               <Box
                                 sx={{
-                                  position: 'absolute',
-                                  top: '50%',
-                                  left: '50%',
-                                  transform: 'translate(-50%, -50%)',
-                                  color: 'white',
-                                  fontSize: '2rem',
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                  color: "white",
+                                  fontSize: "2rem",
                                 }}
                               >
                                 ▶️
@@ -378,10 +453,11 @@ const ViewInstructorLecture = ({ courseId }) => {
                             </Box>
                           )}
                           <CardContent>
-                            <Typography variant="body2" color="textSecondary">
-                              {`Video Lecture ${index + 1}`}
-                            </Typography>
+                          <Typography>
+                    {cleanFileName}
+                  </Typography>
                           </CardContent>
+
                         </Card>
                       </Grid>
                     );

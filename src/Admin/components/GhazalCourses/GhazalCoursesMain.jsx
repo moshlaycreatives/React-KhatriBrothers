@@ -30,7 +30,7 @@ const GhazalCoursesMain = () => {
       const data = res.data.data
       const filteredCourses = data.filter(course => course.courseType === 'ghazal' && course.addedBy === 'admin')
 
-      const filterCustomCourses = data.filter(course => course.courseType === 'ghazal' && course.addedBy === 'user')
+      const filterCustomCourses = data.filter(course => course.courseType === 'ghazal' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
       setCourseData(filteredCourses);
       setCustomCourseData(filterCustomCourses);
 

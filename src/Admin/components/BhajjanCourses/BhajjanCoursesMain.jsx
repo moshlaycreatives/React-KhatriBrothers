@@ -30,7 +30,7 @@ const BhajjanCoursesMain = () => {
 
       const data = res.data.data
     const filteredCourses = data.filter(course => course.courseType === 'bhajjan' && course.addedBy === 'admin')
-    const filterCustomCourses = data.filter(course => course.addedBy === 'user' && course.courseType === 'bhajjan' && (!course.ukPrice || !course.indianPrice || !course.usaPrice || !course.australiaPrice || !course.canadaPrice || !course.kenyaPrice || !course.ugandaPrice || !course.uaePrice))
+    const filterCustomCourses = data.filter(course => course.addedBy === 'user' && course.courseType === 'bhajjan' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
 
     setCourseData(filteredCourses);
     setCustomCourseData(filterCustomCourses)

@@ -1,8 +1,40 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FaMicrophone } from "react-icons/fa6";
+
+const courses = [
+  {
+    id: 1,
+    title: "Hindi Vocal Courses",
+    path: "/hindi-vocal-course",
+    imageSrc: "/advancecourse.png",
+  },
+  {
+    id: 2,
+    title: "Tabla Courses",
+    path: "/tabla-course",
+    imageSrc: "/tablacourse.png",
+  },
+  {
+    id: 3,
+    title: "Bhajjan Courses",
+    path: "/bhajjan-course",
+    imageSrc: "/bhajjancourse.png",
+  },
+  {
+    id: 4,
+    title: "Ghazal Courses",
+    path: "/ghazal-course",
+    imageSrc: "/tablacourse.png",
+  },
+  {
+    id: 5,
+    title: "Bollywood Courses",
+    path: "/bollywood-course",
+    imageSrc: "/bhajjancourse.png",
+  },
+];
 
 const CategoryBasedCoursesHome = () => {
   const theme = useTheme();
@@ -22,7 +54,7 @@ const CategoryBasedCoursesHome = () => {
             fontSize: "2rem",
           }}
         >
-          Courses we Offer
+          Courses We Offer
         </Typography>
         <Typography>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
@@ -32,188 +64,37 @@ const CategoryBasedCoursesHome = () => {
 
       <Box sx={{ padding: "2rem 10%" }}>
         <Grid container spacing={5}>
-          <Grid item lg={2.4} md={2.4} sm={12} xs={12}>
-            <Box height={"40vh"}>
-              <Card
-                sx={{
-                  boxShadow: "1px 1px 9px #961a56",
-                  minHeight: "35vh",
-                  cursor: "pointer",
-                  padding: "1rem",
-                }}
-                onClick={() => handleCardClick("/hindi-vocal-course")}
+          {courses.map((course) => (
+            <Grid key={course.id} item lg={4} md={4} sm={12} xs={12}>
+              <Box
+                onClick={() => handleCardClick(course.path)}
+                sx={{ cursor: "pointer" }}
               >
-                <Box>
-                  <FaMicrophone
-                    style={{
-                      fontSize: "3rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                </Box>
+                <img
+                  src={course.imageSrc}
+                  alt={course.title}
+                  width="100%"
+                  height="300vh"
+                />
+              </Box>
+              <Box>
+                <Typography sx={{ color: "grey" }}>{course.title}</Typography>
                 <br />
-                <Typography sx={{ fontSize: "1.2rem", fontWeight: 600 }}>
-                  Hindi Vocal Courses
-                </Typography>
-
-                <Typography>Lorem ipsum dolor sit amet </Typography>
-
-                <br />
-                <Button variant="contained" color="primary" sx={{width:'100%'}}>
-                  View
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    textTransform: "none",
+                    borderRadius: "0px",
+                    fontSize: "1.1rem",
+                  }}
+                  onClick={() => handleCardClick(course.path)}
+                >
+                  View More &rarr;
                 </Button>
-              </Card>
-            </Box>
-          </Grid>
-
-          <Grid item lg={2.4} md={2.4} sm={12} xs={12}>
-            <Box height={"40vh"}>
-              <Card
-                sx={{
-                  boxShadow: "1px 1px 9px #961a56",
-                  minHeight: "35vh",
-                  cursor: "pointer",
-                  padding: "1rem",
-                }}
-                onClick={() => handleCardClick("/tabla-course")}
-              >
-                <Box>
-                  <FaMicrophone
-                    style={{
-                      fontSize: "3rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                </Box>
-                <br />
-                <Typography sx={{ fontSize: "1.2rem", fontWeight: 600 }}>
-                  Tabla
-                </Typography>
-
-                <Typography>
-                  Lorem, ipsum dolor. cLorem, ipsum dolor.
-                </Typography>
-
-                <br />
-
-                <Button variant="contained" color="primary" sx={{width:'100%'}}>
-                  View
-                </Button>
-              </Card>
-            </Box>
-          </Grid>
-
-          <Grid item lg={2.4} md={2.4} sm={12} xs={12}>
-          <Box height={"40vh"}>
-              <Card
-                sx={{
-                  boxShadow: "1px 1px 9px #961a56",
-                  minHeight: "35vh",
-                  cursor: "pointer",
-                  padding: "1rem",
-                }}
-                onClick={() => handleCardClick("/bhajjan-course")}
-              >
-                <Box>
-                  <FaMicrophone
-                    style={{
-                      fontSize: "3rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                </Box>
-                <br />
-                <Typography sx={{ fontSize: "1.2rem", fontWeight: 600 }}>
-                Bhajjan
-                </Typography>
-
-                <Typography>
-                  Lorem, ipsum dolor. cLorem, ipsum dolor.
-                </Typography>
-
-                <br />
-
-                <Button variant="contained" color="primary" sx={{width:'100%'}}>
-                  View
-                </Button>
-              </Card>
-            </Box>
-          </Grid>
-
-          <Grid item lg={2.4} md={2.4} sm={12} xs={12}>
-          <Box height={"40vh"}>
-              <Card
-                sx={{
-                  boxShadow: "1px 1px 9px #961a56",
-                  minHeight: "35vh",
-                  cursor: "pointer",
-                  padding: "1rem",
-                }}
-                onClick={() => handleCardClick("/ghazal-course")}
-              >
-                <Box>
-                  <FaMicrophone
-                    style={{
-                      fontSize: "3rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                </Box>
-                <br />
-                <Typography sx={{ fontSize: "1.2rem", fontWeight: 600 }}>
-                  Ghazal
-                </Typography>
-
-                <Typography>
-                  Lorem, ipsum dolor. cLorem, ipsum dolor.
-                </Typography>
-
-                <br />
-
-
-                <Button variant="contained" color="primary" sx={{width:'100%'}}>
-                  View
-                </Button>
-              </Card>
-            </Box>
-          </Grid>
-
-          <Grid item lg={2.4} md={2.4} sm={12} xs={12}>
-          <Box height={"40vh"}>
-              <Card
-                sx={{
-                  boxShadow: "1px 1px 9px #961a56",
-                  minHeight: "35vh",
-                  cursor: "pointer",
-                  padding: "1rem",
-                }}
-                onClick={() => handleCardClick("/bollywood-course")}
-              >
-                <Box>
-                  <FaMicrophone
-                    style={{
-                      fontSize: "3rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                </Box>
-                <br />
-                <Typography sx={{ fontSize: "1.2rem", fontWeight: 600 }}>
-                  Bollywood Songs
-                </Typography>
-
-                <Typography>
-                  Lorem, ipsum dolor. cLorem, ipsum dolor.
-                </Typography>
-
-                <br />
-
-                <Button variant="contained" color="primary" sx={{width:'100%'}}>
-                  View
-                </Button>
-              </Card>
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </>

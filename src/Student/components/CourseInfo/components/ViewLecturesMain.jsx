@@ -128,6 +128,16 @@ const ViewLecturesMain = ({ courseId }) => {
               {lectureData[0].courseId.courseDuration}
               </Typography>
             </Box>
+
+
+            <Box>
+              <Typography sx={{fontWeight:600}}></Typography>
+              <Typography>
+
+              {/* {val.courseId.courseDuration} */}
+
+              </Typography>
+            </Box>
           </Box>
 
         <br />
@@ -137,6 +147,22 @@ const ViewLecturesMain = ({ courseId }) => {
         <Box>
           <Grid container spacing={2}>
             {pdfFiles.map((pdfFile, index) => {
+
+
+              const fileName = pdfFile.split('/').pop(); // Gets the full file name with timestamp
+
+// Remove the timestamp part from the file name
+// Assuming the timestamp part ends with "-",
+// split by "-" and join from the second element onward
+const [dateTimePrefix, ...nameParts] = fileName.split('-');
+const fileNameWithoutDate = nameParts.join('-');
+
+// Remove the extra characters after the file name (if necessary)
+const cleanFileName = fileNameWithoutDate.replace(/.*T\d+.*Z-/, '');
+
+
+
+
               const encodedFileName = encodeSpacesAndSpecialChars(pdfFile);
               const fullUrl = `${base}${encodedFileName}`;
               return (
@@ -149,13 +175,12 @@ const ViewLecturesMain = ({ courseId }) => {
                       alt="PDF icon"
                     />
                     <CardContent>
-
-                      <Typography>
-{pdfFile}
-                      </Typography>
-
-                      <Link to={fullUrl} variant="body2" color="secondary">
-                        View File
+                    <Typography variant="body1">
+      {cleanFileName}
+    </Typography>
+<br/>
+                      <Link to={fullUrl} variant="body2" color="secondary" style={{textDecoration:'none', color:theme.palette.primary.main, fontWeight:600}}>
+                        Download File
                       </Link>
                     </CardContent>
                   </Card>
@@ -170,6 +195,23 @@ const ViewLecturesMain = ({ courseId }) => {
         <Typography sx={{fontWeight:600, fontSize:'1.1rem', mb:1}}>Video Lectures</Typography>
         <Grid container spacing={2}>
           {videoFiles.map((videoFile, index) => {
+
+
+            const fileName = videoFile.split('/').pop(); // Gets the full file name with timestamp
+
+// Remove the timestamp part from the file name
+// Assuming the timestamp part ends with "-",
+// split by "-" and join from the second element onward
+const [dateTimePrefix, ...nameParts] = fileName.split('-');
+const fileNameWithoutDate = nameParts.join('-');
+
+// Remove the extra characters after the file name (if necessary)
+const cleanFileName = fileNameWithoutDate.replace(/.*T\d+.*Z-/, '');
+
+
+
+
+
             const encodedFileName = encodeSpacesAndSpecialChars(videoFile);
             const fullVideoUrl = `${base}${encodedFileName}`;
             console.log(fullVideoUrl, 'video url')
@@ -190,7 +232,7 @@ const ViewLecturesMain = ({ courseId }) => {
                     <Box onClick={() => handleVideoClick(index)} sx={{ position: 'relative', cursor: 'pointer' }}>
                       <CardMedia
                         component="img"
-                        image="https://via.placeholder.com/150" // Placeholder thumbnail
+                        image="/videothumbnail.png" // Placeholder thumbnail
                         alt="Video thumbnail"
                         sx={{ height: 140 }}
                       />
@@ -209,9 +251,11 @@ const ViewLecturesMain = ({ courseId }) => {
                     </Box>
                   )}
                   <CardContent>
-                    <Typography variant="body2" color="textSecondary">
-                      {`Video Lecture ${index + 1}`} {/* Placeholder title */}
-                    </Typography>
+
+                  <Typography>
+                    {cleanFileName}
+                  </Typography>
+
                   </CardContent>
                 </Card>
               </Grid>

@@ -31,7 +31,7 @@ const TablaCoursesMain = () => {
         const data = res.data.data
       const filteredCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'admin')
 
-      const filteredCustomCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'user')
+      const filteredCustomCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
       setCourseData(filteredCourses);
       setCustomCourseData(filteredCustomCourses);
 

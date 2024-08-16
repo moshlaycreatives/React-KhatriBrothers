@@ -23,27 +23,29 @@ import {
   firstPaymentApi,
   getRelatedCourses,
   getSingleCourse,
+  getStudentJoinFreeTrails,
   payment,
+  studentApplyFreeTrails,
 } from "../../store/actions/courseActions";
 
-import axios from 'axios';
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-
   const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
-
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const [selectedClassType, setSelectedClassType] = useState('one2one'); // New state for class type
+  const [selectedClassType, setSelectedClassType] = useState("one2one"); // New state for class type
+
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingEnroll, setLoadingEnroll] = useState(false);
-  const [country, setCountry] = useState('');
-  const [classType, setClassType] = useState('one2one');
+  const [country, setCountry] = useState("");
+  const [classType, setClassType] = useState("one2one");
   const [disableInstallment, setDisableInstallment] = useState(false);
 
   const handleDialogOpen = () => {
@@ -59,7 +61,7 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const handleClassTypeChange = (event) => {
     setSelectedClassType(event.target.value);
-    localStorage.setItem('classType', event.target.value); // Save selected class type to local storage
+    localStorage.setItem("classType", event.target.value); // Save selected class type to local storage
   };
 
   const handleEnroll = (installment) => {
@@ -68,16 +70,17 @@ const AdvanceCoursePriceHeroSection = () => {
       dispatch(firstPaymentApi({ name, email }))
         .then((res) => {
           const paymentId = res.data.data.id;
-          localStorage.setItem('paymentId2', id);
-          localStorage.setItem('installment', installment);
-          localStorage.setItem('classType', selectedClassType); // Save selected class type to local storage
+          localStorage.setItem("paymentId2", id);
+          localStorage.setItem("installment", installment);
+          localStorage.setItem("classType", selectedClassType); // Save selected class type to local storage
 
           if (paymentId) {
-            dispatch(payment(price, paymentId, installment, currency))
-              .then((res) => {
+            dispatch(payment(price, paymentId, installment, currency)).then(
+              (res) => {
                 const testCheckoutUrl = res.data.session.url;
                 window.location.href = testCheckoutUrl;
-              });
+              }
+            );
           }
         })
         .catch((err) => {
@@ -88,14 +91,51 @@ const AdvanceCoursePriceHeroSection = () => {
       navigate("/sign-in", { state: { from: location.pathname } });
     }
   };
+  const [trailData, setTrialData] = useState({});
+
+  useEffect(() => {
+   if(auth === true){
+    const fetchTrialData = async () => {
+      try {
+        const res = await dispatch(getStudentJoinFreeTrails());
+        const data = res.data.data;
+        setTrialData(data);
+      } catch (err) {
+        console.error("Failed to fetch free trails:", err);
+      }
+    };
+    fetchTrialData();
+
+   }
+  }, []);
+
+  const handleFreeTrail = (courseType) => {
+    // console.log(courseType, 'courseType for trails')
+    if (auth === true) {
+      // setLoadingEnroll(true);
+      dispatch(studentApplyFreeTrails({ courseType }))
+        .then((res) => {
+          const paymentId = res.data.message;
+          console.log(res.data.message, "snackbar messg");
+          enqueueSnackbar(res.data.message, { variant: "success" });
+        })
+        .catch((err) => {
+          console.log(err);
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
+        });
+    }
+    // else {
+    //   navigate("/sign-in", { state: { from: location.pathname } });
+    // }
+  };
 
   useEffect(() => {
     const fetchCountry = async () => {
       try {
-        const response = await axios.get('https://ipinfo.io/json');
+        const response = await axios.get("https://ipinfo.io/json");
         setCountry(response.data.country);
       } catch (error) {
-        console.error('Error fetching user country:', error);
+        console.error("Error fetching user country:", error);
       }
     };
 
@@ -111,7 +151,7 @@ const AdvanceCoursePriceHeroSection = () => {
         // if (res.data.data.courseDuration < '12' || res.data.data.courseType === 'tabla' || res.data.data.courseType === 'ghazal') {
         //   setDisableInstallment(true);
         // }
-        if (res.data.data.courseDuration !== '12') {
+        if (res.data.data.courseDuration !== "12") {
           setDisableInstallment(true);
         }
         dispatch(getRelatedCourses(res.data.data.courseType))
@@ -132,7 +172,7 @@ const AdvanceCoursePriceHeroSection = () => {
     fetchData();
   }, [dispatch]);
 
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [related, setRelated] = useState([]);
   const userData = useSelector((state) => state?.auth?.user);
@@ -160,36 +200,36 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const getCurrencySymbol = (countryCode) => {
     const currencyMap = {
-      US: '$',
+      US: "$",
 
-      IN: '₹',
-      GB: '£',
-      KE: 'KSh',
-      UG: 'USh',
-      UAE: 'د.إ',
-      CAN: 'C$',
-      CA: 'C$',
-      AU: 'A$',
-      AUS: 'A$',
+      IN: "₹",
+      GB: "£",
+      KE: "KSh",
+      UG: "USh",
+      UAE: "د.إ",
+      CAN: "C$",
+      CA: "C$",
+      AU: "A$",
+      AUS: "A$",
     };
-    return currencyMap[countryCode] || '$';
+    return currencyMap[countryCode] || "$";
   };
 
   const getCurrencyType = (countryCode) => {
     const currencyType = {
-      US: 'USD',
+      US: "USD",
 
-      IN: 'INR',
-      GB: 'GBP',
-      KE: 'KES',
-      UG: 'UGX',
-      UAE: 'AED',
-      CAN: 'CAD',
-      CA: 'CAD',
-      AU: 'AUD',
-      AUS: 'AUD',
+      IN: "INR",
+      GB: "GBP",
+      KE: "KES",
+      UG: "UGX",
+      UAE: "AED",
+      CAN: "CAD",
+      CA: "CAD",
+      AU: "AUD",
+      AUS: "AUD",
     };
-    return currencyType[countryCode] || 'USD';
+    return currencyType[countryCode] || "USD";
   };
 
   const currencySymbol = getCurrencySymbol(country);
@@ -197,9 +237,9 @@ const AdvanceCoursePriceHeroSection = () => {
   const currency = getCurrencyType(country);
 
   const truncateText = (text, wordLimit) => {
-    const words = text?.split(' ');
+    const words = text?.split(" ");
     if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
+      return words.slice(0, wordLimit).join(" ") + "...";
     }
     return text;
   };
@@ -223,10 +263,10 @@ const AdvanceCoursePriceHeroSection = () => {
     <>
       <Box
         sx={{
-          minHeight: isSmall ? '80vh' : '70vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          minHeight: isSmall ? "80vh" : "70vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           padding: isSmall ? "5rem 10% 0rem 10%" : "2rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
@@ -237,7 +277,7 @@ const AdvanceCoursePriceHeroSection = () => {
               {courseData.title}
             </Typography>
             <Box>
-              <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>
+              <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
                 {truncateText(courseData.overview, 30)}
               </Typography>
               <Button
@@ -250,8 +290,8 @@ const AdvanceCoursePriceHeroSection = () => {
                   padding: "0.6rem 2.3rem",
                   textTransform: "none",
                   fontSize: "0.8rem",
-                  '&:hover': {
-                    backgroundColor: 'white',
+                  "&:hover": {
+                    backgroundColor: "white",
                   },
                 }}
                 onClick={handleDialogOpen}
@@ -271,11 +311,12 @@ const AdvanceCoursePriceHeroSection = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: isSmall ? '0rem ' : "4rem" }}>
+            <Box sx={{ padding: isSmall ? "0rem " : "4rem" }}>
               <img
                 src={`${base}${courseData.image.replace(/ /g, "%20")}`}
                 alt="image"
                 width={"100%"}
+                height='300vh'
               />
             </Box>
           </Grid>
@@ -324,7 +365,9 @@ const AdvanceCoursePriceHeroSection = () => {
               Topics covered:{" "}
             </Typography>
             {courseData.topics.map((topic, index) => (
-              <Typography sx={{ color: "grey", mb: 1 }} key={index}>● {topic}</Typography>
+              <Typography sx={{ color: "grey", mb: 1 }} key={index}>
+                ● {topic}
+              </Typography>
             ))}
           </Grid>
 
@@ -512,30 +555,190 @@ const AdvanceCoursePriceHeroSection = () => {
                   {/* Convert to INR? */}
                 </Typography>
               </Box>
-<br/>
+              <br />
+{/* --------------------------------------my condition------------ */}
+              {/* <Box>
+                {!trailData && !auth ? (
+                  <>
+                    <Button
+                      variant="contained"
 
-<Button
-                variant="contained"
-                sx={{
-                  width: "100%",
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                  borderRadius: "0px",
-                  position: "relative",
-                }}
-                onClick={handleDialogOpen}
-              >
-                {loadingEnroll ? (
-                  <CircularProgress
-                    size={24}
+                      sx={{
+                        width: "100%",
+                        textTransform: "none",
+                        fontSize: "1.1rem",
+                        borderRadius: "0px",
+                        position: "relative",
+                      }}
+                      onClick={() => navigate('/sign-in')}
+                    >
+                      {loadingEnroll ? (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            color: "white",
+                          }}
+                        />
+                      ) : (
+                        "15 Minutes free trail with Admin"
+                      )}
+                    </Button>
+                  </>
+                ) :( trailData && trailData.studentId.trial === true (
+                  <Button
+                    variant="contained"
+                    disabled
                     sx={{
-                      color: "white",
+                      width: "100%",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
+                      position: "relative",
                     }}
-                  />
-                ) : (
-                  "15 Minutes free trail with Admin"
-                )}
-              </Button>
+                    onClick={() => handleFreeTrail(courseData.courseType)}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: "white",
+                        }}
+                      />
+                    ) : (
+                      "15 Minutes free trail with Admin"
+                    )}
+                  </Button>
+                ):!trailData && auth (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "100%",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
+                      position: "relative",
+                    }}
+                    onClick={() => handleFreeTrail(courseData.courseType)}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: "white",
+                        }}
+                      />
+                    ) : (
+                      "15 Minutes free trail with Admin"
+                    )}
+                  </Button>
+                )
+
+                ):
+                ( trailData && trailData.studentId.trial === false (
+                  <Button
+                    variant="contained"
+                    disabled
+                    sx={{
+                      width: "100%",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
+                      position: "relative",
+                    }}
+                    onClick={() => handleFreeTrail(courseData.courseType)}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: "white",
+                        }}
+                      />
+                    ) : (
+                      "15 Minutes free trail with Admin"
+                    )}
+                  </Button>
+                ):!trailData && auth (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "100%",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
+                      position: "relative",
+                    }}
+                    onClick={() => handleFreeTrail(courseData.courseType)}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: "white",
+                        }}
+                      />
+                    ) : (
+                      "15 Minutes free trail with Admin"
+                    )}
+                  </Button>
+                )
+
+                )
+                }
+              </Box> */}
+{/* --------------------------------------------my condition -------------- */}
+
+<Box>
+  {!auth ? (
+    <Button
+      variant="contained"
+      sx={{
+        width: "100%",
+        textTransform: "none",
+        fontSize: "1.1rem",
+        borderRadius: "0px",
+        position: "relative",
+      }}
+      onClick={() => navigate('/sign-in')}
+    >
+      {loadingEnroll ? (
+        <CircularProgress
+          size={24}
+          sx={{ color: "white" }}
+        />
+      ) : (
+        "15 Minutes free trial with Admin"
+      )}
+    </Button>
+  ) : (
+    <Button
+      variant="contained"
+      disabled={trailData && trailData?.studentId?.trial === true}
+      sx={{
+        width: "100%",
+        textTransform: "none",
+        fontSize: "1.1rem",
+        borderRadius: "0px",
+        position: "relative",
+      }}
+      onClick={() => {
+        if (!trailData || !trailData?.studentId?.trial) {
+          handleFreeTrail(courseData.courseType);
+        }
+      }}
+    >
+      {loadingEnroll ? (
+        <CircularProgress
+          size={24}
+          sx={{ color: "white" }}
+        />
+      ) : (
+        "15 Minutes free trial with Admin"
+      )}
+    </Button>
+  )}
+</Box>
+
 
 
               <br />
@@ -585,7 +788,7 @@ const AdvanceCoursePriceHeroSection = () => {
                     src={`${base}${val.image.replace(/ /g, "%20")}`}
                     alt="alt image"
                     width={"100%"}
-                    height={"200vh"}
+                    height={"250vh"}
                   />
                 </Box>
                 <Box>
@@ -625,11 +828,7 @@ const AdvanceCoursePriceHeroSection = () => {
               control={<Radio />}
               label="One2One"
             />
-            <FormControlLabel
-              value="group"
-              control={<Radio />}
-              label="Group"
-            />
+            <FormControlLabel value="group" control={<Radio />} label="Group" />
           </RadioGroup>
         </DialogContent>
         <DialogActions>
@@ -640,10 +839,7 @@ const AdvanceCoursePriceHeroSection = () => {
           >
             Installment
           </Button>
-          <Button
-            onClick={() => handleEnroll(false)}
-            color="primary"
-          >
+          <Button onClick={() => handleEnroll(false)} color="primary">
             Full Fee
           </Button>
         </DialogActions>

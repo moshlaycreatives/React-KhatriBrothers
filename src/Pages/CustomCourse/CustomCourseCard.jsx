@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCustomCourse } from "../../store/actions/courseActions";
 import { useNavigate } from "react-router-dom";
 
-const CustomCourseCard = () => {
+import { CiMicrophoneOn } from "react-icons/ci";
 
+const CustomCourseCard = () => {
     const [customCourses, setCustomCourses] = useState([])
 
 const dispatch = useDispatch()
@@ -40,9 +41,11 @@ useEffect(() => {
    {customCourses.length === 0 ? (
 <>
 
-<Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'30vh'}}>
-    <Typography>
-        Dont Have any Custom Course
+<Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'40vh', flexDirection:'column'}}>
+<CiMicrophoneOn style={{fontSize:'5rem', color:theme.palette.primary.main}}/>
+
+    <Typography sx={{fontSize:'2rem' , fontWeight:600, color:theme.palette.primary.main}}>
+        Do Not Have any Custom Course
     </Typography>
 </Box>
 
@@ -57,7 +60,7 @@ useEffect(() => {
         {customCourses?.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
-              <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'200vh'} />
+              <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />
             </Box>
             <Box>
               <Typography sx={{ color: "grey" }}>{course.title}</Typography>

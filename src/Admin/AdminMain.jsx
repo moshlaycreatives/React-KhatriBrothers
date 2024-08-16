@@ -75,6 +75,8 @@ import { useNavigate } from "react-router";
 import BollyWoodMain from "./components/BollyWoodCourses/BollyWoodMain";
 import AdminBlogsMain from "./components/Blogs/AdminBlogsMain";
 import PendingCustomCourseMain from "./components/PendingCustomCourses/PendingCustomCourseMain";
+import AdminFreeTrailsMain from "./components/AdminFreeTrails/AdminFreeTrailsMain";
+import AdminJoinFreeTrails from "./components/AdminFreeTrails/AdminJoinFreeTrails";
 
 const drawerWidth = 240;
 
@@ -96,8 +98,12 @@ const listData = [
 
   { title: "Pending Custom Courses", icon: <PiStudent /> },
 
-  { title: "Students", icon: <PiStudent /> },
+
   { title: "Instructors", icon: <GiTeacher /> },
+  { title: "Students", icon: <PiStudent /> },
+  { title: "Join Free Trails", icon: <IoMdContacts />  },
+
+  { title: "Pending Trails", icon: <IoMdContacts />  },
   { title: "Message", icon: <BiMessageAltDetail /> },
   { title: "Testimonial", icon: <TbMessage2Star /> },
   { title: "Contact Details", icon: <IoMdContacts />  },
@@ -475,6 +481,10 @@ const AdminMain = () => {
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}
+            {selectedItem === "Join Free Trails" && <AdminJoinFreeTrails />}
+
+            {selectedItem === "Pending Trails" && <AdminFreeTrailsMain />}
+
             {selectedItem === "Instructors" && <InstructorMain />}
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Testimonial" && <Testimonials />}

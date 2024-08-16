@@ -1,12 +1,10 @@
 import api from '../../utils/Api'
 
 export const addAdvance = (formValues) => async (dispatch) => {
-  // console.log('Starting API call at:', new Date().toISOString());
   try {
     const res = await api.post("/addCourse", formValues);
 
     console.log('Response from API:', res);
-    // console.log('API call completed at:', new Date().toISOString());
 
     return res;
   } catch (err) {
@@ -18,12 +16,10 @@ export const addAdvance = (formValues) => async (dispatch) => {
 
 
 export const studentAddCourse = (formValues) => async (dispatch) => {
-  // console.log('Starting API call at:', new Date().toISOString());
   try {
     const res = await api.post("/studentAddCourse", formValues);
 
     console.log('Response from API:', res);
-    // console.log('API call completed at:', new Date().toISOString());
 
     return res;
   } catch (err) {
@@ -644,3 +640,76 @@ export const getAllInstructorClassDetails = (courseId) => async (dispatch) => {
           }catch (err) {
             throw err;
           }};
+
+          export const studentApplyFreeTrails = (values) => async (dispatch) => {
+
+            try {
+              const res = await api.post("/startFreeTrial", values);
+
+              return res;
+            } catch (err) {
+              throw err;
+
+            }
+          };
+
+
+
+          export const getAdminFreeTrails = () => async (dispatch) => {
+
+            try {
+              const res = await api.get("/getAllFreeTrialsAdmin");
+
+              return res;
+            } catch (err) {
+              throw err;
+
+            }
+          };
+
+
+
+
+          export const getStudentJoinFreeTrails = () => async (dispatch) => {
+
+            try {
+              const res = await api.get("/getFreeTrialStudent");
+
+              return res;
+            } catch (err) {
+              throw err;
+
+            }
+          };
+
+
+
+
+
+export const addAdminTrail = (trailId, values) => async (dispatch) => {
+
+
+  try {
+    const res = await api.patch(`/adminScheduleTrialLec/${trailId}`, values);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};
+
+
+
+export const adminChangeTrailStatus = (userId) => async (dispatch) => {
+
+
+  try {
+    const res = await api.patch(`/adminFinishTrial/${userId}`);
+
+    return res;
+  } catch (err) {
+    throw err;
+
+  }
+};

@@ -30,7 +30,7 @@ const BollyWoodMain = () => {
       const data = res.data.data
     const filteredCourses = data.filter(course => course.courseType === 'bollywood' && course.addedBy === 'admin')
     setCourseData(filteredCourses);
-    const filteredCustomCourses = data.filter(course => course.courseType === 'bollywood' && course.addedBy === 'user')
+    const filteredCustomCourses = data.filter(course => course.courseType === 'bollywood' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
     setCustomCourseData(filteredCustomCourses);
 
 
