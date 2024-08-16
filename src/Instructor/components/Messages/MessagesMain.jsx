@@ -26,7 +26,7 @@
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+//     () => io("http://16.171.98.198:4545"),
 //     []
 //   );
 
@@ -315,7 +315,7 @@ const MessageMain = () => {
   const [selectedUserName, setSelectedUserName] = useState(""); // New state for selected user's name
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("http://16.171.98.198:4545"),
     []
   );
 

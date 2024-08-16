@@ -63,7 +63,7 @@ const EditAdvanceCourse = ({ courseData }) => {
 
 
 
-    const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+    const base = 'http://16.171.98.198:4545'
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 
@@ -122,7 +122,7 @@ const EditAdvanceCourse = ({ courseData }) => {
       ugandaPrice: courseData.ugandaPrice || '',
       canadaPrice: courseData.canadaPrice || '',
       australiaPrice: courseData.australiaPrice || '',
-    
+
     });
     setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
   }, [courseData]);

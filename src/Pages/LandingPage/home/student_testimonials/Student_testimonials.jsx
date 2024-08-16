@@ -10,7 +10,7 @@
 // import { Typography } from "@mui/material";
 
 // function Student_testimonials() {
-//   const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+//   const base = "http://16.171.98.198:4545";
 //   const dispatch = useDispatch();
 //   const [publicTestimonial, setPublicTestimonial] = useState([]);
 
@@ -173,7 +173,7 @@ import { Typography } from "@mui/material";
 
 function Student_testimonials() {
 
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const dispatch = useDispatch();
   const [publicTestimonial, setPublicTestimonial] = useState([])
 
