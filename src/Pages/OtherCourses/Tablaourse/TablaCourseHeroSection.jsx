@@ -46,7 +46,7 @@ const TablaCourseHeroSection = () => {
               >
                 Start Learning
               </Button>
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: 'white',
@@ -64,7 +64,7 @@ const TablaCourseHeroSection = () => {
               onClick={handleCustomCourseClick}
             >
               Want Custom Course?
-            </Button>
+            </Button> */}
             </Box>
           </Grid>
 

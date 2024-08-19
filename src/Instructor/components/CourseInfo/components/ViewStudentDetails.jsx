@@ -269,7 +269,7 @@ const ViewStudentDetails = ({ student_Id }) => {
                     <CircularProgress />
                 </Box>
             ) : (
-                <Card sx={{ padding: '1rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                <Card sx={{ padding: '3rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                     <Box>
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Student Name</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.firstName}</Typography>
@@ -279,20 +279,21 @@ const ViewStudentDetails = ({ student_Id }) => {
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Age</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.learnerType}</Typography>
-                        <br />
-                        <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Gender</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.gender}</Typography>
+
                         <br />
                     </Box>
 
                     <Box>
 
-                        
+
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Name</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType}</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.title}</Typography>
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Country</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.country}</Typography>
+                        <br />
+                        <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Gender</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.gender}</Typography>
                     </Box>
                 </Card>
             )}

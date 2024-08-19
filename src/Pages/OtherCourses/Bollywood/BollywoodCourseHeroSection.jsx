@@ -51,7 +51,7 @@ const BollywoodHeroSection = () => {
               </Button>
 
 
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: 'white',
@@ -69,7 +69,7 @@ const BollywoodHeroSection = () => {
               onClick={handleCustomCourseClick}
             >
               Want Custom Course?
-            </Button>
+            </Button> */}
             </Box>
           </Grid>
 

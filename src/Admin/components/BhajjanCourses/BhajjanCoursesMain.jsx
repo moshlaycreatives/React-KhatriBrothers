@@ -113,7 +113,7 @@ fetchData()
                 fontSize: '2rem',
               }}
             >
-              Bhajjan Courses
+              Bhajan Courses
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>
@@ -184,7 +184,7 @@ fetchData()
                 fontSize: '2rem',
               }}
             >
-              Bhajjan Custom Courses
+              Bhajan Custom Courses
             </Typography>
 
 

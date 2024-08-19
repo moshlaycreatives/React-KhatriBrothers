@@ -19,7 +19,7 @@ const BhajjanCourseHeroSection = () => {
       <Grid container sx={{ alignItems: 'center' }}>
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <Typography variant="h4" fontWeight="550" color="white">
-            Bhajjan
+            Bhajan
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>
@@ -45,7 +45,7 @@ const BhajjanCourseHeroSection = () => {
               Start Learning
             </Button>
 
-            <Button
+            {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: 'white',
@@ -63,7 +63,7 @@ const BhajjanCourseHeroSection = () => {
               onClick={handleCustomCourseClick}
             >
               Want Custom Course?
-            </Button>
+            </Button> */}
           </Box>
         </Grid>
 

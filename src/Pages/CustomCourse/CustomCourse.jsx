@@ -6,10 +6,11 @@ import AddCustomCourse from './AddCustomCourse';
 const CustomCourse = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const courseType = location.state?.courseType;
 const theme = useTheme()
-
   console.log(courseType)
+
   return (
 <>
 

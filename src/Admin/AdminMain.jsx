@@ -94,7 +94,7 @@ const listData = [
   { title: "Bhajan", icon: <ArticleIcon /> },
   { title: "Gazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
-  { title: "Bollywood Public Filmy Songs", icon: <ArticleIcon /> },
+  { title: "Bolly/filmy Songs", icon: <ArticleIcon /> },
 
   { title: "Pending Custom Courses", icon: <PiStudent /> },
 
@@ -116,7 +116,7 @@ const listData = [
 ];
 
 const AdminMain = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -476,7 +476,7 @@ const AdminMain = () => {
 
             {selectedItem === "Gazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
-            {selectedItem === "Bollywood Public Filmy Songs" && <BollyWoodMain />}
+            {selectedItem === "Bolly/filmy Songs" && <BollyWoodMain />}
             {selectedItem === "Pending Custom Courses" && <PendingCustomCourseMain />}
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}

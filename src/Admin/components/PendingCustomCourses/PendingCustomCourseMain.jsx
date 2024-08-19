@@ -134,7 +134,7 @@ const PendingCustomCoursesMain = () => {
                 fontSize: '2rem',
               }}
             >
-              Bhajjan Custom Courses
+              Bhajan Custom Courses
             </Typography>
           </Box>
           <br />

@@ -30,7 +30,7 @@ const MessageMain = () => {
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [selectedUser, setSelectedUser] = useState('');
   const socket = useMemo(
-    () => io("http://16.171.98.198:4545"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 
@@ -222,7 +222,7 @@ if(loading){
 
         <br/>
 
-        <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Students</Typography>
+        <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Instructors</Typography>
 
 
 

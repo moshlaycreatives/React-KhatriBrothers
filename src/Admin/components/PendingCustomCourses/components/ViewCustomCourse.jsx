@@ -6,7 +6,7 @@ import EditAdvanceCourse from "./EditCustomCourse";
 import EditCustomCourse from "./EditCustomCourse";
 
 const ViewCustomCourse = ({courseId}) => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);

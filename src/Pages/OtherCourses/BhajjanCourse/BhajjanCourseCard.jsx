@@ -13,10 +13,16 @@ const BhajjanCoursesCard = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+
+  // const handleCardClick = (id) => {
+  //   navigate(`/course-details/${id}`);
+  // };
 
   const handleCardClick = (id) => {
-    navigate(`/course-details/${id}`);
+    navigate(`/course-details/${id}`, {
+      state: { courseType: 'bhajjan' },
+    });
   };
 
 
@@ -26,7 +32,7 @@ const BhajjanCoursesCard = () => {
         {filteredCourses.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
-              <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />
+              <img  src={`${base}${course?.image?.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />
             </Box>
             <Box>
               <Typography sx={{ color: "grey" }}>{course.title}</Typography>

@@ -19,7 +19,7 @@ const FAQHeroSection = () => {
         <Grid container sx={{ alignItems: "center" }}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Typography variant="h4" fontWeight="550" color="white">
-              Faq's
+              FAQ's
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>

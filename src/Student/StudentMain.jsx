@@ -15,7 +15,7 @@ import { userLogout } from '../store/actions/authActions';
 import ShowProfileData from './components/ManageProfile/ShowProfileData';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotificationsOutline } from 'react-icons/io';
-import { getNotification } from '../store/actions/courseActions';
+import { getNotification, getStudentEnrolledCourses } from '../store/actions/courseActions';
 import { BiMessageAltDetail } from "react-icons/bi";import { TbMessage2Cog } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdContacts } from "react-icons/io";
@@ -27,16 +27,18 @@ import { GoInfo } from "react-icons/go";
 import { TbMessage2Star } from "react-icons/tb";
 import StudentLectures from './components/StudentLectures/StudentLectures';
 import StudentTrailJoin from './components/FreeTrailStudent/StudentTrailJoin';
-
+import { enqueueSnackbar } from 'notistack';
+import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from 'react-router';
 
 
 const drawerWidth = 240;
-
+const restrictedRoutes = ["Classes", "Course Info", "Message","Testimonial"];
 const listData = [
   { title: 'Dashboard', icon: <RxDashboard /> },
   { title: 'Course Info', icon: <GoInfo /> },
 
-  { title: 'Classes', icon: <GoInfo /> },
+  { title: 'Classes', icon: <SiGoogleclassroom /> },
   { title: 'Join Free Trail Class', icon: <GoInfo /> },
 
   { title: 'Message', icon: <BiMessageAltDetail /> },
@@ -47,7 +49,7 @@ const listData = [
 ];
 
 const StudentMain = () => {
-  const base = 'http://16.171.98.198:4545'
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -57,28 +59,56 @@ const StudentMain = () => {
   console.log(userData, "data");
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+
   console.log(userData, "data");
   const dispatch = useDispatch();
 
   const profilePictureUrl = base + userData.profilePicture;
 
+  // const handleItemClick = (title) => {
+  //   if (title === "Logout") {
+  //     setLogoutModalOpen(true);
+  //   } else if (title === "ManageProfile") {
+  //     setSelectedItem(title);
+  //   } else {
+  //     setSelectedItem(title);
+  //   }
+  //   if (isMobile) {
+  //     setDrawerOpen(false);
+  //   }
+  // };
+
+
   const handleItemClick = (title) => {
-    if (title === "Logout") {
-      setLogoutModalOpen(true);
-    } else if (title === "ManageProfile") {
-      setSelectedItem(title);
+
+    const unrestrictedItems = ["Dashboard","Join Free Trail Class", "Terms & Conditions", "Settings", "ManageProfile", "Logout"];
+
+    if (unrestrictedItems.includes(title) || courseData.length > 0) {
+      if (title === "Logout") {
+        setLogoutModalOpen(true);
+      } else if (title === "ManageProfile") {
+        setSelectedItem(title);
+      } else {
+        setSelectedItem(title);
+      }
+      if (isMobile) {
+        setDrawerOpen(false);
+      }
     } else {
-      setSelectedItem(title);
-    }
-    if (isMobile) {
-      setDrawerOpen(false);
+
+      setShowPopup(true)
+      // enqueueSnackbar('Pleaase Enroll course to access this section',{variant:'error'})
+
     }
   };
 
+const navigate = useNavigate()
   const handleLogout = () => {
     // Replace this with actual dispatch if you use redux
     dispatch(userLogout());
     setLogoutModalOpen(false);
+    navigate('/')
   };
 
   const handleCloseModal = () => {
@@ -116,10 +146,25 @@ const StudentMain = () => {
   },[])
 
 
+const [courseData, setCourseData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await dispatch(getStudentEnrolledCourses());
+        const data = res.data.data;
+        console.log(data, 'data on mains tudent')
+        setCourseData(data);
+      } catch (err) {
+        console.error("Failed to fetch courses:", err);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
 
-
-
+  console.log(courseData, 'dashboard  hhhhhcourse data')
 
   return (
     <>
@@ -310,8 +355,9 @@ const StudentMain = () => {
                   }}
                   onClick={() => handleItemClick(val.title)}
                 >
-                  <ListItemButton>
-                    <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff', fontSize:'1.5rem' }}>
+                  <ListItemButton sx={{display:'flex', justifyContent:'space-between'}}>
+                   <Box>
+                   <ListItemIcon sx={{ color: selectedItem === val.title ? theme.palette.primary.main : '#fff', fontSize:'1.5rem' }}>
                       {val.icon}
                     </ListItemIcon>
                     <ListItemIcon
@@ -324,6 +370,10 @@ const StudentMain = () => {
                     >
                       {val.title}
                     </ListItemIcon>
+                   </Box>
+                    {restrictedRoutes.includes(val.title) && courseData.length === 0 && (
+          <LockIcon color="white" style={{fontSize:'1.1rem'}}/>
+        )}
                   </ListItemButton>
                 </ListItem >
                  <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
@@ -382,6 +432,35 @@ const StudentMain = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
+
+      <Dialog
+        open={showPopup}
+        onClose={handleCloseModal}
+        sx={{ borderRadius: "0 !important" }}
+      >
+        <DialogContent sx={{ borderRadius: "0 !important" }}>
+          <DialogContentText
+            sx={{  paddingRight: isMobile ? "0rem" : "1rem", textAlign:'center' }}
+          >
+<Box sx={{display:'flex', justifyContent:'center', alignItems:'center',height:'30vh', color: "black", width:'100%', flexDirection:'column'}}>
+<Typography sx={{fontSize:'1.2rem', fontWeight:'600', textAlign:'center'}}>
+Please Pay Your Enrollment Dues for access.
+<br/>
+<br/>
+
+<Button variant='contained'  onClick={()=>navigate('/')}>Go to Website</Button>
+
+</Typography>
+</Box>
+
+          </DialogContentText>
+        </DialogContent>
+
+      </Dialog>
+
     </>
   );
 };

@@ -52,7 +52,7 @@ const GhazalCourseHeroSection = () => {
               </Button>
 
 
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: 'white',
@@ -70,7 +70,7 @@ const GhazalCourseHeroSection = () => {
               onClick={handleCustomCourseClick}
             >
               Want Custom Course?
-            </Button>
+            </Button> */}
             </Box>
           </Grid>
 

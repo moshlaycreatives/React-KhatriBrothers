@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const courses = [
   {
     id: 1,
-    title: "Hindi Vocal Courses",
+    title: "Hindustani Vocal Courses",
     path: "/hindi-vocal-course",
     imageSrc: "/advancecourse.png",
   },
@@ -18,7 +18,7 @@ const courses = [
   },
   {
     id: 3,
-    title: "Bhajjan Courses",
+    title: "Bhajan Courses",
     path: "/bhajjan-course",
     imageSrc: "/bhajjancourse.png",
   },
@@ -78,7 +78,7 @@ const CategoryBasedCoursesHome = () => {
                 />
               </Box>
               <Box>
-                <Typography sx={{ color: "grey" }}>{course.title}</Typography>
+                <Typography sx={{ color: "grey", mt:1, fontSize:'1.2rem' }}>{course.title}</Typography>
                 <br />
                 <Button
                   variant="outlined"

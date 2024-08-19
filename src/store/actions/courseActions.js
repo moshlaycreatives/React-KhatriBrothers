@@ -644,7 +644,7 @@ export const getAllInstructorClassDetails = (courseId) => async (dispatch) => {
           export const studentApplyFreeTrails = (values) => async (dispatch) => {
 
             try {
-              const res = await api.post("/startFreeTrial", values);
+              const res = await api.post("/startFreeTrial", {courseType:"bhajjan"});
 
               return res;
             } catch (err) {

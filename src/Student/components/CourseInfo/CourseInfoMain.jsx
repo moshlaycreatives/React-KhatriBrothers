@@ -223,7 +223,7 @@ const CourseInfoMain = () => {
                   {row.courseId.title}
                 </TableCell>
                 <TableCell sx={{ color: 'grey' }}>{row.instructorId.firstName}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.courseId.australiaPrice}</TableCell>
+                <TableCell sx={{ color: 'grey' }}>{row.courseId.indianPrice}</TableCell>
                 <TableCell sx={{ color: 'grey' }}>{row.courseId.courseDuration}</TableCell>
                 <TableCell sx={{ color: 'grey' }}>
                   <FaEye

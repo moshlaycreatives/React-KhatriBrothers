@@ -6,6 +6,8 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
@@ -23,6 +25,7 @@ import "react-phone-input-2/lib/style.css";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { userRegister } from "../../store/actions/authActions";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -49,6 +52,8 @@ const SignUp = () => {
 
   const [formValues, setFormValues] = useState(initialValues);
   const [loading, setLoading] = useState(false); // New state for loading
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -183,6 +188,14 @@ const SignUp = () => {
     { length: 100 },
     (_, i) => new Date().getFullYear() - i
   );
+
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   return (
     <>
@@ -380,6 +393,8 @@ const SignUp = () => {
                           gap={2}
                         >
                           <FormControl fullWidth size="small">
+<Typography sx={{fontSize:'0.8rem'}}>Month</Typography>
+
                             <Select
                               value={formValues.dob.month}
                               onChange={(e) =>
@@ -399,6 +414,8 @@ const SignUp = () => {
                           </FormControl>
 
                           <FormControl fullWidth size="small">
+<Typography sx={{fontSize:'0.8rem'}}>Day</Typography>
+
                             <Select
                               value={formValues.dob.day}
                               onChange={(e) =>
@@ -417,6 +434,7 @@ const SignUp = () => {
                           </FormControl>
 
                           <FormControl fullWidth size="small">
+<Typography sx={{fontSize:'0.8rem'}}>Year</Typography>
                             <Select
                               value={formValues.dob.year}
                               onChange={(e) =>
@@ -460,7 +478,7 @@ const SignUp = () => {
                       </FormControl>
                     </Box>
 
-                    <Box sx={{ marginBottom: ".5rem" }}>
+                    {/* <Box sx={{ marginBottom: ".5rem" }}>
                       <Typography
                         sx={{ fontSize: "1.1rem", fontWeight: "400" }}
                       >
@@ -491,7 +509,56 @@ const SignUp = () => {
                         value={formValues.confirmPassword}
                         onChange={handleChange}
                       />
-                    </Box>
+                    </Box> */}
+
+                    <Box sx={{ marginBottom: ".5rem" }}>
+        <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+          Password
+        </Typography>
+        <TextField
+          placeholder="Enter Your Password"
+          fullWidth
+          size="small"
+          name="password"
+          type={showPassword ? "text" : "password"}
+          value={formValues.password}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={toggleShowPassword} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
+      <Box sx={{ marginBottom: ".5rem" }}>
+        <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
+          Confirm Password
+        </Typography>
+        <TextField
+          placeholder="Confirm Your Password"
+          fullWidth
+          size="small"
+          name="confirmPassword"
+          type={showConfirmPassword ? "text" : "password"}
+          value={formValues.confirmPassword}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={toggleShowConfirmPassword} edge="end">
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
                     <Button
   variant="contained"
   type="submit"

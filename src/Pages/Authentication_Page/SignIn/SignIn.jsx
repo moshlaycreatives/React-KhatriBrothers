@@ -6,6 +6,8 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
+  InputAdornment,
   Radio,
   RadioGroup,
   TextField,
@@ -18,6 +20,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../store/actions/authActions";
 import { useSnackbar } from "notistack";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const SignIn = () => {
   const initialValues = {
@@ -29,6 +32,8 @@ const SignIn = () => {
   console.log(userdata, 'user data')
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
 
   const location = useLocation()
 
@@ -82,6 +87,12 @@ setLoading(false)
 
         console.log(err);
       });
+  };
+
+
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -157,7 +168,7 @@ setLoading(false)
                       className="mb-4"
                       sx={{ marginBottom: "2rem" }}
                     />
-                    <TextField
+                    {/* <TextField
                       fullWidth
                       required
                       label="Password"
@@ -169,7 +180,33 @@ setLoading(false)
                       variant="outlined"
                       className="mb-4"
                       sx={{ marginBottom: "1rem" }}
-                    />
+                    /> */}
+
+<TextField
+          fullWidth
+                      required
+                      label="Password"
+                      id="password"
+                      name="password"
+
+                      value={formValues.password}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className="mb-4"
+                      sx={{ marginBottom: "1rem" }}
+          type={showPassword ? "text" : "password"}
+
+
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={toggleShowPassword} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
                     <Link
                       to="/forget-password"
