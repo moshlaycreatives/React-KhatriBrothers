@@ -30,7 +30,7 @@ const MessageMain = () => {
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [selectedUser, setSelectedUser] = useState('');
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("http://16.171.98.198:4545"),
     []
   );
 

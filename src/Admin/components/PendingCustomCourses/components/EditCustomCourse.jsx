@@ -63,7 +63,7 @@ const EditCustomCourse = ({ courseData }) => {
 
 
 
-    const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+    const base = 'http://16.171.98.198:4545'
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 
@@ -74,7 +74,7 @@ const EditCustomCourse = ({ courseData }) => {
 
   const courseId = courseData._id
   const initialValues = {
-    courseName: courseData.title || '',
+    courseName: courseData.title || 'Custom Course',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
     topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
@@ -105,7 +105,7 @@ const EditCustomCourse = ({ courseData }) => {
   // Update form values when courseData changes
   useEffect(() => {
     setFormValues({
-      courseName: courseData.title || '',
+      courseName: courseData.title || 'Custom Course',
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
       topicsCovered: topicss || '',
@@ -165,7 +165,7 @@ const EditCustomCourse = ({ courseData }) => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append('title', formValues.courseName);
+    formData.append('title', "Custom Course");
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));
@@ -195,6 +195,7 @@ const EditCustomCourse = ({ courseData }) => {
 
       setIsLoading(false);
       enqueueSnackbar(res.data.message, { variant: 'success' });
+      setFormValues(initialValues)
     }).catch((err) => {
       setIsLoading(false);
       enqueueSnackbar(err.response.data.message, { variant: 'error' });

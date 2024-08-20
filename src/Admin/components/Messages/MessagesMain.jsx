@@ -18,6 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { getAllUsers } from "../../../store/actions/authActions";
 import ViewAllChats from "./ViewAllChats";
+import { getRecentMessage } from "../../../store/actions/courseActions";
 
 const MessageMain = () => {
   const dispatch = useDispatch();
@@ -28,29 +29,48 @@ const MessageMain = () => {
   const [selectedUser, setSelectedUser] = useState("");
 
   const [loading, setLoading] = useState(true);
-
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [recentMessage, setRecentMessage] = useState([]);
+
   const [showConversations, setShowConversations] = useState(false); // Manage view state
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("http://16.171.98.198:4545"),
     []
   );
+
+  useEffect(() => {
+    dispatch(getRecentMessage())
+      .then((users) => {
+        setRecentMessage(users.data.data);
+        // setLoading(false)
+      })
+      .catch((error) => {
+        // setLoading(false)
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
   useEffect(() => {
     dispatch(getAllUsers())
       .then((users) => {
         setAllUsers(users.data.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
         console.error("Error fetching users:", error);
       });
   }, []);
 
-  const filteredUsers = allUsers?.filter(user => user?.role === 'instructor' && user?._id !== userId);
+  const filteredInstructors = allUsers?.filter(
+    (user) => user?.role === "instructor" && user?._id !== userId
+  );
+
+  const filteredStudents = allUsers?.filter(
+    (user) => user?.role === "user" && user?._id !== userId
+  );
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
@@ -93,7 +113,7 @@ const MessageMain = () => {
         }),
       };
       socket.emit("sendMessage", newMessage);
-      console.log(newMessage, 'new')
+      console.log(newMessage, "new");
       setMsgsData((prevMsgs = []) => [...prevMsgs, newMessage]);
       setMessage("");
     }
@@ -102,7 +122,7 @@ const MessageMain = () => {
   const handleSelectChat = (id, firstName) => {
     socket.emit("addUser", userId, id);
     setReceiverId(id);
-    setSelectedUser(firstName)
+    setSelectedUser(firstName);
   };
 
   const handleViewAllConversations = () => {
@@ -113,31 +133,37 @@ const MessageMain = () => {
     setShowConversations(false);
   };
 
-
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault(); // Prevent default Enter key behavior (new line)
       handleSend();
     }
   };
 
-
-  if(loading){
-    return(
-      <>
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
-        <CircularProgress/>
-
-        </Box>
-      </>
-    )
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
-
-
 
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography
           sx={{
             color: theme.palette.primary.main,
@@ -148,7 +174,7 @@ const MessageMain = () => {
           Messages
         </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'end' }}>
+        <Box sx={{ display: "flex", justifyContent: "end", alignItems: "end" }}>
           {showConversations ? (
             <Button variant="contained" onClick={handleBackToMessages}>
               Back to Messages
@@ -166,45 +192,68 @@ const MessageMain = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
-          maxWidth: '100%'
+          maxWidth: "100%",
         }}
       >
         {showConversations ? (
-<>
-
-<ViewAllChats/>
-
-</>        ) : (
+          <ViewAllChats />
+        ) : (
           <>
-            <Box>
-              {filteredUsers.map((val) => (
+            <Box sx={{ flex: 1, marginRight: isMobile ? 0 : 2
+            ,
+
+                maxHeight: "60vh", // Adjust this value as needed
+                overflowY: "auto",
+                borderRight: `1px solid ${theme.palette.divider}`, // Optional: Add a border to separate sections
+                paddingRight: 2,
+
+            }}>
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  fontSize: "1.2rem",
+                }}
+              >
+                Instructors
+              </Typography>
+              {filteredInstructors.map((val) => (
                 <Box
                   key={val._id}
                   onClick={() => handleSelectChat(val._id, val.firstName)}
                   sx={{
                     cursor: "pointer",
                     padding: "8px",
-                    "&:hover": { backgroundColor: theme.palette.primary.main, color: 'white' },
+
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.main,
+                      color: "white",
+                    },
                     backgroundColor:
-                      receiverId === val._id ? "transparent" : "transparent",
+
+                      receiverId === val._id ? theme.palette.primary.main : "transparent",
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Avatar />
-                    <Box sx={{ marginLeft: '0.5rem' }}>
+                    <Box sx={{ marginLeft: "0.5rem" }}>
                       <Typography
                         sx={{
-                          color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-                          fontWeight: receiverId === val._id ? "bold" : "normal",
-                          fontSize: '0.9rem'
+                          color:
+                            receiverId === val._id
+                              ? "white"
+                              : theme.palette.text.primary,
+                          fontWeight:
+                            receiverId === val._id ? "bold" : "normal",
+                          fontSize: "0.9rem",
                         }}
                       >
                         {val.firstName}
                       </Typography>
                       <Typography
                         sx={{
-                          fontSize: '0.8rem',
-                          color: 'grey'
+                          fontSize: "0.8rem",
+                          color: "grey",
                         }}
                       >
                         Hi
@@ -213,7 +262,62 @@ const MessageMain = () => {
                   </Box>
                   <Divider />
                 </Box>
-              ))}
+        ))}
+
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  marginTop: "16px",
+                  marginBottom: "8px",
+                  fontSize: "1.2rem",
+                }}
+              >
+                Students
+              </Typography>
+              {filteredStudents.map((val) => (
+                <Box
+                  key={val._id}
+                  onClick={() => handleSelectChat(val._id, val.firstName)}
+                  sx={{
+                    cursor: "pointer",
+                    padding: "8px",
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.main,
+                      color: "white",
+                    },
+                    backgroundColor:
+                      receiverId === val._id ? theme.palette.primary.main : "transparent",
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar />
+                    <Box sx={{ marginLeft: "0.5rem" }}>
+                      <Typography
+                        sx={{
+                          color:
+                            receiverId === val._id
+                              ? "white"
+                              : theme.palette.text.primary,
+                          fontWeight:
+                            receiverId === val._id ? "bold" : "normal",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        {val.firstName}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: "0.8rem",
+                          color: "grey",
+                        }}
+                      >
+                        Hi
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider />
+                </Box>
+         ) )}
             </Box>
 
             <Paper
@@ -232,7 +336,7 @@ const MessageMain = () => {
                 }}
               >
                 <Typography variant="h6" align="center" color="primary">
-                  {selectedUser || 'Select User For Chat'}
+                  {selectedUser || "Select User For Chat"}
                 </Typography>
               </Box>
               <Box
@@ -255,11 +359,11 @@ const MessageMain = () => {
                     <Box
                       sx={{
                         backgroundColor:
-                          msg?.senderId === userId
+                          msg.senderId === userId
                             ? theme.palette.primary.main
                             : "#dfb3cc",
                         color:
-                          msg?.senderId === userId
+                          msg.senderId === userId
                             ? "white"
                             : theme.palette.primary.main,
                         padding: "8px 12px",
@@ -268,7 +372,7 @@ const MessageMain = () => {
                         wordWrap: "break-word",
                       }}
                     >
-                      <Typography variant="body2">{msg?.text}</Typography>
+                      <Typography variant="body2">{msg.text}</Typography>
                       <Typography
                         variant="caption"
                         sx={{
@@ -277,7 +381,7 @@ const MessageMain = () => {
                           marginTop: "4px",
                         }}
                       >
-                        {msg?.createdAt}
+                        {msg.createdAt}
                       </Typography>
                     </Box>
                   </Box>
@@ -298,13 +402,13 @@ const MessageMain = () => {
                   placeholder="Type your message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  // InputProps={{
-                  //   endAdornment: (
-                  //     <IconButton>
-                  //       <AttachFileIcon />
-                  //     </IconButton>
-                  //   ),
-                  // }}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton>
+                        <AttachFileIcon />
+                      </IconButton>
+                    ),
+                  }}
                 />
                 <IconButton color="primary" onClick={handleSend}>
                   <SendIcon />

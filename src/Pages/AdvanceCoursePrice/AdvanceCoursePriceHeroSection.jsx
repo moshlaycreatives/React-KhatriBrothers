@@ -27,14 +27,17 @@ import {
   payment,
   studentApplyFreeTrails,
 } from "../../store/actions/courseActions";
-
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+// import { useNavigate } from "react-router";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -47,11 +50,22 @@ const AdvanceCoursePriceHeroSection = () => {
   const [country, setCountry] = useState("");
   const [classType, setClassType] = useState("one2one");
   const [disableInstallment, setDisableInstallment] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [loadingTrial, setLoadingTrial] = useState(false);
+
 
   const { courseType } = location.state || {};
 
   console.log(courseType, "course type of custom");
-
+  const availableTimes = [
+    "6:00 AM",
+    "7:00 AM",
+    "8:00 AM",
+    "9:00 AM",
+    "10:00 AM",
+  ];
 
   const [courseType2, setCourseType2] = useState(undefined); // Initially undefined
 
@@ -97,6 +111,8 @@ const AdvanceCoursePriceHeroSection = () => {
               }
             );
           }
+      setLoadingEnroll(false);
+
         })
         .catch((err) => {
           console.log(err);
@@ -125,17 +141,29 @@ const AdvanceCoursePriceHeroSection = () => {
   }, []);
 
   const handleFreeTrail = (courseType) => {
-    // console.log(courseType, 'courseType for trails')
-    if (auth === true) {
-      // setLoadingEnroll(true);
-      dispatch(studentApplyFreeTrails({ courseType }))
+    if (auth === true && selectedDate && selectedTime) {
+      setLoadingTrial(true);
+      const requestData = {
+        courseType: "Bhajan",
+        startTime:
+          dayjs(selectedDate).format("YYYY-MM-DD") +
+          "T" +
+          dayjs(selectedTime, "h:mm A").format("HH:mm:ss") +
+          "Z",
+      };
+
+      dispatch(studentApplyFreeTrails(requestData))
         .then((res) => {
           const paymentId = res.data.message;
           console.log(res.data.message, "snackbar messg");
           enqueueSnackbar(res.data.message, { variant: "success" });
+      setLoadingTrial(false);
+
         })
         .catch((err) => {
           console.log(err);
+      setLoadingTrial(false);
+
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         });
     }
@@ -251,6 +279,14 @@ const AdvanceCoursePriceHeroSection = () => {
   const price = getPriceByCountry(country);
   const currency = getCurrencyType(country);
 
+
+
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+
+
   const truncateText = (text, wordLimit) => {
     const words = text?.split(" ");
     if (words.length > wordLimit) {
@@ -276,6 +312,10 @@ const AdvanceCoursePriceHeroSection = () => {
 
   return (
     <>
+
+
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+
       <Box
         sx={{
           minHeight: isSmall ? "80vh" : "70vh",
@@ -295,14 +335,18 @@ const AdvanceCoursePriceHeroSection = () => {
               <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
                 {truncateText(courseData.overview, 30)}
               </Typography>
-              <Button
+
+<Box sx={{display:'flex', alignItems:'center'}}>
+<Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
                   mt: 4,
                   color: "#8d1851",
                   borderRadius: "0px",
-                  padding: "0.6rem 2.3rem",
+                  // padding: "0.6rem 2.3rem",
+                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
+
                   textTransform: "none",
                   fontSize: "0.8rem",
                   "&:hover": {
@@ -335,7 +379,7 @@ const AdvanceCoursePriceHeroSection = () => {
                   ml:2,
                   color: "#8d1851",
                   borderRadius: "0px",
-                  padding: "0.6rem 2.3rem",
+                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
                   textTransform: "none",
                   fontSize: "0.8rem",
                   "&:hover": {
@@ -361,7 +405,9 @@ const AdvanceCoursePriceHeroSection = () => {
                   ml:2,
                   color: "#8d1851",
                   borderRadius: "0px",
-                  padding: "0.6rem 2.3rem",
+                  // padding: "0.6rem 2.3rem",
+                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
+
                   textTransform: "none",
                   fontSize: "0.8rem",
                   "&:hover": {
@@ -377,6 +423,10 @@ const AdvanceCoursePriceHeroSection = () => {
 
 
       )}
+
+</Box>
+
+
             </Box>
           </Grid>
 
@@ -771,7 +821,7 @@ const AdvanceCoursePriceHeroSection = () => {
                     }}
                     onClick={() => navigate("/sign-in")}
                   >
-                    {loadingEnroll ? (
+                    {loadingTrial ? (
                       <CircularProgress size={24} sx={{ color: "white" }} />
                     ) : (
                       "15 Minutes free trial with Admin"
@@ -788,13 +838,9 @@ const AdvanceCoursePriceHeroSection = () => {
                       borderRadius: "0px",
                       position: "relative",
                     }}
-                    onClick={() => {
-                      if (!trailData || !trailData?.studentId?.trial) {
-                        handleFreeTrail(courseData.courseType);
-                      }
-                    }}
+                    onClick={handleOpenModal}
                   >
-                    {loadingEnroll ? (
+                    {loadingTrial ? (
                       <CircularProgress size={24} sx={{ color: "white" }} />
                     ) : (
                       "15 Minutes free trial with Admin"
@@ -906,6 +952,88 @@ const AdvanceCoursePriceHeroSection = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+      <Dialog open={openModal} onClose={handleCloseModal}>
+          <DialogTitle>Select Date and Time</DialogTitle>
+          <DialogContent>
+            <DatePicker
+              label="Select Date"
+              value={selectedDate}
+              onChange={(newDate) => setSelectedDate(newDate)}
+              renderInput={(params) => (
+                <Box component="input" {...params.inputProps} />
+              )}
+            />
+
+            <Typography sx={{ marginTop: 2 }}>Select Time:</Typography>
+            <Grid container spacing={2}>
+              {availableTimes.map((time, index) => (
+                <Grid item key={index} xs={6}>
+                  <Button
+                    variant={selectedTime === time ? "contained" : "outlined"}
+                    onClick={() => setSelectedTime(time)}
+                  >
+                    {time}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseModal}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={handleFreeTrail}
+              disabled={!selectedDate || !selectedTime}
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+
+
+
+        <Dialog open={openModal} onClose={handleCloseModal}>
+          <DialogTitle>Select Date and Time for Trial Class</DialogTitle>
+          <DialogContent>
+            <DatePicker
+              label="Select Date"
+size='small'
+              value={selectedDate}
+              onChange={(newDate) => setSelectedDate(newDate)}
+              renderInput={(params) => (
+                <Box component="input" size='small' fullWidth sx={{width:'100%'}}{...params.inputProps} />
+              )}
+            />
+
+            <Typography sx={{ marginTop: 2 }}>Select Time:</Typography>
+            <Grid container spacing={2}>
+              {availableTimes.map((time, index) => (
+                <Grid item key={index} xs={6}>
+                  <Button
+                    variant={selectedTime === time ? "contained" : "outlined"}
+                    onClick={() => setSelectedTime(time)}
+                  >
+                    {time}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseModal}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={handleFreeTrail}
+              disabled={!selectedDate || !selectedTime}
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+        </LocalizationProvider>
     </>
   );
 };

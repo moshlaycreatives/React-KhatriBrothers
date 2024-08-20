@@ -30,7 +30,7 @@ import { enqueueSnackbar } from "notistack";
 
 
 const Testimonials = () => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const theme = useTheme();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));

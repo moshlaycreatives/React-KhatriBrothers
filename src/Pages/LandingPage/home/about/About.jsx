@@ -17,7 +17,7 @@ navigate('about-us')
         <div className='home-about-image-main-div'>
             <img src="./assets/about/tabla.png" alt="" />
             <div  className=' home-about-inner-div'>
-                <img src="./assets/about/home_about.png" alt="" />
+                <img src="./assets/about/home_about.png" alt=""  />
             </div>
         </div>
         <div className='home-about-text'>

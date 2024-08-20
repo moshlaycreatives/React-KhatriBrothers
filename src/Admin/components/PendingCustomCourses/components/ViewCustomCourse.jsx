@@ -6,7 +6,7 @@ import EditAdvanceCourse from "./EditCustomCourse";
 import EditCustomCourse from "./EditCustomCourse";
 
 const ViewCustomCourse = ({courseId}) => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);
@@ -62,42 +62,42 @@ const ViewCustomCourse = ({courseId}) => {
       ) : (
         <Card sx={{ padding: "1rem", marginBottom: "1rem" }}>
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
-            Course Name
+             Name
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {courseData.title}
+            {courseData.customList[0]}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Overview
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {courseData.overview}
+            {courseData?.overview}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Prerequisites
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {courseData.prerequisites}
+            {courseData?.prerequisites}
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Topics Covered
           </Typography>
 
-          {courseData.topics.map((topic, index) => (
+          {/* {courseData.topics.map((topic, index) => (
             <Typography key={index} sx={{ marginTop: "0.2rem", color: "grey" }}>
               {topic}
             </Typography>
-          ))}
+          ))} */}
 
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Indian Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          ₹ {courseData.indianPrice}
+          ₹ {courseData?.indianPrice}
 
           </Typography>
 
@@ -106,7 +106,7 @@ const ViewCustomCourse = ({courseId}) => {
             USA Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          $ {courseData.usaPrice}
+          $ {courseData?.usaPrice}
           </Typography>
 
 
@@ -116,7 +116,7 @@ const ViewCustomCourse = ({courseId}) => {
             Canada Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          C$ {courseData.canadaPrice}
+          C$ {courseData?.canadaPrice}
           </Typography>
 
 
@@ -126,7 +126,7 @@ const ViewCustomCourse = ({courseId}) => {
           Australia Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          A$ {courseData.ukPrice}
+          A$ {courseData?.ukPrice}
           </Typography>
 
 
@@ -136,7 +136,7 @@ const ViewCustomCourse = ({courseId}) => {
             UAE Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          د.إ {courseData.uaePrice}
+          د.إ {courseData?.uaePrice}
           </Typography>
 
 
@@ -145,7 +145,7 @@ const ViewCustomCourse = ({courseId}) => {
             UK Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          £ {courseData.ukPrice}
+          £ {courseData?.ukPrice}
           </Typography>
 
 
@@ -153,7 +153,7 @@ const ViewCustomCourse = ({courseId}) => {
             Kenya Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          KSh {courseData.kenyaPrice}
+          KSh {courseData?.kenyaPrice}
           </Typography>
 
 
@@ -162,7 +162,7 @@ const ViewCustomCourse = ({courseId}) => {
             Uganda Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          USh {courseData.ugandaPrice}
+          USh {courseData?.ugandaPrice}
           </Typography>
 
 
@@ -170,14 +170,14 @@ const ViewCustomCourse = ({courseId}) => {
             Course Duration
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {courseData.courseDuration} weeks
+            {courseData?.courseDuration} weeks
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Lecture Duration
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-            {courseData.lectureDuration} hour
+            {courseData?.lectureDuration} hour
           </Typography>
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
@@ -185,8 +185,8 @@ const ViewCustomCourse = ({courseId}) => {
           </Typography>
 
           <img
-            src={`${base}${courseData.image.replace(/ /g, "%20")}`}
-            alt={courseData.title}
+            src={`${base}${courseData?.image?.replace(/ /g, "%20")}`}
+            alt={courseData?.title}
             width={"20%"}
           />
 

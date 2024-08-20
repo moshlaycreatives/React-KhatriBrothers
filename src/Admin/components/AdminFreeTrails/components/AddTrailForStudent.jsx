@@ -236,8 +236,8 @@ import {
     const dispatch = useDispatch();
 
     const initialValues = {
-      date: "",
-      startTime: "",
+      // date: "",
+      // startTime: "",
       link: "",
     };
 
@@ -266,13 +266,13 @@ import {
 
       // Validate form
       const newErrors = {};
-      if (!formValues.date) newErrors.date = "Date is required";
-      if (!formValues.startTime) newErrors.startTime = "Start time is required";
+      // if (!formValues.date) newErrors.date = "Date is required";
+      // if (!formValues.startTime) newErrors.startTime = "Start time is required";
       if (!formValues.link) newErrors.link = "Trail link is required";
 
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
-        enqueueSnackbar("Please fill all required fields.", { variant: "error" });
+        enqueueSnackbar("Please fill required field.", { variant: "error" });
         return;
       }
 
@@ -280,8 +280,8 @@ import {
       const startDateTime = formatDateTime(formValues.date, formValues.startTime);
 
       const formData = {
-        date: startDateTime,
-        startTime: startDateTime,
+        // date: startDateTime,
+        // startTime: startDateTime,
         link: formValues.link,
       };
 
@@ -289,8 +289,11 @@ import {
         const res = await dispatch(addAdminTrail(rowData._id, formData));
         enqueueSnackbar(res.data.message, { variant: "success" });
         setFormValues(initialValues);
+        setLoading(false)
       } catch (error) {
         enqueueSnackbar(error.response.data.message || "An error occurred", { variant: "error" });
+        setLoading(false)
+
         console.error("Error creating class:", error);
       } finally {
         setLoading(false); // End loading
@@ -306,7 +309,7 @@ import {
             fontWeight: 600,
           }}
         >
-          Schedule The Free Trail
+          Schedule The Free Trial Class
         </Typography>
         <br />
         <Card sx={{ padding: "2rem" }}>
@@ -341,9 +344,9 @@ import {
                   fontWeight: 600,
                 }}
               >
-                Course Type
+                {/* Course Type */}
               </Typography>
-              <Typography>{rowData.courseType}</Typography>
+              {/* <Typography>{rowData.courseType}</Typography> */}
             </Box>
           </Box>
 
@@ -351,7 +354,9 @@ import {
           <br />
 
           <Box sx={{ padding: "1rem" }}>
-            <Box>
+
+
+            {/* <Box>
               <Typography variant="subtitle1">Date</Typography>
               <TextField
                 type="date"
@@ -367,11 +372,11 @@ import {
                 error={!!errors.date}
                 helperText={errors.date}
               />
-            </Box>
+            </Box> */}
 
             <br />
 
-            <Box>
+            {/* <Box>
               <Typography variant="subtitle1">Start Time</Typography>
               <TextField
                 type="time"
@@ -387,12 +392,12 @@ import {
                 error={!!errors.startTime}
                 helperText={errors.startTime}
               />
-            </Box>
+            </Box> */}
 
-            <br />
+
 
             <Box>
-              <Typography variant="subtitle1">Trail Link</Typography>
+              <Typography variant="subtitle1">Trial class link</Typography>
               <TextField
                 type="text"
                 variant="outlined"
@@ -401,7 +406,7 @@ import {
                 name="link"
                 value={formValues.link}
                 onChange={handleFormData}
-                placeholder="Enter Trail link"
+                placeholder="Enter Trial class link"
                 error={!!errors.link}
                 helperText={errors.link}
               />

@@ -57,7 +57,7 @@ import { FaLayerGroup } from "react-icons/fa";
 import LectureInstructureMain from "./components/LectureInstructure/LectureInstructureMain";
 import { getNotification } from "../store/actions/courseActions";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const listData = [
   { title: "Dashboard", icon: <RxDashboard /> },
@@ -71,7 +71,7 @@ const listData = [
 ];
 
 const InstructorMain = () => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);

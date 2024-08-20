@@ -46,7 +46,7 @@ const CategoryBasedCoursesHome = () => {
 
   return (
     <>
-      <Box sx={{ textAlign: "center" }}>
+      <Box sx={{ textAlign: "center", padding:'0rem 10%' }}>
         <Typography
           sx={{
             color: theme.palette.primary.main,

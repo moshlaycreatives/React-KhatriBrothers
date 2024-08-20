@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddCustomCourse from './AddCustomCourse';
@@ -11,6 +11,7 @@ const CustomCourse = () => {
 const theme = useTheme()
   console.log(courseType)
 
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   return (
 <>
 
@@ -60,12 +61,12 @@ const theme = useTheme()
     </Box>
 
 
-<Box sx={{padding:'3rem 10%', display:'flex', justifyContent:'center', alignItems:'start', minHeight:'100vh',}}>
+<Box sx={{padding:isSmall ? '3rem 3%' : '3rem 10%', display:'flex', justifyContent:'center', alignItems:'start', minHeight:'100vh',}}>
 
 <Box>
 
-<Typography sx={{ fontSize: "2rem", fontWeight: 700, color:theme.palette.primary.main }}>
-          Add Details, What you want to learn from Khatri Brothers Academy?
+<Typography sx={{ fontSize: "2rem",width:'100%',textAlign:'center', fontWeight: 700, color:theme.palette.primary.main }}>
+          Select From list Given for {courseType}
         </Typography>
 
 

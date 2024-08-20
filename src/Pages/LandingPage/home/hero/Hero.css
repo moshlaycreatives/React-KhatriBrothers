@@ -6,7 +6,7 @@
 }
 .hero-section{
     width: 100%;
-    background-image: url("./assets/hero/hero.png");
+    background-image: url("/HeroImage.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

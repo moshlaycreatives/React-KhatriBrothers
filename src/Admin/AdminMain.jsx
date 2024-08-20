@@ -53,7 +53,8 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import ContactDetails from "./components/ContactDetails/ContactDetails";
 import { getNotification } from "../store/actions/courseActions";
 import { RxDashboard } from "react-icons/rx";
-import { BiMessageAltDetail } from "react-icons/bi";import { TbMessage2Cog } from "react-icons/tb";
+import { BiMessageAltDetail } from "react-icons/bi";
+import { TbMessage2Cog } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdContacts } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
@@ -64,13 +65,6 @@ import { PiStudent } from "react-icons/pi";
 import { GiTeacher } from "react-icons/gi";
 import { TbMessage2Star } from "react-icons/tb";
 
-
-
-
-
-
-
-
 import { useNavigate } from "react-router";
 import BollyWoodMain from "./components/BollyWoodCourses/BollyWoodMain";
 import AdminBlogsMain from "./components/Blogs/AdminBlogsMain";
@@ -78,12 +72,15 @@ import PendingCustomCourseMain from "./components/PendingCustomCourses/PendingCu
 import AdminFreeTrailsMain from "./components/AdminFreeTrails/AdminFreeTrailsMain";
 import AdminJoinFreeTrails from "./components/AdminFreeTrails/AdminJoinFreeTrails";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
+
+
 
 const listData = [
   { title: "Dashboard", icon: <RxDashboard /> },
   {
-    title: "Hindustani Vocal Courses", icon: <CiMicrophoneOn />,
+    title: "Hindustani Vocal Courses",
+    icon: <CiMicrophoneOn />,
     submenu: [
       { title: "Beginner Course", icon: <BiMessageAltDetail /> },
       { title: "Intermediate Course", icon: <BiMessageAltDetail /> },
@@ -94,29 +91,27 @@ const listData = [
   { title: "Bhajan", icon: <ArticleIcon /> },
   { title: "Gazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
-  { title: "Bolly/filmy Songs", icon: <ArticleIcon /> },
+  { title: "Bollywood/Filmy Songs", icon: <ArticleIcon /> },
 
   { title: "Pending Custom Courses", icon: <PiStudent /> },
 
-
   { title: "Instructors", icon: <GiTeacher /> },
   { title: "Students", icon: <PiStudent /> },
-  { title: "Join Free Trails", icon: <IoMdContacts />  },
+  { title: "Join Free Trails", icon: <IoMdContacts /> },
 
-  { title: "Pending Trails", icon: <IoMdContacts />  },
+  { title: "Pending Trails", icon: <IoMdContacts /> },
   { title: "Message", icon: <BiMessageAltDetail /> },
   { title: "Testimonial", icon: <TbMessage2Star /> },
-  { title: "Contact Details", icon: <IoMdContacts />  },
-  { title: "Blogs", icon: <IoMdContacts />  },
-
+  { title: "Contact Details", icon: <IoMdContacts /> },
+  { title: "Blogs", icon: <IoMdContacts /> },
 
   { title: "Terms & Conditions", icon: <CgFileDocument /> },
   { title: "Settings", icon: <IoSettingsOutline /> },
-  { title: "Logout", icon: <MdLogout />  },
+  { title: "Logout", icon: <MdLogout /> },
 ];
 
 const AdminMain = () => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -151,7 +146,6 @@ const AdminMain = () => {
       }
     }
   };
-
 
   const handleSubItemClick = (parentTitle, subTitle) => {
     setSelectedItem(`${parentTitle} - ${subTitle}`);
@@ -273,24 +267,47 @@ const AdminMain = () => {
                   >
                     Notifications
                   </Typography>
-                  {
-  notifications && notifications.length > 0 ? (
-    notifications.map((notification, index) => (
-      <Box key={index} sx={{padding:'0.5rem 2rem', cursor:'alias', backgroundColor: notification.isRead ? 'transparent' : '#d7d7d7'}}>
-        <Typography sx={{fontSize:'0.8rem',cursor:'alias', fontWeight:600, color: theme.palette.primary.main}}>
-          {notification?.title}
-        </Typography>
-        <Typography sx={{fontSize:'0.6rem', cursor:'allias'}}>
-          {notification?.body}
-        </Typography>
-        <Divider />
-      </Box>
-    ))
-  ) : (
-    <Typography sx={{fontSize:'0.8rem', padding:'0.5rem 2rem', color:'gray'}}>
-      No notifications available right now
-    </Typography>
-  )}
+                  {notifications && notifications.length > 0 ? (
+                    notifications.map((notification, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          padding: "0.5rem 2rem",
+                          cursor: "alias",
+                          backgroundColor: notification.isRead
+                            ? "transparent"
+                            : "#d7d7d7",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: "0.8rem",
+                            cursor: "alias",
+                            fontWeight: 600,
+                            color: theme.palette.primary.main,
+                          }}
+                        >
+                          {notification?.title}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: "0.6rem", cursor: "allias" }}
+                        >
+                          {notification?.body}
+                        </Typography>
+                        <Divider />
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography
+                      sx={{
+                        fontSize: "0.8rem",
+                        padding: "0.5rem 2rem",
+                        color: "gray",
+                      }}
+                    >
+                      No notifications available right now
+                    </Typography>
+                  )}
                 </Menu>{" "}
                 <Box>
                   <FormControl sx={{ padding: 0 }}>
@@ -367,45 +384,49 @@ const AdminMain = () => {
             <List>
               {listData.map((val, ind) => (
                 <React.Fragment key={ind}>
-
                   <>
-                  <ListItem
-                    disablePadding
-                    sx={{
-                      backgroundColor: selectedItem.includes(val.title)
-                        ? "white"
-                        : "transparent",
-                        py:1,
-                      borderRadius: "0px",
-                      color: selectedItem.includes(val.title)
-                        ? theme.palette.primary.main
-                        : "#fff",
-                    }}
-                    onClick={() => handleItemClick(val.title, !!val.submenu)}
-                  >
-                    <ListItemButton>
-                      <ListItemIcon
-                        sx={{
-                          color: selectedItem.includes(val.title)
-                            ? theme.palette.primary.main
-                            : "#fff",
-                            fontSize:'1.5rem'
-                        }}
-                      >
-                        {val.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={val.title}
-                        sx={{
-                          color: selectedItem.includes(val.title)
-                            ? theme.palette.primary.main
-                            : "#fff",
-                        }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
-
+                    <ListItem
+                      disablePadding
+                      sx={{
+                        backgroundColor: selectedItem.includes(val.title)
+                          ? "white"
+                          : "transparent",
+                        py: 1,
+                        borderRadius: "0px",
+                        color: selectedItem.includes(val.title)
+                          ? theme.palette.primary.main
+                          : "#fff",
+                      }}
+                      onClick={() => handleItemClick(val.title, !!val.submenu)}
+                    >
+                      <ListItemButton>
+                        <ListItemIcon
+                          sx={{
+                            color: selectedItem.includes(val.title)
+                              ? theme.palette.primary.main
+                              : "#fff",
+                            fontSize: "1.5rem",
+                          }}
+                        >
+                          {val.icon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={val.title}
+                          sx={{
+                            color: selectedItem.includes(val.title)
+                              ? theme.palette.primary.main
+                              : "#fff",
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                    <Divider
+                      sx={{
+                        backgroundColor: "white",
+                        width: "100%",
+                        color: "white",
+                      }}
+                    />
                   </>
 
                   {val.submenu && openSubMenu === val.title && (
@@ -443,12 +464,16 @@ const AdminMain = () => {
                             />
                           </ListItemButton>
                         </ListItem>
-
                       ))}
                     </List>
                   )}
-                 <Divider sx={{backgroundColor:'white', width:'100%', color:'white' ,}}/>
-
+                  <Divider
+                    sx={{
+                      backgroundColor: "white",
+                      width: "100%",
+                      color: "white",
+                    }}
+                  />
                 </React.Fragment>
               ))}
             </List>
@@ -476,8 +501,10 @@ const AdminMain = () => {
 
             {selectedItem === "Gazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
-            {selectedItem === "Bolly/filmy Songs" && <BollyWoodMain />}
-            {selectedItem === "Pending Custom Courses" && <PendingCustomCourseMain />}
+            {selectedItem === "Bollywood/Filmy Songs" && <BollyWoodMain />}
+            {selectedItem === "Pending Custom Courses" && (
+              <PendingCustomCourseMain />
+            )}
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}
@@ -491,7 +518,6 @@ const AdminMain = () => {
             {selectedItem === "Terms & Conditions" && <TermsConditionsMain />}
             {selectedItem === "Contact Details" && <ContactDetails />}
             {selectedItem === "Blogs" && <AdminBlogsMain />}
-
 
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}

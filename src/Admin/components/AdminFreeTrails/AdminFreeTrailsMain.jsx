@@ -23,7 +23,7 @@ const AdminFreeTrailsMain = () => {
         // Filter out rows that have an existing link
         const filteredData = data.filter(row => !row.link);
         setClassData(filteredData);
-        
+
       } catch (err) {
         console.error("Failed to fetch advanced courses:", err);
       } finally {
@@ -75,7 +75,7 @@ const AdminFreeTrailsMain = () => {
                 fontSize: '2rem',
               }}
             >
-              Pending Free Trails
+              Pending Free Trials
             </Typography>
           </Box>
           <br />
