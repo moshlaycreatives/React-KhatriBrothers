@@ -13,26 +13,35 @@ const AdminFreeTrailsMain = () => {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getAdminFreeTrails());
+      const data = res.data.data;
+      // Filter out rows that have an existing link
+      const filteredData = data.filter(row => !row.link);
+      setClassData(filteredData);
+
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getAdminFreeTrails());
-        const data = res.data.data;
-        // Filter out rows that have an existing link
-        const filteredData = data.filter(row => !row.link);
-        setClassData(filteredData);
-
-      } catch (err) {
-        console.error("Failed to fetch advanced courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
-  }, [dispatch]);
+  }, []);
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isAddingCourse && !isScheduling) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse, isScheduling]);
+
+
 
   const handleAddCourseClick = () => {
     setIsAddingCourse(true);
@@ -112,7 +121,7 @@ const AdminFreeTrailsMain = () => {
                           sx={{ borderRadius: '0px', textTransform: 'none' }}
                           onClick={() => handleScheduleClick(row)}
                         >
-                          Schedule the Trail
+                          Schedule the Trial
                         </Button>
                       </TableCell>
                     </TableRow>

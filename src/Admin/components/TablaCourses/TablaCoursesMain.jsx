@@ -23,28 +23,41 @@ const TablaCoursesMain = () => {
 
   const dispatch = useDispatch();
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getAllCourse());
+      const data = res.data.data
+    const filteredCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'admin')
+
+    const filteredCustomCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
+    setCourseData(filteredCourses);
+    setCustomCourseData(filteredCustomCourses);
+
+
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getAllCourse());
-        const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'admin')
-
-      const filteredCustomCourses = data.filter(course => course.courseType === 'tabla' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
-      setCourseData(filteredCourses);
-      setCustomCourseData(filteredCustomCourses);
-
-
-      } catch (err) {
-        console.error("Failed to fetch advanced courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
-  }, [dispatch]);
+  }, []);
+
+
+
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isAddingCourse && !isEditing) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse, isEditing]);
+
 
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
@@ -66,9 +79,9 @@ const TablaCoursesMain = () => {
     try {
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
-      // Refetch data to update UI
-      const res = await dispatch(getAdvanceCourse());
-      setCourseData(res.data.data);
+     
+      fetchData()
+
     } catch (err) {
       console.error("Failed to delete course:", err);
     }

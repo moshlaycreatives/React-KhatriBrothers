@@ -68,10 +68,8 @@ const restrictedRoutes = ["Classes", "Course Info", "Message", "Testimonial"];
 const listData = [
   { title: "Dashboard", icon: <RxDashboard /> },
   { title: "Course Info", icon: <GoInfo /> },
-
   { title: "Classes", icon: <SiGoogleclassroom /> },
-  { title: "Join Free Trail Class", icon: <GoInfo /> },
-
+  { title: "Join Free Trial Class", icon: <GoInfo /> },
   { title: "Message", icon: <BiMessageAltDetail /> },
   { title: "Testimonial", icon: <TbMessage2Star /> },
   { title: "Terms & Conditions", icon: <CgFileDocument /> },
@@ -80,7 +78,7 @@ const listData = [
 ];
 
 const StudentMain = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -113,7 +111,7 @@ const StudentMain = () => {
   const handleItemClick = (title) => {
     const unrestrictedItems = [
       "Dashboard",
-      "Join Free Trail Class",
+      "Join Free Trial Class",
       "Terms & Conditions",
       "Settings",
       "ManageProfile",
@@ -458,7 +456,7 @@ const StudentMain = () => {
             {selectedItem === "Dashboard" && <Dashboard />}
             {selectedItem === "Course Info" && <CourseInfoMain />}
             {selectedItem === "Classes" && <StudentLectures />}
-            {selectedItem === "Join Free Trail Class" && <StudentTrailJoin />}
+            {selectedItem === "Join Free Trial Class" && <StudentTrailJoin />}
 
             {selectedItem === "Message" && <MessagesMain />}
             {selectedItem === "Testimonial" && <Testimonials />}

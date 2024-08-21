@@ -35,6 +35,7 @@ function Hero() {
 
   const availableTimes = [
     "6:00 AM",
+    "3:00 AM",
     "7:00 AM",
     "8:00 AM",
     "9:00 AM",

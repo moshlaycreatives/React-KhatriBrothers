@@ -82,17 +82,21 @@ const PaymentSuccess = () => {
   const enrollCustomer = localStorage.getItem('paymentId2');
   const Installment = localStorage.getItem('installment');
   const classType = localStorage.getItem('classType');
+  const currency = localStorage.getItem('currency');
+
 
   useEffect(() => {
     const enroll = async () => {
       try {
         // Dispatch the action and wait for the result
-        await dispatch(EnrollCustomer(enrollCustomer, Installment, classType));
+        await dispatch(EnrollCustomer(enrollCustomer, Installment, classType, currency));
 
         // On success, remove data from localStorage
         localStorage.removeItem('paymentId2');
         localStorage.removeItem('installment');
         localStorage.removeItem('classType');
+        localStorage.removeItem('currency');
+
 
         // Update the state to hide the loader and message
         setLoading(false);

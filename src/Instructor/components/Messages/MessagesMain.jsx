@@ -26,7 +26,7 @@
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("http://16.171.98.198:4545"),
+//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
 //     []
 //   );
 
@@ -292,6 +292,7 @@ import {
   CircularProgress,
   useTheme,
   Divider,
+  Avatar,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -309,13 +310,14 @@ const MessageMain = () => {
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [adminUsers, setAdminUser] = useState([]);
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
 
   const [loading, setLoading] = useState(true);
 
   const [selectedUserName, setSelectedUserName] = useState(""); // New state for selected user's name
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("http://16.171.98.198:4545"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 
@@ -403,6 +405,24 @@ const MessageMain = () => {
     setSelectedUserName(firstName); // Update the selected user's name
   };
 
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     event.preventDefault(); // Prevent default Enter key behavior (new line)
+  //     handleSend();
+  //   }
+  // };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        // Allow Shift + Enter to insert a new line
+        return;
+      }
+      // Prevent default behavior for Enter key (new line)
+      event.preventDefault();
+      handleSend();
+    }
+  };
 
 
   if(loading){
@@ -436,7 +456,8 @@ const MessageMain = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
-          maxWidth: '80%'
+          maxWidth: '80%',
+
         }}
       >
        <Box>
@@ -459,7 +480,7 @@ const MessageMain = () => {
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {/* <Avatar /> */}
+                <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
                 <Box sx={{ marginLeft: '0.5rem' }}>
                   <Typography
                     sx={{
@@ -468,7 +489,7 @@ const MessageMain = () => {
                       fontSize: '1.1rem'
                     }}
                   >
-                    {val.firstName}
+                    {val.firstName} {val.lastName}
                   </Typography>
                   <Typography
                     sx={{
@@ -507,16 +528,18 @@ const MessageMain = () => {
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {/* <Avatar /> */}
+
+                <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
+
                 <Box sx={{ marginLeft: '0.5rem' }}>
                   <Typography
                     sx={{
                       color: receiverId === val.studentId._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val.studentId._id ? "bold" : "normal",
+                      fontWeight: receiverId === val.studentId._id ? "bold" : "600",
                       fontSize: '0.9rem'
                     }}
                   >
-                    {val.studentId.firstName}
+                    {val.studentId.firstName} {val.studentId.lastName}
                   </Typography>
                   <Typography
                     sx={{
@@ -614,6 +637,10 @@ const MessageMain = () => {
               fullWidth
               variant="outlined"
               size="small"
+              onKeyDown={handleKeyDown}
+multiline
+minRows={1}
+maxRows={3}
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}

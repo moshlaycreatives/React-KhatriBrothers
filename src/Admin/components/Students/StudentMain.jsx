@@ -29,6 +29,7 @@ import {
 } from "../../../store/actions/courseActions";
 import ViewStudent from "./component/ViewStudent";
 import { BsEye } from "react-icons/bs";
+import { Circle } from "@mui/icons-material";
 
 const ITEMS_PER_PAGE = 10; // Number of items per page
 
@@ -61,6 +62,17 @@ const StudentMain = () => {
   useEffect(() => {
     fetchData();
   }, [dispatch, currentPage]);
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isEdited) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isEdited]);
+
+
+
+
 
 
   useEffect(() => {
@@ -169,6 +181,9 @@ const StudentMain = () => {
                 boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
               }}
             >
+
+
+
               <Box
                 sx={{
                   display: "flex",
@@ -200,6 +215,8 @@ const StudentMain = () => {
                   Search
                 </Button>
               </Box>
+
+
               {loading ? (
                 <Box
                   sx={{
@@ -221,6 +238,8 @@ const StudentMain = () => {
                         <TableCell>Course Type</TableCell>
                         <TableCell>Class Type</TableCell>
                         <TableCell>Course Fee</TableCell>
+                        <TableCell>Instructor Status</TableCell>
+
                         <TableCell>Action</TableCell>
                       </TableRow>
                     </TableHead>
@@ -235,7 +254,7 @@ const StudentMain = () => {
                           <TableCell
                             component="th"
                             scope="row "
-                            sx={{ color: "gray" }}
+                            sx={{ color:'grey' }}
                           >
                             {`${row.studentId.firstName} ${row.studentId.lastName}`}
                           </TableCell>
@@ -245,10 +264,24 @@ const StudentMain = () => {
                           <TableCell sx={{ color: "gray" }}>
                             {row.courseId.courseType}
                           </TableCell>
-                          <TableCell sx={{ color: "gray" }}>Group</TableCell>
+                          <TableCell sx={{ color: "gray" }}>{row.classType}</TableCell>
                           <TableCell sx={{ color: "gray" }}>
                             ₹ {row.courseId.indianPrice}
                           </TableCell>
+
+<TableCell>
+  {row.instructorId ? (
+<>
+<Typography sx={{color:'green'}}>Assigned</Typography>
+</>
+  ):(
+    <>
+    <Typography sx={{color:'red'}}>Pending</Typography>
+
+    </>
+  )}
+</TableCell>
+
                           <TableCell>
                             <IconButton
                               onClick={(events) =>

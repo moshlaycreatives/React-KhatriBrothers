@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import TablaCourseHeroSection from './TablaCourseHeroSection'
 import TablaCourseCard from './TablaCourseCard'
 import { useNavigate } from 'react-router'
+import Page from '../../../components/page'
 
 const TablaCoursesMain = () => {
 
@@ -17,11 +18,11 @@ const TablaCoursesMain = () => {
   return (
     <>
 
-
+<Page title='Tabla Courses'>
     <TablaCourseHeroSection/>
     <TablaCourseCard/>
     <Student_testimonials/>
-
+</Page>
 
     </>
   )

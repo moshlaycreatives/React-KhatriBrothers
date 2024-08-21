@@ -1,12 +1,12 @@
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
 import CustomCourseCard from './CustomCourseCard'
+import Page from '../../components/page'
 
 const UserCustomCourseView = () => {
   return (
     <>
-
-<Box
+<Page title='Custom Courses'><Box
       sx={{
         padding: '5rem 10% 0rem 10%',
         background: 'linear-gradient(to bottom, #901953, #000000)',
@@ -65,6 +65,7 @@ const UserCustomCourseView = () => {
 
 
 
+</Page>
 
 
     </>

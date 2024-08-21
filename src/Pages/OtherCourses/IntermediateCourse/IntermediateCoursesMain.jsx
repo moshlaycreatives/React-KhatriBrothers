@@ -4,6 +4,7 @@ import Student_testimonials from '../../LandingPage/home/student_testimonials/St
 import { useSelector } from 'react-redux'
 import IntermediateCourseHeroSection from './IntermediateCourseHeroSection'
 import IntermediateCourseCard from './intermediateCourseCard'
+import Page from '../../../components/page/page'
 
 const IntermediateCoursesMain = () => {
 
@@ -14,12 +15,12 @@ const IntermediateCoursesMain = () => {
 
   return (
     <>
-
+<Page title='Intermediate Courses'>
 
     <IntermediateCourseHeroSection/>
     <IntermediateCourseCard/>
     <Student_testimonials/>
-
+</Page>
 
     </>
   )

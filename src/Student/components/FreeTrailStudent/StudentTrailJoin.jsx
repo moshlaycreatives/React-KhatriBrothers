@@ -68,7 +68,7 @@ const StudentTrailJoin = () => {
           fontSize: '2rem',
         }}
       >
-        Join Free Trails
+        Join Free Trials
       </Typography>
 
       {loading ? (
@@ -84,7 +84,7 @@ const StudentTrailJoin = () => {
             padding: '2rem',
           }}
         >
-          There is no Trail class available for you.
+          There is no Trial class available for you.
         </Typography>
       ) : (
         <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>

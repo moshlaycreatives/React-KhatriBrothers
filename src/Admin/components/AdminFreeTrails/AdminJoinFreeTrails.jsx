@@ -32,7 +32,7 @@ const AdminJoinFreeTrails = () => {
   useEffect(() => {
 
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const handleAddCourseClick = () => {
     setIsAddingCourse(true);
@@ -49,10 +49,14 @@ const AdminJoinFreeTrails = () => {
     return { formattedDate, formattedTime };
   };
 
+
   const isJoinable = (startTime) => {
     const now = new Date();
     const start = new Date(startTime);
-    const end = new Date(start.getTime() + 15 * 60 * 1000); // Add 15 minutes to start time
+
+console.log(start, 'start')
+
+    const end = new Date(start.getTime() + 15 * 60 * 1000);
     return now >= start && now <= end;
   };
 
@@ -109,7 +113,7 @@ enqueueSnackbar(err.response.data.message, {variant:'error'})
                 fontSize: '2rem',
               }}
             >
-              Join Free Trails
+              Join Free Trials
             </Typography>
           </Box>
           <br />
@@ -127,7 +131,7 @@ enqueueSnackbar(err.response.data.message, {variant:'error'})
                     <TableCell>Date</TableCell>
                     <TableCell>Time</TableCell>
                     <TableCell>Action</TableCell>
-                    <TableCell>Free Trail</TableCell>
+                    <TableCell>Free Trial</TableCell>
 
                   </TableRow>
                 </TableHead>

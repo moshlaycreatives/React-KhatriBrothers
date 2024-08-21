@@ -97,9 +97,9 @@ const listData = [
 
   { title: "Instructors", icon: <GiTeacher /> },
   { title: "Students", icon: <PiStudent /> },
-  { title: "Join Free Trails", icon: <IoMdContacts /> },
+  { title: "Join Free Trials", icon: <IoMdContacts /> },
 
-  { title: "Pending Trails", icon: <IoMdContacts /> },
+  { title: "Pending Trials", icon: <IoMdContacts /> },
   { title: "Message", icon: <BiMessageAltDetail /> },
   { title: "Testimonial", icon: <TbMessage2Star /> },
   { title: "Contact Details", icon: <IoMdContacts /> },
@@ -111,7 +111,7 @@ const listData = [
 ];
 
 const AdminMain = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -336,7 +336,7 @@ const AdminMain = () => {
                             }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {userData?.firstName}
+                            {userData?.firstName} {userData?.lastName}
                           </Typography>
                         </Box>
                       )}
@@ -508,9 +508,9 @@ const AdminMain = () => {
 
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}
-            {selectedItem === "Join Free Trails" && <AdminJoinFreeTrails />}
+            {selectedItem === "Join Free Trials" && <AdminJoinFreeTrails />}
 
-            {selectedItem === "Pending Trails" && <AdminFreeTrailsMain />}
+            {selectedItem === "Pending Trials" && <AdminFreeTrailsMain />}
 
             {selectedItem === "Instructors" && <InstructorMain />}
             {selectedItem === "Message" && <MessagesMain />}

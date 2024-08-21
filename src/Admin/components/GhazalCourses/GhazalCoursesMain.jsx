@@ -47,6 +47,15 @@ const GhazalCoursesMain = () => {
     fetchData();
   }, []);
 
+
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isAddingCourse && !isEditing) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse, isEditing]);
+
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setCurrentRowId(id);

@@ -41,10 +41,17 @@ const BollyWoodMain = () => {
     }
   };
   useEffect(() => {
-
-
     fetchData();
-  }, [dispatch]);
+  }, []);
+
+
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isAddingCourse && !isEditing) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse, isEditing]);
 
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
@@ -112,7 +119,7 @@ const BollyWoodMain = () => {
                 fontSize: '2rem',
               }}
             >
-              Bollywood Public Filmy Song Courses
+              Bollywood/Filmy Song
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>
@@ -123,7 +130,7 @@ const BollyWoodMain = () => {
           <br />
 
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
               <CircularProgress />
             </Box>
           ) : (
@@ -144,6 +151,8 @@ const BollyWoodMain = () => {
                       key={row._id} // Use unique ID as key
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
+
+
                       <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
                         {row.title}
                       </TableCell>
@@ -173,9 +182,13 @@ const BollyWoodMain = () => {
           )}
 
 
+<br/>
 
 
           <>
+
+
+
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography
               sx={{
@@ -184,7 +197,7 @@ const BollyWoodMain = () => {
                 fontSize: '2rem',
               }}
             >
-             Custom Bollywood Public Filmy Song Courses
+             Custom Bollywood/Filmy Song Courses
             </Typography>
 
 
@@ -193,7 +206,7 @@ const BollyWoodMain = () => {
           <br />
 
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
               <CircularProgress />
             </Box>
           ) : (
@@ -241,6 +254,10 @@ const BollyWoodMain = () => {
               </Table>
             </TableContainer>
           )}
+
+
+
+
         </>
         </>
       )}

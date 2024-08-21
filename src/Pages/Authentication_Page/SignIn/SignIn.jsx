@@ -133,13 +133,36 @@ setLoading(false)
               >
                 <Box sx={{ width: "90%" }}>
                   <Typography
+
+
                     sx={{
                       fontSize: "3rem",
                       fontWeight: "600",
                       marginTop: "2rem",
                     }}
                   >
-                    logo{" "}
+
+
+                  <Button
+                    sx={{
+                      fontSize: "3rem",
+                      fontWeight: "600",
+                      color:'black',
+                      textTransform:'none',
+                      marginTop: "2rem",
+                      ':hover': {
+                  backgroundColor: 'white',
+                },
+
+                    }}
+
+                    onClick={()=>navigate('/')}
+                    >
+                    Logo
+                  </Button>
+
+
+
                   </Typography>
 
                   <Typography

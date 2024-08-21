@@ -26,11 +26,12 @@ const MessageMain = () => {
   const [receiverId, setReceiverId] = useState("");
   const [msgsData, setMsgsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
 
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [selectedUser, setSelectedUser] = useState('');
   const socket = useMemo(
-    () => io("http://16.171.98.198:4545"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 
@@ -131,8 +132,17 @@ const MessageMain = () => {
 
 
 
-
-console.log(msgsData, 'ffff')
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        // Allow Shift + Enter to insert a new line
+        return;
+      }
+      // Prevent default behavior for Enter key (new line)
+      event.preventDefault();
+      handleSend();
+    }
+  };
 
 
 if(loading){
@@ -193,7 +203,8 @@ if(loading){
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {/* <Avatar /> */}
+              <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
+
                 <Box sx={{ marginLeft: '0.5rem' }}>
                   <Typography
                     sx={{
@@ -202,7 +213,7 @@ if(loading){
                       fontSize: '1.1rem'
                     }}
                   >
-                    {val.firstName}
+                    {val.firstName} {val.lastName}
                   </Typography>
                   <Typography
                     sx={{
@@ -239,16 +250,17 @@ if(loading){
               }}
             >
               <Box sx={{display:'flex', alignItems:'center'}}>
-                <Avatar/>
+                <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
+
                 <Box sx={{marginLeft:'0.5rem'}}>
                   <Typography
                     sx={{
                       color: receiverId === val.instructorId._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val.instructorId._id ? "bold" : "normal",
+                      fontWeight: receiverId === val.instructorId._id ? "bold" : "600",
                       fontSize:'0.9rem'
                     }}
                   >
-                    {val.instructorId.firstName}
+                    {val.instructorId.firstName} {val.instructorId.lastName}
                   </Typography>
                   <Typography
                     sx={{
@@ -256,7 +268,7 @@ if(loading){
                       color:'grey'
                     }}
                   >
-                    Hi
+          Lorem ipsum dolor sit amet.
                   </Typography>
                 </Box>
               </Box>
@@ -351,6 +363,9 @@ if(loading){
               fullWidth
               variant="outlined"
               size="small"
+              minRows={1}
+              maxRows={3}
+              onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}

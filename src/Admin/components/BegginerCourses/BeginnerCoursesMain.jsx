@@ -40,6 +40,15 @@ const data = res.data.data
     fetchData();
   }, []);
 
+
+
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isAddingCourse && !isEditing) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse, isEditing]);
+
   const handleMenuClick = (event, id) => {
     setAnchorEl(event.currentTarget);
     setCurrentRowId(id);
@@ -58,7 +67,7 @@ const data = res.data.data
     try {
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
-      
+
       fetchData()
           } catch (err) {
       console.error("Failed to delete course:", err);

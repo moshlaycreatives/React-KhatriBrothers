@@ -37,7 +37,7 @@ import { enqueueSnackbar } from "notistack";
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -101,11 +101,12 @@ const AdvanceCoursePriceHeroSection = () => {
           const paymentId = res.data.data.id;
           localStorage.setItem("paymentId2", id);
           localStorage.setItem("installment", installment);
-          localStorage.setItem("classType", selectedClassType); // Save selected class type to local storage
-
+          localStorage.setItem("classType", selectedClassType);
           if (paymentId) {
             dispatch(payment(price, paymentId, installment, currency)).then(
               (res) => {
+                localStorage.setItem("currency", currency);
+
                 const testCheckoutUrl = res.data.session.url;
                 window.location.href = testCheckoutUrl;
               }

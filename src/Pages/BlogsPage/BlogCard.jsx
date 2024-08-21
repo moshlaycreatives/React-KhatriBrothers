@@ -27,7 +27,7 @@ const BlogCard = () => {
     fetchBlogData();
   }, []);
 
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   // Function to format date to '14 August 2024'
   const formatDate = (dateString) => {
@@ -49,58 +49,82 @@ const BlogCard = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Grid container spacing={5}>
-          {blogsData.map((val) => (
-            <Grid item lg={4} md={4} sm={12} xs={12} key={val.id}>
-              <Card
-                sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
-                onClick={() => handleCardClick(val._id)} // Add onClick handler
-              >
-                <Box sx={{ height: '200px', overflow: 'hidden' }}>
-                  <img
-                    src={`${base}${val.images[0]}`}
-                    alt="Blog Image"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                </Box>
+<>
 
-                <Box sx={{ padding: "1rem" }}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      position: 'absolute',
-                      bottom: 90,
-                      left: 10,
-                      borderRadius: "0px",
-                      padding: "0.5rem 1.8rem",
-                      textTransform: "none",
-                      margin: '1rem',
-                      zIndex: 1,
-                    }}
-                  >
-                    {formatDate(val.createdAt)}
-                  </Button>
+{blogsData.length === 0 ? (
+  <>
+<Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'20vh'}}>
 
-                  <Typography
-                    sx={{
-                      color: "grey",
-                      marginTop: '2rem',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    {val.description}
-                  </Typography>
+<Typography sx={{fontSize:'2rem', fontWeight:'600'}}>
 
-                  <Button sx={{ textTransform: "none" }}>
-                    Read More &rarr;{" "}
-                  </Button>
-                </Box>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+No Blog available right now
+
+</Typography>
+
+</Box>
+  </>
+):(
+<>
+
+<Grid container spacing={5}>
+{blogsData.map((val) => (
+  <Grid item lg={4} md={4} sm={12} xs={12} key={val.id}>
+    <Card
+      sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+      onClick={() => handleCardClick(val._id)} // Add onClick handler
+    >
+      <Box sx={{ height: '200px', overflow: 'hidden' }}>
+        <img
+          src={`${base}${val.images[0]}`}
+          alt="Blog Image"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </Box>
+
+      <Box sx={{ padding: "1rem" }}>
+        <Button
+          variant="contained"
+          sx={{
+            position: 'absolute',
+            bottom: 90,
+            left: 10,
+            borderRadius: "0px",
+            padding: "0.5rem 1.8rem",
+            textTransform: "none",
+            margin: '1rem',
+            zIndex: 1,
+          }}
+        >
+          {formatDate(val.createdAt)}
+        </Button>
+
+        <Typography
+          sx={{
+            color: "grey",
+            marginTop: '2rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {val.description}
+        </Typography>
+
+        <Button sx={{ textTransform: "none" }}>
+          Read More &rarr;{" "}
+        </Button>
+      </Box>
+    </Card>
+  </Grid>
+))}
+</Grid>
+
+
+</>
+
+)}
+
+</>
       )}
       <br />
     </Box>

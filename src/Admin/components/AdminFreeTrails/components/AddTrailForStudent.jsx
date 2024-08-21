@@ -268,7 +268,7 @@ import {
       const newErrors = {};
       // if (!formValues.date) newErrors.date = "Date is required";
       // if (!formValues.startTime) newErrors.startTime = "Start time is required";
-      if (!formValues.link) newErrors.link = "Trail link is required";
+      if (!formValues.link) newErrors.link = "Tiail class link is required";
 
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);

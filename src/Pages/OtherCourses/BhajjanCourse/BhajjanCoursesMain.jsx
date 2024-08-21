@@ -4,6 +4,7 @@ import BhajjanCourseHeroSection from './BhajjanCourseHeroSection'
 import BhajjanCoursesCard from './BhajjanCourseCard'
 import Student_testimonials from '../../LandingPage/home/student_testimonials/Student_testimonials'
 import { useSelector } from 'react-redux'
+import Page from '../../../components/page'
 
 const BhajjanCoursesMain = () => {
 
@@ -15,11 +16,11 @@ const BhajjanCoursesMain = () => {
   return (
     <>
 
-
+<Page title='Bhajan courses'>
     <BhajjanCourseHeroSection/>
     <BhajjanCoursesCard/>
     <Student_testimonials/>
-
+    </Page>
 
     </>
   )

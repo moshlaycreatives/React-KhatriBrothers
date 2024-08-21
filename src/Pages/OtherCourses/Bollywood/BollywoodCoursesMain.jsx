@@ -6,6 +6,7 @@ import Student_testimonials from '../../LandingPage/home/student_testimonials/St
 import { useSelector } from 'react-redux'
 import BollywoodCourseHeroSection from './BollywoodCourseHeroSection'
 import BollywoodCoursesCard from './BollywoodCourseCard'
+import Page from '../../../components/page'
 
 const BollywoodCoursesMain = () => {
 
@@ -17,11 +18,12 @@ const BollywoodCoursesMain = () => {
   return (
     <>
 
+<Page title='Bollywood/Filmy Courses'>
 
 <BollywoodCourseHeroSection/>
 <BollywoodCoursesCard/>
     <Student_testimonials/>
-
+</Page>
 
     </>
   )

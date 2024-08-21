@@ -3,7 +3,7 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AddAdvanceCourse from '../AdvanceCourses/components/AddAdvanceCourse';
 import ViewAdvanceCourse from '../AdvanceCourses/components/ViewAdvanceCourse';
@@ -24,6 +24,8 @@ const AdminBlogsMain = () => {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+const createdName = useSelector((state)=>state?.auth?.user?.firstName)
+const createdNameLast = useSelector((state)=>state?.auth?.user?.lastName)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,6 +105,15 @@ const AdminBlogsMain = () => {
     handleMenuClose();
   };
 
+
+    // Fetch instructor data after coming back from AddInstructor
+    useEffect(() => {
+      if (!isAddingCourse) {
+        fetchBlogData(); // Trigger the API call again
+      }
+    }, [isAddingCourse]);
+
+
   return (
     <Box>
       {isAddingCourse ? (
@@ -167,7 +178,7 @@ const AdminBlogsMain = () => {
                       <TableCell sx={{ color: 'grey' }}>{row.description}</TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.readTime}</TableCell>
                       {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
-                      <TableCell sx={{ color: 'grey' }}>₹ {row.title}</TableCell>
+                      <TableCell sx={{ color: 'grey' }}>{createdName} {createdNameLast}</TableCell>
 
                       <TableCell>
                         <IconButton onClick={(event) => handleMenuClick(event, row._id)}>

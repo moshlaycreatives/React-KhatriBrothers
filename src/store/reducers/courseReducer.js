@@ -5,8 +5,6 @@ const initialState = {
 
   const courseReducer = (state = initialState, action) => {
     switch (action.type) {
-
-
         case 'ALL_COURSES':
         return {
           ...state,

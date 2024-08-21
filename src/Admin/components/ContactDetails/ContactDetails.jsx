@@ -196,6 +196,7 @@ const ContactDetails = () => {
                                                 WebkitLineClamp: expandedMessageId === row._id ? 'unset' : '2',
                                                 WebkitBoxOrient: 'vertical',
                                                 overflow: 'hidden',
+                                                padding:'0rem 2rem 0rem 0rem',
                                                 textOverflow: 'ellipsis',
                                                 maxHeight: expandedMessageId === row._id ? 'none' : '3rem',
                                                 transition: 'max-height 0.3s ease',
