@@ -56,7 +56,7 @@ if(loading){
             fontSize: "2rem",
           }}
         >
-          Dashboard
+         Admin Dashboard
 
         </Typography>
         <Button sx={{textTransform:'none'}} variant="outlined" onClick={()=>navigate('/')}>Go to Website</Button>
@@ -133,7 +133,7 @@ if(loading){
                   <br />
 
                   <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
-                    $ 566
+                    $ 0
                   </Typography>
                 </Box>
               </Grid>

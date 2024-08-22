@@ -1,38 +1,48 @@
-import { useTheme } from '@emotion/react'
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
-import Paper from '@mui/material/Paper';
+import { useTheme } from "@emotion/react";
+import {
+  Box,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  CircularProgress, // Import CircularProgress for loader
+} from "@mui/material";
+import React, { useState } from "react";
+import Paper from "@mui/material/Paper";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { useSnackbar } from 'notistack'; // Import useSnackbar
-import { deleteGroupMember } from '../../../../store/actions/courseActions';
+import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
+import { deleteGroupMember } from "../../../../store/actions/courseActions";
 
 const GroupDetails = ({ groupdata, onBackClick }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const [students, setStudents] = useState(groupdata.students);
+  const [loading, setLoading] = useState(false); // State to manage loader
 
-
-  const dispatch = useDispatch(); // Initialize dispatch
-  const { enqueueSnackbar } = useSnackbar(); // Initialize Snackbar
-
-
-const groupId = groupdata._id
   const handleDelete = async (index) => {
+    setLoading(true); // Show loader
     try {
-      const studentId = groupdata.students[index]; // Assuming each student has an _id field
-      await dispatch(deleteGroupMember(groupId, studentId));
-      enqueueSnackbar('Student deleted successfully', { variant: 'success' });
-
+      const studentId = students[index]._id;
+      await dispatch(deleteGroupMember(groupdata._id, studentId));
+      setStudents((prevStudents) => prevStudents.filter((_, i) => i !== index));
+      enqueueSnackbar("Student deleted successfully", { variant: "success" });
     } catch (error) {
-      enqueueSnackbar('Failed to delete student', { variant: 'error' });
+      enqueueSnackbar("Failed to delete student", { variant: "error" });
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
   return (
     <Box>
-
-
-<Button onClick={onBackClick} variant="outlined">
+      <Button onClick={onBackClick} variant="outlined">
         Back to Group
       </Button>
 
@@ -47,8 +57,13 @@ const groupId = groupdata._id
       </Typography>
       <br />
 
-
-      <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)", }}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          padding: "1rem 1rem",
+          boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
@@ -61,23 +76,34 @@ const groupId = groupdata._id
             </TableRow>
           </TableHead>
           <TableBody>
-            {groupdata.students.map((row, index) => (
+            {students.map((row, index) => (
               <TableRow
                 key={row._id} // Use unique ID for key
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row" sx={{ color: 'grey' }}>
+                <TableCell component="th" scope="row" sx={{ color: "grey" }}>
                   {groupdata.course}
                 </TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.firstName}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>Group</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.gender}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.country}</TableCell>
-                <TableCell sx={{ }}>
-                  <FaRegEdit style={{ fontSize: '1.5rem', cursor: 'pointer', color: 'green', marginRight: '.5rem' }} />
+                <TableCell sx={{ color: "grey" }}>{row.firstName}</TableCell>
+                <TableCell sx={{ color: "grey" }}>Group</TableCell>
+                <TableCell sx={{ color: "grey" }}>{row.gender}</TableCell>
+                <TableCell sx={{ color: "grey" }}>{row.country}</TableCell>
+                <TableCell sx={{}}>
+                  {/* <FaRegEdit
+                    style={{
+                      fontSize: "1.5rem",
+                      cursor: "pointer",
+                      color: "green",
+                      marginRight: ".5rem",
+                    }}
+                  /> */}
                   <RiDeleteBin6Line
-                    style={{ fontSize: '1.5rem', cursor: 'pointer', color: 'red' }}
-                    onClick={() => handleDelete(index)} // Handle delete click
+                    style={{
+                      fontSize: "1.5rem",
+                      cursor: "pointer",
+                      color: "red",
+                    }}
+                    onClick={() => handleDelete(index)}
                   />
                 </TableCell>
               </TableRow>
@@ -85,8 +111,28 @@ const groupId = groupdata._id
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Loader component */}
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1200,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </Box>
   );
-}
+};
 
 export default GroupDetails;

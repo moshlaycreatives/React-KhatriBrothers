@@ -37,7 +37,7 @@ import { enqueueSnackbar } from "notistack";
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -55,7 +55,6 @@ const AdvanceCoursePriceHeroSection = () => {
   const [openModal, setOpenModal] = useState(false);
   const [loadingTrial, setLoadingTrial] = useState(false);
 
-
   const { courseType } = location.state || {};
 
   console.log(courseType, "course type of custom");
@@ -69,13 +68,11 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const [courseType2, setCourseType2] = useState(undefined); // Initially undefined
 
-
   // Function to handle button clicks
   const handleButtonClick = (type) => {
     setCourseType2(type);
-    navigate('/form', { state: { courseType: type } }); // Pass the type as state
+    navigate("/form", { state: { courseType: type } }); // Pass the type as state
   };
-
 
   const handleDialogOpen = () => {
     setOpen(true);
@@ -94,7 +91,15 @@ const AdvanceCoursePriceHeroSection = () => {
   };
 
   const handleEnroll = (installment) => {
+
+
     if (auth === true) {
+
+      if (userData.role === "admin") {
+        enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
+        return; // Exit early if the user is an admin
+      }
+
       setLoadingEnroll(true);
       dispatch(firstPaymentApi({ name, email }))
         .then((res) => {
@@ -112,8 +117,7 @@ const AdvanceCoursePriceHeroSection = () => {
               }
             );
           }
-      setLoadingEnroll(false);
-
+          setLoadingEnroll(false);
         })
         .catch((err) => {
           console.log(err);
@@ -158,12 +162,11 @@ const AdvanceCoursePriceHeroSection = () => {
           const paymentId = res.data.message;
           console.log(res.data.message, "snackbar messg");
           enqueueSnackbar(res.data.message, { variant: "success" });
-      setLoadingTrial(false);
-
+          setLoadingTrial(false);
         })
         .catch((err) => {
           console.log(err);
-      setLoadingTrial(false);
+          setLoadingTrial(false);
 
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         });
@@ -280,13 +283,8 @@ const AdvanceCoursePriceHeroSection = () => {
   const price = getPriceByCountry(country);
   const currency = getCurrencyType(country);
 
-
-
-
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-
-
 
   const truncateText = (text, wordLimit) => {
     const words = text?.split(" ");
@@ -313,372 +311,379 @@ const AdvanceCoursePriceHeroSection = () => {
 
   return (
     <>
-
-
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-
-      <Box
-        sx={{
-          minHeight: isSmall ? "80vh" : "70vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: isSmall ? "5rem 10% 0rem 10%" : "2rem 10% 0rem 10%",
-          background: "linear-gradient(to bottom, #901953, #000000)",
-        }}
-      >
-        <Grid container sx={{ alignItems: "center" }} spacing={5}>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Typography variant="h5" fontWeight="550" color="white">
-              {courseData.title}
-            </Typography>
-            <Box>
-              <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
-                {truncateText(courseData.overview, 30)}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Box
+          sx={{
+            minHeight: isSmall ? "80vh" : "70vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: isSmall ? "5rem 10% 0rem 10%" : "2rem 10% 0rem 10%",
+            background: "linear-gradient(to bottom, #901953, #000000)",
+          }}
+        >
+          <Grid container sx={{ alignItems: "center" }} spacing={5}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <Typography variant="h5" fontWeight="550" color="white">
+                {courseData.title}
               </Typography>
+              <Box>
+                <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
+                  {truncateText(courseData.overview, 30)}
+                </Typography>
 
-<Box sx={{display:'flex', alignItems:'center'}}>
-<Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "white",
-                  mt: 4,
-                  color: "#8d1851",
-                  borderRadius: "0px",
-                  // padding: "0.6rem 2.3rem",
-                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
-
-                  textTransform: "none",
-                  fontSize: "0.8rem",
-                  "&:hover": {
-                    backgroundColor: "white",
-                  },
-                }}
-                onClick={handleDialogOpen}
-              >
-                {loadingEnroll ? (
-                  <CircularProgress
-                    size={24}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Button
+                    variant="contained"
                     sx={{
-                      color: theme.palette.primary.main,
+                      backgroundColor: "white",
+                      mt: 4,
+                      color: "#8d1851",
+                      borderRadius: "0px",
+                      // padding: "0.6rem 2.3rem",
+                      padding: isSmall ? "0.6rem 0.6rem" : "0.6rem 2.3rem",
+
+                      textTransform: "none",
+                      fontSize: "0.8rem",
+                      "&:hover": {
+                        backgroundColor: "white",
+                      },
                     }}
-                  />
-                ) : (
-                  "Enroll Course"
-                )}
-              </Button>
+                    onClick={handleDialogOpen}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: theme.palette.primary.main,
+                        }}
+                      />
+                    ) : (
+                      "Enroll Course"
+                    )}
+                  </Button>
 
-              {courseType === 'bhajjan' && (
+                  {courseType === "bhajjan" && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "white",
+                        mt: 4,
+                        ml: 2,
+                        color: "#8d1851",
+                        borderRadius: "0px",
+                        padding: isSmall ? "0.6rem 0.6rem" : "0.6rem 2.3rem",
+                        textTransform: "none",
+                        fontSize: "0.8rem",
+                        "&:hover": {
+                          backgroundColor: "white",
+                        },
+                      }}
+                      onClick={() => handleButtonClick("bhajjan")}
+                    >
+                      Custom Bhajan
+                    </Button>
+                  )}
 
+                  {courseType === "bollywood" && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "white",
+                        mt: 4,
+                        ml: 2,
+                        color: "#8d1851",
+                        borderRadius: "0px",
+                        // padding: "0.6rem 2.3rem",
+                        padding: isSmall ? "0.6rem 0.6rem" : "0.6rem 2.3rem",
 
+                        textTransform: "none",
+                        fontSize: "0.8rem",
+                        "&:hover": {
+                          backgroundColor: "white",
+                        },
+                      }}
+                      onClick={() => handleButtonClick("bollywood")}
+                    >
+                      Custom Bollywood
+                    </Button>
+                  )}
+                </Box>
+              </Box>
+            </Grid>
 
-        <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "white",
-                  mt: 4,
-                  ml:2,
-                  color: "#8d1851",
-                  borderRadius: "0px",
-                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
-                  textTransform: "none",
-                  fontSize: "0.8rem",
-                  "&:hover": {
-                    backgroundColor: "white",
-                  },
-                }}
-                onClick={() => handleButtonClick('bhajjan')}
-
-              >
-              Custom Bhajan
-              </Button>
-      )}
-
-      {courseType === 'bollywood' && (
-
-
-
-        <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "white",
-                  mt: 4,
-                  ml:2,
-                  color: "#8d1851",
-                  borderRadius: "0px",
-                  // padding: "0.6rem 2.3rem",
-                  padding: isSmall ? '0.6rem 0.6rem' : "0.6rem 2.3rem",
-
-                  textTransform: "none",
-                  fontSize: "0.8rem",
-                  "&:hover": {
-                    backgroundColor: "white",
-                  },
-                }}
-                onClick={() => handleButtonClick('bollywood')}
-
-              >
-              Custom Bollywood
-              </Button>
-
-
-
-      )}
-
-</Box>
-
-
-            </Box>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <Box sx={{ padding: isSmall ? "0rem " : "4rem" }}>
+                <img
+                  src={`${base}${courseData.image.replace(/ /g, "%20")}`}
+                  alt="image"
+                  width={"100%"}
+                  height="300vh"
+                />
+              </Box>
+            </Grid>
           </Grid>
+        </Box>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: isSmall ? "0rem " : "4rem" }}>
-              <img
-                src={`${base}${courseData.image.replace(/ /g, "%20")}`}
-                alt="image"
-                width={"100%"}
-                height="300vh"
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box sx={{ padding: "2rem 10%" }}>
-        <Grid container spacing={5}>
-          <Grid item lg={8} md={8} sm={12} xs={12}>
-            <Typography
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: 600,
-                fontSize: "1.8rem",
-              }}
-            >
-              Overview:{" "}
-            </Typography>
-            <Typography sx={{ color: "grey" }}>
-              {courseData.overview}
-            </Typography>
-            <br />
-            <Typography
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: 600,
-                fontSize: "1.8rem",
-              }}
-            >
-              Prerequisites:
-            </Typography>
-            <Typography sx={{ color: "grey" }}>
-              {courseData.prerequisites}
-            </Typography>
-            <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
-              Tanpura app or Electronic Tanpura needed
-            </Typography>
-            <br />
-            <Typography
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: 600,
-                fontSize: "1.8rem",
-              }}
-            >
-              Topics covered:{" "}
-            </Typography>
-            {courseData.topics.map((topic, index) => (
-              <Typography sx={{ color: "grey", mb: 1 }} key={index}>
-                ● {topic}
-              </Typography>
-            ))}
-          </Grid>
-
-          <Grid item lg={4} md={4} sm={12} xs={12}>
-            <Box sx={{ border: "8px solid #961a56", padding: "2rem 1.5rem" }}>
+        <Box sx={{ padding: "2rem 10%" }}>
+          <Grid container spacing={5}>
+            <Grid item lg={8} md={8} sm={12} xs={12}>
               <Typography
                 sx={{
                   color: theme.palette.primary.main,
                   fontWeight: 600,
-                  fontSize: "1.3rem",
+                  fontSize: "1.8rem",
                 }}
               >
-                Course Feature
+                Overview:{" "}
+              </Typography>
+              <Typography sx={{ color: "grey" }}>
+                {courseData.overview}
               </Typography>
               <br />
-              <Box
+              <Typography
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  color: theme.palette.primary.main,
+                  fontWeight: 600,
+                  fontSize: "1.8rem",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>Enrolled :</Typography>
-                </Box>
-                <span
-                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
-                >
-                  24+ Students
-                </span>
-              </Box>
+                Prerequisites:
+              </Typography>
+              <Typography sx={{ color: "grey" }}>
+                {courseData.prerequisites}
+              </Typography>
+              <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
+                Tanpura app or Electronic Tanpura needed
+              </Typography>
               <br />
-              <Box
+              <Typography
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  color: theme.palette.primary.main,
+                  fontWeight: 600,
+                  fontSize: "1.8rem",
                 }}
               >
-                <Box sx={{ display: "flex" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>
-                    Course Duration :
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    sx={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
-                  >
-                    {courseData.courseDuration} Weeks
-                  </Typography>
-                </Box>
-              </Box>
-              <br />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>Lectures :</Typography>
-                </Box>
-                <span
-                  style={{ color: "grey", fontWeight: 600, fontSize: "0.9rem" }}
-                >
-                  1/ Per Week
-                </span>
-              </Box>
-              <br />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>Level :</Typography>
-                </Box>
-                <span
-                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
-                >
-                  Beginner to Professional
-                </span>
-              </Box>
-              <br />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>
-                    Lecture Duration :
-                  </Typography>
-                </Box>
-                <span
-                  style={{ color: "grey", fontWeight: 600, fontSize: "0.9rem" }}
-                >
-                  {courseData.lectureDuration} Hours
-                </span>
-              </Box>
-              <br />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <MdDateRange
-                    style={{
-                      fontSize: "1.5rem",
-                      color: theme.palette.primary.main,
-                    }}
-                  />
-                  <Typography sx={{ fontWeight: 600 }}>
-                    Max Class Size :
-                  </Typography>
-                </Box>
-                <span
-                  style={{ color: "grey", fontSize: "0.9rem", fontWeight: 600 }}
-                >
-                  03
-                </span>
-              </Box>
-              <br />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
+                Topics covered:{" "}
+              </Typography>
+              {courseData.topics.map((topic, index) => (
+                <Typography sx={{ color: "grey", mb: 1 }} key={index}>
+                  ● {topic}
+                </Typography>
+              ))}
+            </Grid>
+
+            <Grid item lg={4} md={4} sm={12} xs={12}>
+              <Box sx={{ border: "8px solid #961a56", padding: "2rem 1.5rem" }}>
                 <Typography
                   sx={{
+                    color: theme.palette.primary.main,
                     fontWeight: 600,
-                    fontSize: "1.5rem",
-                    color: theme.palette.primary.main,
+                    fontSize: "1.3rem",
                   }}
                 >
-                  Price : {currencySymbol} {price}
+                  Course Feature
                 </Typography>
-                <Typography
+                <br />
+                <Box
                   sx={{
-                    color: theme.palette.primary.main,
-                    fontSize: "0.9rem",
-                    fontWeight: "600",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {/* Convert to INR? */}
-                </Typography>
-              </Box>
-              <br />
-              {/* --------------------------------------my condition------------ */}
-              {/* <Box>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>Enrolled :</Typography>
+                  </Box>
+                  <span
+                    style={{
+                      color: "grey",
+                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    24+ Students
+                  </span>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>
+                      Course Duration :
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      sx={{
+                        color: "grey",
+                        fontSize: "0.9rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {courseData.courseDuration} Weeks
+                    </Typography>
+                  </Box>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>Lectures :</Typography>
+                  </Box>
+                  <span
+                    style={{
+                      color: "grey",
+                      fontWeight: 600,
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    1/ Per Week
+                  </span>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>Level :</Typography>
+                  </Box>
+                  <span
+                    style={{
+                      color: "grey",
+                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Beginner to Professional
+                  </span>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>
+                      Lecture Duration :
+                    </Typography>
+                  </Box>
+                  <span
+                    style={{
+                      color: "grey",
+                      fontWeight: 600,
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {courseData.lectureDuration} Hours
+                  </span>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <MdDateRange
+                      style={{
+                        fontSize: "1.5rem",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography sx={{ fontWeight: 600 }}>
+                      Max Class Size :
+                    </Typography>
+                  </Box>
+                  <span
+                    style={{
+                      color: "grey",
+                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    03
+                  </span>
+                </Box>
+                <br />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: "1.5rem",
+                      color: theme.palette.primary.main,
+                    }}
+                  >
+                    Price : {currencySymbol} {price}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontSize: "0.9rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {/* Convert to INR? */}
+                  </Typography>
+                </Box>
+                <br />
+                {/* --------------------------------------my condition------------ */}
+                {/* <Box>
                 {!trailData && !auth ? (
                   <>
                     <Button
@@ -807,155 +812,160 @@ const AdvanceCoursePriceHeroSection = () => {
                 )
                 }
               </Box> */}
-              {/* --------------------------------------------my condition -------------- */}
+                {/* --------------------------------------------my condition -------------- */}
 
-              <Box>
-                {!auth ? (
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={() => navigate("/sign-in")}
-                  >
-                    {loadingTrial ? (
-                      <CircularProgress size={24} sx={{ color: "white" }} />
-                    ) : (
-                      "15 Minutes free trial with Admin"
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    disabled={trailData && trailData?.studentId?.trial === true}
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={handleOpenModal}
-                  >
-                    {loadingTrial ? (
-                      <CircularProgress size={24} sx={{ color: "white" }} />
-                    ) : (
-                      "15 Minutes free trial with Admin"
-                    )}
-                  </Button>
-                )}
+                <Box>
+                  {!auth ? (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        width: "100%",
+                        textTransform: "none",
+                        fontSize: "1.1rem",
+                        borderRadius: "0px",
+                        position: "relative",
+                      }}
+                      onClick={() => navigate("/sign-in")}
+                    >
+                      {loadingTrial ? (
+                        <CircularProgress size={24} sx={{ color: "white" }} />
+                      ) : (
+                        "15 Minutes free trial with Admin"
+                      )}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      disabled={
+                        trailData && trailData?.studentId?.trial === true
+                      }
+                      sx={{
+                        width: "100%",
+                        textTransform: "none",
+                        fontSize: "1.1rem",
+                        borderRadius: "0px",
+                        position: "relative",
+                      }}
+                      onClick={handleOpenModal}
+                    >
+                      {loadingTrial ? (
+                        <CircularProgress size={24} sx={{ color: "white" }} />
+                      ) : (
+                        "15 Minutes free trial with Admin"
+                      )}
+                    </Button>
+                  )}
+                </Box>
+
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    textTransform: "none",
+                    fontSize: "1.1rem",
+                    borderRadius: "0px",
+                    position: "relative",
+                  }}
+                  onClick={handleDialogOpen}
+                >
+                  {loadingEnroll ? (
+                    <CircularProgress
+                      size={24}
+                      sx={{
+                        color: "white",
+                      }}
+                    />
+                  ) : (
+                    "Enroll Course"
+                  )}
+                </Button>
               </Box>
-
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                sx={{
-                  width: "100%",
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                  borderRadius: "0px",
-                  position: "relative",
-                }}
-                onClick={handleDialogOpen}
-              >
-                {loadingEnroll ? (
-                  <CircularProgress
-                    size={24}
-                    sx={{
-                      color: "white",
-                    }}
-                  />
-                ) : (
-                  "Enroll Course"
-                )}
-              </Button>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Box sx={{ marginTop: "1rem" }}>
-          <Typography
-            sx={{
-              fontSize: "1.5rem",
-              fontWeight: "600",
-              color: theme.palette.primary.main,
-            }}
-          >
-            Related Courses{" "}
-          </Typography>
-          <br />
-          <Grid container spacing={5}>
-            {related.slice(0, 3).map((val, ind) => (
-              <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
-                <Box>
-                  <img
-                    src={`${base}${val?.image?.replace(/ /g, "%20")}`}
-                    alt="alt image"
-                    width={"100%"}
-                    height={"250vh"}
-                  />
-                </Box>
-                <Box>
-                  <Typography sx={{ color: "grey" }}>{val.title}</Typography>
-                  <br />
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: theme.palette.primary.main,
-                      textTransform: "none",
-                      borderRadius: "0px",
-                      fontSize: "1.1rem",
-                    }}
-                  >
-                    Learn More &rarr;
-                  </Button>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
+          <Box sx={{ marginTop: "1rem" }}>
+            <Typography
+              sx={{
+                fontSize: "1.5rem",
+                fontWeight: "600",
+                color: theme.palette.primary.main,
+              }}
+            >
+              Related Courses{" "}
+            </Typography>
+            <br />
+            <Grid container spacing={5}>
+              {related.slice(0, 3).map((val, ind) => (
+                <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
+                  <Box>
+                    <img
+                      src={`${base}${val?.image?.replace(/ /g, "%20")}`}
+                      alt="alt image"
+                      width={"100%"}
+                      height={"250vh"}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography sx={{ color: "grey" }}>{val.title}</Typography>
+                    <br />
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        color: theme.palette.primary.main,
+                        textTransform: "none",
+                        borderRadius: "0px",
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      Learn More &rarr;
+                    </Button>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Box>
-      </Box>
 
-      <Dialog open={open} onClose={() => handleDialogClose(null)}>
-        <DialogTitle>Select Payment Option</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please select your preferred class type and payment option.
-          </DialogContentText>
-          <RadioGroup
-            value={selectedClassType}
-            onChange={handleClassTypeChange}
-            sx={{ marginBottom: 2 }}
-          >
-            <FormControlLabel
-              value="one2one"
-              control={<Radio />}
-              label="One2One"
-            />
-            <FormControlLabel value="group" control={<Radio />} label="Group" />
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleEnroll(true)}
-            color="primary"
-            disabled={disableInstallment}
-          >
-            Installment
-          </Button>
-          <Button onClick={() => handleEnroll(false)} color="primary">
-            Full Fee
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={open} onClose={() => handleDialogClose(null)}>
+          <DialogTitle>Select Payment Option</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please select your preferred class type and payment option.
+            </DialogContentText>
+            <RadioGroup
+              value={selectedClassType}
+              onChange={handleClassTypeChange}
+              sx={{ marginBottom: 2 }}
+            >
+              <FormControlLabel
+                value="one2one"
+                control={<Radio />}
+                label="One2One"
+              />
+              <FormControlLabel
+                value="group"
+                control={<Radio />}
+                label="Group"
+              />
+            </RadioGroup>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleEnroll(true)}
+              color="primary"
+              disabled={disableInstallment}
+            >
+              Installment
+            </Button>
+            <Button onClick={() => handleEnroll(false)} color="primary">
+              Full Fee
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-
-      <Dialog open={openModal} onClose={handleCloseModal}>
+        <Dialog open={openModal} onClose={handleCloseModal}>
           <DialogTitle>Select Date and Time</DialogTitle>
           <DialogContent>
             <DatePicker
@@ -993,19 +1003,22 @@ const AdvanceCoursePriceHeroSection = () => {
           </DialogActions>
         </Dialog>
 
-
-
-
         <Dialog open={openModal} onClose={handleCloseModal}>
           <DialogTitle>Select Date and Time for Trial Class</DialogTitle>
           <DialogContent>
             <DatePicker
               label="Select Date"
-size='small'
+              size="small"
               value={selectedDate}
               onChange={(newDate) => setSelectedDate(newDate)}
               renderInput={(params) => (
-                <Box component="input" size='small' fullWidth sx={{width:'100%'}}{...params.inputProps} />
+                <Box
+                  component="input"
+                  size="small"
+                  fullWidth
+                  sx={{ width: "100%" }}
+                  {...params.inputProps}
+                />
               )}
             />
 
@@ -1034,7 +1047,7 @@ size='small'
             </Button>
           </DialogActions>
         </Dialog>
-        </LocalizationProvider>
+      </LocalizationProvider>
     </>
   );
 };

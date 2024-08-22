@@ -35,6 +35,7 @@ function Hero() {
 
   const availableTimes = [
     "6:00 AM",
+    "12:00 AM",
     "3:00 AM",
     "7:00 AM",
     "8:00 AM",
@@ -65,8 +66,7 @@ function Hero() {
         startTime:
           dayjs(selectedDate).format("YYYY-MM-DD") +
           "T" +
-          dayjs(selectedTime, "h:mm A").format("HH:mm:ss") +
-          "Z",
+          dayjs(selectedTime, "h:mm A").format("HH:mm:ss"),
       };
 
       dispatch(studentApplyFreeTrails(requestData))
@@ -103,61 +103,59 @@ function Hero() {
             {/* <h1>Music <samp className='hero-section-text-spam' >For</samp> Everyone</h1> */}
             {/* <Button variant='contained' sx={{borderRadius:'0px', fontSize:'1rem', textTransform:'none'}}>Start learning</Button> */}
 
-
             {/* <Button variant='contained' sx={{borderRadius:'0px', fontSize:'1rem', textTransform:'none', padding:'0.6rem', width:'50%'}}>Book 15 Minutes Free Trial</Button> */}
 
             <Box>
               {!auth ? (
-<>
-                <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
-              Which course is suitable for me?
-            </Typography>
-            <br />
-                <Button
-                  variant="contained"
-                  sx={{
-                    textTransform: "none",
-                    fontSize: "1.1rem",
-                    borderRadius: "0px",
-                    position: "relative",
-                  }}
-                  onClick={() => navigate("/sign-in")}
-                >
-                  {loadingEnroll ? (
-                    <CircularProgress size={24} sx={{ color: "white" }} />
-                  ) : (
-                    "15 Minutes free trial with Admin"
+                <>
+                  <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
+                    Which course is suitable for me?
+                  </Typography>
+                  <br />
+                  <Button
+                    variant="contained"
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
+                      position: "relative",
+                    }}
+                    onClick={() => navigate("/sign-in")}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress size={24} sx={{ color: "white" }} />
+                    ) : (
+                      "15 Minutes free trial with Admin"
+                    )}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {trailData?.studentId?.trial === false || !trailData && (
+                    <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
+                      Which course is suitable for me?
+                    </Typography>
                   )}
-                </Button>
-                </>            ) : (
-<>
-{trailData?.studentId?.trial === false && (
 
-  <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
-              Which course is suitable for me?
-            </Typography>
+                  <Button
+                    variant="contained"
+                    disabled={trailData && trailData?.studentId?.trial === true}
+                    sx={{
+                      padding: "0.8rem",
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      borderRadius: "0px",
 
-
-)}
-
-              <Button
-                  variant="contained"
-                  disabled={trailData && trailData?.studentId?.trial === true}
-                  sx={{
-padding:'0.8rem',
-                    textTransform: "none",
-                    fontSize: "1.1rem",
-                    borderRadius: "0px",
-                    position: "relative",
-                  }}
-                  onClick={handleOpenModal}
-                >
-                  {loadingEnroll ? (
-                    <CircularProgress size={24} sx={{ color: "white" }} />
-                  ) : (
-                    "15 Minutes free trial with Admin"
-                  )}
-                </Button>
+                      position: "relative",
+                    }}
+                    onClick={handleOpenModal}
+                  >
+                    {loadingEnroll ? (
+                      <CircularProgress size={24} sx={{ color: "white" }} />
+                    ) : (
+                      "15 Minutes free trial with Admin"
+                    )}
+                  </Button>
                 </>
               )}
             </Box>

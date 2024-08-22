@@ -251,7 +251,7 @@ const Dashboard = () => {
               fontSize: "2rem",
             }}
           >
-            Dashboard
+           Student Dashboard
           </Typography>
           <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
             Go to Website

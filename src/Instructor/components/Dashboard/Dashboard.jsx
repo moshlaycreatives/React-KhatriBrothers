@@ -54,7 +54,7 @@ if(loading){
             fontSize: "2rem",
           }}
         >
-          Dashboard
+         Instructor Dashboard
 
         </Typography>
         <Button sx={{textTransform:'none'}} variant="outlined" onClick={()=>navigate('/')}>Go to Website</Button>

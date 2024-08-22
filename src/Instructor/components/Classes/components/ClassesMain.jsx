@@ -12,19 +12,21 @@ const ClassesMain = () => {
 
   const dispatch = useDispatch();
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await dispatch(getInstructorClass());
+      const data = res.data.data;
+      setClassData(data);
+    } catch (err) {
+      console.error("Failed to fetch advanced courses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await dispatch(getInstructorClass());
-        const data = res.data.data;
-        setClassData(data);
-      } catch (err) {
-        console.error("Failed to fetch advanced courses:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, []);
@@ -46,7 +48,7 @@ const ClassesMain = () => {
     return { formattedDate, formattedTime };
   };
 
-  // Function to check if current time is within class start and end times
+
   const isJoinable = (startTime, endTime) => {
     const now = new Date();
     const start = new Date(startTime);
@@ -55,25 +57,21 @@ const ClassesMain = () => {
     return now >= start && now <= end;
   };
 
-  // Function to handle redirection with URL validation
-  // const handleRedirect = (url) => {
-  //   try {
-  //     new URL(url); // Validate URL
-  //     window.location.href = url;
-  //   } catch (err) {
-  //     console.error('Invalid URL:', url);
-  //   }
-  // };
-
-// Function to handle redirection with URL validation
 const handleRedirect = (url) => {
   try {
-    new URL(url); // Validate URL
-    window.open(url, '_blank'); // Open the URL in a new tab
+    new URL(url); 
+    window.open(url, '_blank');
   } catch (err) {
     console.error('Invalid URL:', url);
   }
 };
+
+  useEffect(() => {
+    if (!isAddingCourse) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isAddingCourse]);
+
 
   return (
     <Box>

@@ -6,7 +6,7 @@ import { getStudentJoinFreeTrails } from '../../../store/actions/courseActions';
 const StudentTrailJoin = () => {
   const theme = useTheme();
   const [isAddingCourse, setIsAddingCourse] = useState(false);
-  const [classData, setClassData] = useState([]);
+  const [classData, setClassData] = useState({});
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -16,6 +16,7 @@ const StudentTrailJoin = () => {
       try {
         const res = await dispatch(getStudentJoinFreeTrails());
         const data = res.data.data;
+
         setClassData(data);
       } catch (err) {
         console.error("Failed to fetch free trails:", err);
@@ -59,6 +60,13 @@ const StudentTrailJoin = () => {
     }
   };
 
+
+  const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(classData.startTime);
+  const joinable = isJoinable(classData.startTime);
+
+
+
+
   return (
     <Box>
       <Typography
@@ -75,7 +83,7 @@ const StudentTrailJoin = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
           <CircularProgress />
         </Box>
-      ) : !classData || classData.length === 0 ? (
+      ) : !classData || !classData.link ? (
         <Typography
           sx={{
             textAlign: 'center',
@@ -99,35 +107,30 @@ const StudentTrailJoin = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {classData?.map((row) => {
-                const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(row.startTime);
-                const joinable = isJoinable(row.startTime);
 
-                return (
-                  <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell sx={{ color: 'grey' }}>
-                      {row.studentId.firstName} {row.studentId.lastName}
-                    </TableCell>
-                    <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
-                      {row.courseType}
-                    </TableCell>
-                    <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
-                    <TableCell sx={{ color: 'grey' }}>{formattedStartTime}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ borderRadius: '0px', textTransform: 'none' }}
-                        onClick={() => handleRedirect(row.link)}
-                        disabled={!joinable}
-                      >
-                        Join
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+      <TableRow key={classData._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableCell sx={{ color: 'grey' }}>
+          {classData.studentId.firstName} {classData.studentId.lastName}
+        </TableCell>
+        <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
+          {classData.courseType}
+        </TableCell>
+        <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
+        <TableCell sx={{ color: 'grey' }}>{formattedStartTime}</TableCell>
+        <TableCell>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ borderRadius: '0px', textTransform: 'none' }}
+            onClick={() => handleRedirect(classData.link)}
+            disabled={!joinable}
+          >
+            Join
+          </Button>
+        </TableCell>
+      </TableRow>
+
+</TableBody>
           </Table>
         </TableContainer>
       )}

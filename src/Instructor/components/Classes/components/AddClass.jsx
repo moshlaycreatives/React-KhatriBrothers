@@ -132,8 +132,8 @@ const AddClass = () => {
       enqueueSnackbar("Class created successfully!", { variant: "success" });
       setFormValues(initialValues);
     } catch (error) {
-      enqueueSnackbar("Failed to create class.", { variant: "error" });
-      console.error("Error creating class:", error);
+      enqueueSnackbar(error.response.data.message, { variant: "error" });
+
     }
   };
 
@@ -253,11 +253,19 @@ const AddClass = () => {
                         value={formValues.group}
                         onChange={handleFormData}
                       >
-                        {groupData.map((group) => (
-                          <MenuItem key={group._id} value={group._id}>
-                            {group.name}
-                          </MenuItem>
-                        ))}
+   {groupData
+  .filter((group) => group.students.length > 0)  // Filter groups where the number of students is greater than 0
+  .map((group) => (
+    <MenuItem
+      key={group._id}
+      value={group._id}
+    >
+      {group.name}
+    </MenuItem>
+  ))
+}
+
+
                       </Select>
                     </FormControl>
                   </Box>

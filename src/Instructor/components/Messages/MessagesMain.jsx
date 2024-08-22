@@ -26,12 +26,11 @@
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+//     () => io("http://16.171.98.198:4545"),
 //     []
 //   );
 
 //   const InstructorId = useSelector((state)=>state?.auth?.user?._id)
-
 
 //     const [allUsers, setAllUsers] = useState([]);
 
@@ -102,11 +101,9 @@
 //   };
 // console.log(msgsData, 'ffff')
 
-
 // // const filteredMsgsData = msgsData.filter(
 // //   (msg) => msg.senderId === receiverId || msg.receiverId === receiverId
 // // );
-
 
 //   return (
 //     <>
@@ -228,8 +225,6 @@
 
 //                   <Typography variant="body2"
 
-
-
 //                   >{msg?.text}</Typography>
 //                   <Typography
 //                     variant="caption"
@@ -279,9 +274,7 @@
 
 // export default MessageMain;
 
-
-
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -293,7 +286,11 @@ import {
   useTheme,
   Divider,
   Avatar,
+  Drawer,
+  IconButton as MuiIconButton,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector, useDispatch } from "react-redux";
@@ -304,55 +301,55 @@ import { getAllUsers } from "../../../store/actions/authActions";
 const MessageMain = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const endOfMessagesRef = useRef(null);
+
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [message, setMessage] = useState("");
   const [receiverId, setReceiverId] = useState("");
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [adminUsers, setAdminUser] = useState([]);
-  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
-
+  const base = "http://16.171.98.198:4545";
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [selectedUserName, setSelectedUserName] = useState(""); // New state for selected user's name
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("http://16.171.98.198:4545"),
     []
   );
 
-  console.log(allUsers, 'message users ')
+  console.log(allUsers, "message users ");
   const InstructorId = useSelector((state) => state?.auth?.user?._id);
 
   useEffect(() => {
     dispatch(getAssignedStudents(InstructorId))
       .then((users) => {
         setAllUsers(users.data.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
-        setLoading(false)
+        setLoading(false);
       });
   }, [dispatch, InstructorId]);
-
-
 
   useEffect(() => {
     dispatch(getAllUsers())
       .then((res) => {
         setAdminUser(res.data.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
-        setLoading(false)
+        setLoading(false);
       });
   }, []);
 
-
-
-  const filteredUsers = adminUsers?.filter(user => user?.role === 'admin' && user?._id !== userId);
+  const filteredUsers = adminUsers?.filter(
+    (user) => user?.role === "admin" && user?._id !== userId
+  );
 
   useEffect(() => {
     socket.on("getUsers", (msgs) => {
@@ -393,16 +390,17 @@ const MessageMain = () => {
         }),
       };
       socket.emit("sendMessage", newMessage);
-      console.log(newMessage, 'new');
+      console.log(newMessage, "new");
       setMsgsData((prevMsgs = []) => [...prevMsgs, newMessage]);
       setMessage("");
     }
   };
 
-  const handleSelectChat = (id, firstName) => {
+  const handleSelectChat = (id, firstName, lastName) => {
     socket.emit("addUser", userId, id);
     setReceiverId(id);
-    setSelectedUserName(firstName); // Update the selected user's name
+    setSelectedUserName(`${firstName} ${lastName}`); // Update the selected user's name
+    if (isMobile) setDrawerOpen(false);
   };
 
   // const handleKeyDown = (event) => {
@@ -413,7 +411,7 @@ const MessageMain = () => {
   // };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       if (event.shiftKey) {
         // Allow Shift + Enter to insert a new line
         return;
@@ -424,18 +422,166 @@ const MessageMain = () => {
     }
   };
 
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView();
+    }
+  }, [msgsData]);
 
-  if(loading){
-    return(
+  const renderUsersList = () => (
+    <>
+      <Box>
+        <br />
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            color: theme.palette.primary.main,
+            fontWeight: 600,
+          }}
+        >
+          Admin
+        </Typography>
+        <Box>
+          {filteredUsers.map((val) => (
+            <Box
+              key={val._id}
+              onClick={() =>
+                handleSelectChat(val._id, val.firstName, val.lastName)
+              }
+              sx={{
+                cursor: "pointer",
+
+                padding: "8px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                },
+                backgroundColor:
+                  receiverId === val._id ? "transparent" : "transparent",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Avatar
+                  src={`${base}${val?.profilePicture?.replace(/ /g, "%20")}`}
+                />
+                <Box sx={{ marginLeft: "0.5rem" }}>
+                  <Typography
+                    sx={{
+                      color:
+                        receiverId === val._id
+                          ? theme.palette.primary.main
+                          : "inherit",
+                      fontWeight: receiverId === val._id ? "bold" : "bold",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    {val.firstName} {val.lastName}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "0.8rem",
+                      color: "grey",
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+
+        <br />
+        <Divider />
+
+        <br />
+
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            color: theme.palette.primary.main,
+            fontWeight: 600,
+          }}
+        >
+          Students
+        </Typography>
+
+        <Box>
+          {allUsers.map((val) => (
+            <Box
+              key={val.studentId._id}
+              onClick={() =>
+                handleSelectChat(
+                  val.studentId._id,
+                  val.studentId.firstName,
+                  val.studentId.lastName
+                )
+              }
+              sx={{
+                cursor: "pointer",
+                padding: "8px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                },
+                backgroundColor:
+                  receiverId === val.studentId._id
+                    ? "transparent"
+                    : "transparent",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Avatar
+                  src={`${base}${val?.profilePicture?.replace(/ /g, "%20")}`}
+                />
+
+                <Box sx={{ marginLeft: "0.5rem" }}>
+                  <Typography
+                    sx={{
+                      color:
+                        receiverId === val.studentId._id
+                          ? theme.palette.primary.main
+                          : "inherit",
+                      fontWeight:
+                        receiverId === val.studentId._id ? "bold" : "600",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {val.studentId.firstName} {val.studentId.lastName}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "0.8rem",
+                      color: "grey",
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet.
+                  </Typography>
+                </Box>
+              </Box>
+              <Divider />
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </>
+  );
+  if (loading) {
+    return (
       <>
-        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'80vh'}}>
-        <CircularProgress/>
-
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <CircularProgress />
         </Box>
       </>
-    )
+    );
   }
-
 
   return (
     <>
@@ -456,106 +602,177 @@ const MessageMain = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
-          maxWidth: '80%',
-
+          maxWidth: "100%",
         }}
       >
-       <Box>
-       <br/>
-       <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Admin</Typography>
-       <Box>
+        {isMobile && (
+          <MuiIconButton
+            onClick={() => setDrawerOpen(true)}
+            sx={{
+              alignSelf: "flex-start",
+              color: theme.palette.primary.main,
+              mt: 1,
+            }}
+          >
+            <MenuIcon />
+          </MuiIconButton>
+        )}
 
-          {filteredUsers.map((val) => (
-            <Box
-
-              key={val._id}
-              onClick={() => handleSelectChat(val._id, val.firstName)}
-              sx={{
-                cursor: "pointer",
-
-                padding: "8px",
-                "&:hover": { backgroundColor: theme.palette.primary.main, color: 'white' },
-                backgroundColor:
-                  receiverId === val._id ? "transparent" : "transparent",
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
-                <Box sx={{ marginLeft: '0.5rem' }}>
-                  <Typography
-                    sx={{
-                      color: receiverId === val._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val._id ? "bold" : "bold",
-                      fontSize: '1.1rem'
-                    }}
-                  >
-                    {val.firstName} {val.lastName}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.8rem',
-                      color: 'grey'
-                    }}
-                  >
-                    Lorem ipsum dolor sit amet.
-                  </Typography>
-                </Box>
-              </Box>
+        {isMobile ? (
+          <Drawer
+            anchor="left"
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+          >
+            <Box sx={{ padding: "6rem 0.5rem 0rem 0.5rem" }}>
+              {renderUsersList()}
             </Box>
-          ))}
-        </Box>
-
-
-
-        <br/>
-<Divider/>
-
-        <br/>
-
-        <Typography sx={{fontSize:'1.2rem', color:theme.palette.primary.main, fontWeight:600}}>Students</Typography>
-
-        <Box>
-          {allUsers.map((val) => (
-            <Box
-              key={val.studentId._id}
-              onClick={() => handleSelectChat(val.studentId._id, val.studentId.firstName)}
-              sx={{
-                cursor: "pointer",
-                padding: "8px",
-                "&:hover": { backgroundColor: theme.palette.primary.main, color: 'white' },
-                backgroundColor:
-                  receiverId === val.studentId._id ? "transparent" : "transparent",
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
-                <Avatar src={`${base}${val?.profilePicture?.replace(/ /g, '%20')}`}/>
-
-                <Box sx={{ marginLeft: '0.5rem' }}>
-                  <Typography
+          </Drawer>
+        ) : (
+          <>
+            <Box>
+              <br />
+              <Typography
+                sx={{
+                  fontSize: "1.2rem",
+                  color: theme.palette.primary.main,
+                  fontWeight: 600,
+                }}
+              >
+                Admin
+              </Typography>
+              <Box>
+                {filteredUsers.map((val) => (
+                  <Box
+                    key={val._id}
+                    onClick={() =>
+                      handleSelectChat(val._id, val.firstName, val.lastName)
+                    }
                     sx={{
-                      color: receiverId === val.studentId._id ? theme.palette.primary.main : "inherit",
-                      fontWeight: receiverId === val.studentId._id ? "bold" : "600",
-                      fontSize: '0.9rem'
+                      cursor: "pointer",
+
+                      padding: "8px",
+                      "&:hover": {
+                        backgroundColor: theme.palette.primary.main,
+                        color: "white",
+                      },
+                      backgroundColor:
+                        receiverId === val._id ? "transparent" : "transparent",
                     }}
                   >
-                    {val.studentId.firstName} {val.studentId.lastName}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.8rem',
-                      color: 'grey'
-                    }}
-                  >
-                    Lorem ipsum dolor sit amet.
-                  </Typography>
-                </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Avatar
+                        src={`${base}${val?.profilePicture?.replace(
+                          / /g,
+                          "%20"
+                        )}`}
+                      />
+                      <Box sx={{ marginLeft: "0.5rem" }}>
+                        <Typography
+                          sx={{
+                            color:
+                              receiverId === val._id
+                                ? theme.palette.primary.main
+                                : "inherit",
+                            fontWeight:
+                              receiverId === val._id ? "bold" : "bold",
+                            fontSize: "1.1rem",
+                          }}
+                        >
+                          {val.firstName} {val.lastName}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "0.8rem",
+                            color: "grey",
+                          }}
+                        >
+                          Lorem ipsum dolor sit amet.
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                ))}
               </Box>
+
+              <br />
               <Divider />
+
+              <br />
+
+              <Typography
+                sx={{
+                  fontSize: "1.2rem",
+                  color: theme.palette.primary.main,
+                  fontWeight: 600,
+                }}
+              >
+                Students
+              </Typography>
+
+              <Box>
+                {allUsers.map((val) => (
+                  <Box
+                    key={val.studentId._id}
+                    onClick={() =>
+                      handleSelectChat(
+                        val.studentId._id,
+                        val.studentId.firstName,
+                        val.studentId.lastName
+                      )
+                    }
+                    sx={{
+                      cursor: "pointer",
+                      padding: "8px",
+                      "&:hover": {
+                        backgroundColor: theme.palette.primary.main,
+                        color: "white",
+                      },
+                      backgroundColor:
+                        receiverId === val.studentId._id
+                          ? "transparent"
+                          : "transparent",
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Avatar
+                        src={`${base}${val?.profilePicture?.replace(
+                          / /g,
+                          "%20"
+                        )}`}
+                      />
+
+                      <Box sx={{ marginLeft: "0.5rem" }}>
+                        <Typography
+                          sx={{
+                            color:
+                              receiverId === val.studentId._id
+                                ? theme.palette.primary.main
+                                : "inherit",
+                            fontWeight:
+                              receiverId === val.studentId._id ? "bold" : "600",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          {val.studentId.firstName} {val.studentId.lastName}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "0.8rem",
+                            color: "grey",
+                          }}
+                        >
+                          Lorem ipsum dolor sit amet.
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Divider />
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          ))}
-        </Box>
-       </Box>
+          </>
+        )}
 
         <Paper
           sx={{
@@ -573,7 +790,7 @@ const MessageMain = () => {
             }}
           >
             <Typography variant="h6" align="center" color="primary">
-              {selectedUserName || "Select a Student"} {/* Display the selected user's name */}
+              {selectedUserName || "Select a Student"}{" "}
             </Typography>
           </Box>
           <Box
@@ -609,9 +826,7 @@ const MessageMain = () => {
                     wordWrap: "break-word",
                   }}
                 >
-                  <Typography variant="body2">
-                    {msg?.text}
-                  </Typography>
+                  <Typography variant="body2">{msg?.text}</Typography>
                   <Typography
                     variant="caption"
                     sx={{
@@ -625,6 +840,8 @@ const MessageMain = () => {
                 </Box>
               </Box>
             ))}
+
+            <div ref={endOfMessagesRef} />
           </Box>
           <Box
             display="flex"
@@ -638,9 +855,9 @@ const MessageMain = () => {
               variant="outlined"
               size="small"
               onKeyDown={handleKeyDown}
-multiline
-minRows={1}
-maxRows={3}
+              multiline
+              minRows={1}
+              maxRows={3}
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -657,7 +874,16 @@ maxRows={3}
             </IconButton>
           </Box>
 
-          <Typography sx={{color:theme.palette.primary.main, mt:1, fontSize:'0.8rem', textAlign:'center'}}>Disclaimer : Your chat is not private, Admin can view your chat</Typography>
+          <Typography
+            sx={{
+              color: theme.palette.primary.main,
+              mt: 1,
+              fontSize: "0.8rem",
+              textAlign: "center",
+            }}
+          >
+            Disclaimer : Your chat is not private, Admin can view your chat
+          </Typography>
         </Paper>
       </Box>
     </>
