@@ -50,7 +50,7 @@ const ContactUs = () => {
     setFormValues({ ...formValues, phone: value });
   };
 
-  
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
@@ -233,7 +233,6 @@ const ContactUs = () => {
                         color: "white",
                         marginTop: "2rem",
                         width: "50%",
-                        width: "100%",
                         marginBottom: ".5rem",
                       }}
                     >

@@ -106,7 +106,7 @@ const CreatePassword = () => {
                       backgroundColor: theme.palette.primary.main,
                       color: "white",
                       marginTop: "2rem",
-                      width: "50%",
+                      
                       width: "100%",
                       marginBottom: ".5rem",
                     }}

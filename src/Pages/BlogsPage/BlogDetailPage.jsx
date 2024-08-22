@@ -176,7 +176,7 @@ const BlogDetailPage = () => {
         fontWeight: 600,
         fontSize: "1rem",
 
-        textDecoration: 'underline', // Optional: Add underline on hover
+        // Optional: Add underline on hover
 
         textDecoration: "none", // Optional: Remove underline if you want
         '&:hover': {
