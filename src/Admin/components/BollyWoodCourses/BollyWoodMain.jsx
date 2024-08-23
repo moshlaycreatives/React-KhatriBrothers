@@ -197,7 +197,7 @@ const BollyWoodMain = () => {
                 fontSize: '2rem',
               }}
             >
-             Custom Bollywood/Filmy Song Courses
+             Customize Bollywood/Filmy Song Courses
             </Typography>
 
 

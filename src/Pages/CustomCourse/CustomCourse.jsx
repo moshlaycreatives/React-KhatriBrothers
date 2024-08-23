@@ -16,17 +16,22 @@ const CustomCourse = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const courseType = location.state?.courseType;
+  // const courseType = location.state?.courseType;
+
+
+  // if (courseType === "bhajjan") {
+  //   courseType = "bhajan";
+  // }
+  const originalCourseType = location.state?.courseType;
+
+  // Determine the display text
+  const displayCourseType = originalCourseType === "bhajjan" ? "bhajan" : originalCourseType;
   const theme = useTheme();
-  console.log(courseType);
+ 
 
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
-
-
-
-
       <Box
         sx={{
           padding: "5rem 10% 0rem 10%",
@@ -36,7 +41,7 @@ const CustomCourse = () => {
         <Grid container sx={{ alignItems: "center" }}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Typography variant="h4" fontWeight="550" color="white">
-              Custom Course
+              Customized Course
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
@@ -91,13 +96,12 @@ const CustomCourse = () => {
               color: theme.palette.primary.main,
             }}
           >
-            Select From list Given for {courseType}
+            Select From list Given for {displayCourseType}
           </Typography>
 
-          <AddCustomCourse courseType={courseType} />
+          <AddCustomCourse courseType={originalCourseType} />
         </Box>
       </Box>
-
     </>
   );
 };

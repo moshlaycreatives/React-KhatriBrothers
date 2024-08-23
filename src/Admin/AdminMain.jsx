@@ -93,7 +93,7 @@ const listData = [
   { title: "Tabla", icon: <ArticleIcon /> },
   { title: "Bollywood/Filmy Songs", icon: <ArticleIcon /> },
 
-  { title: "Pending Custom Courses", icon: <PiStudent /> },
+  { title: "Pending Customize Courses", icon: <PiStudent /> },
 
   { title: "Instructors", icon: <GiTeacher /> },
   { title: "Students", icon: <PiStudent /> },
@@ -502,7 +502,7 @@ const AdminMain = () => {
             {selectedItem === "Gazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
             {selectedItem === "Bollywood/Filmy Songs" && <BollyWoodMain />}
-            {selectedItem === "Pending Custom Courses" && (
+            {selectedItem === "Pending Customize Courses" && (
               <PendingCustomCourseMain />
             )}
 

@@ -61,8 +61,8 @@ const StudentTrailJoin = () => {
   };
 
 
-  const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(classData.startTime);
-  const joinable = isJoinable(classData.startTime);
+  const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(classData?.startTime);
+  const joinable = isJoinable(classData?.startTime);
 
 
 

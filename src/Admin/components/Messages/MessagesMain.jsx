@@ -339,7 +339,7 @@ const MessageMain = () => {
               Back to Messages
             </Button>
           ) : (
-            <Button variant="contained" sx={{fontSize:isMobile ? '0.5rem': '1rem'}} onClick={handleViewAllConversations}>
+            <Button variant="contained" sx={{fontSize:isMobile ? '0.5rem': '0.9rem'}} onClick={handleViewAllConversations}>
               View All Conversations
             </Button>
           )}

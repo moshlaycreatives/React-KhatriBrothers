@@ -137,7 +137,6 @@ const StudentMain = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    // Replace this with actual dispatch if you use redux
     dispatch(userLogout());
     setLogoutModalOpen(false);
     navigate("/");
@@ -156,10 +155,10 @@ const StudentMain = () => {
 
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
-    // Fetch notifications when the dropdown is opened
+
     dispatch(getNotification()).then((response) => {
       console.log(response.data.data, "haha");
-      setNotifications(response.data.data); // Assuming the API returns data in this format
+      setNotifications(response.data.data);
     });
   };
 
@@ -188,7 +187,7 @@ const StudentMain = () => {
     fetchData();
   }, [dispatch]);
 
-  console.log(courseData, "dashboard  hhhhhcourse data");
+
 
   return (
     <>
@@ -197,7 +196,6 @@ const StudentMain = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <Box sx={{ display: isMobile ? "block" : "flex" }}>
-        {/* <CssBaseline /> */}
         <AppBar
           position="fixed"
           sx={{

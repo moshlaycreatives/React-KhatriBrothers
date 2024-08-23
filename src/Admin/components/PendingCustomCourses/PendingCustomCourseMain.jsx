@@ -264,13 +264,16 @@ const PendingCustomCoursesMain = () => {
       const filterCustomCourses = data.filter(
         (course) =>
           course.addedBy === 'user' &&
-          course.courseType === 'bhajjan' &&
-          (!course.ukPrice ||
-            !course.indianPrice ||
-            !course.usaPrice ||
-            !course.australiaPrice ||
-            !course.ugandaPrice ||
-            !course.uaePrice)
+         ( course.courseType === 'bhajjan' || course.courseType === 'bollywood') &&
+          !(course.ukPrice ||
+            course.indianPrice ||
+            course.usaPrice ||
+            course.australiaPrice ||
+            course.ugandaPrice ||
+            course.uaePrice ||
+            course.canadaPrice ||
+            course.kenyaPrice
+          )
       );
 
       setCourseData(filteredCourses);
@@ -333,6 +336,15 @@ const PendingCustomCoursesMain = () => {
     setOpenSongDialog(false);
   };
 
+  // Fetch instructor data after coming back from AddInstructor
+  useEffect(() => {
+    if (!isEditing) {
+      fetchData(); // Trigger the API call again
+    }
+  }, [isEditing]);
+
+console.log(customCourseData, 'custom Course data')
+
   return (
     <Box>
       {isAddingCourse ? (
@@ -355,7 +367,7 @@ const PendingCustomCoursesMain = () => {
                 fontSize: '2rem',
               }}
             >
-              Custom Courses
+              Customize Courses
             </Typography>
           </Box>
           <br />
@@ -424,7 +436,7 @@ const PendingCustomCoursesMain = () => {
 
       {/* Dialog for displaying the song list */}
       <Dialog open={openSongDialog} onClose={handleCloseSongDialog}>
-        <DialogTitle>Custom Songs</DialogTitle>
+        <DialogTitle>Customize Songs</DialogTitle>
         <DialogContent>
           <List>
             {selectedCustomList.map((song, index) => (

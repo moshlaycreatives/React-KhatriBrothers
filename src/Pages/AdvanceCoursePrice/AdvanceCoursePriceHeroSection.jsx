@@ -121,6 +121,7 @@ const AdvanceCoursePriceHeroSection = () => {
         })
         .catch((err) => {
           console.log(err);
+          enqueueSnackbar(err.response.data.message , {variant:'error'})
           setLoadingEnroll(false);
         });
     } else {
@@ -288,8 +289,8 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const truncateText = (text, wordLimit) => {
     const words = text?.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
+    if (words?.length > wordLimit) {
+      return words?.slice(0, wordLimit).join(" ") + "...";
     }
     return text;
   };
@@ -381,7 +382,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                       onClick={() => handleButtonClick("bhajjan")}
                     >
-                      Custom Bhajan
+                      Customized Bhajan
                     </Button>
                   )}
 
@@ -405,7 +406,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                       onClick={() => handleButtonClick("bollywood")}
                     >
-                      Custom Bollywood
+                      Customized Bollywood
                     </Button>
                   )}
                 </Box>
@@ -415,7 +416,7 @@ const AdvanceCoursePriceHeroSection = () => {
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box sx={{ padding: isSmall ? "0rem " : "4rem" }}>
                 <img
-                  src={`${base}${courseData.image.replace(/ /g, "%20")}`}
+                  src={`${base}${courseData?.image?.replace(/ /g, "%20")}`}
                   alt="image"
                   width={"100%"}
                   height="300vh"

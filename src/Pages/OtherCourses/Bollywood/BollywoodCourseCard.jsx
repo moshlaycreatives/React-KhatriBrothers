@@ -5,11 +5,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const BollywoodCoursesCard = () => {
-  const filteredCourses = useSelector((state) =>
-    state?.courses?.allCourses?.filter(course => course.courseType === 'bollywood')
-  );
 
-  console.log(filteredCourses, 'filteredCourses');
+  const allCourse = useSelector((state) => state?.courses?.allCourses
+);
+
+const auth = useSelector((state)=>state?.auth?.isAuthenticated)
+const userId = useSelector((state)=>state?.auth?.user?._id)
+const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?._id)
+
+  const filteredCourses = allCourse.filter((course) => {
+
+    if (!auth) {
+      return course.addedBy === "admin" && course.courseType === "bollywood";
+    }
+
+    if (course.addedBy === "user" && course.addedById && course.addedById._id === userId) {
+      return course.courseType === "bollywood";
+    }
+
+
+    if (course.addedBy === "admin") {
+      return course.courseType === "bollywood";
+    }
+
+
+    return false;
+  });
+
+
+  console.log(filteredCourses, "filteredCourses");
 
   const theme = useTheme();
   const navigate = useNavigate();

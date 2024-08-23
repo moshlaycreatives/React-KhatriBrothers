@@ -6,7 +6,7 @@ import Page from '../../components/page'
 const UserCustomCourseView = () => {
   return (
     <>
-<Page title='Custom Courses'><Box
+<Page title='Customize Courses'><Box
       sx={{
         padding: '5rem 10% 0rem 10%',
         background: 'linear-gradient(to bottom, #901953, #000000)',
@@ -15,7 +15,7 @@ const UserCustomCourseView = () => {
       <Grid container sx={{ alignItems: 'center' }}>
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <Typography variant="h4" fontWeight="550" color="white">
-            Your Custom Courses
+            Your Customized Courses
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>

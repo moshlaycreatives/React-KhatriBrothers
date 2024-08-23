@@ -74,7 +74,7 @@ const EditCustomCourse = ({ courseData }) => {
 
   const courseId = courseData._id
   const initialValues = {
-    courseName: courseData.title || 'Custom Course',
+    courseName: courseData.title || 'Customized Course',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
     topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
@@ -105,7 +105,7 @@ const EditCustomCourse = ({ courseData }) => {
   // Update form values when courseData changes
   useEffect(() => {
     setFormValues({
-      courseName: courseData.title || 'Custom Course',
+      courseName: courseData.title || 'Customized Course',
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
       topicsCovered: topicss || '',
@@ -165,7 +165,7 @@ const EditCustomCourse = ({ courseData }) => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append('title', "Custom Course");
+    formData.append('title', "Customized Course");
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
     formData.append('topics', topics.join(','));

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -8,19 +8,27 @@ import {
   TextField,
   InputAdornment,
   Button,
+  useMediaQuery,
+  IconButton,
+  Drawer,
+  useTheme,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllConversations } from "../../../store/actions/authActions";
 import { adminMessageSearch } from "../../../store/actions/courseActions";
 import { CiSearch } from "react-icons/ci";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const ViewAllChats = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
+  const endOfMessagesRef = useRef(null);
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [allConversation, setAllConversation] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [searchTerm, setSearchTerm] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -82,7 +90,41 @@ const ViewAllChats = () => {
 
   const handleConversationClick = (conversation) => {
     setSelectedConversation(conversation);
+    if (isMobile) setDrawerOpen(false);
   };
+
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView();
+    }
+  }, [selectedConversation]);
+
+  const renderUsersList = () => (
+    <>
+      {allConversation?.map((conversation) => (
+        <Box
+          key={conversation._id}
+          onClick={() => handleConversationClick(conversation)}
+          sx={{
+            padding: "8px",
+            cursor: "pointer",
+
+            "&:hover": { backgroundColor: "#f0f0f0" },
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar />
+            <Box sx={{ marginLeft: "0.5rem" }}>
+              <Typography sx={{ fontWeight: "bold", fontSize: "0.9rem" }}>
+                {getParticipantNames(conversation.participants)}
+              </Typography>
+            </Box>
+          </Box>
+          <Divider sx={{ margin: "8px 0" }} />
+        </Box>
+      ))}
+    </>
+  );
 
   return (
     <>
@@ -97,62 +139,119 @@ const ViewAllChats = () => {
             borderRight: "1px solid #ddd",
           }}
         >
-          <Box
-            sx={{
-              // position:'sticky',
-              // display: 'flex',
-              // top:4,
-              // backgroundColor:'white',
-              // zIndex:9999,
-              // justifyContent: 'space-between',
-              marginBottom: "2rem",
-            }}
-          >
-            <TextField
-              variant="outlined"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleChange}
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CiSearch />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
+          {isMobile && (
+            <>
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                sx={{
+                  alignSelf: "flex-start",
+                  color: theme.palette.primary.main,
+                  mt: 1,
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </>
+          )}
 
-          {allConversation?.map((conversation) => (
-            <Box
-              key={conversation._id}
-              onClick={() => handleConversationClick(conversation)}
-              sx={{
-                padding: "8px",
-                cursor: "pointer",
+          {isMobile ? (
+            <>
+              <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+              >
+                <Box sx={{ padding: "6rem 0.5rem 0rem 0.5rem" }}>
+                  <Box
+                    sx={{
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    <TextField
+                      variant="outlined"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={handleChange}
+                      size="small"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <CiSearch />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
 
-                "&:hover": { backgroundColor: "#f0f0f0" },
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Avatar />
-                <Box sx={{ marginLeft: "0.5rem" }}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "0.9rem" }}>
-                    {getParticipantNames(conversation.participants)}
-                  </Typography>
+                  {renderUsersList()}
                 </Box>
+              </Drawer>
+            </>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  marginBottom: "2rem",
+                }}
+              >
+                <TextField
+                  variant="outlined"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleChange}
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <CiSearch />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
               </Box>
-              <Divider sx={{ margin: "8px 0" }} />
-            </Box>
-          ))}
+
+              {allConversation?.map((conversation) => (
+                <Box
+                  key={conversation._id}
+                  onClick={() => handleConversationClick(conversation)}
+                  sx={{
+                    padding: "8px",
+                    cursor: "pointer",
+
+                    "&:hover": { backgroundColor: "#f0f0f0" },
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar />
+                    <Box sx={{ marginLeft: "0.5rem" }}>
+                      <Typography
+                        sx={{ fontWeight: "bold", fontSize: "0.9rem" }}
+                      >
+                        {getParticipantNames(conversation.participants)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ margin: "8px 0" }} />
+                </Box>
+              ))}
+            </>
+          )}
         </Box>
 
-        <Box width="70%" sx={{ maxWidth: "60%", padding: "16px" }}>
+        <Box width="80%" sx={{ maxWidth: "80%", padding: "16px" }}>
           {selectedConversation ? (
             <>
-              <Typography variant="h6" sx={{ marginBottom: "16px" }}>
-                Chat between{" "}
+              <Typography
+                variant="h6"
+                sx={{
+                  color: theme.palette.primary.main,
+                  textAlign: "center",
+                  fontWeight: 600,
+                  marginBottom: "16px",
+                }}
+              >
+                {/* Chat between{" "} */}
+
                 {getParticipantNames(selectedConversation.participants)}
               </Typography>
               <Paper
@@ -168,10 +267,9 @@ const ViewAllChats = () => {
                       marginBottom: "8px",
                     }}
                   >
-                    {/* Message Avatar */}
-                    {msg.senderId !== userId && (
+                    {/* {msg.senderId !== userId && (
                       <Avatar sx={{ marginRight: "8px" }} />
-                    )}
+                    )} */}
 
                     <Box
                       sx={{
@@ -197,18 +295,27 @@ const ViewAllChats = () => {
                       </Typography>
                     </Box>
 
-                    {/* Avatar at end if sender is current user */}
-                    {msg.senderId === userId && (
+                    {/* {msg.senderId === userId && (
                       <Avatar sx={{ marginLeft: "8px" }} />
-                    )}
+                    )} */}
                   </Box>
                 ))}
+
+                <div ref={endOfMessagesRef} />
               </Paper>
             </>
           ) : (
-            <Typography variant="body1">
+<>
+
+
+<Paper sx={{minHeight:'60vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
+<Typography sx={{fontSize: isMobile ? '0.9rem':'1.5rem', fontWeight:600, textAlign:'center', color:theme.palette.primary.main}}>
               Select a conversation to view messages
             </Typography>
+</Paper>
+
+
+</>
           )}
         </Box>
       </Box>

@@ -192,7 +192,7 @@ fetchData()
                 fontSize: '2rem',
               }}
             >
-              Bhajan Custom Courses
+              Bhajan Customize Courses
             </Typography>
 
 

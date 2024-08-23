@@ -114,7 +114,7 @@ const Header = () => {
     { label: "Tabla", route: "/tabla-course" },
     { label: "Ghazal", route: "/ghazal-course" },
     { label: "Bollywood/Filmy Songs", route: "/bollywood-course" },
-    { label: "Custom Courses", route: "/custom-courses" },
+    { label: "Customized Courses", route: "/custom-courses" },
 
 
   ];
