@@ -5,7 +5,7 @@ import {  getSingleCourse } from "../../../../store/actions/courseActions";
 import EditAdvanceCourse from "./EditBollyWoodCourse";
 
 const ViewBollyWoodCourse = ({courseId}) => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);

@@ -33,7 +33,7 @@ const MessageMain = () => {
   const [message, setMessage] = useState("");
   const [receiverId, setReceiverId] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const endOfMessagesRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [msgsData, setMsgsData] = useState([]);
@@ -43,7 +43,7 @@ const MessageMain = () => {
   const [showConversations, setShowConversations] = useState(false); // Manage view state
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("http://16.171.98.198:4545"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 
@@ -664,7 +664,7 @@ export default MessageMain;
 //   const [message, setMessage] = useState("");
 //   const [receiverId, setReceiverId] = useState("");
 //   const [selectedUser, setSelectedUser] = useState("");
-//   const base = 'http://16.171.98.198:4545';
+//   const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
 
 //   const [loading, setLoading] = useState(true);
 //   const [msgsData, setMsgsData] = useState([]);
@@ -675,7 +675,7 @@ export default MessageMain;
 //   const [showConversations, setShowConversations] = useState(false); // Manage view state
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("http://16.171.98.198:4545"),
+//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
 //     []
 //   );
 

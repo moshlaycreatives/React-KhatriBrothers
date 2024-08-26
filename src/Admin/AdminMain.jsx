@@ -71,6 +71,7 @@ import AdminBlogsMain from "./components/Blogs/AdminBlogsMain";
 import PendingCustomCourseMain from "./components/PendingCustomCourses/PendingCustomCourseMain";
 import AdminFreeTrailsMain from "./components/AdminFreeTrails/AdminFreeTrailsMain";
 import AdminJoinFreeTrails from "./components/AdminFreeTrails/AdminJoinFreeTrails";
+import TrialClassScheduleAdmin from "./components/TrialClassSchedule/TrialClassScheduleAdmin";
 
 const drawerWidth = 300;
 
@@ -97,6 +98,8 @@ const listData = [
 
   { title: "Instructors", icon: <GiTeacher /> },
   { title: "Students", icon: <PiStudent /> },
+  { title: "Trial Class Schedule", icon: <IoMdContacts /> },
+
   { title: "Join Free Trials", icon: <IoMdContacts /> },
 
   { title: "Pending Trials", icon: <IoMdContacts /> },
@@ -111,7 +114,7 @@ const listData = [
 ];
 
 const AdminMain = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -509,6 +512,8 @@ const AdminMain = () => {
             {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}
             {selectedItem === "Join Free Trials" && <AdminJoinFreeTrails />}
+
+            {selectedItem === "Trial Class Schedule" && <TrialClassScheduleAdmin />}
 
             {selectedItem === "Pending Trials" && <AdminFreeTrailsMain />}
 

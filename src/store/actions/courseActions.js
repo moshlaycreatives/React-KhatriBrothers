@@ -639,3 +639,36 @@ export const getRecentMessage = () => async (dispatch) => {
     throw err;
   }
 };
+
+export const trialDateAdmin = (values) => async (dispatch) => {
+  try {
+    const res = await api.post("/createSchedule", {time : values});
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const getStdTime = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getTimeSlots");
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+export const getAdminTime = () => async (dispatch) => {
+  try {
+    const res = await api.get("/getAllSlotsAdmin");
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

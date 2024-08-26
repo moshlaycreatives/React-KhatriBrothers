@@ -34,10 +34,9 @@ const AdminFreeTrailsMain = () => {
     fetchData();
   }, []);
 
-  // Fetch instructor data after coming back from AddInstructor
   useEffect(() => {
     if (!isAddingCourse && !isScheduling) {
-      fetchData(); // Trigger the API call again
+      fetchData();
     }
   }, [isAddingCourse, isScheduling]);
 
@@ -49,8 +48,8 @@ const AdminFreeTrailsMain = () => {
 
   const handleBackClick = () => {
     setIsAddingCourse(false);
-    setIsScheduling(false); // Reset scheduling state if navigating back
-    setSelectedRow(null); // Clear selected row
+    setIsScheduling(false);
+    setSelectedRow(null);
   };
 
   const handleScheduleClick = (row) => {
@@ -99,11 +98,14 @@ const AdminFreeTrailsMain = () => {
                   <TableRow>
                     <TableCell>Student Name</TableCell>
                     <TableCell>Course Type</TableCell>
+                    <TableCell>Learned</TableCell>
+                    <TableCell>Years</TableCell>
+
                     <TableCell>Schedule</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {classData.map((row) => (
+                  {classData.reverse().map((row) => (
                     <TableRow
                       key={row._id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -114,6 +116,17 @@ const AdminFreeTrailsMain = () => {
                       <TableCell sx={{ color: 'grey' }}>
                         {row.courseType}
                       </TableCell>
+
+                      <TableCell sx={{ color: 'grey' }}>
+                        {row.isExperienced === true ? 'Yes' : "No"}
+                      </TableCell>
+
+
+                      <TableCell sx={{ color: 'grey' }}>
+                        {row.years}
+                      </TableCell>
+
+
                       <TableCell>
                         <Button
                           variant="contained"

@@ -8,20 +8,23 @@
 //   Dialog,
 //   DialogTitle,
 //   DialogContent,
-//   Grid,
 //   DialogActions,
+//   TextField,
 //   useTheme,
+//   Select,
+//   MenuItem,
 // } from "@mui/material";
+// import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import dayjs from "dayjs";
+// import { useSnackbar } from "notistack";
+// import { useSelector, useDispatch } from "react-redux";
+// import { useNavigate } from "react-router";
 // import {
+//   getStdTime,
 //   getStudentJoinFreeTrails,
 //   studentApplyFreeTrails,
 // } from "../../../../store/actions/courseActions";
-// import { useSnackbar } from "notistack";
-// import { useSelector, useDispatch } from "react-redux";
-// import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-// import { useNavigate } from "react-router";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import dayjs from "dayjs";
 
 // function Hero() {
 //   const { enqueueSnackbar } = useSnackbar();
@@ -29,11 +32,20 @@
 //   const navigate = useNavigate();
 //   const theme = useTheme();
 //   const auth = useSelector((state) => state?.auth?.isAuthenticated);
-//   const [trailData, setTrialData] = useState({});
+//   const [trailData, setTrailData] = useState({});
 //   const [loadingEnroll, setLoadingEnroll] = useState(false);
 //   const [selectedDate, setSelectedDate] = useState(null);
 //   const [selectedTime, setSelectedTime] = useState("");
 //   const [openModal, setOpenModal] = useState(false);
+//   const [selectedOption, setSelectedOption] = useState("");
+//   const [isSecondQuestionYes, setIsSecondQuestionYes] = useState(null);
+//   const [additionalInfo, setAdditionalInfo] = useState("");
+//   const [selectedThirdOption, setSelectedThirdOption] = useState("");
+//   const [availableTime, setAvaiableTime] = useState("");
+//   console.log(
+//     availableTime,
+//     "available time format is =  2024-08-26T22:00:00.000Z"
+//   );
 
 //   const availableTimes = [
 //     "6:00 AM",
@@ -45,35 +57,117 @@
 //     "10:00 AM",
 //   ];
 
+//   const today = dayjs().startOf("day");
+//   const tomorrow = today.add(1, "day");
+//   const dayAfterTomorrow = today.add(2, "day");
+
+//   const shouldDisableDate = (date) => {
+//     const selectedDay = dayjs(date).startOf("day");
+//     return ![today, tomorrow, dayAfterTomorrow].some((day) =>
+//       day.isSame(selectedDay, "day")
+//     );
+//   };
+
+//   const fetchAvailableTime = async () => {
+//     try {
+//       const res = await dispatch(getStdTime());
+//       const data = res.data.data;
+//       setAvaiableTime(data);
+//     } catch (err) {
+//       console.error("Failed to fetch available:", err);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchAvailableTime();
+//   }, []);
+
 //   useEffect(() => {
 //     if (auth === true) {
 //       const fetchTrialData = async () => {
 //         try {
 //           const res = await dispatch(getStudentJoinFreeTrails());
 //           const data = res.data.data;
-//           setTrialData(data);
+//           setTrailData(data);
 //         } catch (err) {
 //           console.error("Failed to fetch free trails:", err);
 //         }
 //       };
 //       fetchTrialData();
 //     }
-//   }, []);
+//   }, [auth, dispatch]);
+
+//   // const handleFreeTrail = () => {
+//   //   if (auth === true && selectedDate && selectedTime) {
+//   //     setLoadingEnroll(true);
+//   //     const requestData = {
+//   //       courseType: "bhajan",
+//   //       startTime:
+//   //         dayjs(selectedDate).format("YYYY-MM-DD") +
+//   //         "T" +
+//   //         dayjs(selectedTime, "h:mm A").format("HH:mm:ss"),
+//   //       additionalInfo,
+//   //       thirdQuestionOption: selectedThirdOption,
+//   //     };
+
+//   //     dispatch(studentApplyFreeTrails(requestData))
+//   //       .then((res) => {
+//   //         console.log(res.data.message, "snackbar messg");
+//   //         enqueueSnackbar(res.data.message, { variant: "success" });
+//   //         setLoadingEnroll(false);
+//   //         setOpenModal(false);
+//   //       })
+//   //       .catch((err) => {
+//   //         console.log(err);
+//   //         setLoadingEnroll(false);
+//   //         enqueueSnackbar(err.response.data.message, { variant: "error" });
+//   //       });
+//   //   }
+//   // };
 
 //   const handleFreeTrail = () => {
-//     if (auth === true && selectedDate && selectedTime) {
+//     if (auth === true && selectedDate && selectedTime && selectedOption) {
 //       setLoadingEnroll(true);
+
+//       console.log(selectedOption);
+//       let courseType;
+
+//       switch (selectedOption) {
+//         case "Bhajan":
+//           courseType = "bhajjan";
+//           break;
+//         case "Hindustani Vocals":
+//           courseType = "Hindustani vocals";
+//           break;
+//         case "Tabla":
+//           courseType = "Tabla";
+//           break;
+//         case "Ghazal":
+//           courseType = "Ghazal";
+//           break;
+//         case "Bollywood/Filmy Songs":
+//           courseType = "Bollywood/Filmy Songs";
+//           break;
+//         default:
+//           courseType = "Not Selected";
+//           break;
+//       }
+
+//       // Build requestData object with all relevant information
 //       const requestData = {
-//         courseType: "bhajan",
+//         courseType: courseType, // Use the selected course option
 //         startTime:
 //           dayjs(selectedDate).format("YYYY-MM-DD") +
 //           "T" +
 //           dayjs(selectedTime, "h:mm A").format("HH:mm:ss"),
+
+//         isExperienced: isSecondQuestionYes, // Include boolean value for second question
+//         years: selectedThirdOption, // Include answer for third question
 //       };
 
 //       dispatch(studentApplyFreeTrails(requestData))
 //         .then((res) => {
-//           console.log(res.data.message, "snackbar messg");
+//           console.log(res.data.message, "snackbar message");
 //           enqueueSnackbar(res.data.message, { variant: "success" });
 //           setLoadingEnroll(false);
 //           setOpenModal(false);
@@ -81,31 +175,30 @@
 //         .catch((err) => {
 //           console.log(err);
 //           setLoadingEnroll(false);
-
 //           enqueueSnackbar(err.response.data.message, { variant: "error" });
 //         });
 //     }
 //   };
 
 //   const handleOpenModal = () => setOpenModal(true);
-//   const handleCloseModal = () => setOpenModal(false);
+//   const handleCloseModal = () => {
+//     setOpenModal(false);
+//     setSelectedOption("");
+//     setIsSecondQuestionYes(null);
+//     setAdditionalInfo("");
+//     setSelectedThirdOption("");
+//   };
 
 //   return (
 //     <>
 //       <LocalizationProvider dateAdapter={AdapterDayjs}>
 //         <section className="hero-section">
-//           {/* <Navbar/> */}
 //           <div className="hero-section-text">
 //             <Typography
 //               sx={{ color: "white", fontSize: "3rem", fontWeight: "500" }}
 //             >
 //               Music For <br /> Everyone
 //             </Typography>
-
-//             {/* <h1>Music <samp className='hero-section-text-spam' >For</samp> Everyone</h1> */}
-//             {/* <Button variant='contained' sx={{borderRadius:'0px', fontSize:'1rem', textTransform:'none'}}>Start learning</Button> */}
-
-//             {/* <Button variant='contained' sx={{borderRadius:'0px', fontSize:'1rem', textTransform:'none', padding:'0.6rem', width:'50%'}}>Book 15 Minutes Free Trial</Button> */}
 
 //             <Box>
 //               {!auth ? (
@@ -171,37 +264,124 @@
 //         </section>
 
 //         <Dialog open={openModal} onClose={handleCloseModal}>
-//           <DialogTitle>Select Date and Time</DialogTitle>
+//           <DialogTitle
+//             sx={{ textAlign: "center", color: theme.palette.primary.main }}
+//           >
+//             Select Date and Time for 15 Minutes Free Trial Class with Admin
+//           </DialogTitle>
 //           <DialogContent>
 //             <DatePicker
-//               label="Select Date"
+//               fullWidth
+//               size="small"
 //               value={selectedDate}
 //               onChange={(newDate) => setSelectedDate(newDate)}
 //               renderInput={(params) => (
-//                 <Box component="input" {...params.inputProps} />
+//                 <Box component="input" fullWidth {...params.inputProps} />
 //               )}
+//               shouldDisableDate={shouldDisableDate}
 //             />
 
 //             <Typography sx={{ marginTop: 2 }}>Select Time:</Typography>
-//             <Grid container spacing={2}>
+//             <Select
+//               size="small"
+//               value={selectedTime}
+//               onChange={(e) => setSelectedTime(e.target.value)}
+//               displayEmpty
+//               fullWidth
+//               renderValue={(value) => (value ? value : "Select Time")}
+//               sx={{ marginBottom: 2 }}
+//             >
 //               {availableTimes.map((time, index) => (
-//                 <Grid item key={index} xs={6}>
-//                   <Button
-//                     variant={selectedTime === time ? "contained" : "outlined"}
-//                     onClick={() => setSelectedTime(time)}
-//                   >
-//                     {time}
-//                   </Button>
-//                 </Grid>
+//                 <MenuItem key={index} value={time}>
+//                   {time}
+//                 </MenuItem>
 //               ))}
-//             </Grid>
+//             </Select>
+//             <Typography
+//               sx={{ fontSize: "0.8rem", color: theme.palette.primary.main }}
+//             >
+//               Time as per your local time{" "}
+//             </Typography>
+//             <br />
+
+//             {/* Question 1 */}
+//             <Typography>What Music Course you are interested in?</Typography>
+//             <Select
+//               value={selectedOption}
+//               onChange={(e) => setSelectedOption(e.target.value)}
+//               displayEmpty
+//               size="small"
+//               fullWidth
+//               renderValue={(value) => (value ? value : "Select Course")}
+//               sx={{ marginBottom: 2 }}
+//             >
+//               {[
+//                 "Hindustani Vocals",
+//                 "Bhajan",
+//                 "Tabla",
+//                 "Ghazal",
+//                 "bollywood/Filmy Songs",
+//               ].map((option) => (
+//                 <MenuItem key={option} value={option}>
+//                   {option}
+//                 </MenuItem>
+//               ))}
+//             </Select>
+
+//             <Typography sx={{ marginTop: 2 }}>
+//               Have you learn music somewhere else?
+//             </Typography>
+//             <Select
+//               value={isSecondQuestionYes}
+//               onChange={(e) => setIsSecondQuestionYes(e.target.value)}
+//               displayEmpty
+//               fullWidth
+//               size="small"
+//               renderValue={(value) =>
+//                 value !== null ? (value ? "Yes" : "No") : "Select an Option"
+//               }
+//               sx={{ marginBottom: 2 }}
+//             >
+//               <MenuItem value={true}>Yes</MenuItem>
+//               <MenuItem value={false}>No</MenuItem>
+//             </Select>
+
+//             {isSecondQuestionYes === true && (
+//               <>
+//                 <Typography sx={{ marginTop: 2 }}>
+//                   From how many years you are learning?
+//                 </Typography>
+//                 <Select
+//                   size="small"
+//                   value={selectedThirdOption}
+//                   onChange={(e) => setSelectedThirdOption(e.target.value)}
+//                   displayEmpty
+//                   fullWidth
+//                   renderValue={(value) => (value ? value : "Select Option")}
+//                   sx={{ marginBottom: 2 }}
+//                 >
+//                   {["1 year", "2 year", "3 year", "4 year", "5 year"].map(
+//                     (option) => (
+//                       <MenuItem key={option} value={option}>
+//                         {option}
+//                       </MenuItem>
+//                     )
+//                   )}
+//                 </Select>
+//               </>
+//             )}
 //           </DialogContent>
 //           <DialogActions>
 //             <Button onClick={handleCloseModal}>Cancel</Button>
 //             <Button
 //               variant="contained"
 //               onClick={handleFreeTrail}
-//               disabled={!selectedDate || !selectedTime}
+//               disabled={
+//                 !selectedDate ||
+//                 !selectedTime ||
+//                 !selectedOption ||
+//                 (isSecondQuestionYes === true && !selectedThirdOption)
+//               }
 //             >
 //               Confirm
 //             </Button>
@@ -227,23 +407,22 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Grid,
   DialogActions,
-  TextField,
-  useTheme,
   Select,
   MenuItem,
+  useTheme,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { useSnackbar } from "notistack";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import {
+  getStdTime,
   getStudentJoinFreeTrails,
   studentApplyFreeTrails,
 } from "../../../../store/actions/courseActions";
-import { useSnackbar } from "notistack";
-import { useSelector, useDispatch } from "react-redux";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { useNavigate } from "react-router";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 
 function Hero() {
   const { enqueueSnackbar } = useSnackbar();
@@ -256,20 +435,44 @@ function Hero() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   const [isSecondQuestionYes, setIsSecondQuestionYes] = useState(null);
-  const [additionalInfo, setAdditionalInfo] = useState('');
-  const [selectedThirdOption, setSelectedThirdOption] = useState('');
+  const [selectedThirdOption, setSelectedThirdOption] = useState("");
+  const [availableTimes, setAvailableTimes] = useState([]);
 
-  const availableTimes = [
-    "6:00 AM",
-    "12:00 AM",
-    "3:00 AM",
-    "7:00 AM",
-    "8:00 AM",
-    "9:00 AM",
-    "10:00 AM",
-  ];
+  // Helper function to filter available times
+  const filterAvailableTimes = (date) => {
+    if (!date) return [];
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    return availableTimes.filter(timeObj =>
+      dayjs(timeObj.time).format("YYYY-MM-DD") === formattedDate
+    );
+  };
+
+  const today = dayjs().startOf("day");
+  const tomorrow = today.add(1, "day");
+  const dayAfterTomorrow = today.add(2, "day");
+
+  const shouldDisableDate = (date) => {
+    const selectedDay = dayjs(date).startOf("day");
+    return ![today, tomorrow, dayAfterTomorrow].some((day) =>
+      day.isSame(selectedDay, "day")
+    );
+  };
+
+  const fetchAvailableTime = async () => {
+    try {
+      const res = await dispatch(getStdTime());
+      const data = res.data.data;
+      setAvailableTimes(data);
+    } catch (err) {
+      console.error("Failed to fetch available times:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvailableTime();
+  }, []);
 
   useEffect(() => {
     if (auth === true) {
@@ -287,21 +490,45 @@ function Hero() {
   }, [auth, dispatch]);
 
   const handleFreeTrail = () => {
-    if (auth === true && selectedDate && selectedTime) {
+    if (auth === true && selectedDate && selectedTime && selectedOption) {
       setLoadingEnroll(true);
+
+      let courseType;
+
+      switch (selectedOption) {
+        case "Bhajan":
+          courseType = "bhajan";
+          break;
+        case "Hindustani Vocals":
+          courseType = "Hindustani vocals";
+          break;
+        case "Tabla":
+          courseType = "Tabla";
+          break;
+        case "Ghazal":
+          courseType = "Ghazal";
+          break;
+        case "Bollywood/Filmy Songs":
+          courseType = "Bollywood/Filmy Songs";
+          break;
+        default:
+          courseType = "Not Selected";
+          break;
+      }
+
       const requestData = {
-        courseType: "bhajan",
+        courseType: courseType,
         startTime:
           dayjs(selectedDate).format("YYYY-MM-DD") +
           "T" +
           dayjs(selectedTime, "h:mm A").format("HH:mm:ss"),
-        additionalInfo,
-        thirdQuestionOption: selectedThirdOption,
+        isExperienced: isSecondQuestionYes,
+        years: selectedThirdOption,
       };
 
       dispatch(studentApplyFreeTrails(requestData))
         .then((res) => {
-          console.log(res.data.message, "snackbar messg");
+          console.log(res.data.message, "snackbar message");
           enqueueSnackbar(res.data.message, { variant: "success" });
           setLoadingEnroll(false);
           setOpenModal(false);
@@ -317,11 +544,13 @@ function Hero() {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
-    setSelectedOption('');
+    setSelectedOption("");
     setIsSecondQuestionYes(null);
-    setAdditionalInfo('');
-    setSelectedThirdOption('');
+    setSelectedThirdOption("");
+    setSelectedTime("");
   };
+
+  const filteredAvailableTimes = filterAvailableTimes(selectedDate);
 
   return (
     <>
@@ -398,78 +627,95 @@ function Hero() {
         </section>
 
         <Dialog open={openModal} onClose={handleCloseModal}>
-          <DialogTitle sx={{textAlign:'center', color:theme.palette.primary.main}}>Select Date and Time for 15 Minutes Free Trial Class with Admin</DialogTitle>
+          <DialogTitle
+            sx={{ textAlign: "center", color: theme.palette.primary.main }}
+          >
+            Select Date and Time for 15 Minutes Free Trial Class with Admin
+          </DialogTitle>
           <DialogContent>
             <DatePicker
-fullWidth
-size='small'
+              fullWidth
+              size="small"
               value={selectedDate}
               onChange={(newDate) => setSelectedDate(newDate)}
               renderInput={(params) => (
                 <Box component="input" fullWidth {...params.inputProps} />
               )}
+              shouldDisableDate={shouldDisableDate}
             />
 
             <Typography sx={{ marginTop: 2 }}>Select Time:</Typography>
             <Select
-            size="small"
+              size="small"
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
               displayEmpty
               fullWidth
               renderValue={(value) => (value ? value : "Select Time")}
               sx={{ marginBottom: 2 }}
+              disabled={!selectedDate}
             >
-              {availableTimes.map((time, index) => (
-                <MenuItem key={index} value={time}>
-                  {time}
+              {filteredAvailableTimes.map((timeObj, index) => (
+                <MenuItem key={index} value={dayjs(timeObj.time).format("h:mm A")}>
+                  {dayjs(timeObj.time).format("h:mm A")}
                 </MenuItem>
               ))}
             </Select>
-            <Typography sx={{fontSize:'0.8rem', color:theme.palette.primary.main}}>Time as per your local time </Typography>
-            <br/>
+            <Typography
+              sx={{ fontSize: "0.8rem", color: theme.palette.primary.main }}
+            >
+              Time as per your local time{" "}
+            </Typography>
+            <br />
 
-            {/* Question 1 */}
             <Typography>What Music Course you are interested in?</Typography>
             <Select
               value={selectedOption}
               onChange={(e) => setSelectedOption(e.target.value)}
               displayEmpty
-            size="small"
-
+              size="small"
               fullWidth
               renderValue={(value) => (value ? value : "Select Course")}
               sx={{ marginBottom: 2 }}
             >
-              {['Hindustani Vocals', 'Bhajan', 'Tabla', 'Ghazal', 'bollywood/Filmy Songs'].map((option) => (
+              {[
+                "Hindustani Vocals",
+                "Bhajan",
+                "Tabla",
+                "Ghazal",
+                "Bollywood/Filmy Songs",
+              ].map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </Select>
 
-            {/* Question 2 */}
-            <Typography sx={{ marginTop: 2 }}>Have you learn music somewhere else?</Typography>
+            <Typography sx={{ marginTop: 2 }}>
+              Have you learned music somewhere else?
+            </Typography>
             <Select
               value={isSecondQuestionYes}
               onChange={(e) => setIsSecondQuestionYes(e.target.value)}
               displayEmpty
               fullWidth
-            size="small"
-
-              renderValue={(value) => (value !== null ? (value ? "Yes" : "No") : "Select an Option")}
+              size="small"
+              renderValue={(value) =>
+                value !== null ? (value ? "Yes" : "No") : "Select an Option"
+              }
               sx={{ marginBottom: 2 }}
             >
               <MenuItem value={true}>Yes</MenuItem>
               <MenuItem value={false}>No</MenuItem>
             </Select>
 
-            {/* Conditionally render Question 3 */}
             {isSecondQuestionYes === true && (
               <>
-                <Typography sx={{ marginTop: 2 }}>From how many years you are learning?</Typography>
+                <Typography sx={{ marginTop: 2 }}>
+                  For how many years have you been learning?
+                </Typography>
                 <Select
-                size='small'
+                  size="small"
                   value={selectedThirdOption}
                   onChange={(e) => setSelectedThirdOption(e.target.value)}
                   displayEmpty
@@ -477,23 +723,28 @@ size='small'
                   renderValue={(value) => (value ? value : "Select Option")}
                   sx={{ marginBottom: 2 }}
                 >
-                  {['1 year', '2 year', '3 year', '4 year', '5 year'].map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
+                  {["1 year", "2 years", "3 years", "4 years", "5 years"].map(
+                    (option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    )
+                  )}
                 </Select>
               </>
             )}
-
-
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseModal}>Cancel</Button>
             <Button
               variant="contained"
               onClick={handleFreeTrail}
-              disabled={!selectedDate || !selectedTime || !selectedOption || (isSecondQuestionYes === true && !selectedThirdOption)}
+              disabled={
+                !selectedDate ||
+                !selectedTime ||
+                !selectedOption ||
+                (isSecondQuestionYes === true && !selectedThirdOption)
+              }
             >
               Confirm
             </Button>

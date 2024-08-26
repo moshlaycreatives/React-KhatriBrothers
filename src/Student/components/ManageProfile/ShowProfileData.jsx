@@ -9,7 +9,7 @@ import Loader from '../../../components/Loader/Loader';
 const ShowProfileData = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const base = 'http://16.171.98.198:4545';
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
   const userData = useSelector((state) => state?.auth?.user);
 
   // const profilePictureUrl = `${base}${userData.profilePicture.replace(/ /g, '%20')}`;
@@ -18,8 +18,7 @@ const ShowProfileData = () => {
   : '';
   const initialValues = {
     firstName: '',
-    lastname:'',
-
+    lastName:'',
     email: '',
     phone: '',
     dob: '',
@@ -132,7 +131,7 @@ const ShowProfileData = () => {
           fullWidth
           size="small"
           sx={{ '& .MuiInputBase-input': { fontSize: '0.8rem' } }}
-          value={formValues.firstName}
+          value={formValues.lastName}
           onChange={handleChange}
           disabled={!isEditing} // Disable field if not editing
         />

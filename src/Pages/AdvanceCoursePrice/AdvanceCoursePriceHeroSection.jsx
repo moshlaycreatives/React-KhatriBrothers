@@ -37,7 +37,7 @@ import { enqueueSnackbar } from "notistack";
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -182,6 +182,7 @@ const AdvanceCoursePriceHeroSection = () => {
       try {
         const response = await axios.get("https://ipinfo.io/json");
         setCountry(response.data.country);
+        console.log(response.data.country, 'currency')
       } catch (error) {
         console.error("Error fetching user country:", error);
       }
@@ -232,18 +233,18 @@ const AdvanceCoursePriceHeroSection = () => {
   const getPriceByCountry = (countryCode) => {
     const priceMap = {
       US: courseData.usaPrice,
-      PK: courseData.indianPrice,
+
       IN: courseData.indianPrice,
       GB: courseData.ukPrice,
       KE: courseData.kenyaPrice,
       UG: courseData.ugandaPrice,
-      UAE: courseData.uaePrice,
+      AE: courseData.uaePrice,
       CAN: courseData.canadaPrice,
       CA: courseData.canadaPrice,
       AU: courseData.australiaPrice,
       AUS: courseData.australiaPrice,
     };
-    return priceMap[countryCode] || courseData.indianPrice;
+    return priceMap[countryCode] || courseData.usaPrice;
   };
 
   const getCurrencySymbol = (countryCode) => {
@@ -254,7 +255,7 @@ const AdvanceCoursePriceHeroSection = () => {
       GB: "£",
       KE: "KSh",
       UG: "USh",
-      UAE: "د.إ",
+      AE: "AED",
       CAN: "C$",
       CA: "C$",
       AU: "A$",
@@ -271,7 +272,7 @@ const AdvanceCoursePriceHeroSection = () => {
       GB: "GBP",
       KE: "KES",
       UG: "UGX",
-      UAE: "AED",
+      AE: "AED",
       CAN: "CAD",
       CA: "CAD",
       AU: "AUD",
