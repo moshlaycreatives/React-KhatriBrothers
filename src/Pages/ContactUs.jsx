@@ -107,10 +107,7 @@ const ContactUs = () => {
                   <br />
                   <br />
                   <Typography color={"grey"}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-                    temporibus sint aut debitis cupiditate quidem obcaecati
-                    soluta veniam nemo, laborum odio ipsum beatae ipsam impedit
-                    asperiores ea amet facere aspernatur?
+                  If you have any kind of queries regarding the admission process feel free to contact us. Our admissions counselors are here to help you at any time. 
                   </Typography>
                   <br />
                   <br />
