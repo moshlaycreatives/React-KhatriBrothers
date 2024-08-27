@@ -159,7 +159,7 @@ const MessageMain = () => {
         Admin
       </Typography>
       <Box>
-        {filteredUsers.map((val) => (
+        {filteredUsers && filteredUsers?.map((val) => (
           <Box
             key={val._id}
             onClick={() => handleSelectChat(val._id, val.firstName, val.lastName)}
@@ -207,15 +207,15 @@ const MessageMain = () => {
         Instructors
       </Typography>
 
-      {allUsers.map((val) => (
+      {allUsers && allUsers.filter(val => val?.instructorId).map((val) => (
         <Box
-          key={val.instructorId._id}
+          key={val?.instructorId?._id}
           onClick={() => handleSelectChat(val.instructorId._id, val.instructorId.firstName, val.instructorId.lastName)}
           sx={{
             cursor: "pointer",
             padding: "8px",
-            backgroundColor: receiverId === val.instructorId._id ? theme.palette.primary.main : "transparent",
-            color: receiverId === val.instructorId._id ? "white" : "inherit",
+            backgroundColor: receiverId === val?.instructorId?._id ? theme.palette.primary.main : "transparent",
+            color: receiverId === val?.instructorId?._id ? "white" : "inherit",
             marginBottom: "4px",
             "&:hover": {
               backgroundColor: theme.palette.primary.main,
@@ -228,13 +228,13 @@ const MessageMain = () => {
             <Box sx={{ marginLeft: "0.5rem" }}>
               <Typography
                 sx={{
-                  fontWeight: receiverId === val.instructorId._id ? "bold" : "normal",
+                  fontWeight: receiverId === val?.instructorId?._id ? "bold" : "normal",
                   fontSize: "1.1rem",
                 }}
               >
-                {val.instructorId.firstName} {val.instructorId.lastName}
+                {val?.instructorId?.firstName} {val?.instructorId?.lastName}
               </Typography>
-              <Typography sx={{ fontSize: "0.8rem", color: receiverId === val.instructorId._id ? "white" : "grey" }}>
+              <Typography sx={{ fontSize: "0.8rem", color: receiverId === val?.instructorId?._id ? "white" : "grey" }}>
                 Lorem ipsum dolor sit amet.
               </Typography>
             </Box>
@@ -333,7 +333,7 @@ const MessageMain = () => {
             Admin
           </Typography>
           <Box>
-            {filteredUsers.map((val) => (
+            {filteredUsers && filteredUsers.map((val) => (
               <Box
                 key={val._id}
                 onClick={() =>
@@ -394,9 +394,9 @@ const MessageMain = () => {
             Instructors
           </Typography>
 
-          {allUsers.map((val) => (
+          {allUsers && allUsers.filter(val => val?.instructorId).map((val) => (
             <Box
-              key={val.instructorId._id}
+              key={val?.instructorId?._id}
               onClick={() =>
                 handleSelectChat(
                   val.instructorId._id,
@@ -408,11 +408,11 @@ const MessageMain = () => {
                 cursor: "pointer",
                 padding: "8px",
                 backgroundColor:
-                  receiverId === val.instructorId._id
+                  receiverId === val?.instructorId?._id
                     ? theme.palette.primary.main
                     : "transparent",
                 color:
-                  receiverId === val.instructorId._id ? "white" : "inherit",
+                  receiverId === val?.instructorId?._id ? "white" : "inherit",
 
                 marginBottom: "4px",
                 "&:hover": {
@@ -429,17 +429,17 @@ const MessageMain = () => {
                   <Typography
                     sx={{
                       fontWeight:
-                        receiverId === val.instructorId._id ? "bold" : "normal",
+                        receiverId === val?.instructorId?._id ? "bold" : "normal",
                       fontSize: "1.1rem",
                     }}
                   >
-                    {val.instructorId.firstName} {val.instructorId.lastName}
+                    {val?.instructorId?.firstName} {val?.instructorId?.lastName}
                   </Typography>
                   <Typography
                     sx={{
                       fontSize: "0.8rem",
                       color:
-                        receiverId === val.instructorId._id ? "white" : "grey",
+                        receiverId === val?.instructorId?._id ? "white" : "grey",
                     }}
                   >
                     Lorem ipsum dolor sit amet.
@@ -484,7 +484,7 @@ const MessageMain = () => {
               marginBottom: "16px",
             }}
           >
-            {msgsData.map((msg, index) => (
+            {msgsData?.map((msg, index) => (
               <Box
                 key={index}
                 sx={{

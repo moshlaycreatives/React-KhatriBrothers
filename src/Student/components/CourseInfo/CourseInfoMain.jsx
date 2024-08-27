@@ -216,15 +216,21 @@ const CourseInfoMain = () => {
           <TableBody>
             {courseData?.map((row) => (
               <TableRow
-                key={row.courseId._id}
+                key={row?.courseId?._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row" sx={{ color: 'grey' }}>
-                  {row.courseId.title}
+                  {row?.courseId?.title}
                 </TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.instructorId.firstName}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.courseId.indianPrice}</TableCell>
-                <TableCell sx={{ color: 'grey' }}>{row.courseId.courseDuration}</TableCell>
+                {/* <TableCell sx={{ color: 'grey' }}>{row?.instructorId?.firstName} {row?.instructorId?.lastName}</TableCell> */}
+                <TableCell sx={{ color: 'grey' }}>
+  {row?.instructorId?.firstName && row?.instructorId?.lastName
+    ? `${row.instructorId.firstName} ${row.instructorId.lastName}`
+    : 'Not Assigned yet'}
+</TableCell>
+
+                <TableCell sx={{ color: 'grey' }}>{row?.courseId?.indianPrice}</TableCell>
+                <TableCell sx={{ color: 'grey' }}>{row?.courseId?.courseDuration}</TableCell>
                 <TableCell sx={{ color: 'grey' }}>
                   <FaEye
                     style={{ fontSize: '1.5rem', color:theme.palette.primary.main, cursor: 'pointer' }}
