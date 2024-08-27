@@ -56,8 +56,7 @@ const HomeBlogs = () => {
             Blogs
           </Typography>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-            distinctio maiores minus velit saepe.
+
           </Typography>
         </Box>
         <br />

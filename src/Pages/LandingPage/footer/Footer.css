@@ -38,7 +38,7 @@ margin-bottom: 2rem;
     bottom: -20%;
 }
 .footer-logo-text p{
-    font-size: 1.1rem;
+    font-size: 1rem;
     /* font-weight: 500; */
 }
 
@@ -70,7 +70,7 @@ margin-bottom: 2rem;
 .footer-links li{
     text-decoration: none;
     list-style: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 
@@ -104,7 +104,7 @@ margin-bottom: 2rem;
 text-decoration: none;
 }
 .footer-contact-info-links i{
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     color: white;
     text-decoration: none;
@@ -112,7 +112,8 @@ text-decoration: none;
 }
 .footer-social-btn{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 13;
 }
 .footer-social-links{
     font-size:2rem;
@@ -127,7 +128,7 @@ text-decoration: none;
     margin-top: 2rem;
 }
 .footer-term-condition{
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 300;
     text-align: center;
     margin-top: 1rem;

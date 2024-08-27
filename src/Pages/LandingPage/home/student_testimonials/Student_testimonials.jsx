@@ -14,6 +14,18 @@ function Student_testimonials() {
   const dispatch = useDispatch();
   const [publicTestimonial, setPublicTestimonial] = useState([]);
 
+  // const settings = {
+  //   className: "center",
+  //   centerMode: true,
+  //   autoplay: true,
+  //   infinite: true,
+  //   centerPadding: "0px",
+  //   slidesToShow: 3,
+  //   speed: 800,
+  //   autoplaySpeed: 2000,
+  //   dots: true,
+  // };
+
   const settings = {
     className: "center",
     centerMode: true,
@@ -22,8 +34,32 @@ function Student_testimonials() {
     centerPadding: "0px",
     slidesToShow: 3,
     speed: 800,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 2000,
     dots: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          centerMode: false,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          centerMode: false,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          centerMode: false,
+          centerPadding: "10px", // Optional: adjust padding for smaller screens
+        }
+      }
+    ]
   };
 
   useEffect(() => {
@@ -50,30 +86,30 @@ function Student_testimonials() {
         <>
           <section className="student-testinomials">
             <h1>Student Testimonials</h1>
-            <p>
+            {/* <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa at
               sunt laboriosam temporibus aspernatur fugiat harum deleniti
               consectetur consequatur exercitationem?
-            </p>
+            </p> */}
           </section>
           <div className="slider-container">
             <Slider {...settings}>
               {publicTestimonial.map((row) => (
                 <div key={row._id}>
-                  <img
+                  {/* <img
                     width="300rem"
                     height="250vh"
                     src={`${base}${row.video.replace(/ /g, "%20")}`}
                     alt="Testimonial 1"
-                  />
+                  /> */}
 
-                  {/* <video
+                  <video
     width='300rem'
     height='250vh'
     controls
-    src='/rvideo.mp4'
-    // src={`${base}${row.video.replace(/ /g, "%20")}`}
-    alt="Testimonial 1"/> */}
+    // src='/rvideo.mp4'
+    src={`${base}${row.video.replace(/ /g, "%20")}`}
+    alt="Testimonial 1"/>
 
                   {/* <Typography sx={{marginTop:'-3rem', marginLeft:'4rem', color:'white', zIndex:'9999999'}}>{row.stuName}</Typography> */}
                 </div>

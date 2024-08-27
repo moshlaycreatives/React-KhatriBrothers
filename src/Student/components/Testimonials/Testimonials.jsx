@@ -481,7 +481,7 @@ const Testimonials = () => {
                 textTransform: "none",
                 borderRadius: "0px",
                 fontWeight: 400,
-                fontSize: isMobile ? "0.8rem" : "1.2rem",
+                fontSize: isMobile ? "0.8rem" : "1rem",
               }}
             >
               + Add Testimonial
@@ -538,10 +538,10 @@ const Testimonials = () => {
                         </TableCell>
                         <TableCell sx={{ color: "grey" }}>
                           <Box>
-                            <img
+                            <video
                               src={`${base}${row.video.replace(/ /g, "%20")}`}
-                              alt=""
-                              width={"200px"}
+                              controls
+                              width={"250px"}
                               height="100vh"
                             />
                           </Box>

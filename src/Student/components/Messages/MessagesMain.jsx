@@ -43,6 +43,7 @@ const MessageMain = () => {
   const [adminUsers, setAdminUsers] = useState([]);
 
   useEffect(() => {
+    setLoading(true)
     dispatch(getStudentEnrolledCourses())
       .then((users) => {
         setAllUsers(users.data.data);
@@ -55,6 +56,7 @@ const MessageMain = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true)
     dispatch(getAllUsers())
       .then((users) => {
         setAdminUsers(users.data.data);
@@ -187,7 +189,7 @@ const MessageMain = () => {
                   {val.firstName} {val.lastName}
                 </Typography>
                 <Typography sx={{ fontSize: "0.8rem", color: receiverId === val._id ? "white" : "grey" }}>
-                  Lorem ipsum dolor sit amet.
+
                 </Typography>
               </Box>
             </Box>
@@ -374,7 +376,7 @@ const MessageMain = () => {
                         color: receiverId === val._id ? "white" : "grey",
                       }}
                     >
-                      Lorem ipsum dolor sit amet.
+
                     </Typography>
                   </Box>
                 </Box>
@@ -442,7 +444,7 @@ const MessageMain = () => {
                         receiverId === val?.instructorId?._id ? "white" : "grey",
                     }}
                   >
-                    Lorem ipsum dolor sit amet.
+
                   </Typography>
                 </Box>
               </Box>

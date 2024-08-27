@@ -367,7 +367,7 @@ console.log(customCourseData, 'custom Course data')
                 fontSize: '2rem',
               }}
             >
-              Customize Courses
+              Customized Courses
             </Typography>
           </Box>
           <br />

@@ -93,10 +93,10 @@ const Header = () => {
     { label: "Home", route: "/" },
     {
       label: "Courses",
-      route: null, // Route is null since we will use dropdown
+      route: null, 
     },
     { label: "About", route: "/about-us" },
-    { label: "Faq's", route: "/faqs" },
+    { label: "FAQ's", route: "/faqs" },
     { label: "Blogs", route: "/blogs" },
     { label: "Contact", route: "/contact-us" },
   ];

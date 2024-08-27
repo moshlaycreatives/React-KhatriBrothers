@@ -408,6 +408,7 @@ import {
   Select,
   MenuItem,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -437,7 +438,7 @@ function Hero() {
   const [isSecondQuestionYes, setIsSecondQuestionYes] = useState(null);
   const [selectedThirdOption, setSelectedThirdOption] = useState("");
   const [availableTimes, setAvailableTimes] = useState([]);
-
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   // Helper function to filter available times
   const filterAvailableTimes = (date) => {
     if (!date) return [];
@@ -570,7 +571,7 @@ function Hero() {
                     Which course is suitable for you?
                   </Typography>
                   <br />
-<Box sx={{width:'50%'}}>
+<Box sx={{width:isSmall ? '200%':'50%'}}>
 <FreeTrialButton/>
 
 </Box>

@@ -26,6 +26,7 @@ import {
   IconButton,
   Menu,
   MenuItem as MuiMenuItem,
+  CircularProgress,
 } from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -89,6 +90,8 @@ const StudentMain = () => {
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+const [loading, setLoading] = useState(false); // State for loader
+
 
   console.log(userData, "data");
   const dispatch = useDispatch();
@@ -146,9 +149,9 @@ const StudentMain = () => {
     setLogoutModalOpen(false);
   };
 
-  const handleCloseModalPopup =() =>{
-    setShowPopup(false)
-  }
+  const handleCloseModalPopup = () => {
+    setShowPopup(false);
+  };
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -174,11 +177,13 @@ const StudentMain = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
+setLoading(true)
+ try {
         const res = await dispatch(getStudentEnrolledCourses());
         const data = res.data.data;
         console.log(data, "data on mains tudent");
         setCourseData(data);
+setLoading(false)
       } catch (err) {
         console.error("Failed to fetch courses:", err);
       }
@@ -186,8 +191,6 @@ const StudentMain = () => {
 
     fetchData();
   }, [dispatch]);
-
-
 
   return (
     <>
@@ -336,7 +339,7 @@ const StudentMain = () => {
                             }}
                           />
                           <Typography sx={{ fontSize: "1rem" }}>
-                            {userData?.firstName}
+                            {userData?.firstName} {userData?.lastName}
                           </Typography>
                         </Box>
                       )}
@@ -464,6 +467,26 @@ const StudentMain = () => {
           </Box>
         </Box>
       </Box>
+
+
+{loading && (
+<Box
+   sx={{
+    position: "fixed",
+     top: 0,
+     left: 0,
+     right: 0,
+     bottom: 0,
+     backgroundColor: "rgba(255, 255, 255, 0.8)",
+     display: "flex",
+     alignItems: "center",
+     justifyContent: "center",
+     zIndex: theme.zIndex.modal + 1, // Ensure it is above other components
+   }}
+ >
+   <CircularProgress />
+ </Box>
+)}
 
       <Dialog
         open={logoutModalOpen}
