@@ -1,15 +1,22 @@
-import { Box, Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React from 'react'
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React from "react";
 
 const AboutSection1 = () => {
-  const theme  = useTheme()
+  const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <>
-              <Box
+      <Box
         sx={{
-          padding: isSmall ? "10rem 10%" :  "5rem 10%",
+          padding: isSmall ? "10rem 10%" : "5rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
@@ -20,10 +27,14 @@ const AboutSection1 = () => {
               <span style={{ fontSize: "2rem", fontWeight: "500" }}>Us</span>
             </Typography>
             <Box>
-              <Typography variant="h6" sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              <Typography  sx={{ color: "white",  }}>
+                Khatri brothers Academy is dedicated to the cause of promoting
+                and preserving India’s rich music and culture. Anmol khatri,
+                Shivam khatri (Khatri brothers) and Shyamal Patel are the
+                founder, creative director, and principal vocal instructor of
+                Khatri Brothers Academy of Music. The Academy teaches many
+                genres of Indian vocal music such as Hindustani
+                classical,Bhajans, Ghazals, Old and New Bollywood music.
               </Typography>
               <Button
                 variant="contained"
@@ -43,15 +54,14 @@ const AboutSection1 = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding:isSmall? "4rem 0rem 0rem 0rem": "3rem" }}>
+            <Box sx={{ padding: isSmall ? "4rem 0rem 0rem 0rem" : "3rem" }}>
               <img src="/aboutimage.svg" alt="image" width={"100%"} />
             </Box>
           </Grid>
         </Grid>
       </Box>
-
     </>
-  )
-}
+  );
+};
 
-export default AboutSection1
+export default AboutSection1;

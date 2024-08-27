@@ -66,6 +66,7 @@ const listData = [
   { title: "Groups", icon: <FaLayerGroup /> },
   { title: "Classes", icon: <SiGoogleclassroom /> },
   { title: "Lectures", icon: <PiVideo /> },
+  { title: "Terms & Conditions", icon: <CgFileDocument /> },
   { title: "Settings", icon: <IoSettingsOutline /> },
   { title: "Logout", icon: <MdLogout /> },
 ];
@@ -391,6 +392,7 @@ const InstructorMain = () => {
             {selectedItem === "Groups" && <Testimonials />}
             {selectedItem === "Classes" && <ClassesMain />}
             {selectedItem === "Lectures" && <LectureInstructureMain />}
+            {selectedItem === "Terms & Conditions" && <TermsConditionsMain />}
             {selectedItem === "Settings" && <SettingsMain />}
             {selectedItem === "ManageProfile" && <ShowProfileData />}
           </Box>
