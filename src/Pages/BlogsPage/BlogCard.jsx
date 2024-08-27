@@ -27,7 +27,7 @@ const BlogCard = () => {
     fetchBlogData();
   }, []);
 
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
 
   // Function to format date to '14 August 2024'
   const formatDate = (dateString) => {

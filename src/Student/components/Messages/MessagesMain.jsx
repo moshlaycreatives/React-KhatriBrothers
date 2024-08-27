@@ -30,12 +30,12 @@ const MessageMain = () => {
 
   const [msgsData, setMsgsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "http://16.171.98.198:4545";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [selectedUser, setSelectedUser] = useState("");
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("http://16.171.98.198:4545"),
     []
   );
 
