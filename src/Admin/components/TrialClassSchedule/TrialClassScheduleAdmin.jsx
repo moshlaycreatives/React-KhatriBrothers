@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -14,17 +13,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch } from "react-redux";
 import AddTrialSchedule from "./AddTrialSchedule";
 import { getAdminTime } from "../../../store/actions/courseActions";
 
 const TrialClassScheduleAdmin = () => {
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState(null);
   const [isAddingInstructor, setIsAddingInstructor] = useState(false);
   const [InstructorData, setInstructorData] = useState([]); // Data state
-  const [currentRowId, setCurrentRowId] = useState(null);
   const [loading, setLoading] = useState(true); // Set initial loading state
   const dispatch = useDispatch();
 
@@ -33,15 +29,15 @@ const TrialClassScheduleAdmin = () => {
   };
 
   const fetchTime = () => {
+    setLoading(true);
     dispatch(getAdminTime())
       .then((res) => {
-        console.log(res, "res");
-        setInstructorData(res.data.data); // Store response data
-        setLoading(false); // Update loading state
+        setInstructorData(res.data.data);
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        setLoading(false); // Ensure loading state is updated even on error
+        console.error(err);
+        setLoading(false);
       });
   };
 
@@ -49,33 +45,30 @@ const TrialClassScheduleAdmin = () => {
     fetchTime();
   }, []);
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleMenuClick = (events, id) => {
-    setAnchorEl(events.currentTarget);
-    setCurrentRowId(id);
-  };
-
-  const handleEditClick = () => {
-    // handle edit logic
-  };
-
   const handleBackClick = () => {
     setIsAddingInstructor(false);
-    setCurrentRowId(null);
-
   };
 
+  useEffect(() => {
+    if (!isAddingInstructor) {
+      fetchTime();
+    }
+  }, [isAddingInstructor]);
 
-    // Fetch instructor data after coming back from AddInstructor
-    useEffect(() => {
-      if (!isAddingInstructor) {
-        fetchTime(); // Trigger the API call again
-      }
-    }, [isAddingInstructor]);
+  // Group by date
+  const groupedData = InstructorData.reduce((acc, curr) => {
+    const date = new Date(curr.time).toLocaleDateString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(curr);
+    return acc;
+  }, {});
 
+  // Check if a time is expired
+  const isExpired = (time) => {
+    return new Date(time) < new Date();
+  };
 
   return (
     <>
@@ -135,36 +128,40 @@ const TrialClassScheduleAdmin = () => {
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
                     <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-
                       <TableCell>Date</TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-
                       <TableCell>Time</TableCell>
-                      <TableCell></TableCell>
-
+                      <TableCell>Status</TableCell> {/* New column for status */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {InstructorData.map((row) => (
-                      <TableRow
-                        key={row._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-
-                        <TableCell>{new Date(row.time).toLocaleDateString()}</TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-
-                        <TableCell>{new Date(row.time).toLocaleTimeString()}</TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
+                    {Object.keys(groupedData).map((date, index) => (
+                      <React.Fragment key={date}>
+                        <TableRow>
+                          <TableCell rowSpan={groupedData[date].length}>
+                            {date}
+                          </TableCell>
+                          {groupedData[date].length > 0 && (
+                           <>
+                           <TableCell>
+                              {new Date(groupedData[date][0].time).toLocaleTimeString()}
+                            </TableCell>
+                            <TableCell sx={{color: isExpired(groupedData[date][0].time) ? 'red' : 'green'}}>
+                              {isExpired(groupedData[date][0].time) ? 'Expired' : 'Active'}
+                            </TableCell>
+                           </>
+                          )}
+                        </TableRow>
+                        {groupedData[date].slice(1).map((timeSlot, timeIndex) => (
+                          <TableRow key={timeIndex}>
+                            <TableCell >
+                              {new Date(timeSlot.time).toLocaleTimeString()}
+                            </TableCell>
+                            <TableCell sx={{color: isExpired(timeSlot.time) ? 'red' : 'green'}}>
+                              {isExpired(timeSlot.time) ? 'Expired' : 'Active'}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </React.Fragment>
                     ))}
                   </TableBody>
                 </Table>

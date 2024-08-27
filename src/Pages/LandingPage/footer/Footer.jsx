@@ -38,10 +38,7 @@ const navigate = useNavigate()
         <div className="footer-logo-text">
           <h1>Logo</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit
-            corporis nobis accusamus, voluptatem minus et sint. Totam, incidunt
-            doloribus. Modi omnis vel ea quae minima porro deserunt, atque
-            molestiae sequi.
+          Welcome to Khatri Brothers Academy, where the beauty of music meets tradition. Our goal is to create a vibrant musical community in India where students of all ages and backgrounds can explore their musical potential, Begin your journey to mastering music here.
           </p>
         </div>
         <div className="footer-quick-links">

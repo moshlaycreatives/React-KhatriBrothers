@@ -33,6 +33,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import FreeTrialButton from "../../components/FreeTrialButton";
 
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
@@ -680,143 +681,22 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontWeight: "600",
                     }}
                   >
-                    {/* Convert to INR? */}
+
                   </Typography>
                 </Box>
                 <br />
-                {/* --------------------------------------my condition------------ */}
+<FreeTrialButton/>
+
+
+
+
+
+
+
+
+
+
                 {/* <Box>
-                {!trailData && !auth ? (
-                  <>
-                    <Button
-                      variant="contained"
-
-                      sx={{
-                        width: "100%",
-                        textTransform: "none",
-                        fontSize: "1.1rem",
-                        borderRadius: "0px",
-                        position: "relative",
-                      }}
-                      onClick={() => navigate('/sign-in')}
-                    >
-                      {loadingEnroll ? (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            color: "white",
-                          }}
-                        />
-                      ) : (
-                        "15 Minutes free trail with Admin"
-                      )}
-                    </Button>
-                  </>
-                ) :( trailData && trailData.studentId.trial === true (
-                  <Button
-                    variant="contained"
-                    disabled
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={() => handleFreeTrail(courseData.courseType)}
-                  >
-                    {loadingEnroll ? (
-                      <CircularProgress
-                        size={24}
-                        sx={{
-                          color: "white",
-                        }}
-                      />
-                    ) : (
-                      "15 Minutes free trail with Admin"
-                    )}
-                  </Button>
-                ):!trailData && auth (
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={() => handleFreeTrail(courseData.courseType)}
-                  >
-                    {loadingEnroll ? (
-                      <CircularProgress
-                        size={24}
-                        sx={{
-                          color: "white",
-                        }}
-                      />
-                    ) : (
-                      "15 Minutes free trail with Admin"
-                    )}
-                  </Button>
-                )
-
-                ):
-                ( trailData && trailData.studentId.trial === false (
-                  <Button
-                    variant="contained"
-                    disabled
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={() => handleFreeTrail(courseData.courseType)}
-                  >
-                    {loadingEnroll ? (
-                      <CircularProgress
-                        size={24}
-                        sx={{
-                          color: "white",
-                        }}
-                      />
-                    ) : (
-                      "15 Minutes free trail with Admin"
-                    )}
-                  </Button>
-                ):!trailData && auth (
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "100%",
-                      textTransform: "none",
-                      fontSize: "1.1rem",
-                      borderRadius: "0px",
-                      position: "relative",
-                    }}
-                    onClick={() => handleFreeTrail(courseData.courseType)}
-                  >
-                    {loadingEnroll ? (
-                      <CircularProgress
-                        size={24}
-                        sx={{
-                          color: "white",
-                        }}
-                      />
-                    ) : (
-                      "15 Minutes free trail with Admin"
-                    )}
-                  </Button>
-                )
-
-                )
-                }
-              </Box> */}
-                {/* --------------------------------------------my condition -------------- */}
-
-                <Box>
                   {!auth ? (
                     <Button
                       variant="contained"
@@ -857,7 +737,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       )}
                     </Button>
                   )}
-                </Box>
+                </Box> */}
 
                 <br />
                 <br />

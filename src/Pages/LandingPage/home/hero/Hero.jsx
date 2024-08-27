@@ -394,9 +394,6 @@
 
 // export default Hero;
 
-
-
-
 import React, { useEffect, useState } from "react";
 import "./Hero.css";
 import {
@@ -423,6 +420,7 @@ import {
   getStudentJoinFreeTrails,
   studentApplyFreeTrails,
 } from "../../../../store/actions/courseActions";
+import FreeTrialButton from "../../../../components/FreeTrialButton";
 
 function Hero() {
   const { enqueueSnackbar } = useSnackbar();
@@ -444,8 +442,8 @@ function Hero() {
   const filterAvailableTimes = (date) => {
     if (!date) return [];
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    return availableTimes.filter(timeObj =>
-      dayjs(timeObj.time).format("YYYY-MM-DD") === formattedDate
+    return availableTimes.filter(
+      (timeObj) => dayjs(timeObj.time).format("YYYY-MM-DD") === formattedDate
     );
   };
 
@@ -551,6 +549,11 @@ function Hero() {
   };
 
   const filteredAvailableTimes = filterAvailableTimes(selectedDate);
+  const currentTime = dayjs();
+
+  const futureTimes = filteredAvailableTimes.filter((timeObj) =>
+    dayjs(timeObj.time).isAfter(currentTime)
+  );
 
   return (
     <>
@@ -563,7 +566,19 @@ function Hero() {
               Music For <br /> Everyone
             </Typography>
 
-            <Box>
+            <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
+                    Which course is suitable for you?
+                  </Typography>
+                  <br />
+<Box sx={{width:'50%'}}>
+<FreeTrialButton/>
+
+</Box>
+
+
+
+
+            {/* <Box>
               {!auth ? (
                 <>
                   <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
@@ -622,7 +637,7 @@ function Hero() {
                   </Button>
                 </>
               )}
-            </Box>
+            </Box> */}
           </div>
         </section>
 
@@ -645,7 +660,7 @@ function Hero() {
             />
 
             <Typography sx={{ marginTop: 2 }}>Select Time:</Typography>
-            <Select
+            {/* <Select
               size="small"
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
@@ -660,6 +675,29 @@ function Hero() {
                   {dayjs(timeObj.time).format("h:mm A")}
                 </MenuItem>
               ))}
+            </Select> */}
+            <Select
+              size="small"
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+              displayEmpty
+              fullWidth
+              renderValue={(value) => (value ? value : "Select Time")}
+              sx={{ marginBottom: 2 }}
+              disabled={!selectedDate}
+            >
+              {futureTimes.length > 0 ? (
+                futureTimes.map((timeObj, index) => (
+                  <MenuItem
+                    key={index}
+                    value={dayjs(timeObj.time).format("h:mm A")}
+                  >
+                    {dayjs(timeObj.time).format("h:mm A")}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>No available times</MenuItem>
+              )}
             </Select>
             <Typography
               sx={{ fontSize: "0.8rem", color: theme.palette.primary.main }}

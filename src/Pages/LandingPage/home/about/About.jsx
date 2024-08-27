@@ -22,10 +22,10 @@ navigate('about-us')
         </div>
         <div className='home-about-text'>
             <h2>Who We Are</h2>
-            <p>Lorem ipsum dolor nihil. Tempore libero expedita esse, alias voluptas deleniti velit consequatur mollitia voluptatibus nesciunt non veniam quis voluptates cum dicta modi natus laboriosam enim ipsam! Sequi exercitationem veniam quibusdam culpa molestiae pariatur quod iusto, aliquid dicta, animi dignissimos dolorum nemo, nobis nihil. Nesciunt sunt nam aliquam quae ipsa, cum placeat eveniet laborum facilis. Corporis iusto sunt perferendis voluptatibus animi assumenda corrupti accusamus ducimus officia impedit quas vitae repellendus quo ex
+            <p>Khatri Brothers Academy was founded by Anmol and Shivam Khatri, the Top 6 contestants of SA RE GA MA PA Li’l Champs 2011, Anmol and Shivam, as the academy's creative directors and principal vocal instructors, bring their firsthand experience and youthful energy to the table. They understand the aspirations of aspiring musicians and can guide them effectively. and is committed to promoting and preserving India’s rich musical heritage.
             <br/>
             <br/>
-            temporibus quasi necessitatibus nulla, beatae dolore autem qui laborum. Quis repudiandae voluptas ab? Voluptas expedita consequuntur illo harum eaque architecto deserunt molestiae ipsum enim provident cum recusandae, odio ab natus, ullam aliquid quisquam officia iusto reiciendis sunt excepturi, illum quia fuga! Quidem dolorum fuga non accusamus unde, beatae voluptas. Sit iusto f</p>
+            They encourage the real Indian music culture in the country. They have professionals who offer training in various Indian vocal genres, including Hindustani classical, Bhajan, Ghazals, Bollywood music, etc. They present the country at different stages and win a lot of awards in the music industry. They built self-confidence, stage presence, self-discipline, music appreciation, and performance skills crucial to being a self-oriented musician.</p>
             {/* <button>learn more <i class="fa-solid fa-arrow-right-long"></i></button> */}
             <Button variant='contained' sx={{fontSize:'0.5rem'}} onClick={handleAbout}>Learn More</Button>
         </div>
