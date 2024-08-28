@@ -14,7 +14,7 @@ const checkboxContainerStyles = {
   marginTop: "1rem",
 };
 
-const AddCustomCourse = ({ courseType }) => {
+const AddCustomCourse = ({ courseType, bhajjanType }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -169,7 +169,7 @@ const AddCustomCourse = ({ courseType }) => {
     <Box sx={{ padding: "1rem 3rem" }}>
       <Card sx={cardStyles}>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h6">Select {courseType.charAt(0).toUpperCase() + courseType.slice(1)} Courses</Typography>
+          {/* <Typography variant="h6">Select {courseType.charAt(0).toUpperCase() + courseType.slice(1)} Courses</Typography> */}
           <Box sx={{ mb: 2 }}>
             {bollywoodCourses.map((course, index) => (
               <FormControlLabel

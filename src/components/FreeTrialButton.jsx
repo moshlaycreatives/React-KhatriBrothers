@@ -97,7 +97,7 @@ function FreeTrialButton() {
 
       switch (selectedOption) {
         case "Bhajan":
-          courseType = "bhajjan";
+          courseType = "Bhajan";
           break;
         case "Hindustani Vocals":
           courseType = "Hindustani vocals";
@@ -203,11 +203,12 @@ function FreeTrialButton() {
                 }}
                 onClick={handleOpenModal}
               >
-                {loadingEnroll ? (
+                {/* {loadingEnroll ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
                 ) : (
                   "15 Minutes free trial with Admin"
-                )}
+                )} */}
+                15 Minutes free trial with Admin
               </Button>
             </>
           )}
@@ -340,8 +341,14 @@ function FreeTrialButton() {
                 !selectedOption ||
                 (isSecondQuestionYes === true && !selectedThirdOption)
               }
+
             >
-              Confirm
+            {loadingEnroll ? (
+                  <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : (
+                  "Confirm"
+                )}
+
             </Button>
           </DialogActions>
         </Dialog>

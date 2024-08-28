@@ -27,7 +27,7 @@ const CustomCourse = () => {
   // Determine the display text
   const displayCourseType = originalCourseType === "bhajjan" ? "bhajan" : originalCourseType;
   const theme = useTheme();
- 
+
 
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
@@ -99,7 +99,7 @@ const CustomCourse = () => {
             Select From list Given for {displayCourseType}
           </Typography>
 
-          <AddCustomCourse courseType={originalCourseType} />
+          <AddCustomCourse courseType={originalCourseType} bhajjanType= {displayCourseType}/>
         </Box>
       </Box>
     </>

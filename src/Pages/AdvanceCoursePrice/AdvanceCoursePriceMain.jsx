@@ -16,7 +16,7 @@ window.scrollTo(0,0)
   return (
     <>
 
-<Page title='Advance Course Price'>
+<Page title='Course Details'>
 
 
 

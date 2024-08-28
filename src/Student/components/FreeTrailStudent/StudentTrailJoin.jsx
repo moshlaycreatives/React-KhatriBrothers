@@ -99,7 +99,7 @@ const StudentTrailJoin = () => {
           <Table size='small' aria-label='a dense table'>
             <TableHead>
               <TableRow>
-                <TableCell>Student Name</TableCell>
+                <TableCell>Admin</TableCell>
                 <TableCell>Course Type</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Time</TableCell>
@@ -110,7 +110,8 @@ const StudentTrailJoin = () => {
 
       <TableRow key={classData._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
         <TableCell sx={{ color: 'grey' }}>
-          {classData.studentId.firstName} {classData.studentId.lastName}
+          {/* {classData.studentId.firstName} {classData.studentId.lastName} */}
+          Anmol Khatri
         </TableCell>
         <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
           {classData.courseType}
