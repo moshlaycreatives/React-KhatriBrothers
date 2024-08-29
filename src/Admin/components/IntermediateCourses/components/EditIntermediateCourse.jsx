@@ -172,7 +172,7 @@ const EditIntermediateCourse = ({ courseData }) => {
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     // formData.append('price', formValues.price);
-    formData.append('courseType', 'advanced');
+    formData.append('courseType', 'intermediate');
 
     formData.append('indianPrice', formValues.indianPrice);
     formData.append('ukPrice', formValues.ukPrice);
