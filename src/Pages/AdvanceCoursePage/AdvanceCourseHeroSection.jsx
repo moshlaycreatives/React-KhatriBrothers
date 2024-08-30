@@ -24,7 +24,7 @@ const theme = useTheme()
               <Typography sx={{ color: "white" }}>
               Master the art of Hindustani vocals. Our advanced course is for experienced singers who want to enhance their skills and delve into the intricacies of Indian classical music. Explore advanced vocal techniques under the guidance of experienced mentors.
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -37,7 +37,7 @@ const theme = useTheme()
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

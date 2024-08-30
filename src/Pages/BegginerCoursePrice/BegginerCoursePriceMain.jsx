@@ -340,7 +340,7 @@ const BegginerCoursePriceMain = () => {
                       fontSize: "1.1rem",
                     }}
                   >
-                    Learn More &rarr;
+                    Start Learning &rarr;
                   </Button>
                 </Box>
               </Grid>

@@ -14,19 +14,19 @@ const courses = [
     id: 2,
     title: "Tabla Courses",
     path: "/tabla-course",
-    imageSrc: "/tablacourse.png",
+    imageSrc: "/TablaCourseLogo.JPG",
   },
   {
     id: 3,
     title: "Bhajan Courses",
-    path: "/bhajjan-course",
-    imageSrc: "/bhajjancourse.png",
+    path: "/bhajan-course",
+    imageSrc: "/BhajanCourseLogo.JPG",
   },
   {
     id: 4,
     title: "Ghazal Courses",
     path: "/ghazal-course",
-    imageSrc: "/tablacourse.png",
+    imageSrc: "/GhazalCourseLogo.JPG",
   },
   {
     id: 5,
@@ -89,7 +89,7 @@ const CategoryBasedCoursesHome = () => {
                   }}
                   onClick={() => handleCardClick(course.path)}
                 >
-                  View More &rarr;
+                  Start Learning &rarr;
                 </Button>
               </Box>
             </Grid>

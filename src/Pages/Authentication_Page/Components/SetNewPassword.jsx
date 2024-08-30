@@ -9,6 +9,7 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -30,6 +31,7 @@ const setNewPassword = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const email = location?.state?.email;
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
@@ -69,7 +71,7 @@ const setNewPassword = () => {
 
   return (
     <>
-      <Page title="sign-in">
+      <Page title="Set Password">
         <Box>
           <Grid container spacing={5}>
             <Grid item lg={6} md={6} xs={12} sm={12}>
@@ -87,7 +89,7 @@ const setNewPassword = () => {
                 }}
               >
                 <Typography sx={{ color: "white" }}>
-                 
+
                 </Typography>
               </Box>
             </Grid>
@@ -109,7 +111,10 @@ const setNewPassword = () => {
                       marginTop: "2rem",
                     }}
                   >
-                    logo{" "}
+
+<Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
+  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
+</Box>
                   </Typography>
 
                   <Typography

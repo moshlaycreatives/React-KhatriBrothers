@@ -97,7 +97,7 @@ const BlogDetailPage = () => {
               >
                 {blogData.description}
               </Typography>
-                <Button
+                {/* <Button
                   variant="contained"
                   sx={{
                     backgroundColor: "white",
@@ -110,7 +110,7 @@ const BlogDetailPage = () => {
                   }}
                 >
                   Start Learning
-                </Button>
+                </Button> */}
               </Box>
             </Grid>
 

@@ -1,125 +1,3 @@
-// import React from "react";
-// import "./Footer.css";
-// import { IoLocationOutline } from "react-icons/io5";
-// import { MdOutlineEmail } from "react-icons/md";
-// import { FaPhoneVolume } from "react-icons/fa";
-// import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { LiaTwitterSquare } from "react-icons/lia";
-// import { FaThreads } from "react-icons/fa6";
-// import { AiOutlineFacebook } from "react-icons/ai";
-// import { FaInstagram } from "react-icons/fa";
-
-// function Footer() {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-
-//   const currentPath = location.pathname;
-
-//   const isHidden =
-//     currentPath === "/admin-dashboard" ||
-//     currentPath === "/instructor-dashboard" ||
-//     currentPath === "/student-dashboard" ||
-//     currentPath === "/success" ||
-//     currentPath === "/contact-us" ||
-//     currentPath === "/cancel" ||
-//     currentPath === "/sign-up" ||
-//     currentPath === "/sign-in" ||
-//     currentPath === "/forget-password" ||
-//     currentPath === "/otp-verification" ||
-//     currentPath === "/set-password";
-
-//   if (isHidden) {
-//     return null;
-//   }
-//   return (
-//     <footer className="footer-section">
-//       <div className="footer-main-div">
-//         <div className="footer-logo-text">
-//           <h1>Logo</h1>
-//           <p>
-//             Welcome to Khatri Brothers Academy, where the beauty of music meets
-//             tradition. Our goal is to create a vibrant musical community in
-//             India where students of all ages and backgrounds can explore their
-//             musical potential, Begin your journey to mastering music here.
-//           </p>
-//         </div>
-//         <div className="footer-quick-links">
-//           <h2>Quick Links</h2>
-//           <ul className="footer-links">
-//             <li onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-//               Home
-//             </li>
-
-//             <li
-//               onClick={() => navigate("/about-us")}
-//               style={{ cursor: "pointer" }}
-//             >
-//               About Us
-//             </li>
-//             <li onClick={() => navigate("/faqs")} style={{ cursor: "pointer" }}>
-//               FAQ's
-//             </li>
-//             <li
-//               onClick={() => navigate("/blogs")}
-//               style={{ cursor: "pointer" }}
-//             >
-//               Blog
-//             </li>
-//             <li
-//               onClick={() => navigate("/contact-us")}
-//               style={{ cursor: "pointer" }}
-//             >
-//               Contact
-//             </li>
-//           </ul>
-//         </div>
-//         <div className="footer-contact-info">
-//           <h3>Contact US</h3>
-//           <div className="footer-contact-info-links">
-//             <Link>
-//               {" "}
-//               <i>
-//                 {" "}
-//                 <IoLocationOutline />
-//                 Dehli, India
-//               </i>
-//             </Link>
-//             <Link>
-//               {" "}
-//               <i>
-//                 {" "}
-//                 <MdOutlineEmail /> Khatribrothersacademy@gmail.com
-//               </i>
-//             </Link>
-//             <Link>
-//               {" "}
-//               <i>
-//                 {" "}
-//                 <FaPhoneVolume /> +923076589234
-//               </i>
-//             </Link>
-//           </div>
-//           <div className="footer-social-btn">
-//             <AiOutlineFacebook className="footer-social-links" />
-//             <FaInstagram className="footer-social-links" />
-//             <LiaTwitterSquare className="footer-social-links" />
-//             <FaThreads className="footer-social-links" />
-//           </div>
-//         </div>
-//       </div>
-//       <div className="footer-horizntal-line">
-//         <hr />
-//       </div>
-//       <p className="footer-term-condition">
-//         © Terms of Use | Privacy Policy | © 2024 Khatri Brothers Academy
-//       </p>
-//     </footer>
-//   );
-// }
-
-// export default Footer;
-
-
 import React from "react";
 import "./Footer.css";
 import { IoLocationOutline } from "react-icons/io5";
@@ -131,16 +9,19 @@ import { FaThreads } from "react-icons/fa6";
 import { AiOutlineFacebook } from "react-icons/ai";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
-
+const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const currentPath = location.pathname;
 
   const isHidden =
     currentPath === "/admin-dashboard" ||
-    currentPath === "/instructor-dashboard" ||
+    currentPath == "/Instructor-dashboard" ||
+    currentPath == "/instructor-dashboard" ||
     currentPath === "/student-dashboard" ||
     currentPath === "/success" ||
     currentPath === "/contact-us" ||
@@ -159,11 +40,16 @@ function Footer() {
     <footer className="footer-section">
       <div className="footer-main-div">
         <div className="footer-logo-text">
-          <h1>Logo</h1>
+
+          <br/>
+          <Box>
+            <img src="/khatrilogoblack.svg" style={{width :isSmall ? '100%':"50%"}}/>
+          </Box>
+          <br/>
           <p>
             Welcome to Khatri Brothers Academy, where the beauty of music meets
             tradition. Our goal is to create a vibrant musical community in
-            India where students of all ages and backgrounds can explore their
+            India and across the world where students of all ages and backgrounds can explore their
             musical potential. Begin your journey to mastering music here.
           </p>
         </div>
@@ -205,11 +91,11 @@ function Footer() {
                 <MdOutlineEmail /> Khatribrothersacademy@gmail.com
               </i>
             </a>
-            <a href="tel:+923076589234" target="_blank" rel="noopener noreferrer">
+            {/* <a href="tel:+923076589234" target="_blank" rel="noopener noreferrer">
               <i>
                 <FaPhoneVolume /> +923076589234
               </i>
-            </a>
+            </a> */}
           </div>
           <div className="footer-social-btn">
 

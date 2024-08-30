@@ -34,7 +34,7 @@ const TablaCourseHeroSection = () => {
               Learn the rhythmic heart of Indian music. Our Tabla course offers a comprehensive curriculum to master this iconic. From basic bols to complex layakaris, our experienced instructors will guide you on your tabla journey. Grab this opportunity to learn from the experts.
 
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -46,8 +46,9 @@ const TablaCourseHeroSection = () => {
                   fontSize: "0.8rem",
                 }}
               >
-                Start Learning
-              </Button>
+Start Learning
+              </Button> */}
+
               {/* <Button
               variant="contained"
               sx={{

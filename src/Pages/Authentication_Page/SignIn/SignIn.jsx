@@ -12,6 +12,7 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -42,6 +43,7 @@ const SignIn = () => {
 
 
   const theme = useTheme();
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -115,7 +117,7 @@ setLoading(false)
                 }}
               >
                 <Typography sx={{ color: "white" }}>
-                 
+
                 </Typography>
               </Box>
             </Grid>
@@ -129,7 +131,12 @@ setLoading(false)
                   width: "100%",
                 }}
               >
+
+
+
                 <Box sx={{ width: "90%" }}>
+
+
                   <Typography
 
 
@@ -140,7 +147,12 @@ setLoading(false)
                     }}
                   >
 
+<Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
+  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
+</Box>
 
+
+{/*
                   <Button
                     sx={{
                       fontSize: "3rem",
@@ -156,8 +168,8 @@ setLoading(false)
 
                     onClick={()=>navigate('/')}
                     >
-                    Logo
-                  </Button>
+
+                  </Button> */}
 
 
 

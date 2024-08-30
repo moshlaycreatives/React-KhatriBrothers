@@ -95,7 +95,7 @@ export default function Router() {
     },
 
     {
-      path: "/bhajjan-course",
+      path: "/bhajan-course",
       element: <BhajjanCoursesMain />,
     },
     {

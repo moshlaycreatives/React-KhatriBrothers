@@ -15,6 +15,7 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -30,6 +31,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 const SignUp = () => {
   const navigate = useNavigate()
   const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const initialValues = {
     learnerType: "",
     firstName: "",
@@ -217,7 +219,7 @@ const SignUp = () => {
                 }}
               >
                 <Typography sx={{ color: "white" }}>
-                  
+
                 </Typography>
               </Box>
             </Grid>
@@ -239,7 +241,10 @@ const SignUp = () => {
                       marginTop: "2rem",
                     }}
                   >
-                    logo{" "}
+
+<Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
+  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
+</Box>
                   </Typography>
 
                   <Typography

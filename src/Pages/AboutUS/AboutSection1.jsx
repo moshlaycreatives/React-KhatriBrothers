@@ -36,7 +36,7 @@ const AboutSection1 = () => {
                 genres of Indian vocal music such as Hindustani
                 classical,Bhajans, Ghazals, Old and New Bollywood music.
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -49,7 +49,7 @@ const AboutSection1 = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

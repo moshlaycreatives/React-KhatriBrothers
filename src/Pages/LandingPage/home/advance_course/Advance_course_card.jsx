@@ -1,4 +1,4 @@
-import React from 'react' 
+import React from 'react'
 import "./Advance_course.css"
 
 function Advance_course_card({image , description}) {
@@ -6,7 +6,7 @@ function Advance_course_card({image , description}) {
     <div className='advance-course-card'>
     <img className='advance-image-card-image' src={image} alt="Course" />
     <h3>{description}</h3>
-    <button>Learn more <i class="fa-solid fa-arrow-right-long"></i></button>
+    <button>Start Learning<i class="fa-solid fa-arrow-right-long"></i></button>
   </div>
   )
 }

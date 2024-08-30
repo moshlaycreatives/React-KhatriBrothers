@@ -70,7 +70,7 @@ const navigate = useNavigate()
                   }}
                   onClick={()=>handleOpenCourse(val._id)}
                 >
-                  Learn More &rarr;
+                  Start Learning &rarr;
                 </Button>
               </Box>
             </Grid>

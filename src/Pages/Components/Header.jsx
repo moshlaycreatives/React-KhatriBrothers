@@ -23,7 +23,7 @@ const Header = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-
+  const isRoot = location.pathname === '/';
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [nestedAnchorEl, setNestedAnchorEl] = useState(null);
@@ -83,7 +83,9 @@ const Header = () => {
     currentPath === "/cancel" ||
     currentPath === "/participant-registered" ||
     currentPath === "/student-dashboard" ||
-    currentPath === "/instructor-dashboard";
+    currentPath === "/instructor-dashboard"||
+    currentPath === "/Instructor-dashboard";
+
 
   if (isHidden) {
     return null;
@@ -93,7 +95,7 @@ const Header = () => {
     { label: "Home", route: "/" },
     {
       label: "Courses",
-      route: null, 
+      route: null,
     },
     { label: "About", route: "/about-us" },
     { label: "FAQ's", route: "/faqs" },
@@ -110,7 +112,7 @@ const Header = () => {
         { label: "Advanced Course", route: "/advanced-course" },
       ],
     },
-    { label: "Bhajan", route: "/bhajjan-course" },
+    { label: "Bhajan", route: "/bhajan-course" },
     { label: "Tabla", route: "/tabla-course" },
     { label: "Ghazal", route: "/ghazal-course" },
     { label: "Bollywood/Filmy Songs", route: "/bollywood-course" },
@@ -137,7 +139,20 @@ const Header = () => {
     >
       <Box onClick={() => navigate('/')}>
         <Typography variant="h5" sx={{ fontWeight: "bold", cursor: "pointer" }}>
-          Logo
+        <Box sx={{ }}>
+      <img
+        src='/khatrilogowhite.svg'
+        width='30%'
+        style={{ display: isRoot ? 'none' : 'block' }}
+        alt="Logo"
+      />
+      <img
+        src='/khatrilogoblack.svg'
+        width='30%'
+        style={{ display: isRoot ? 'block' : 'none' }}
+        alt="Black Logo"
+      />
+    </Box>
         </Typography>
       </Box>
 

@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Page from '../../../components/Page/Page'
 import {Link, useNavigate} from "react-router-dom"
@@ -9,7 +9,7 @@ const ForgetPassword = () => {
 
     const theme = useTheme();
 
-
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -56,7 +56,7 @@ const ForgetPassword = () => {
                 }}
               >
                 <Typography sx={{color:"white"}} >
-                
+
                 </Typography>
               </Box>
             </Grid>
@@ -65,7 +65,13 @@ const ForgetPassword = () => {
            <Box sx={{ display:'flex', alignItems:'center', justifyContent:"center", width:"100%"}}>
 
             <Box sx={{width:"90%"}}>
-            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>
+            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >
+
+            <Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
+  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
+</Box>
+
+             </Typography>
 
             <Typography sx={{fontSize:"2.5rem", fontWeight:"700", marginTop:"6rem", marginBottom:"1rem",
                 color:theme.palette.primary.main

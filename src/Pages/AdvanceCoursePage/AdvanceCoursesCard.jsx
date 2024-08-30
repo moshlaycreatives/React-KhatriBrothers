@@ -76,7 +76,7 @@ const navigate = useNavigate()
                 onClick={() => handleCardClick(val._id)}
 
               >
-                Learn More &rarr;
+                Start Learning &rarr;
               </Button>
             </Box>
           </Grid>

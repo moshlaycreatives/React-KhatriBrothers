@@ -19,7 +19,7 @@ const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?.
       return course.addedBy === "admin" && course.courseType === "bollywood";
     }
 
-    if (course.addedBy === "user" && course.addedById && course.addedById._id === userId) {
+    if (course.addedBy === "user" && course.addedById && course.addedById._id === userId && (course.indianPrice || course.ukPrice || course.usaPrice || course.uaePrice || course.australiaPrice || course.kenyaPrice || course.canadaPrice || course.ugandaPrice)) {
       return course.courseType === "bollywood";
     }
 
@@ -72,7 +72,7 @@ const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?.
                 }}
                 onClick={() => handleCardClick(course._id)}
               >
-                Learn More &rarr;
+                Start Learning &rarr;
               </Button>
             </Box>
           </Grid>

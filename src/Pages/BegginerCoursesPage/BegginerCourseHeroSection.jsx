@@ -25,7 +25,7 @@ const BegginerCourseHeroSection = () => {
               Discover the beauty of Hindustani classical music. Our beginner course is designed for those new to the world of Indian vocals. Learn the fundamentals of ragas, talas, and basic vocal techniques.
 
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -38,7 +38,7 @@ const BegginerCourseHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

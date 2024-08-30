@@ -83,7 +83,7 @@ const InstructorMain = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const profilePictureUrl = base + userData.profilePicture;
-
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const handleItemClick = (title) => {
     if (title === "Logout") {
       setLogoutModalOpen(true);
@@ -167,14 +167,10 @@ const InstructorMain = () => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ color: theme.palette.primary.main, fontSize: "2rem" }}
-              >
-                Logo
-              </Typography>
+
+<Box>
+                  <img src='/loginlogo.svg' style={{width:isSmall?"100%":"25%"}}/>
+                </Box>
 
               <Box
                 sx={{

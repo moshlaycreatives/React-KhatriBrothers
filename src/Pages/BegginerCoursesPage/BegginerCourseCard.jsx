@@ -50,7 +50,7 @@ const dispatch = useDispatch()
                 }}
                 onClick={() => handleCardClick(course._id)}
               >
-                Learn More &rarr;
+                Start Learning &rarr;
               </Button>
             </Box>
           </Grid>

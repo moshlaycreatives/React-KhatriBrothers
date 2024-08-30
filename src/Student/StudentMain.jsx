@@ -91,7 +91,7 @@ const StudentMain = () => {
   const [notifications, setNotifications] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 const [loading, setLoading] = useState(false); // State for loader
-
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   console.log(userData, "data");
   const dispatch = useDispatch();
@@ -228,14 +228,10 @@ setLoading(false)
                 alignItems: "center",
               }}
             >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ color: theme.palette.primary.main, fontSize: "2rem" }}
-              >
-                Logo
-              </Typography>
+<Box>
+                  <img src='/loginlogo.svg' style={{width:isSmall?"100%":"25%"}}/>
+                </Box>
+
               <Box
                 sx={{
                   display: "flex",

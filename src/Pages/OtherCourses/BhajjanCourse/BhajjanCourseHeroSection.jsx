@@ -27,7 +27,7 @@ const BhajjanCourseHeroSection = () => {
             <Typography sx={{ color: 'white' }}>
             Our Bhajan course offers a unique opportunity to learn and appreciate the spiritual and cultural significance of Bhakti music. Explore a variety of Bhajan styles, learn traditional Bhajan, and develop your vocal skills.
             </Typography>
-            <Button
+            {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: 'white',
@@ -43,7 +43,7 @@ const BhajjanCourseHeroSection = () => {
               }}
             >
               Start Learning
-            </Button>
+            </Button> */}
 
             {/* <Button
               variant="contained"

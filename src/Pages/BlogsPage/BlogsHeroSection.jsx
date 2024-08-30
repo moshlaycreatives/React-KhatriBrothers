@@ -24,7 +24,7 @@ const BlogHeroSection = () => {
               Stay informed and inspired with our latest blog posts. including industry trends, technology advancements, and expert advice. Discover valuable insights, learn about the latest developments, and stay ahead of the curve.
 
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -37,7 +37,7 @@ const BlogHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

@@ -90,7 +90,7 @@ const listData = [
   },
 
   { title: "Bhajan", icon: <ArticleIcon /> },
-  { title: "Gazal", icon: <ArticleIcon /> },
+  { title: "Ghazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
   { title: "Bollywood/Filmy Songs", icon: <ArticleIcon /> },
 
@@ -128,7 +128,7 @@ const AdminMain = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const profilePictureUrl = base + userData?.profilePicture;
-
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const handleItemClick = (title, hasSubMenu = false) => {
     if (title === "Logout") {
       setLogoutModalOpen(true);
@@ -225,14 +225,10 @@ const AdminMain = () => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ color: theme.palette.primary.main, fontSize: "2rem" }}
-              >
-                Logo
-              </Typography>
+<Box>
+                  <img src='/loginlogo.svg' style={{width:isSmall?"100%":"25%"}}/>
+                </Box>
+
               <Box
                 sx={{
                   display: "flex",
@@ -502,7 +498,7 @@ const AdminMain = () => {
 
             {selectedItem === "Bhajan" && <BhajjanCoursesMain />}
 
-            {selectedItem === "Gazal" && <GhazalCoursesMain />}
+            {selectedItem === "Ghazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
             {selectedItem === "Bollywood/Filmy Songs" && <BollyWoodMain />}
             {selectedItem === "Pending Customized Courses" && (

@@ -34,7 +34,7 @@ const BollywoodHeroSection = () => {
               <Typography sx={{ color: "white" }}>
               Discover the magic of Bollywood music. Our Bollywood Filmy Songs course offers a fun and engaging way to learn popular Hindi songs. Perfect for everyone, this course covers a variety of genres, including romantic ballads, upbeat dance numbers, and soulful melodies. Learn the lyrics, pronunciation, and basic singing techniques to confidently sing along to your favorite Bollywood hits.
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -47,7 +47,7 @@ const BollywoodHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
 
 
               {/* <Button

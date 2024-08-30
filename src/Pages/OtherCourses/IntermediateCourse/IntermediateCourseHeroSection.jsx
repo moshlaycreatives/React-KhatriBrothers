@@ -25,7 +25,7 @@ const IntermediateCourseHeroSection = () => {
               Build upon your foundation. This course is perfect for students who have completed the beginner level and are ready to explore more to scale the skill. Develop your vocal skills and gain a deeper understanding of Hindustani classical music.
 
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -38,7 +38,7 @@ const IntermediateCourseHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

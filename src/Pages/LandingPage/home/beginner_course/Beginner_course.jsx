@@ -78,7 +78,7 @@ function Beginner_course() {
                   }}
                   onClick={() => handleOpenCourse(val._id)}
                 >
-                  Learn More &rarr;
+                  Start Learning &rarr;
                 </Button>
               </Box>
             </Grid>

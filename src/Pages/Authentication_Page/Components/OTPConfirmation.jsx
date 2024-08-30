@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import Page from '../../../components/Page/Page'
 import {Link, useLocation, useNavigate} from "react-router-dom"
@@ -12,7 +12,7 @@ const {enqueueSnackbar} = useSnackbar()
 const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
-
+const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const email= location.state.email
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
@@ -95,9 +95,7 @@ const dispatch = useDispatch()
                 }}
               >
                 <Typography sx={{color:"white"}} >
-                  Es un hecho establecido hace demasiado tiempo que un lector se
-                  distraerá con el contenido del texto de un sitio mientras que
-                  mira su diseño.
+
                 </Typography>
               </Box>
             </Grid>
@@ -106,7 +104,14 @@ const dispatch = useDispatch()
            <Box sx={{ display:'flex', alignItems:'center',justifyContent:"center", width:"100%"}}>
 
             <Box sx={{width:"90%"}}>
-            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >logo </Typography>
+            <Typography sx={{fontSize:"3rem", fontWeight:"600" , marginTop:'2rem'}} >
+
+
+            <Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
+  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
+</Box>
+
+            </Typography>
 
             <Typography sx={{fontSize:"2.5rem", fontWeight:"700", marginTop:"5rem", marginBottom:"1rem",
                 color:theme.palette.primary.main

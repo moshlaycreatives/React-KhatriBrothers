@@ -34,7 +34,7 @@ const GhazalCourseHeroSection = () => {
               <Typography sx={{ color: "white" }}>
               Get lost yourself in the soulful world of Ghazal. Our Ghazal course offers a deep exploration of this timeless form of Urdu poetry. Learn the intricacies of Ghazal singing, including proper pronunciation, expression, and interpretation. Develop your vocal skills and gain a deep appreciation for the beauty and emotion of Ghazal music.
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -47,7 +47,7 @@ const GhazalCourseHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
 
 
               {/* <Button

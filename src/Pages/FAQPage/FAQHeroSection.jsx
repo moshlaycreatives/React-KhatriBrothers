@@ -26,7 +26,7 @@ const FAQHeroSection = () => {
               Have questions about our services, pricing, or team? Find the answers you need here. If you can't find the information you're looking for, feel free to contact us directly. Our team is available to assist you with queries.
 
               </Typography>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "white",
@@ -39,7 +39,7 @@ const FAQHeroSection = () => {
                 }}
               >
                 Start Learning
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
 

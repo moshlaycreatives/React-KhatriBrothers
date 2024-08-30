@@ -569,7 +569,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontSize: "0.9rem",
                     }}
                   >
-                    1/ Per Week
+                    1 class/ Per Week
                   </span>
                 </Box>
                 <br />
@@ -625,7 +625,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontSize: "0.9rem",
                     }}
                   >
-                    {courseData.lectureDuration} Hours
+                    {courseData.lectureDuration} Hour per class
                   </span>
                 </Box>
                 <br />
@@ -644,7 +644,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                     />
                     <Typography sx={{ fontWeight: 600 }}>
-                      Max Class Size :
+                    Class Type :
                     </Typography>
                   </Box>
                   <span
@@ -654,7 +654,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontWeight: 600,
                     }}
                   >
-                    03
+                    One to One
                   </span>
                 </Box>
                 <br />
@@ -801,7 +801,7 @@ const AdvanceCoursePriceHeroSection = () => {
                         fontSize: "1.1rem",
                       }}
                     >
-                      Learn More &rarr;
+                      Start Learning &rarr;
                     </Button>
                   </Box>
                 </Grid>
@@ -824,13 +824,13 @@ const AdvanceCoursePriceHeroSection = () => {
               <FormControlLabel
                 value="one2one"
                 control={<Radio />}
-                label="One2One"
+                label="One to One"
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 value="group"
                 control={<Radio />}
                 label="Group"
-              />
+              /> */}
             </RadioGroup>
           </DialogContent>
           <DialogActions>

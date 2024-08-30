@@ -30,7 +30,7 @@ const BhajjanCoursesCard = () => {
       return course.addedBy === "admin" && course.courseType === "bhajjan";
     }
 
-    if (course.addedBy === "user" && course.addedById && course.addedById._id === userId) {
+    if (course.addedBy === "user" && course.addedById && course.addedById._id === userId && (course.indianPrice || course.ukPrice || course.usaPrice || course.uaePrice || course.australiaPrice || course.kenyaPrice || course.canadaPrice || course.ugandaPrice)) {
       return course.courseType === "bhajjan";
     }
 
@@ -89,7 +89,7 @@ const BhajjanCoursesCard = () => {
                 }}
                 onClick={() => handleCardClick(course._id)}
               >
-                Learn More &rarr;
+                Start Learning &rarr;
               </Button>
             </Box>
           </Grid>
