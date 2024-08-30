@@ -1,5 +1,5 @@
 
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router';
 
@@ -11,12 +11,15 @@ const TablaCourseHeroSection = () => {
     navigate('/form', { state: { courseType: 'tabla' } });
   };
 
+  const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
     <>
 
 <Box
         sx={{
-          padding: "5rem 10% 0rem 10%",
+          padding:isSmall ? "6rem 10% 0rem 10%": "5rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
@@ -69,7 +72,7 @@ const TablaCourseHeroSection = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "4rem" }}>
+            <Box sx={{ padding: isSmall ? "2rem ": "4rem" }}>
               <img src="/BegginerImage.png" alt="image" width={"100%"} />
             </Box>
           </Grid>

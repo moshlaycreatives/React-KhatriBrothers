@@ -40,8 +40,8 @@ function Beginner_course() {
           Begginer Level Courses
         </Typography>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-          distinctio maiores minus velit saepe.
+        The beginner course is designed for beginners who have a passion for music and want to improve their music skills.
+
         </Typography>
       </Box>
 

@@ -42,8 +42,8 @@ const navigate = useNavigate()
           Advance Level Courses
         </Typography>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-          distinctio maiores minus velit saepe.
+        This course is designed for those who are professionals in music and want to learn the advanced rhythm, tempo, and dynamics of music.
+
         </Typography>
       </Box>
       <Box sx={{ padding: "2rem 10%" }}>

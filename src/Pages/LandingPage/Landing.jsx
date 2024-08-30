@@ -24,9 +24,9 @@ const Landing = () => {
 
   return (
     <>
-      <Page title="Khatri Brothers">
+      <Page title="Khatri Brothers Academy">
       <Home />
-        
+
       </Page>
     </>
   );

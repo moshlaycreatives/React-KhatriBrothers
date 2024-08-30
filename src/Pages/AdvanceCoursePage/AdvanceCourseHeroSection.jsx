@@ -1,12 +1,16 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 
 const AdvanceCourseHeroSection = () => {
+const theme = useTheme()
+
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
     <>
       <Box
         sx={{
-          padding: "3rem 10% 0rem 10%",
+          padding:isSmall ? "6rem 10% 0rem 10% " :"3rem 10% 0rem 10%",
           background: "linear-gradient(to bottom, #901953, #000000)",
         }}
       >
@@ -18,9 +22,7 @@ const AdvanceCourseHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Series of advanced courses aimed at enhancing the musical skills of students in various categories. The academy provides professional guidance and instruction in techniques and notations for students from diverse backgrounds.
               </Typography>
               <Button
                 variant="contained"
@@ -40,7 +42,7 @@ const AdvanceCourseHeroSection = () => {
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "5rem" }}>
+            <Box sx={{ padding:isSmall ? "2rem": "5rem" }}>
               <img src="/AdvanceImage.png" alt="image" width={"100%"} />
             </Box>
           </Grid>

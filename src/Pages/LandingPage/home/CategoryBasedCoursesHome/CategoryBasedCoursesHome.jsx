@@ -57,8 +57,7 @@ const CategoryBasedCoursesHome = () => {
           Courses We Offer
         </Typography>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-          distinctio maiores minus velit saepe.
+        Discover your musical passion at our academy! We offer a wide range of courses to suit every taste and skill level.
         </Typography>
       </Box>
 

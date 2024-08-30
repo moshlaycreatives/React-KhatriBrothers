@@ -38,8 +38,8 @@ const navigate = useNavigate()
           Intermediate Level Courses
         </Typography>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-          distinctio maiores minus velit saepe.
+        This course is designed for those who are intermediate in music and want to learn the rhythm, tempo, and dynamics of music.
+
         </Typography>
       </Box>
       <Box sx={{ padding: "2rem 10%" }}>

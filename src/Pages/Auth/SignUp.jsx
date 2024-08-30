@@ -217,9 +217,7 @@ const SignUp = () => {
                 }}
               >
                 <Typography sx={{ color: "white" }}>
-                  Es un hecho establecido hace demasiado tiempo que un lector se
-                  distraerá con el contenido del texto de un sitio mientras que
-                  mira su diseño.
+                  
                 </Typography>
               </Box>
             </Grid>

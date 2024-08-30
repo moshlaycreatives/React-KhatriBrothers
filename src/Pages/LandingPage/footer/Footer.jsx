@@ -212,18 +212,20 @@ function Footer() {
             </a>
           </div>
           <div className="footer-social-btn">
-            <a style = {{color:'white'}} href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="footer-social-links">
-              <AiOutlineFacebook />
-            </a>
-            <a style = {{color:'white'}} href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" className="footer-social-links">
-              <FaInstagram />
-            </a>
-            <a style = {{color:'white'}} href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer" className="footer-social-links">
-              <LiaTwitterSquare />
-            </a>
-            <a style = {{color:'white'}} href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+
+          <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
               <FaYoutube />
             </a>
+            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+              <AiOutlineFacebook />
+            </a>
+            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+              <FaInstagram />
+            </a>
+            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+              <LiaTwitterSquare />
+            </a>
+
           </div>
         </div>
       </div>

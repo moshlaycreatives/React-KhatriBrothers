@@ -9,8 +9,8 @@ const WhoWeAre = () => {
 <Grid container spacing={5}>
 
 <Grid item lg={6} md={6} sm={12} xs={12} >
-<Box height={'70vh'}>
-    <img src='./assets/about/home_about.png' alt='About us page' width={'100%'} height={'100%'}/>
+<Box>
+    <img src='./assets/about/home_about.png' alt='About us page' width={'100%'} height={'auto'}/>
 </Box>
 
 
