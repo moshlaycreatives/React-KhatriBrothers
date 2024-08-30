@@ -5,7 +5,7 @@ import {  getSingleCourse } from "../../../../store/actions/courseActions";
 import EditAdvanceCourse from "./EditTablaCourse";
 
 const ViewBhajjanCourse = ({courseId}) => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);

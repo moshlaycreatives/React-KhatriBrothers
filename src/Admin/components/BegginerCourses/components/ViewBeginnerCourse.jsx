@@ -5,7 +5,7 @@ import { getSingleCourse } from "../../../../store/actions/courseActions";
 import EditBeginnerCourse from "./EditBeginnerCourse";
 
 const ViewBeginnerCourse = ({ courseId }) => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});

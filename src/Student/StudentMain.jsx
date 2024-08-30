@@ -79,7 +79,7 @@ const listData = [
 ];
 
 const StudentMain = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);

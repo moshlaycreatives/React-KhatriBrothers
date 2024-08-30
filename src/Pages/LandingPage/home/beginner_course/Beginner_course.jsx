@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 function Beginner_course() {
   const theme = useTheme();
 
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const course = useSelector((state) => state?.courses?.allCourses);
   const navigate = useNavigate();

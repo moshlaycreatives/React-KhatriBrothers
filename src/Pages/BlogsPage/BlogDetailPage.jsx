@@ -19,7 +19,7 @@ import { getDetailBlog } from "../../store/actions/courseActions";
 
 const BlogDetailPage = () => {
   const theme = useTheme();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const { id } = useParams();
   const [blogData, setBlogsData] = useState({});

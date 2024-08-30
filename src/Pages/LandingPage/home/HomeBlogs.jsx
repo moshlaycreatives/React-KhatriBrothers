@@ -8,7 +8,7 @@ const HomeBlogs = () => {
   const theme = useTheme();
   const [blogData, setBlogsData] = useState([]);
   const dispatch = useDispatch();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   // Function to format date to '14 August 2024'
   const formatDate = (dateString) => {

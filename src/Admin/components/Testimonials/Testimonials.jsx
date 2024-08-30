@@ -32,7 +32,7 @@
 // import { enqueueSnackbar } from "notistack";
 
 // const Testimonials = () => {
-//   const base = "http://16.171.98.198:4545";
+//   const base = "https://khatribrothersacademy.com:4545";
 //   const theme = useTheme();
 //   const dispatch = useDispatch();
 //   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -381,7 +381,7 @@ import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
 
 const Testimonials = () => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
   const theme = useTheme();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));

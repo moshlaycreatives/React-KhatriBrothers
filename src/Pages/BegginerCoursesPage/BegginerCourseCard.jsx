@@ -22,7 +22,7 @@ const dispatch = useDispatch()
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`);

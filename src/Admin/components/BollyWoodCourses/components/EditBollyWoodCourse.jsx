@@ -63,7 +63,7 @@ const EditBollyWoodCourse = ({ courseData }) => {
 
 
 
-    const base = 'http://16.171.98.198:4545'
+    const base = 'https://khatribrothersacademy.com:4545'
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 

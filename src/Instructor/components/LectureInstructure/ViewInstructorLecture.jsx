@@ -14,7 +14,7 @@
 // import { getAllInstructorClassDetails } from "../../../store/actions/courseActions";
 
 // const ViewInstructorLecture = ({ courseId }) => {
-//   const base = "http://16.171.98.198:4545";
+//   const base = "https://khatribrothersacademy.com:4545";
 //   const theme = useTheme();
 //   const [playingIndex, setPlayingIndex] = useState(null);
 //   const [lectureData, setLectureData] = useState([]);
@@ -221,7 +221,7 @@ import { CleaningServices } from "@mui/icons-material";
 import { getAllInstructorClassDetails } from "../../../store/actions/courseActions";
 
 const ViewInstructorLecture = ({ courseId }) => {
-  const base = "http://16.171.98.198:4545";
+  const base = "https://khatribrothersacademy.com:4545";
   const theme = useTheme();
   const [playingIndex, setPlayingIndex] = useState(null);
   const [lectureData, setLectureData] = useState([]);
