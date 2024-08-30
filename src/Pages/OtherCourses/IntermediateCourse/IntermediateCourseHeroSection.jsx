@@ -22,7 +22,7 @@ const IntermediateCourseHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-              The intermediate course is tailored to the student's age category and prior musical experience. This course is for students of various ages. This course is a great opportunity for those students who are under the age limit and have potential for music.
+              Build upon your foundation. This course is perfect for students who have completed the beginner level and are ready to explore more to scale the skill. Develop your vocal skills and gain a deeper understanding of Hindustani classical music.
 
               </Typography>
               <Button

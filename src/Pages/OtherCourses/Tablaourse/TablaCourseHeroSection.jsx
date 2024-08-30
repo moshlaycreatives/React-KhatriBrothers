@@ -31,9 +31,8 @@ const TablaCourseHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Learn the rhythmic heart of Indian music. Our Tabla course offers a comprehensive curriculum to master this iconic. From basic bols to complex layakaris, our experienced instructors will guide you on your tabla journey. Grab this opportunity to learn from the experts.
+
               </Typography>
               <Button
                 variant="contained"

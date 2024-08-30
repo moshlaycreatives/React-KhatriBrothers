@@ -32,9 +32,7 @@ const BollywoodHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Discover the magic of Bollywood music. Our Bollywood Filmy Songs course offers a fun and engaging way to learn popular Hindi songs. Perfect for everyone, this course covers a variety of genres, including romantic ballads, upbeat dance numbers, and soulful melodies. Learn the lyrics, pronunciation, and basic singing techniques to confidently sing along to your favorite Bollywood hits.
               </Typography>
               <Button
                 variant="contained"

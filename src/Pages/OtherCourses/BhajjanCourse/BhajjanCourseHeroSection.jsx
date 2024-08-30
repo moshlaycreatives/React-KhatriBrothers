@@ -25,9 +25,7 @@ const BhajjanCourseHeroSection = () => {
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy
-              text ever since the 1500s, when an unknown printer took a gal
+            Our Bhajan course offers a unique opportunity to learn and appreciate the spiritual and cultural significance of Bhakti music. Explore a variety of Bhajan styles, learn traditional Bhajan, and develop your vocal skills.
             </Typography>
             <Button
               variant="contained"

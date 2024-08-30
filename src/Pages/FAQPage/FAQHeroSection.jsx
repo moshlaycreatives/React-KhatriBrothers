@@ -23,9 +23,8 @@ const FAQHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Have questions about our services, pricing, or team? Find the answers you need here. If you can't find the information you're looking for, feel free to contact us directly. Our team is available to assist you with queries.
+
               </Typography>
               <Button
                 variant="contained"

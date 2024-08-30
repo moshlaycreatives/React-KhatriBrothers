@@ -21,9 +21,8 @@ const BlogHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Stay informed and inspired with our latest blog posts. including industry trends, technology advancements, and expert advice. Discover valuable insights, learn about the latest developments, and stay ahead of the curve.
+
               </Typography>
               <Button
                 variant="contained"

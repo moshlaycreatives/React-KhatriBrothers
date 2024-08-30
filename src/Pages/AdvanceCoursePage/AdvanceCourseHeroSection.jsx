@@ -22,7 +22,7 @@ const theme = useTheme()
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-              Series of advanced courses aimed at enhancing the musical skills of students in various categories. The academy provides professional guidance and instruction in techniques and notations for students from diverse backgrounds.
+              Master the art of Hindustani vocals. Our advanced course is for experienced singers who want to enhance their skills and delve into the intricacies of Indian classical music. Explore advanced vocal techniques under the guidance of experienced mentors.
               </Typography>
               <Button
                 variant="contained"

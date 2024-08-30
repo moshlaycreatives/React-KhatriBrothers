@@ -22,7 +22,7 @@ const BegginerCourseHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-               The beginner course is tailored to the student's age category and prior musical experience. This course is for students of various ages. This course is a great opportunity for those students who are under the age limit and have potential for music.
+              Discover the beauty of Hindustani classical music. Our beginner course is designed for those new to the world of Indian vocals. Learn the fundamentals of ragas, talas, and basic vocal techniques.
 
               </Typography>
               <Button

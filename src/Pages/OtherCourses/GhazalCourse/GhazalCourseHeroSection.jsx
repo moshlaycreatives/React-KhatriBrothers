@@ -32,9 +32,7 @@ const GhazalCourseHeroSection = () => {
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Get lost yourself in the soulful world of Ghazal. Our Ghazal course offers a deep exploration of this timeless form of Urdu poetry. Learn the intricacies of Ghazal singing, including proper pronunciation, expression, and interpretation. Develop your vocal skills and gain a deep appreciation for the beauty and emotion of Ghazal music.
               </Typography>
               <Button
                 variant="contained"
