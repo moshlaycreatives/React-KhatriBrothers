@@ -1,8 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import AddClass from './AddClass';
-import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { getInstructorClass } from '../../../../store/actions/courseActions';
+import React, { useEffect, useState } from "react";
+import AddClass from "./AddClass";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useDispatch } from "react-redux";
+import { getInstructorClass } from "../../../../store/actions/courseActions";
+import { enqueueSnackbar } from "notistack";
 
 const ClassesMain = () => {
   const theme = useTheme();
@@ -25,9 +39,7 @@ const ClassesMain = () => {
     }
   };
 
-
   useEffect(() => {
-
     fetchData();
   }, []);
 
@@ -42,12 +54,15 @@ const ClassesMain = () => {
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);
     const formattedDate = date.toLocaleDateString();
-
-    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',   hour12: true });
+console.log(formattedDate, 'formatted date')
+    const formattedTime = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
 
     return { formattedDate, formattedTime };
   };
-
 
   const isJoinable = (startTime, endTime) => {
     const now = new Date();
@@ -57,14 +72,14 @@ const ClassesMain = () => {
     return now >= start && now <= end;
   };
 
-const handleRedirect = (url) => {
-  try {
-    new URL(url); 
-    window.open(url, '_blank');
-  } catch (err) {
-    console.error('Invalid URL:', url);
-  }
-};
+  const handleRedirect = (url) => {
+    try {
+      new URL(url);
+      window.open(url, "_blank");
+    } catch (err) {
+      enqueueSnackbar('Invalid URL ', {variant:'error'})
+    }
+  };
 
   useEffect(() => {
     if (!isAddingCourse) {
@@ -72,40 +87,62 @@ const handleRedirect = (url) => {
     }
   }, [isAddingCourse]);
 
-
   return (
     <Box>
       {isAddingCourse ? (
         <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+          <Button
+            variant="outlined"
+            onClick={handleBackClick}
+            sx={{ marginBottom: "1rem" }}
+          >
             &lt; Back to Courses
           </Button>
           <AddClass />
         </>
       ) : (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography
               sx={{
                 color: theme.palette.primary.main,
-                fontWeight: '550',
-                fontSize: '2rem',
+                fontWeight: "550",
+                fontSize: "2rem",
               }}
             >
               All Classes
             </Typography>
-            <Button variant='outlined' onClick={handleAddCourseClick}>
+            <Button variant="outlined" onClick={handleAddCourseClick}>
               + Add Class
             </Button>
           </Box>
           <br />
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "50vh",
+              }}
+            >
               <CircularProgress />
             </Box>
           ) : (
-            <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
-              <Table size='small' aria-label='a dense table'>
+            <TableContainer
+              component={Paper}
+              sx={{
+                padding: "1rem 1rem",
+                boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <Table size="small" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
                     <TableCell>Course Name</TableCell>
@@ -117,31 +154,47 @@ const handleRedirect = (url) => {
                 </TableHead>
                 <TableBody>
                   {classData.map((row) => {
-                    const { formattedDate, formattedTime: formattedStartTime } = formatDateAndTime(row.startTime);
-                    const { formattedTime: formattedEndTime } = formatDateAndTime(row.endTime);
+                    const { formattedDate, formattedTime: formattedStartTime } =
+                      formatDateAndTime(row.startTime);
+                    const { formattedTime: formattedEndTime } =
+                      formatDateAndTime(row.endTime);
 
                     const joinable = isJoinable(row.startTime, row.endTime);
 
                     return (
                       <TableRow
                         key={row._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
                       >
-                        <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ color: "grey" }}
+                        >
                           {row.courseId.title}
                         </TableCell>
-                        <TableCell sx={{ color: 'grey' }}>
-                          {row.courseType === 'group' ? row.group.name : `${row.studentId.firstName} ${row.studentId.lastName}`}
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.courseType === "group"
+                            ? row.group.name
+                            : `${row.studentId.firstName} ${row.studentId.lastName}`}
                         </TableCell>
-                        <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
-                        <TableCell sx={{ color: 'grey' }}>{formattedStartTime} - {formattedEndTime}</TableCell>
+                        <TableCell sx={{ color: "grey" }}>
+                          {formattedDate}
+                        </TableCell>
+                        <TableCell sx={{ color: "grey" }}>
+                          {formattedStartTime} - {formattedEndTime}
+                        </TableCell>
 
                         <TableCell>
                           <Button
                             variant="contained"
                             color="primary"
-                            sx={{ borderRadius: '0px', textTransform: 'none' }}
-                            onClick={() => joinable && handleRedirect(row.zoomLink)}
+                            sx={{ borderRadius: "0px", textTransform: "none" }}
+                            onClick={() =>
+                              joinable && handleRedirect(row.zoomLink)
+                            }
                             disabled={!joinable}
                           >
                             Join
@@ -158,6 +211,6 @@ const handleRedirect = (url) => {
       )}
     </Box>
   );
-}
+};
 
 export default ClassesMain;

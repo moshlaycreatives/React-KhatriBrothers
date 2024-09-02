@@ -45,6 +45,7 @@ body{
 padding: 1rem 10%;
 height: auto;
 
+
 }
 .otpInput{
 padding: 1rem;
@@ -56,7 +57,10 @@ font-size: 2rem;
 
 @media (max-width: 600px) {
  .otpInput {
-    width: 3rem;
+    width: 2rem;
+width: 2rem;
+padding: 0.5rem;
+font-size: 1rem;
 
   }
 }

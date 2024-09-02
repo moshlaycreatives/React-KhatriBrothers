@@ -25,6 +25,8 @@ const theme = useTheme()
     currentPath === "/student-dashboard" ||
     currentPath === "/success" ||
     currentPath === "/contact-us" ||
+    currentPath === "/email-confirmation" ||
+
     currentPath === "/cancel" ||
     currentPath === "/sign-up" ||
     currentPath === "/sign-in" ||

@@ -13,7 +13,7 @@ const GhazalCourseCard = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`);

@@ -25,13 +25,13 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
-import { userRegister } from "../../store/actions/authActions";
+import { userEmailVerification, userRegister } from "../../store/actions/authActions";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const SignUp = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const initialValues = {
     learnerType: "",
     firstName: "",
@@ -60,7 +60,6 @@ const SignUp = () => {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -77,9 +76,69 @@ const SignUp = () => {
     });
   };
 
+  // const handleRegisterSubmit = (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const alphabetRegex = /[a-zA-Z]/;
+  //   const numberRegex = /\d/;
+  //   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+  //   // Check if password meets complexity requirements
+  //   if (
+  //     !alphabetRegex.test(formValues.password) ||
+  //     !numberRegex.test(formValues.password) ||
+  //     !specialCharRegex.test(formValues.password)
+  //   ) {
+  //     enqueueSnackbar(
+  //       "Password must contain alphabets, numbers, and special characters",
+  //       { variant: "error" }
+  //     );
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   if (formValues.password !== formValues.confirmPassword) {
+  //     enqueueSnackbar("Passwords do not match", { variant: "error" });
+  //     setLoading(false);
+  //     return;
+  //   }
+  //   const dobString = `${formValues.dob.month} ${formValues.dob.day}, ${formValues.dob.year}`;
+  //   const dataToSubmit = {
+  //     ...formValues,
+  //     dob: dobString,
+  //   };
+
+  //   dispatch(userRegister(dataToSubmit))
+  //     .then((res) => {
+  //       // setFormValues(res?.data?.payload);
+
+  //       enqueueSnackbar(res?.data?.message, { variant: "success" });
+
+  //       setFormValues(initialValues);
+  //       dispatch(userRegister(email)).then((res)=>{
+  //         navigate("/email-confirmation");
+
+  //       }).catch((error)=>(
+  //       enqueueSnackbar(error?.response?.data?.message, { variant: "error" });
+
+  //       ))
+
+  //     })
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       // console.log(res.data.payload, 'payloaddddddd')
+  //       console.log(err, "errorrrrrr");
+  //       enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
+  //     })
+  //     .finally(() => {
+  //       setLoading(false); // Ensure loading is stopped
+  //     });
+  // };
+
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+
     const alphabetRegex = /[a-zA-Z]/;
     const numberRegex = /\d/;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -98,38 +157,49 @@ const SignUp = () => {
       return;
     }
 
+    // Check if passwords match
     if (formValues.password !== formValues.confirmPassword) {
       enqueueSnackbar("Passwords do not match", { variant: "error" });
-      setLoading(false)
+      setLoading(false);
       return;
     }
+
+    // Prepare data for submission
     const dobString = `${formValues.dob.month} ${formValues.dob.day}, ${formValues.dob.year}`;
     const dataToSubmit = {
       ...formValues,
       dob: dobString,
     };
-    console.log(dataToSubmit, "Form values");
-    // setLoading(false);
 
+    // First API call to register user
     dispatch(userRegister(dataToSubmit))
       .then((res) => {
-        // setFormValues(res?.data?.payload);
+        // enqueueSnackbar(res?.data?.message, { variant: "success" });
 
-        enqueueSnackbar(res?.data?.message, { variant: "success" });
-
+        // Reset form values
         setFormValues(initialValues);
 
-        navigate("/sign-in");
+        // Second API call with email (assuming 'email' is defined somewhere)
+        return dispatch(userEmailVerification({email:formValues.email}));
+      })
+      .then((res) => {
+        const emailAccess = formValues.email
+        // Navigate to email confirmation after the second API call succeeds
+        navigate("/email-confirmation", {
+          state: { emailAccess }
+        });
       })
       .catch((err) => {
-        setLoading(false);
-        // console.log(res.data.payload, 'payloaddddddd')
-        console.log(err, "errorrrrrr");
+        // Handle errors from either API call
+        console.log(err, "error");
         enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
-      }).finally(() => {
-        setLoading(false); // Ensure loading is stopped
+      })
+      .finally(() => {
+        // Ensure loading is stopped
+        setLoading(false);
       });
   };
+
 
   const months = [
     "January",
@@ -146,7 +216,6 @@ const SignUp = () => {
     "December",
   ];
 
-
   const country = [
     "India",
     "USA",
@@ -156,7 +225,6 @@ const SignUp = () => {
     "Kenya",
     "Uganda",
     "Canada",
-
   ];
 
   const [countries, setCountries] = useState([]);
@@ -191,7 +259,6 @@ const SignUp = () => {
     (_, i) => new Date().getFullYear() - i
   );
 
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -210,7 +277,7 @@ const SignUp = () => {
                   backgroundImage: "url(/sign-in-up.png)",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "100%",
+                  height: isSmall ? "50vh" :"100%",
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -218,9 +285,7 @@ const SignUp = () => {
                   padding: "1rem 1rem 6rem 1rem",
                 }}
               >
-                <Typography sx={{ color: "white" }}>
-
-                </Typography>
+                <Typography sx={{ color: "white" }}></Typography>
               </Box>
             </Grid>
 
@@ -241,10 +306,15 @@ const SignUp = () => {
                       marginTop: "2rem",
                     }}
                   >
+                    <Box sx={{ marginTop: isSmall ? "1rem " : "6rem" }}>
+                    <Link to='/'>
 
-<Box sx={{marginTop:isSmall ? "1rem ":'6rem'}}>
-  <img src='loginlogo.svg' style={{width :isSmall ? '50%':"30%"}}/>
-</Box>
+                      <img
+                        src="loginlogo.svg"
+                        style={{ width: isSmall ? "50%" : "30%" }}
+                      />
+                    </Link>
+                    </Box>
                   </Typography>
 
                   <Typography
@@ -396,7 +466,9 @@ const SignUp = () => {
                           gap={2}
                         >
                           <FormControl fullWidth size="small">
-<Typography sx={{fontSize:'0.8rem'}}>Month</Typography>
+                            <Typography sx={{ fontSize: "0.8rem" }}>
+                              Month
+                            </Typography>
 
                             <Select
                               value={formValues.dob.month}
@@ -417,7 +489,9 @@ const SignUp = () => {
                           </FormControl>
 
                           <FormControl fullWidth size="small">
-<Typography sx={{fontSize:'0.8rem'}}>Day</Typography>
+                            <Typography sx={{ fontSize: "0.8rem" }}>
+                              Day
+                            </Typography>
 
                             <Select
                               value={formValues.dob.day}
@@ -437,7 +511,9 @@ const SignUp = () => {
                           </FormControl>
 
                           <FormControl fullWidth size="small">
-<Typography sx={{fontSize:'0.8rem'}}>Year</Typography>
+                            <Typography sx={{ fontSize: "0.8rem" }}>
+                              Year
+                            </Typography>
                             <Select
                               value={formValues.dob.year}
                               onChange={(e) =>
@@ -468,11 +544,9 @@ const SignUp = () => {
                           id="country-select"
                           value={formValues.country || ""} // Ensure this value is correctly managed
                           onChange={handleChange}
-                      size="small"
+                          size="small"
                         >
-
-
-                          {country.map((co,ind) => (
+                          {country.map((co, ind) => (
                             <MenuItem key={ind} value={co}>
                               {co}
                             </MenuItem>
@@ -515,82 +589,99 @@ const SignUp = () => {
                     </Box> */}
 
                     <Box sx={{ marginBottom: ".5rem" }}>
-        <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
-          Password
-        </Typography>
-        <TextField
-          placeholder="Enter Your Password"
-          fullWidth
-          size="small"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          value={formValues.password}
-          onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={toggleShowPassword} edge="end">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
+                      <Typography
+                        sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                      >
+                        Password
+                      </Typography>
+                      <TextField
+                        placeholder="Enter Your Password"
+                        fullWidth
+                        size="small"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formValues.password}
+                        onChange={handleChange}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={toggleShowPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
 
-      <Box sx={{ marginBottom: ".5rem" }}>
-        <Typography sx={{ fontSize: "1.2rem", fontWeight: "400" }}>
-          Confirm Password
-        </Typography>
-        <TextField
-          placeholder="Confirm Your Password"
-          fullWidth
-          size="small"
-          name="confirmPassword"
-          type={showConfirmPassword ? "text" : "password"}
-          value={formValues.confirmPassword}
-          onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={toggleShowConfirmPassword} edge="end">
-                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
+                    <Box sx={{ marginBottom: ".5rem" }}>
+                      <Typography
+                        sx={{ fontSize: "1.2rem", fontWeight: "400" }}
+                      >
+                        Confirm Password
+                      </Typography>
+                      <TextField
+                        placeholder="Confirm Your Password"
+                        fullWidth
+                        size="small"
+                        name="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={formValues.confirmPassword}
+                        onChange={handleChange}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={toggleShowConfirmPassword}
+                                edge="end"
+                              >
+                                {showConfirmPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
 
                     <Button
-  variant="contained"
-  type="submit"
-  sx={{
-    fontSize: "1.1rem",
-    fontWeight: "400",
-    color: "white",
-    marginTop: "2rem",
-    width: "100%",
-    marginBottom: ".5rem",
-    position: "relative",
-  }}
-  disabled={loading} // Disable button while loading
->
-  {loading && (
-    <CircularProgress
-      size={24}
-      sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        marginTop: "-12px",
-        marginLeft: "-12px",
-      }}
-    />
-  )}
-  Sign Up
-</Button>
-
+                      variant="contained"
+                      type="submit"
+                      sx={{
+                        fontSize: "1.1rem",
+                        fontWeight: "400",
+                        color: "white",
+                        marginTop: "2rem",
+                        width: "100%",
+                        marginBottom: ".5rem",
+                        position: "relative",
+                      }}
+                      disabled={loading} // Disable button while loading
+                    >
+                      {loading && (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            marginTop: "-12px",
+                            marginLeft: "-12px",
+                          }}
+                        />
+                      )}
+                      Sign Up
+                    </Button>
                   </form>
                   <Typography
                     sx={{
@@ -599,7 +690,16 @@ const SignUp = () => {
                       textAlign: "center",
                     }}
                   >
-                    Already have an account?  <Link style={{textDecoration:'none', color:theme.palette.primary.main}} to="/sign-in">Login</Link>
+                    Already have an account?{" "}
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: theme.palette.primary.main,
+                      }}
+                      to="/sign-in"
+                    >
+                      Login
+                    </Link>
                   </Typography>
                 </Box>
               </Box>

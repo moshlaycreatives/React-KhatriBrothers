@@ -36,6 +36,7 @@ import BollywoodCoursesMain from "./Pages/OtherCourses/Bollywood/BollywoodCourse
 import HindiVocalCoursesPage from "./Pages/LandingPage/home/HindiVocalCoursesPage/HindiVocalCoursesPage";
 import CustomCourse from "./Pages/CustomCourse/CustomCourse";
 import UserCustomCourseView from "./Pages/CustomCourse/UserCustomCourseView";
+import EmailOTPConfirmation from "./Pages/Authentication_Page/Components/EmailOTPConfirmation";
 
 export default function Router() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -188,6 +189,10 @@ export default function Router() {
     {
       path: "/form",
       element: <CustomCourse />,
+    },
+    {
+      path: "/email-confirmation",
+      element: <EmailOTPConfirmation />,
     },
   ]);
   return element;

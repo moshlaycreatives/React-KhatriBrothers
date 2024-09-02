@@ -12,6 +12,19 @@ export const userRegister = (formValues) => async (dispatch) => {
   }
 };
 
+
+export const userEmailVerification = (formValues) => async (dispatch) => {
+  try {
+    const res = await api.post("/verificationOTP", formValues);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const userLogin = (formValues) => async (dispatch) => {
   try {
     const res = await api.post("/login", formValues);
@@ -55,10 +68,34 @@ export const verifyPassword = ({ email, forgotPasswordOtp }) => async (dispatch)
   }
 };
 
+export const verifyAccountOTP = ({ email, verificationOtp }) => async (dispatch) => {
+  try {
+    const res = await api.post("/verifyAccountOTP", { email, verificationOtp });
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+
 
 export const resendotpcode = ({ email }) => async (dispatch) => {
   try {
     const res = await api.post("/resendOtp", { email });
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+export const resenduserotpcode = ({ email }) => async (dispatch) => {
+  try {
+    const res = await api.post("/resendVerifyOtp", { email });
 
     return res;
   } catch (err) {

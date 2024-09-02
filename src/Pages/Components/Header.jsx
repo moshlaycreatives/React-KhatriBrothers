@@ -76,6 +76,8 @@ const Header = () => {
     currentPath === "/sign-in" ||
     currentPath === "/forget-password" ||
     currentPath === "/otp-verification" ||
+    currentPath === "/email-confirmation" ||
+
     currentPath === "/set-password" ||
     currentPath === "/admin-dashboard" ||
     currentPath === "/contact-us" ||

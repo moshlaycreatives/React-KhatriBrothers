@@ -26,7 +26,7 @@
 //   const [msgsData, setMsgsData] = useState([]);
 //   const userId = useSelector((state) => state?.auth?.user?._id);
 //   const socket = useMemo(
-//     () => io("https://khatribrothersacademy.com:4545"),
+//     () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
 //     []
 //   );
 
@@ -309,14 +309,14 @@ const MessageMain = () => {
   const [msgsData, setMsgsData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [adminUsers, setAdminUser] = useState([]);
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [selectedUserName, setSelectedUserName] = useState(""); // New state for selected user's name
   const userId = useSelector((state) => state?.auth?.user?._id);
   const socket = useMemo(
-    () => io("https://khatribrothersacademy.com:4545"),
+    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
     []
   );
 
