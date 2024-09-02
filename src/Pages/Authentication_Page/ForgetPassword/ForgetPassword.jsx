@@ -19,7 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { forgetPassword } from "../../../store/actions/authActions";
 import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 
 const ForgetPassword = () => {
