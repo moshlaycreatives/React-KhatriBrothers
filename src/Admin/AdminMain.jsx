@@ -75,8 +75,6 @@ import TrialClassScheduleAdmin from "./components/TrialClassSchedule/TrialClassS
 
 const drawerWidth = 300;
 
-
-
 const listData = [
   { title: "Dashboard", icon: <RxDashboard /> },
   {
@@ -128,7 +126,7 @@ const AdminMain = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const profilePictureUrl = base + userData?.profilePicture;
-const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const handleItemClick = (title, hasSubMenu = false) => {
     if (title === "Logout") {
       setLogoutModalOpen(true);
@@ -137,13 +135,11 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
       // On mobile, do not close the drawer
       if (!isMobile) {
-        setDrawerOpen(false); // Close the drawer on larger screens
+        setDrawerOpen(false);
       }
     } else {
       setSelectedItem(title);
-      setOpenSubMenu(null); // Close any open submenu
-
-      // On mobile, close the drawer
+      setOpenSubMenu(null);
       if (isMobile) {
         setDrawerOpen(false);
       }
@@ -175,10 +171,8 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
-    // Fetch notifications when the dropdown is opened
     dispatch(getNotification()).then((response) => {
-      console.log(response.data.data, "haha");
-      setNotifications(response.data.data); // Assuming the API returns data in this format
+      setNotifications(response.data.data);
     });
   };
 
@@ -195,7 +189,6 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <Box sx={{ display: isMobile ? "block" : "flex" }}>
-        {/* <CssBaseline /> */}
         <AppBar
           position="fixed"
           sx={{
@@ -225,9 +218,12 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
                 alignItems: "center",
               }}
             >
-<Box>
-                  <img src='/loginlogo.svg' style={{width:isSmall?"100%":"25%"}}/>
-                </Box>
+              <Box>
+                <img
+                  src="/loginlogo.svg"
+                  style={{ width: isSmall ? "100%" : "25%" }}
+                />
+              </Box>
 
               <Box
                 sx={{
@@ -505,11 +501,12 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
               <PendingCustomCourseMain />
             )}
 
-            {/* { selectedItem === 'Students' && <ArticleIcon /> } */}
             {selectedItem === "Students" && <StudentMain />}
             {selectedItem === "Join Free Trials" && <AdminJoinFreeTrails />}
 
-            {selectedItem === "Trial Class Schedule" && <TrialClassScheduleAdmin />}
+            {selectedItem === "Trial Class Schedule" && (
+              <TrialClassScheduleAdmin />
+            )}
 
             {selectedItem === "Pending Trials" && <AdminFreeTrailsMain />}
 
