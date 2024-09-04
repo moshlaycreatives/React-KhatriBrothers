@@ -1,9 +1,9 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material'
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 
 const FAQCard = () => {
     const theme = useTheme()
-
+const isLarge = useMediaQuery(theme.breakpoints.down('sm'))
     const faqs = [
         {
             title:'What types of music courses do you offer?',
@@ -72,7 +72,7 @@ const FAQCard = () => {
 
     <Grid item lg={6} md={6} sm={12} xs={12} key={ind}>
 
-<Box sx={{border:'2px solid #911953', padding:'1rem 2rem', minHeight:'20vh'}}>
+<Box sx={{border:'2px solid #911953', padding:'1rem 2rem', height:isLarge ? "28vh":'9rem'}}>
 
 <Typography sx={{color:theme.palette.primary.main, fontWeight:'600', fontSize:'1.2rem'}}>
 {val.title}

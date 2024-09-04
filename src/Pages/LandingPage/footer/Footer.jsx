@@ -83,14 +83,14 @@ const theme = useTheme()
 
             // target="_blank" rel="noopener noreferrer"
             >
-              <i>
-                <IoLocationOutline />
+              <i style={{alignItems:'center'}}>
+                <IoLocationOutline style={{marginRight:'0.5rem'}} />
                 Dehli, India
               </i>
             </a>
             <a  href="mailto:Khatribrothersacademy@gmail.com" target="_blank" rel="noopener noreferrer">
-              <i>
-                <MdOutlineEmail /> Khatribrothersacademy@gmail.com
+              <i style={{alignItems:'center', }}>
+                <MdOutlineEmail style={{marginRight:'0.5rem'}}/> Khatribrothersacademy@gmail.com
               </i>
             </a>
             {/* <a href="tel:+923076589234" target="_blank" rel="noopener noreferrer">

@@ -191,7 +191,13 @@ const Header = () => {
             variant="contained"
             size="small"
             sx={{
-              backgroundColor: theme.palette.primary.main,
+              // backgroundColor: theme.palette.primary.main,
+              backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
+              color:location.pathname === '/'? 'white' : theme.palette.primary.main,
+':hover':{
+  backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
+  color:location.pathname === '/'? 'white' : theme.palette.primary.main,
+},
               padding: "0.5rem 2rem",
               textTransform: "none",
               fontSize: "0.9rem",
@@ -209,7 +215,12 @@ const Header = () => {
             variant="contained"
             size="small"
             sx={{
-              backgroundColor: theme.palette.primary.main,
+              backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
+              color:location.pathname === '/'? 'white' : theme.palette.primary.main,
+':hover':{
+  backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
+  color:location.pathname === '/'? 'white' : theme.palette.primary.main,
+},
               padding: "0.5rem 2rem",
               textTransform: "none",
               fontSize: "0.9rem",

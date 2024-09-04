@@ -35,6 +35,7 @@ import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import FreeTrialButton from "../../components/FreeTrialButton";
 
+
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -496,13 +497,10 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <MdDateRange
-                      style={{
-                        fontSize: "1.5rem",
-                        color: theme.palette.primary.main,
-                      }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>Enrolled :</Typography>
+                  <Box>
+                    <img src='/enroll.png' />
+                  </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>Enrolled :</Typography>
                   </Box>
                   <span
                     style={{
@@ -522,14 +520,12 @@ const AdvanceCoursePriceHeroSection = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Box sx={{ display: "flex" }}>
-                    <MdDateRange
-                      style={{
-                        fontSize: "1.5rem",
-                        color: theme.palette.primary.main,
-                      }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>
+                  <Box sx={{ display: "flex", alignItems:'center' }}>
+
+                  <Box>
+                    <img src='/duration.png' />
+                  </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft:'0.4rem' }}>
                       Course Duration :
                     </Typography>
                   </Box>
@@ -553,14 +549,18 @@ const AdvanceCoursePriceHeroSection = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Box sx={{ display: "flex" }}>
-                    <MdDateRange
+                  <Box sx={{ display: "flex", alignItems:'center' }}>
+
+                  <Box>
+                    <img src='/lectures.png' />
+                  </Box>
+                    {/* <MdDateRange
                       style={{
                         fontSize: "1.5rem",
                         color: theme.palette.primary.main,
                       }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>Lectures :</Typography>
+                    /> */}
+                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>Lectures :</Typography>
                   </Box>
                   <span
                     style={{
@@ -581,13 +581,10 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex" }}>
-                    <MdDateRange
-                      style={{
-                        fontSize: "1.5rem",
-                        color: theme.palette.primary.main,
-                      }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>Level :</Typography>
+                  <Box>
+                    <img src='/level.png' />
+                  </Box>
+                    <Typography sx={{marginLeft:'0.5rem', fontWeight: 600 }}>Level :</Typography>
                   </Box>
                   <span
                     style={{
@@ -608,13 +605,10 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex" }}>
-                    <MdDateRange
-                      style={{
-                        fontSize: "1.5rem",
-                        color: theme.palette.primary.main,
-                      }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>
+                  <Box>
+                    <img src='/clock.png' />
+                  </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>
                       Lecture Duration :
                     </Typography>
                   </Box>
@@ -637,13 +631,17 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <MdDateRange
+                    {/* <MdDateRange
                       style={{
                         fontSize: "1.5rem",
                         color: theme.palette.primary.main,
                       }}
-                    />
-                    <Typography sx={{ fontWeight: 600 }}>
+                    /> */}
+
+                    <Box>
+                    <img src='/classtype.png' />
+                  </Box>
+                    <Typography sx={{ marginLeft:'0.5rem', fontWeight: 600 }}>
                     Class Type :
                     </Typography>
                   </Box>

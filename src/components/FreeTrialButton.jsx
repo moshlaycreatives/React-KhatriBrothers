@@ -17,7 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useSnackbar } from "notistack";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   getStdTime,
   getStudentJoinFreeTrails,
@@ -29,6 +29,7 @@ function FreeTrialButton() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
+  const location = useLocation();
   const auth = useSelector((state) => state?.auth?.isAuthenticated);
   const [trailData, setTrailData] = useState({});
   const [loadingEnroll, setLoadingEnroll] = useState(false);
@@ -166,7 +167,10 @@ function FreeTrialButton() {
                 variant="contained"
                 sx={{
                   textTransform: "none",
-                  fontSize: "1.1rem",
+                  fontSize: "1rem",
+                  width: location.pathname === '/' ? '20rem' : '100%',
+        padding: location.pathname === '/' ? '0.3rem 0.5rem 0.3rem 0.5rem' : 'default',
+
                   borderRadius: "0px",
                   position: "relative",
                 }}
@@ -186,9 +190,11 @@ function FreeTrialButton() {
                 disabled={trailData && trailData?.studentId?.trial === true}
                 sx={{
                   width: "100%",
-                  padding: "0.4rem",
+                  // padding: "0.4rem",
                   textTransform: "none",
-                  fontSize: "1rem",
+                  width: location.pathname === '/' ? '19rem' : '100%',
+        padding: location.pathname === '/' ? '0.5rem 0.5rem 0.5 rem 0.5rem' : 'default',
+fontSize:'1.1rem',
                   borderRadius: "0px",
                   cursor:
                     trailData && trailData?.studentId?.trial === true

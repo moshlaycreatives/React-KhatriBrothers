@@ -89,7 +89,7 @@ const CategoryBasedCoursesHome = () => {
                   }}
                   onClick={() => handleCardClick(course.path)}
                 >
-                  Start Learning &rarr;
+                  View More &rarr;
                 </Button>
               </Box>
             </Grid>
