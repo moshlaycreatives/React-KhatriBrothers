@@ -581,6 +581,7 @@ export const deleteBlog = (id) => async (dispatch) => {
 };
 
 export const studentApplyFreeTrails = (values) => async (dispatch) => {
+  console.log(values, 'values')
   try {
     const res = await api.post("/startFreeTrial", values);
 

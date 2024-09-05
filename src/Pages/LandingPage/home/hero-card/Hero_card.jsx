@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./Hero_card.css"
 import Hero_card_box from './Hero_card_box';
 import CountUp from 'react-countup';
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { TiWorldOutline } from 'react-icons/ti';
 import { FaRegSmile } from 'react-icons/fa';
 import { PiVideoLight } from 'react-icons/pi';
@@ -14,6 +14,7 @@ import { getCounterCardData } from '../../../../store/actions/courseActions';
 function Hero_card() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const [counterCardData , setCounterCardData] = useState([]);
   const [counterData , setCounterData] = useState({});
 
@@ -39,8 +40,12 @@ function Hero_card() {
     <>
     <section className='hero-card-section'>
     {/* {counterData.map((row, ind)=>( */}
-      <Grid  container spacing={5}>
-      <Grid item lg={3} md={3} sm={12} xs={12}>
+      <Grid  container spacing={0}>
+      <Grid lg={0.5} md={0.5} sm={12} xs={12}>
+
+</Grid>
+
+      <Grid item lg={3} md={3} sm={12} xs={12} sx={{marginBottom:isSmall ? '1rem':'0rem'}}>
         <Box
           sx={{
             padding: "2rem 3rem",
@@ -67,8 +72,12 @@ function Hero_card() {
           </Box>
         </Box>
       </Grid>
+      <Grid lg={1} md={1} sm={12} xs={12}>
 
-      <Grid item lg={3} md={3} sm={12} xs={12}>
+</Grid>
+
+
+      <Grid item lg={3} md={3} sm={12} xs={12} sx={{marginBottom:isSmall ? '1rem':'0rem'}}>
         <Box
           sx={{
             padding: "2.1rem 3rem",
@@ -101,7 +110,7 @@ function Hero_card() {
 
 
 
-      <Grid item lg={3} md={3} sm={12} xs={12}>
+      {/* <Grid item lg={3} md={3} sm={12} xs={12}>
         <Box
           sx={{
             padding: "2rem 3rem",
@@ -127,8 +136,10 @@ function Hero_card() {
             <Typography>Happy Students</Typography>
           </Box>
         </Box>
-      </Grid>
+      </Grid> */}
+<Grid lg={1} md={1} sm={12} xs={12}>
 
+</Grid>
 
 
 
@@ -159,6 +170,12 @@ function Hero_card() {
           </Box>
         </Box>
       </Grid>
+
+
+      <Grid lg={0.5} md={0.5} sm={12} xs={12}>
+
+</Grid>
+
 
 
 

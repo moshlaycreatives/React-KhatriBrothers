@@ -151,6 +151,11 @@ import {
                       Please enter the 6 digit code sent to {email}
                     </Typography>
 
+
+                    <Typography sx={{ color: "grey" }}>
+                      Check spam folder if not receiving OTP.
+                    </Typography>
+
                     <form onSubmit={handleSubmit}>
                       <div className="otpContainer">
                         {otp.map((value, index) => (

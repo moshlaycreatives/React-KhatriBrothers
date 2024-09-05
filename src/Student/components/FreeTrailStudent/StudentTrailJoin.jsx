@@ -10,6 +10,7 @@ const StudentTrailJoin = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -83,17 +84,6 @@ const StudentTrailJoin = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
           <CircularProgress />
         </Box>
-      ) : !classData || !classData.link ? (
-        <Typography
-          sx={{
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-            fontSize: '1.25rem',
-            padding: '2rem',
-          }}
-        >
-          There is no Trial class available for you.
-        </Typography>
       ) : (
         <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
           <Table size='small' aria-label='a dense table'>
@@ -119,6 +109,14 @@ const StudentTrailJoin = () => {
         <TableCell sx={{ color: 'grey' }}>{formattedDate}</TableCell>
         <TableCell sx={{ color: 'grey' }}>{formattedStartTime}</TableCell>
         <TableCell>
+
+
+        {!classData.link ? (
+          <>
+            <Typography sx={{fontSize:'0.9rem', color:'red'}}>Pending</Typography>
+          </>
+        ):(
+
           <Button
             variant="contained"
             color="primary"
@@ -128,6 +126,8 @@ const StudentTrailJoin = () => {
           >
             Join
           </Button>
+        )}
+
         </TableCell>
       </TableRow>
 

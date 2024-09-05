@@ -35,7 +35,6 @@ import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import FreeTrialButton from "../../components/FreeTrialButton";
 
-
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -93,13 +92,12 @@ const AdvanceCoursePriceHeroSection = () => {
   };
 
   const handleEnroll = (installment) => {
-
-
     if (auth === true) {
-
       if (userData.role === "admin") {
-        enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
-        return; // Exit early if the user is an admin
+        enqueueSnackbar("Admin cannot enroll in a course", {
+          variant: "error",
+        });
+        return;
       }
 
       setLoadingEnroll(true);
@@ -123,7 +121,7 @@ const AdvanceCoursePriceHeroSection = () => {
         })
         .catch((err) => {
           console.log(err);
-          enqueueSnackbar(err.response.data.message , {variant:'error'})
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
           setLoadingEnroll(false);
         });
     } else {
@@ -184,7 +182,7 @@ const AdvanceCoursePriceHeroSection = () => {
       try {
         const response = await axios.get("https://ipinfo.io/json");
         setCountry(response.data.country);
-        console.log(response.data.country, 'currency')
+        console.log(response.data.country, "currency");
       } catch (error) {
         console.error("Error fetching user country:", error);
       }
@@ -497,10 +495,12 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Box>
-                    <img src='/enroll.png' />
-                  </Box>
-                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>Enrolled :</Typography>
+                    <Box>
+                      <img src="/enroll.png" />
+                    </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft: "0.5rem" }}>
+                      Enrolled :
+                    </Typography>
                   </Box>
                   <span
                     style={{
@@ -520,12 +520,11 @@ const AdvanceCoursePriceHeroSection = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems:'center' }}>
-
-                  <Box>
-                    <img src='/duration.png' />
-                  </Box>
-                    <Typography sx={{ fontWeight: 600, marginLeft:'0.4rem' }}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box>
+                      <img src="/duration.png" />
+                    </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft: "0.4rem" }}>
                       Course Duration :
                     </Typography>
                   </Box>
@@ -549,18 +548,19 @@ const AdvanceCoursePriceHeroSection = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems:'center' }}>
-
-                  <Box>
-                    <img src='/lectures.png' />
-                  </Box>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box>
+                      <img src="/lectures.png" />
+                    </Box>
                     {/* <MdDateRange
                       style={{
                         fontSize: "1.5rem",
                         color: theme.palette.primary.main,
                       }}
                     /> */}
-                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>Lectures :</Typography>
+                    <Typography sx={{ fontWeight: 600, marginLeft: "0.5rem" }}>
+                      Lectures :
+                    </Typography>
                   </Box>
                   <span
                     style={{
@@ -581,10 +581,12 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex" }}>
-                  <Box>
-                    <img src='/level.png' />
-                  </Box>
-                    <Typography sx={{marginLeft:'0.5rem', fontWeight: 600 }}>Level :</Typography>
+                    <Box>
+                      <img src="/level.png" />
+                    </Box>
+                    <Typography sx={{ marginLeft: "0.5rem", fontWeight: 600 }}>
+                      Level :
+                    </Typography>
                   </Box>
                   <span
                     style={{
@@ -605,10 +607,10 @@ const AdvanceCoursePriceHeroSection = () => {
                   }}
                 >
                   <Box sx={{ display: "flex" }}>
-                  <Box>
-                    <img src='/clock.png' />
-                  </Box>
-                    <Typography sx={{ fontWeight: 600, marginLeft:'0.5rem' }}>
+                    <Box>
+                      <img src="/clock.png" />
+                    </Box>
+                    <Typography sx={{ fontWeight: 600, marginLeft: "0.5rem" }}>
                       Lecture Duration :
                     </Typography>
                   </Box>
@@ -639,10 +641,10 @@ const AdvanceCoursePriceHeroSection = () => {
                     /> */}
 
                     <Box>
-                    <img src='/classtype.png' />
-                  </Box>
-                    <Typography sx={{ marginLeft:'0.5rem', fontWeight: 600 }}>
-                    Class Type :
+                      <img src="/classtype.png" />
+                    </Box>
+                    <Typography sx={{ marginLeft: "0.5rem", fontWeight: 600 }}>
+                      Class Type :
                     </Typography>
                   </Box>
                   <span
@@ -678,21 +680,10 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontSize: "0.9rem",
                       fontWeight: "600",
                     }}
-                  >
-
-                  </Typography>
+                  ></Typography>
                 </Box>
                 <br />
-<FreeTrialButton/>
-
-
-
-
-
-
-
-
-
+                <FreeTrialButton />
 
                 {/* <Box>
                   {!auth ? (

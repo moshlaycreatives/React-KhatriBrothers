@@ -25,6 +25,9 @@ import {
 } from "../store/actions/courseActions";
 
 function FreeTrialButton() {
+
+  const now = dayjs();
+
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +43,10 @@ function FreeTrialButton() {
   const [isSecondQuestionYes, setIsSecondQuestionYes] = useState(null);
   const [selectedThirdOption, setSelectedThirdOption] = useState("");
   const [availableTimes, setAvailableTimes] = useState([]);
+  const currentTimeZone = dayjs().format("Z"); // ISO 8601 time zone offset, e.g., +05:00
+
+  console.log("Current Time:", now.format());
+  console.log("Current Time Zone:", currentTimeZone);
 
   // Helper function to filter available times
   const filterAvailableTimes = (date) => {
@@ -122,7 +129,7 @@ function FreeTrialButton() {
         startTime:
           dayjs(selectedDate).format("YYYY-MM-DD") +
           "T" +
-          dayjs(selectedTime, "h:mm A").format("HH:mm:ss"),
+          dayjs(selectedTime, "h:mm A").format(`HH:mm:ss${currentTimeZone}`),
         isExperienced: isSecondQuestionYes,
         years: selectedThirdOption,
       };

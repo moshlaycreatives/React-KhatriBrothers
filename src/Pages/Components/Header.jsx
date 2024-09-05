@@ -23,7 +23,7 @@ const Header = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const isRoot = location.pathname === '/';
+  const isRoot = location.pathname === "/";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [nestedAnchorEl, setNestedAnchorEl] = useState(null);
@@ -36,7 +36,7 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    navigate('/sign-in');
+    navigate("/sign-in");
     setDrawerOpen(false);
   };
 
@@ -60,11 +60,11 @@ const Header = () => {
 
   const handleDashboardNavigation = () => {
     if (role === "instructor") {
-      navigate('/instructor-dashboard');
+      navigate("/instructor-dashboard");
     } else if (role === "admin") {
-      navigate('/admin-dashboard');
+      navigate("/admin-dashboard");
     } else if (role === "user") {
-      navigate('/student-dashboard');
+      navigate("/student-dashboard");
     }
     setDrawerOpen(false);
   };
@@ -77,7 +77,6 @@ const Header = () => {
     currentPath === "/forget-password" ||
     currentPath === "/otp-verification" ||
     currentPath === "/email-confirmation" ||
-
     currentPath === "/set-password" ||
     currentPath === "/admin-dashboard" ||
     currentPath === "/contact-us" ||
@@ -85,9 +84,8 @@ const Header = () => {
     currentPath === "/cancel" ||
     currentPath === "/participant-registered" ||
     currentPath === "/student-dashboard" ||
-    currentPath === "/instructor-dashboard"||
+    currentPath === "/instructor-dashboard" ||
     currentPath === "/Instructor-dashboard";
-
 
   if (isHidden) {
     return null;
@@ -119,8 +117,6 @@ const Header = () => {
     { label: "Ghazal", route: "/ghazal-course" },
     { label: "Bollywood/Filmy Songs", route: "/bollywood-course" },
     { label: "Customized Courses", route: "/custom-courses" },
-
-
   ];
 
   return (
@@ -139,27 +135,27 @@ const Header = () => {
         zIndex: 1000,
       }}
     >
-      <Box onClick={() => navigate('/')}>
+      <Box onClick={() => navigate("/")}>
         <Typography variant="h5" sx={{ fontWeight: "bold", cursor: "pointer" }}>
-        <Box sx={{ }}>
-      <img
-        src='/khatrilogowhite.svg'
-        width='30%'
-        style={{ display: isRoot ? 'none' : 'block' }}
-        alt="Logo"
-      />
-      <img
-        src='/khatrilogoblack.svg'
-        width='30%'
-        style={{ display: isRoot ? 'block' : 'none' }}
-        alt="Black Logo"
-      />
-    </Box>
+          <Box sx={{}}>
+            <img
+              src="/khatrilogowhite.svg"
+              width="30%"
+              style={{ display: isRoot ? "none" : "block" }}
+              alt="Logo"
+            />
+            <img
+              src="/khatrilogoblack.svg"
+              width="30%"
+              style={{ display: isRoot ? "block" : "none" }}
+              alt="Black Logo"
+            />
+          </Box>
         </Typography>
       </Box>
 
       <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 5 }}>
-        {menuItems.map((item, index) => (
+        {menuItems.map((item, index) =>
           item.route ? (
             <Typography
               key={index}
@@ -175,13 +171,18 @@ const Header = () => {
             <Typography
               key={index}
               onClick={handleCoursesClick}
-              sx={{ fontSize: "1.1rem", cursor: "pointer", display: 'flex', alignItems: 'center' }}
+              sx={{
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
             >
               {item.label}
               <ArrowDropDownIcon sx={{ marginLeft: 1 }} />
             </Typography>
           )
-        ))}
+        )}
       </Box>
 
       {auth ? (
@@ -192,12 +193,24 @@ const Header = () => {
             size="small"
             sx={{
               // backgroundColor: theme.palette.primary.main,
-              backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
-              color:location.pathname === '/'? 'white' : theme.palette.primary.main,
-':hover':{
-  backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
-  color:location.pathname === '/'? 'white' : theme.palette.primary.main,
-},
+              backgroundColor:
+                location.pathname === "/"
+                  ? theme.palette.primary.main
+                  : "white",
+              color:
+                location.pathname === "/"
+                  ? "white"
+                  : theme.palette.primary.main,
+              ":hover": {
+                backgroundColor:
+                  location.pathname === "/"
+                    ? theme.palette.primary.main
+                    : "white",
+                color:
+                  location.pathname === "/"
+                    ? "white"
+                    : theme.palette.primary.main,
+              },
               padding: "0.5rem 2rem",
               textTransform: "none",
               fontSize: "0.9rem",
@@ -215,12 +228,24 @@ const Header = () => {
             variant="contained"
             size="small"
             sx={{
-              backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
-              color:location.pathname === '/'? 'white' : theme.palette.primary.main,
-':hover':{
-  backgroundColor:location.pathname === '/'? theme.palette.primary.main :"white",
-  color:location.pathname === '/'? 'white' : theme.palette.primary.main,
-},
+              backgroundColor:
+                location.pathname === "/"
+                  ? theme.palette.primary.main
+                  : "white",
+              color:
+                location.pathname === "/"
+                  ? "white"
+                  : theme.palette.primary.main,
+              ":hover": {
+                backgroundColor:
+                  location.pathname === "/"
+                    ? theme.palette.primary.main
+                    : "white",
+                color:
+                  location.pathname === "/"
+                    ? "white"
+                    : theme.palette.primary.main,
+              },
               padding: "0.5rem 2rem",
               textTransform: "none",
               fontSize: "0.9rem",
@@ -265,7 +290,13 @@ const Header = () => {
                   <Typography
                     variant="h6"
                     onClick={handleCoursesClick}
-                    sx={{ marginBottom: 2, marginTop: 1, cursor: "pointer", display: 'flex', alignItems: 'center' }}
+                    sx={{
+                      marginBottom: 2,
+                      marginTop: 1,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
                   >
                     {item.label}
                     <ArrowDropDownIcon sx={{ marginLeft: 1 }} />
@@ -308,7 +339,6 @@ const Header = () => {
         </Drawer>
       </Box>
 
-
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -343,7 +373,7 @@ const Header = () => {
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left",
+          horizontal: "top",
         }}
       >
         {courseOptions[0].subOptions.map((subOption, index) => (
