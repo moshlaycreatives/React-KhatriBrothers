@@ -17,6 +17,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../store/actions/authActions";
+import { Timer } from "@mui/icons-material";
 
 const Header = () => {
   const location = useLocation();
@@ -47,10 +48,22 @@ const Header = () => {
   const handleCoursesClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleCoursesHover = (event) => {
+    if (!anchorEl) {
+      setAnchorEl(event.currentTarget);
+    }
+  };
+  const handleCourseLeave = ()=>{
+      // setAnchorEl(null)
+  }
 
   const handleHindustaniVocalClick = (event) => {
     setNestedAnchorEl(event.currentTarget);
   };
+
+  const handleHindustaniVocalClickLeave = ()=>{
+    // setNestedAnchorEl(null)
+}
 
   const handleMenuItemSelect = (route) => {
     navigate(route);
@@ -166,6 +179,7 @@ const Header = () => {
               onClick={() => {
                 navigate(item.route);
                 setDrawerOpen(false);
+                
               }}
               sx={{ fontSize: "1.1rem", cursor: "pointer" }}
             >
@@ -174,6 +188,8 @@ const Header = () => {
           ) : (
             <Typography
               key={index}
+              onMouseEnter={handleCoursesHover}
+              onMouseLeave={handleCourseLeave}
               onClick={handleCoursesClick}
               sx={{ fontSize: "1.1rem", cursor: "pointer", display: 'flex', alignItems: 'center' }}
             >
@@ -257,6 +273,7 @@ const Header = () => {
                       navigate(item.route);
                       setDrawerOpen(false);
                     }}
+                     onMouseEnter={handleHindustaniVocalClick}
                     sx={{ marginBottom: 2, marginTop: 1, cursor: "pointer" }}
                   >
                     {item.label}
@@ -265,6 +282,7 @@ const Header = () => {
                   <Typography
                     variant="h6"
                     onClick={handleCoursesClick}
+                    // onMouseEnter={handleHindustaniVocalClick}
                     sx={{ marginBottom: 2, marginTop: 1, cursor: "pointer", display: 'flex', alignItems: 'center' }}
                   >
                     {item.label}
@@ -313,12 +331,14 @@ const Header = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
+        // onMouseLeave={handleHindustaniVocalClickLeave}
       >
         {courseOptions.map((option, index) => (
           <React.Fragment key={index}>
             {option.subOptions ? (
               <MenuItem
                 onMouseEnter={handleHindustaniVocalClick}
+                
                 onClick={() => setNestedAnchorEl(anchorEl)}
               >
                 {option.label}
