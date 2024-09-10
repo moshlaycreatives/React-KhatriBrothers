@@ -232,19 +232,19 @@ const AdvanceCoursePriceHeroSection = () => {
 
   const getPriceByCountry = (countryCode) => {
     const priceMap = {
-      US: courseData.usaPrice,
+      US: courseData?.usaPrice,
 
-      IN: courseData.indianPrice,
-      GB: courseData.ukPrice,
-      KE: courseData.kenyaPrice,
-      UG: courseData.ugandaPrice,
-      AE: courseData.uaePrice,
-      CAN: courseData.canadaPrice,
-      CA: courseData.canadaPrice,
-      AU: courseData.australiaPrice,
-      AUS: courseData.australiaPrice,
+      IN: courseData?.indianPrice,
+      GB: courseData?.ukPrice,
+      KE: courseData?.kenyaPrice,
+      UG: courseData?.ugandaPrice,
+      AE: courseData?.uaePrice,
+      CAN: courseData?.canadaPrice,
+      CA: courseData?.canadaPrice,
+      AU: courseData?.australiaPrice,
+      AUS: courseData?.australiaPrice,
     };
-    return priceMap[countryCode] || courseData.usaPrice;
+    return priceMap[countryCode] || courseData?.usaPrice;
   };
 
   const getCurrencySymbol = (countryCode) => {
@@ -327,11 +327,11 @@ const AdvanceCoursePriceHeroSection = () => {
           <Grid container sx={{ alignItems: "center" }} spacing={5}>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <Typography variant="h5" fontWeight="550" color="white">
-                {courseData.title}
+                {courseData?.title}
               </Typography>
               <Box>
                 <Typography sx={{ color: "white", fontSize: "0.9rem" }}>
-                  {truncateText(courseData.overview, 30)}
+                  {truncateText(courseData?.overview, 30)}
                 </Typography>
 
                 <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -440,7 +440,7 @@ const AdvanceCoursePriceHeroSection = () => {
                 Overview:{" "}
               </Typography>
               <Typography sx={{ color: "grey" }}>
-                {courseData.overview}
+                {courseData?.overview}
               </Typography>
               <br />
               <Typography
@@ -453,7 +453,7 @@ const AdvanceCoursePriceHeroSection = () => {
                 Prerequisites:
               </Typography>
               <Typography sx={{ color: "grey" }}>
-                {courseData.prerequisites}
+                {courseData?.prerequisites}
               </Typography>
               <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
                 Tanpura app or Electronic Tanpura needed
@@ -468,7 +468,7 @@ const AdvanceCoursePriceHeroSection = () => {
               >
                 Topics covered:{" "}
               </Typography>
-              {courseData.topics.map((topic, index) => (
+              {courseData?.topics?.map((topic, index) => (
                 <Typography sx={{ color: "grey", mb: 1 }} key={index}>
                   ● {topic}
                 </Typography>
@@ -536,7 +536,7 @@ const AdvanceCoursePriceHeroSection = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {courseData.courseDuration} Weeks
+                      {courseData?.courseDuration} Weeks
                     </Typography>
                   </Box>
                 </Box>
@@ -621,7 +621,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontSize: "0.9rem",
                     }}
                   >
-                    {courseData.lectureDuration} Hour per class
+                    {courseData?.lectureDuration} Hour per class
                   </span>
                 </Box>
                 <br />
@@ -803,7 +803,7 @@ const AdvanceCoursePriceHeroSection = () => {
           <DialogTitle>Select Payment Option</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please select your preferred class type and payment option.
+              Please select your preferred payment option.
             </DialogContentText>
             <RadioGroup
               value={selectedClassType}
@@ -812,6 +812,7 @@ const AdvanceCoursePriceHeroSection = () => {
             >
               <FormControlLabel
                 value="one2one"
+                sx={{ display: "none" }}
                 control={<Radio />}
                 label="One to One"
               />
@@ -819,7 +820,18 @@ const AdvanceCoursePriceHeroSection = () => {
                 value="group"
                 control={<Radio />}
                 label="Group"
+
+
               /> */}
+
+              {!disableInstallment ? (
+                <>
+                  <Typography sx={{ color: "grey" }}>
+                    For installment pay {currencySymbol}{" "}
+                    {(price / 3).toFixed(2)}
+                  </Typography>
+                </>
+              ) : null}
             </RadioGroup>
           </DialogContent>
           <DialogActions>

@@ -28,10 +28,16 @@ const courses = [
     path: "/ghazal-course",
     imageSrc: "/GhazalCourseLogo.JPG",
   },
+
   {
     id: 5,
-    title: "Bollywood Courses",
-    path: "/bollywood-course",
+    title: "Guitar Courses",
+    path: "/guitar-courses",
+    imageSrc: "/bhajjancourse.png",
+  },{
+    id: 6,
+    title: "Keyboard Courses",
+    path: "/keyboard-courses",
     imageSrc: "/bhajjancourse.png",
   },
 ];

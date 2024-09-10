@@ -37,6 +37,8 @@ import HindiVocalCoursesPage from "./Pages/LandingPage/home/HindiVocalCoursesPag
 import CustomCourse from "./Pages/CustomCourse/CustomCourse";
 import UserCustomCourseView from "./Pages/CustomCourse/UserCustomCourseView";
 import EmailOTPConfirmation from "./Pages/Authentication_Page/Components/EmailOTPConfirmation";
+import GuitarCoursesMain from "./Pages/OtherCourses/GuitarCourses/GuitarCoursesMain";
+import KeyboardCoursesMain from "./Pages/OtherCourses/KeyboardCourses/KeyboardCoursesMain";
 
 export default function Router() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -190,6 +192,23 @@ export default function Router() {
       path: "/form",
       element: <CustomCourse />,
     },
+
+
+
+    {
+      path: "/guitar-courses",
+      element: <GuitarCoursesMain />,
+    },
+
+
+
+    {
+      path: "/keyboard-courses",
+      element: <KeyboardCoursesMain />,
+    },
+
+
+
     {
       path: "/email-confirmation",
       element: <EmailOTPConfirmation />,

@@ -100,6 +100,9 @@ const Header = () => {
     { label: "About", route: "/about-us" },
     { label: "FAQ's", route: "/faqs" },
     { label: "Blogs", route: "/blogs" },
+
+
+
     { label: "Contact", route: "/contact-us" },
   ];
 
@@ -115,6 +118,9 @@ const Header = () => {
     { label: "Bhajan", route: "/bhajan-course" },
     { label: "Tabla", route: "/tabla-course" },
     { label: "Ghazal", route: "/ghazal-course" },
+    { label: "Keyboard Courses", route: "/keyboard-courses" },
+    { label: "Guitar Courses", route: "/guitar-courses" },
+
     { label: "Bollywood/Filmy Songs", route: "/bollywood-course" },
     { label: "Customized Courses", route: "/custom-courses" },
   ];

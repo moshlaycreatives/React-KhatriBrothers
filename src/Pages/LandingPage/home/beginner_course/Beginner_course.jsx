@@ -37,7 +37,7 @@ function Beginner_course() {
             fontSize: "2rem",
           }}
         >
-          Begginer Level Courses
+          Beginner Level Courses
         </Typography>
         <Typography>
         The beginner course is designed for beginners who have a passion for music and want to improve their music skills.

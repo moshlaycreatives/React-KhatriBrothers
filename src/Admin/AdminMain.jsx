@@ -72,6 +72,8 @@ import PendingCustomCourseMain from "./components/PendingCustomCourses/PendingCu
 import AdminFreeTrailsMain from "./components/AdminFreeTrails/AdminFreeTrailsMain";
 import AdminJoinFreeTrails from "./components/AdminFreeTrails/AdminJoinFreeTrails";
 import TrialClassScheduleAdmin from "./components/TrialClassSchedule/TrialClassScheduleAdmin";
+import GuitarCoursesMain from "./components/GuittarCourses/GuitarCoursesMain";
+import KeyboardCoursesMain from "./components/KeyboardCourses/KeyboardCoursesMain";
 
 const drawerWidth = 300;
 
@@ -91,7 +93,8 @@ const listData = [
   { title: "Ghazal", icon: <ArticleIcon /> },
   { title: "Tabla", icon: <ArticleIcon /> },
   { title: "Bollywood/Filmy Songs", icon: <ArticleIcon /> },
-
+  { title: "Guitar Courses", icon: <ArticleIcon /> },
+  { title: "Keyboard Courses", icon: <ArticleIcon /> },
   { title: "Pending Customized Courses", icon: <PiStudent /> },
 
   { title: "Instructors", icon: <GiTeacher /> },
@@ -496,6 +499,9 @@ const AdminMain = () => {
 
             {selectedItem === "Ghazal" && <GhazalCoursesMain />}
             {selectedItem === "Tabla" && <TablaCoursesMain />}
+            {selectedItem === "Guitar Courses" && <GuitarCoursesMain />}
+            {selectedItem === "Keyboard Courses" && <KeyboardCoursesMain />}
+
             {selectedItem === "Bollywood/Filmy Songs" && <BollyWoodMain />}
             {selectedItem === "Pending Customized Courses" && (
               <PendingCustomCourseMain />

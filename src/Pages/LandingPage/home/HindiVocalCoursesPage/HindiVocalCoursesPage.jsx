@@ -30,10 +30,7 @@ window.scrollTo(0,0)
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
-
+              Hindustani classical music, one of the most renowned musical traditions in the world, offers a rich tapestry of melodies, rhythms, and emotions. Our Hindustani vocal courses provide a comprehensive platform for aspiring musicians to pursue the intricacies of this captivating art form.
               </Typography>
               {/* <Button
                 variant="contained"
