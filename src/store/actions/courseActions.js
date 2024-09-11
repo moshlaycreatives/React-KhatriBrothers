@@ -673,3 +673,16 @@ export const getAdminTime = () => async (dispatch) => {
     throw err;
   }
 };
+
+
+
+
+export const adminsendSuggestedCourse = (freetrialId, feedback) => async (dispatch) => {
+  try {
+    const res = await api.patch(`/freetrialFeedback/${freetrialId}`, {feedback:feedback});
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

@@ -3,7 +3,11 @@ import {
   Box,
   Button,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -17,6 +21,7 @@ import { useDispatch } from "react-redux";
 import AddTrailForStudent from "./components/AddTrailForStudent";
 import {
   adminChangeTrailStatus,
+  adminsendSuggestedCourse,
   getAdminFreeTrails,
 } from "../../../store/actions/courseActions"; // Import your actions
 import { enqueueSnackbar } from "notistack";
@@ -27,13 +32,14 @@ const AdminJoinFreeTrails = () => {
   const [classData, setClassData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const [selectedCourses, setSelectedCourses] = useState({});
+
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const res = await dispatch(getAdminFreeTrails());
       const data = res.data.data;
-
 
       data.sort((a, b) => {
         const now = new Date();
@@ -115,6 +121,36 @@ const AdminJoinFreeTrails = () => {
       });
   };
 
+
+
+  const handleCourseChange = (id) => (event) => {
+    setSelectedCourses((prevState) => ({
+      ...prevState,
+      [id]: event.target.value,
+    }));
+  };
+
+
+  const handleSetCourse = (id) => {
+    const course = selectedCourses[id];
+    if (!course) {
+      enqueueSnackbar("Please select a course.", { variant: "warning" });
+      return;
+    }
+
+    dispatch(adminsendSuggestedCourse(id, course))
+      .then((res) => {
+        enqueueSnackbar(res.data.message, { variant: "success" });
+        fetchData();
+
+      })
+      .catch((err) => {
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+      });
+  };
+
+
+
   return (
     <Box>
       {isAddingCourse ? (
@@ -174,13 +210,17 @@ const AdminJoinFreeTrails = () => {
                     <TableCell>Course Type</TableCell>
                     <TableCell>Date</TableCell>
                     <TableCell>Time</TableCell>
-                    <TableCell>Action</TableCell>
+                    <TableCell>Class Joining</TableCell>
                     <TableCell>Free Trial</TableCell>
+                    <TableCell>Suggest Course</TableCell>
+                    <TableCell> Action </TableCell>
+
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {classData
-                    .filter((row) => row.link).reverse()
+                    .filter((row) => row.link)
+                    .reverse()
                     .map((row) => {
                       const {
                         formattedDate,
@@ -242,6 +282,78 @@ const AdminJoinFreeTrails = () => {
                               Finish
                             </Button>
                           </TableCell>
+                          <TableCell>
+
+{!row.feedback ? (
+<>
+<FormControl fullWidth>
+              <Select
+                labelId="simple-select-label"
+                id="simple-select"
+                size="small"
+                value={selectedCourses[row._id] || ""}
+                onChange={handleCourseChange(row._id)}
+              >
+                <MenuItem value="Beginner Hindustani Vocal Course">
+                  Beginner Hindustani Vocal
+                </MenuItem>
+                <MenuItem value="Intermediate Hindustani Vocal Course">
+                  Intermediate Hindustani Vocal
+                </MenuItem>
+                <MenuItem value="Advance Hindustani Vocal Course">
+                  Advance Hindustani Vocal
+                </MenuItem>
+                <MenuItem value="Bhajan Course">
+                  Bhajan
+                </MenuItem>
+                <MenuItem value="Tabla Course">Tabla</MenuItem>
+                <MenuItem value="Ghazal Course">
+                  Ghazal
+                </MenuItem>
+                <MenuItem value="Bollywood Course">
+                  Bollywood songs
+                </MenuItem>
+                <MenuItem value="Guitar Course">
+                  Guitar Course
+                </MenuItem>
+                <MenuItem value="Keyboard Course">
+                  Keyboard course
+                </MenuItem>
+              </Select>
+            </FormControl>
+</>
+):(
+  <>
+<Typography>
+  {row.feedback}
+</Typography>
+  </>
+)}
+
+
+
+
+          </TableCell>
+
+          <TableCell>
+
+{
+  !row.feedback ? (
+    <>
+
+    <Button
+              variant="contained"
+              onClick={() => handleSetCourse(row._id)}
+            sx={{textTransform:'none'}}
+            >
+              Suggest
+            </Button>
+
+    </>
+  ):null
+}
+
+    </TableCell>
                         </TableRow>
                       );
                     })}
