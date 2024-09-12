@@ -77,7 +77,7 @@ const EditCustomCourse = ({ courseData }) => {
     courseName: courseData.title || 'Customized Course',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
-    topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
+    topicsCovered: '', // You might want to set this from courseData as well if it exists
     // price: courseData.price || '',
     courseDuration: courseData.courseDuration || '',
     lectureDuration: courseData.lectureDuration || '',
@@ -108,7 +108,7 @@ const EditCustomCourse = ({ courseData }) => {
       courseName: courseData.title || 'Customized Course',
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
-      topicsCovered: topicss || '',
+      topicsCovered: '',
       // price: courseData.price || '',
       courseDuration: courseData.courseDuration || '',
       lectureDuration: courseData.lectureDuration || '',
@@ -124,7 +124,7 @@ const EditCustomCourse = ({ courseData }) => {
       australiaPrice: courseData.australiaPrice || '',
 
     });
-    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : courseData.topics);
   }, [courseData]);
 
   // Handle form change
@@ -168,7 +168,10 @@ const EditCustomCourse = ({ courseData }) => {
     formData.append('title', "Customized Course");
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
-    formData.append('topics', topics.join(','));
+    // formData.append('topics', topics.join(','));
+    topics.forEach(topic => {
+      formData.append('topics', topic);
+    });
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     // formData.append('price', formValues.price);

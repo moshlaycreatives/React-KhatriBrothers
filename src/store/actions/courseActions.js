@@ -131,6 +131,7 @@ export const getSingleInstructor = (instructorId) => async (dispatch) => {
 };
 
 export const updateCourse = (courseId, formValues) => async (dispatch) => {
+
   try {
     const res = await api.patch(`/updateCourse/${courseId}`, formValues);
 

@@ -85,7 +85,8 @@ const StudentTrailJoin = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
+ <>
+ <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
           <Table size='small' aria-label='a dense table'>
             <TableHead>
               <TableRow>
@@ -134,8 +135,25 @@ const StudentTrailJoin = () => {
 </TableBody>
           </Table>
         </TableContainer>
+<br/>
+        {
+  !classData.link ? null
+  :(
+    <Box sx={{dispay:'flex', justifyContent:'center', alignItems:'center', height:'10vh'}}>
+      <Typography sx={{color:'grey', fontSize:'0.9rem'}}>
+        Please wait while admin add the Trial Class Link.
+        <br/>
+         You can join it after the admin approval.
+      </Typography>
+
+      </Box>
+
+  )
+}
+ </>
       )}
-    </Box>
+
+       </Box>
   );
 }
 

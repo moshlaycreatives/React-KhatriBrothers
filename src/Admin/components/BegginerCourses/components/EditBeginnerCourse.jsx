@@ -80,7 +80,7 @@ const EditBeginnerCourse = ({ courseData }) => {
     courseName: courseData.title || '',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
-    topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
+    topicsCovered: '', // You might want to set this from courseData as well if it exists
 
 
 
@@ -119,7 +119,7 @@ const EditBeginnerCourse = ({ courseData }) => {
       courseName: courseData.title || '',
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
-      topicsCovered: topicss || '',
+      topicsCovered: '',
 
 
 
@@ -141,8 +141,11 @@ const EditBeginnerCourse = ({ courseData }) => {
       lectureDuration: courseData.lectureDuration || '',
       courseImage: PictureUrl || null,
     });
-    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : courseData.topics);
   }, [courseData]);
+
+
+
 
   // Handle form change
   const handleChange = (e) => {
@@ -175,7 +178,6 @@ const EditBeginnerCourse = ({ courseData }) => {
   const handleTopicDelete = (topicToDelete) => () => {
     setTopics((prev) => prev.filter((topic) => topic !== topicToDelete));
   };
-
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -185,7 +187,12 @@ const EditBeginnerCourse = ({ courseData }) => {
     formData.append('title', formValues.courseName);
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
-    formData.append('topics', topics.join(','));
+    // formData.append('topics', topics.join(','));
+
+
+    topics.forEach(topic => {
+      formData.append('topics', topic);
+    });
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
 

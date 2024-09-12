@@ -67,7 +67,6 @@ const EditAdvanceCourse = ({ courseData }) => {
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 
-    console.log(topicss, 'ccccccccccccccccccccccc')
     const theme = useTheme()
 
 
@@ -77,7 +76,7 @@ const EditAdvanceCourse = ({ courseData }) => {
     courseName: courseData.title || '',
     courseOverview: courseData.overview || '',
     prerequisites: courseData.prerequisites || '',
-    topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
+    topicsCovered: '', // You might want to set this from courseData as well if it exists
     // price: courseData.price || '',
     courseDuration: courseData.courseDuration || '',
     lectureDuration: courseData.lectureDuration || '',
@@ -108,7 +107,7 @@ const EditAdvanceCourse = ({ courseData }) => {
       courseName: courseData.title || '',
       courseOverview: courseData.overview || '',
       prerequisites: courseData.prerequisites || '',
-      topicsCovered: topicss || '',
+      topicsCovered: '',
       // price: courseData.price || '',
       courseDuration: courseData.courseDuration || '',
       lectureDuration: courseData.lectureDuration || '',
@@ -124,7 +123,7 @@ const EditAdvanceCourse = ({ courseData }) => {
       australiaPrice: courseData.australiaPrice || '',
 
     });
-    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : courseData.topics);
   }, [courseData]);
 
   // Handle form change
@@ -168,7 +167,10 @@ const EditAdvanceCourse = ({ courseData }) => {
     formData.append('title', formValues.courseName);
     formData.append('overview', formValues.courseOverview);
     formData.append('prerequisites', formValues.prerequisites);
-    formData.append('topics', topics.join(','));
+    // formData.append('topics', topics.join(','));
+    topics.forEach(topic => {
+      formData.append('topics', topic);
+    });
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     // formData.append('price', formValues.price);

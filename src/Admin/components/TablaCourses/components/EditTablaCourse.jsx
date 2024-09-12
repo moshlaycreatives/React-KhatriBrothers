@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Box, Card, TextField, Typography, Button, Chip, useTheme, IconButton, CircularProgress } from "@mui/material";
-import { addAdvance, updateCourse } from "../../../../store/actions/courseActions";
-import { Cancel as CancelIcon } from '@mui/icons-material';
+import {
+  Box,
+  Card,
+  TextField,
+  Typography,
+  Button,
+  Chip,
+  useTheme,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
+import {
+  addAdvance,
+  updateCourse,
+} from "../../../../store/actions/courseActions";
+import { Cancel as CancelIcon } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 
 const inputStyles = {
@@ -51,51 +64,46 @@ const fileButtonStyles = {
 };
 
 const chipDeleteIconStyles = {
-  backgroundColor: 'transparent',
+  backgroundColor: "transparent",
   borderRadius: "50%",
   padding: "1px",
-  color: 'white'
+  color: "white",
 };
 const EditBhajjanCourse = ({ courseData }) => {
+  const base = "https://khatribrothersacademy.com:4545";
+  const PictureUrl = base + courseData?.image;
+  const topicss = courseData.topics.map((topic) => topic);
 
+  const theme = useTheme();
 
-
-
-
-
-    const base = 'https://khatribrothersacademy.com:4545'
-    const PictureUrl = base + courseData?.image;
-    const topicss = courseData.topics.map((topic)=>topic)
-
-    console.log(topicss, 'ccccccccccccccccccccccc')
-    const theme = useTheme()
-
-
-
-  const courseId = courseData._id
+  const courseId = courseData._id;
   const initialValues = {
-    courseName: courseData.title || '',
-    courseOverview: courseData.overview || '',
-    prerequisites: courseData.prerequisites || '',
-    topicsCovered: topicss || '', // You might want to set this from courseData as well if it exists
+    courseName: courseData.title || "",
+    courseOverview: courseData.overview || "",
+    prerequisites: courseData.prerequisites || "",
+    topicsCovered: topicss || "", // You might want to set this from courseData as well if it exists
     // price: courseData.price || '',
-    courseDuration: courseData.courseDuration || '',
-    lectureDuration: courseData.lectureDuration || '',
+    courseDuration: courseData.courseDuration || "",
+    lectureDuration: courseData.lectureDuration || "",
     courseImage: PictureUrl || null,
 
-    usaPrice: courseData.usaPrice || '',    // Add prices for each country
-    indianPrice: courseData.indianPrice || '',
-    ukPrice: courseData.ukPrice || '',
-    uaePrice: courseData.uaePrice || '',
-    kenyaPrice: courseData.kenyaPrice || '',
-    ugandaPrice: courseData.ugandaPrice || '',
-    canadaPrice: courseData.canadaPrice || '',
-    australiaPrice: courseData.australiaPrice || '',
-
+    usaPrice: courseData.usaPrice || "", // Add prices for each country
+    indianPrice: courseData.indianPrice || "",
+    ukPrice: courseData.ukPrice || "",
+    uaePrice: courseData.uaePrice || "",
+    kenyaPrice: courseData.kenyaPrice || "",
+    ugandaPrice: courseData.ugandaPrice || "",
+    canadaPrice: courseData.canadaPrice || "",
+    australiaPrice: courseData.australiaPrice || "",
   };
 
   const [formValues, setFormValues] = useState(initialValues);
-  const [topics, setTopics] = useState(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+  const [topics, setTopics] = useState(
+    []
+  );
+
+
+  console.log(topics, 'topicsssssssssssssssssssss')
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(PictureUrl);
   const [imageName, setImageName] = useState("");
@@ -103,32 +111,29 @@ const EditBhajjanCourse = ({ courseData }) => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Update form values when courseData changes
   useEffect(() => {
     setFormValues({
-      courseName: courseData.title || '',
-      courseOverview: courseData.overview || '',
-      prerequisites: courseData.prerequisites || '',
-      topicsCovered: topicss || '',
+      courseName: courseData.title || "",
+      courseOverview: courseData.overview || "",
+      prerequisites: courseData.prerequisites || "",
+      topicsCovered: "",
       // price: courseData.price || '',
-      courseDuration: courseData.courseDuration || '',
-      lectureDuration: courseData.lectureDuration || '',
+      courseDuration: courseData.courseDuration || "",
+      lectureDuration: courseData.lectureDuration || "",
       courseImage: PictureUrl || null,
 
-
-      usaPrice: courseData.usaPrice || '',    // Add prices for each country
-  indianPrice: courseData.indianPrice || '',
-  ukPrice: courseData.ukPrice || '',
-  uaePrice: courseData.uaePrice || '',
-  kenyaPrice: courseData.kenyaPrice || '',
-  ugandaPrice: courseData.ugandaPrice || '',
-  canadaPrice: courseData.canadaPrice || '',
-  australiaPrice: courseData.australiaPrice || '',
-
-
-
+      usaPrice: courseData.usaPrice || "", // Add prices for each country
+      indianPrice: courseData.indianPrice || "",
+      ukPrice: courseData.ukPrice || "",
+      uaePrice: courseData.uaePrice || "",
+      kenyaPrice: courseData.kenyaPrice || "",
+      ugandaPrice: courseData.ugandaPrice || "",
+      canadaPrice: courseData.canadaPrice || "",
+      australiaPrice: courseData.australiaPrice || "",
     });
-    setTopics(courseData.topicsCovered ? courseData.topicsCovered.split(',') : []);
+    setTopics(
+      courseData.topicsCovered ? courseData.topicsCovered.split(",") : courseData.topics
+    );
   }, [courseData]);
 
   // Handle form change
@@ -152,9 +157,12 @@ const EditBhajjanCourse = ({ courseData }) => {
 
   // Handle adding a topic
   const handleTopicAdd = () => {
-    if (formValues.topicsCovered && !topics.includes(formValues.topicsCovered)) {
+    if (
+      formValues.topicsCovered &&
+      !topics.includes(formValues.topicsCovered)
+    ) {
       setTopics([...topics, formValues.topicsCovered]);
-      setFormValues((prev) => ({ ...prev, topicsCovered: '' }));
+      setFormValues((prev) => ({ ...prev, topicsCovered: "" }));
     }
   };
 
@@ -169,41 +177,40 @@ const EditBhajjanCourse = ({ courseData }) => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append('title', formValues.courseName);
-    formData.append('overview', formValues.courseOverview);
-    formData.append('prerequisites', formValues.prerequisites);
-    formData.append('topics', topics.join(','));
-    formData.append('courseDuration', formValues.courseDuration);
-    formData.append('lectureDuration', formValues.lectureDuration);
+    formData.append("title", formValues.courseName);
+    formData.append("overview", formValues.courseOverview);
+    formData.append("prerequisites", formValues.prerequisites);
+    // formData.append("topics", topics.join(","));
+    topics.forEach(topic => {
+      formData.append('topics', topic);
+    });
+    formData.append("courseDuration", formValues.courseDuration);
+    formData.append("lectureDuration", formValues.lectureDuration);
     // formData.append('price', formValues.price);
-    formData.append('courseType', 'tabla');
+    formData.append("courseType", "tabla");
 
-
-    formData.append('indianPrice', formValues.indianPrice);
-    formData.append('ukPrice', formValues.ukPrice);
-    formData.append('usaPrice', formValues.usaPrice);
-    formData.append('canadaPrice', formValues.canadaPrice);
-    formData.append('uaePrice', formValues.uaePrice);
-    formData.append('australiaPrice', formValues.australiaPrice);
-    formData.append('kenyaPrice', formValues.kenyaPrice);
-    formData.append('ugandaPrice', formValues.ugandaPrice);
-
+    formData.append("indianPrice", formValues.indianPrice);
+    formData.append("ukPrice", formValues.ukPrice);
+    formData.append("usaPrice", formValues.usaPrice);
+    formData.append("canadaPrice", formValues.canadaPrice);
+    formData.append("uaePrice", formValues.uaePrice);
+    formData.append("australiaPrice", formValues.australiaPrice);
+    formData.append("kenyaPrice", formValues.kenyaPrice);
+    formData.append("ugandaPrice", formValues.ugandaPrice);
 
     if (formValues.courseImage) {
-      formData.append('image', formValues.courseImage);
+      formData.append("image", formValues.courseImage);
     }
 
-    dispatch(updateCourse(courseId, formData)).then((res) => {
-
-
-
-
-      setIsLoading(false);
-      enqueueSnackbar(res.data.message, { variant: 'success' });
-    }).catch((err) => {
-      setIsLoading(false);
-      enqueueSnackbar(err.response.data.message, { variant: 'error' });
-    });
+    dispatch(updateCourse(courseId, formData))
+      .then((res) => {
+        setIsLoading(false);
+        enqueueSnackbar(res.data.message, { variant: "success" });
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+      });
   };
 
   return (
@@ -215,22 +222,33 @@ const EditBhajjanCourse = ({ courseData }) => {
 
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Course Name", name: "courseName", type: 'text' },
-            { label: "Course Overview", name: "courseOverview", type: 'text' },
-            { label: "Prerequisites", name: "prerequisites", type: 'text' },
+            { label: "Course Name", name: "courseName", type: "text" },
+            { label: "Course Overview", name: "courseOverview", type: "text" },
+            { label: "Prerequisites", name: "prerequisites", type: "text" },
             // { label: "Price", name: "price", type: 'number' },
-            { label: "Course Duration", name: "courseDuration", type: 'number' },
-            { label: "Lecture Duration", name: "lectureDuration", type: 'number' },
+            {
+              label: "Course Duration",
+              name: "courseDuration",
+              type: "number",
+            },
+            {
+              label: "Lecture Duration",
+              name: "lectureDuration",
+              type: "number",
+            },
 
-            { label: "Indian Price", name: "indianPrice", type: 'number' },
-            { label: "UK Price", name: "ukPrice", type: 'number' },
-            { label: "USA price", name: "usaPrice", type: 'number' },
-            { label: "Canada Price", name: "canadaPrice", type: 'number' },
-            { label: "UAE Price", name: "uaePrice", type: 'number' },
-            { label: "Australia Price", name: "australiaPrice", type: 'number' },
-            { label: "Kenya Price", name: "kenyaPrice", type: 'number' },
-            { label: "Uganda Price", name: "ugandaPrice", type: 'number' },
-
+            { label: "Indian Price", name: "indianPrice", type: "number" },
+            { label: "UK Price", name: "ukPrice", type: "number" },
+            { label: "USA price", name: "usaPrice", type: "number" },
+            { label: "Canada Price", name: "canadaPrice", type: "number" },
+            { label: "UAE Price", name: "uaePrice", type: "number" },
+            {
+              label: "Australia Price",
+              name: "australiaPrice",
+              type: "number",
+            },
+            { label: "Kenya Price", name: "kenyaPrice", type: "number" },
+            { label: "Uganda Price", name: "ugandaPrice", type: "number" },
           ].map((field, index) => (
             <Box key={index} sx={inputStyles}>
               <Typography sx={labelStyles}>{field.label}</Typography>
@@ -247,7 +265,17 @@ const EditBhajjanCourse = ({ courseData }) => {
           ))}
 
           <Box sx={inputStyles}>
-            <Typography sx={labelStyles}>Topics Covered <span style={{ fontSize: '0.7rem', color: theme.palette.primary.main }}>(Press enter to add new topic)</span></Typography>
+            <Typography sx={labelStyles}>
+              Topics Covered{" "}
+              <span
+                style={{
+                  fontSize: "0.7rem",
+                  color: theme.palette.primary.main,
+                }}
+              >
+                (Press enter to add new topic)
+              </span>
+            </Typography>
             <Box sx={boxStyles}>
               <TextField
                 placeholder="Enter topics"
@@ -258,14 +286,16 @@ const EditBhajjanCourse = ({ courseData }) => {
                 value={formValues.topicsCovered}
                 onChange={handleTopicChange}
                 onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     e.preventDefault();
                     handleTopicAdd();
                   }
                 }}
               />
             </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+            <Box
+              sx={{ display: "flex", flexWrap: "wrap", marginTop: "0.5rem" }}
+            >
               {topics.map((topic, index) => (
                 <Chip
                   key={index}
@@ -273,10 +303,14 @@ const EditBhajjanCourse = ({ courseData }) => {
                   onDelete={handleTopicDelete(topic)}
                   deleteIcon={
                     <IconButton size="small" sx={chipDeleteIconStyles}>
-                      <CancelIcon sx={{ color: 'white' }} />
+                      <CancelIcon sx={{ color: "white" }} />
                     </IconButton>
                   }
-                  sx={{ margin: '0.25rem', backgroundColor: theme.palette.primary.main, color: 'white' }}
+                  sx={{
+                    margin: "0.25rem",
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  }}
                 />
               ))}
             </Box>
@@ -307,19 +341,50 @@ const EditBhajjanCourse = ({ courseData }) => {
             </Box>
             {imagePreview && (
               <Box sx={{ marginTop: "1rem", textAlign: "start" }}>
-                <img src={imagePreview} alt="Selected" style={{ maxWidth: "100%", maxHeight: "100px", marginBottom: "0.5rem" }} />
+                <img
+                  src={imagePreview}
+                  alt="Selected"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100px",
+                    marginBottom: "0.5rem",
+                  }}
+                />
                 <Typography variant="body2">{imageName}</Typography>
               </Box>
             )}
           </Box>
 
-          <Box sx={{ marginTop: "1rem", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} gap={4}>
-            <Button variant="outlined" color="primary" fullWidth sx={{ fontWeight: 400, borderRadius: '0px' }}>
+          <Box
+            sx={{
+              marginTop: "1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+            gap={4}
+          >
+            <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              sx={{ fontWeight: 400, borderRadius: "0px" }}
+            >
               Cancel
             </Button>
 
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ fontWeight: 400, borderRadius: '0px' }}>
-              {isLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Update'}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ fontWeight: 400, borderRadius: "0px" }}
+            >
+              {isLoading ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                "Update"
+              )}
             </Button>
           </Box>
         </form>
