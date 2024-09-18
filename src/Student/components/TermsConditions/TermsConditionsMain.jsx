@@ -1,20 +1,34 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router";
 
 const TermsConditionsMain = () => {
   const theme = useTheme();
+  const navigate = useNavigate()
   return (
     <>
       <Box>
-        <Typography
-          sx={{
-            color: theme.palette.primary.main,
-            fontWeight: "550",
-            fontSize: "2rem",
-          }}
-        >
+
+
+      <Box sx={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+<Typography
+        sx={{
+          color: theme.palette.primary.main,
+          fontWeight: '550',
+          fontSize: '2rem',
+        }}
+      >
           Terms & Conditions
-        </Typography>
+
+      </Typography>
+
+
+      <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
+            Go to Website
+          </Button>
+
+
+</Box>
 
         <br />
 

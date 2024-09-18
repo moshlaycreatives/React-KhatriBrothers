@@ -6,6 +6,7 @@ import { FaEye } from "react-icons/fa";
 import ViewLecturesMain from './components/ViewLecturesMain';
 import { useDispatch } from 'react-redux';
 import { getStudentEnrolledCourses } from '../../../store/actions/courseActions';
+import { useNavigate } from 'react-router';
 
 const CourseInfoMain = () => {
   const theme = useTheme();
@@ -13,7 +14,7 @@ const CourseInfoMain = () => {
   const [isEdited, setIsEdited] = useState(false);
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
-
+const navigate = useNavigate()
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -65,15 +66,28 @@ const CourseInfoMain = () => {
 
   return (
     <Box>
-      <Typography
-        sx={{
-          color: theme.palette.primary.main,
-          fontWeight: "550",
-          fontSize: "2rem",
-        }}
-      >
-        Course Info
-      </Typography>
+
+
+
+
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+<Typography
+          sx={{
+            color: theme.palette.primary.main,
+            fontWeight: "550",
+            fontSize: "2rem",
+          }}
+        >
+Course Info
+        </Typography>
+
+        <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
+            Go to Website
+          </Button>
+
+        </Box>
+
 
       <br />
 

@@ -382,7 +382,7 @@ console.log(customCourseData, 'custom Course data')
                   <TableRow>
                     <TableCell>Course Name</TableCell>
                     <TableCell>Student Name</TableCell>
-                    <TableCell>Course Fee</TableCell>
+                    <TableCell>Course Type</TableCell>
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -400,7 +400,7 @@ console.log(customCourseData, 'custom Course data')
                       <TableCell sx={{ color: 'grey' }}>
                         {row.addedById.firstName} {row.addedById.lastName}
                       </TableCell>
-                      <TableCell sx={{ color: 'grey' }}>₹ {row.indianPrice}</TableCell>
+                      <TableCell sx={{ color: 'grey' }}>{row.courseType}</TableCell>
                       <TableCell>
                         <IconButton onClick={(event) => handleMenuClick(event, row._id)}>
                           <MoreVertIcon />

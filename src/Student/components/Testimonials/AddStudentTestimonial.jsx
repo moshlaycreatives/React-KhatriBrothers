@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Box, Button, Card, CircularProgress, FormControl, MenuItem, Select, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import { addStudentsTestimonial } from "../../../store/actions/courseActions";
 
 const AddStudentTestimonial = ({ testimonialData, handleCancel }) => {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+const Studenttitle = useSelector((state)=>state?.auth?.user?.firstName)
+// const Studenttitle2 = useSelector((state)=>state?.auth?.user?.lastName)
+
+// const title2 = `${Studenttitle} ${Studenttitle2}`
+
+
 
   const initialValues = {
     title: "",
@@ -36,19 +42,21 @@ const AddStudentTestimonial = ({ testimonialData, handleCancel }) => {
   };
 
   const validateForm = () => {
-    const { title, courseId, video } = formValues;
-    if (!title || !courseId || !video) {
+    const { courseId, video } = formValues;
+    if (!courseId || !video) {
       enqueueSnackbar("Please fill all fields", { variant: "error" });
       return false;
     }
     return true;
   };
 
+
   const handleSubmit = () => {
     if (!validateForm()) return;
     setLoading(true); // Set loading to true
     const formData = new FormData();
-    formData.append("stuName", formValues.title);
+    console.log(title2, 'title2')
+    formData.append("stuName", Studenttitle);
     formData.append("courseId", formValues.courseId);
     if (formValues.video) {
       formData.append("video", formValues.video);
@@ -67,6 +75,7 @@ const AddStudentTestimonial = ({ testimonialData, handleCancel }) => {
         setLoading(false); // Set loading to false after request completes
       });
   };
+  console.log(title2)
 
   return (
     <Card sx={{ boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)", position: "relative" }}>
@@ -85,7 +94,7 @@ const AddStudentTestimonial = ({ testimonialData, handleCancel }) => {
         <br />
 
         <form>
-          <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>Student Name</Typography>
+          {/* <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>Student Name</Typography>
 
           <TextField
             fullWidth
@@ -97,7 +106,7 @@ const AddStudentTestimonial = ({ testimonialData, handleCancel }) => {
             onChange={handleFormData}
           />
 
-          <br />
+          <br /> */}
 
           <Typography sx={{ fontSize: "0.9rem", marginBottom: "0.3rem" }}>Course Name</Typography>
 

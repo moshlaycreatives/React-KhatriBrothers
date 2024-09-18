@@ -47,7 +47,7 @@
 
 //   const [selectedCourse, setSelectedCourse] = useState("");
 //   const [isAdding, setIsAdding] = useState(false); // State to toggle between form and table view
-//   const base = "https://khatribrothersacademy.com:4545";
+//   const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 //   const [testimonialData, setTestimonialData] = useState([]);
 //   const [currentCourseId, setCurrentCourseId] = useState(null);
 //   const [formValues, setFormValues] = useState(initialValues);
@@ -407,15 +407,16 @@ import { useTheme } from "@emotion/react";
 import { useSnackbar } from "notistack";
 import { getStudentEnrolledCourses, getStudentTestimonial } from "../../../store/actions/courseActions";
 import AddTStudentTestimonial from "./AddStudentTestimonial"; // Import the new component
+import { useNavigate } from "react-router";
 
 const Testimonials = () => {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+const navigate = useNavigate()
   const [isAdding, setIsAdding] = useState(false);
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const [testimonialData, setTestimonialData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allTestimonials, setAllTestimonials] = useState([]);
@@ -473,19 +474,27 @@ const Testimonials = () => {
             <Typography sx={{ color: theme.palette.primary.main, fontWeight: "550", fontSize: isMobile ? "1.5rem" : "2rem" }}>
               Testimonial
             </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} gap={3}>
 
-            <Button
+
+        <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
+            Go to Website
+          </Button>
+          <Button
               variant="outlined"
               onClick={handleAddTestimonial}
               sx={{
                 textTransform: "none",
-                borderRadius: "0px",
+                // borderRadius: "0px",
                 fontWeight: 400,
-                fontSize: isMobile ? "0.8rem" : "1rem",
+                // fontSize: isMobile ? "0.8rem" : "1rem",
               }}
             >
               + Add Testimonial
             </Button>
+
+        </Box>
+
           </Box>
 
           <br />

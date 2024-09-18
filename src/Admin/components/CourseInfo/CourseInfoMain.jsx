@@ -59,6 +59,9 @@ const CourseInfoMain = () => {
 Course Info
         </Typography>
 
+
+
+
 <br/>
 
 

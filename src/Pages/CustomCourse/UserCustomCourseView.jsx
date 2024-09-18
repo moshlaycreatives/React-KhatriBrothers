@@ -23,9 +23,7 @@ const UserCustomCourseView = () => {
           </Typography>
           <Box>
             <Typography sx={{ color: 'white' }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy
-              text ever since the 1500s, when an unknown printer took a gal
+            Tailor your musical journey with our personalized courses! Explore a world of options, Choose whatever you want to learn that ignite your passion. Discover your unique sound and achieve your musical goals with our expert guidance.
             </Typography>
             {/* <Button
               variant="contained"

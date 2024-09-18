@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { getStudentJoinFreeTrails } from '../../../store/actions/courseActions';
+import { useNavigate } from 'react-router';
 
 const StudentTrailJoin = () => {
   const theme = useTheme();
@@ -10,7 +11,7 @@ const StudentTrailJoin = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-
+const navigate = useNavigate()
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -70,7 +71,8 @@ const StudentTrailJoin = () => {
 
   return (
     <Box>
-      <Typography
+<Box sx={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+<Typography
         sx={{
           color: theme.palette.primary.main,
           fontWeight: '550',
@@ -80,6 +82,13 @@ const StudentTrailJoin = () => {
         Join Free Trials
       </Typography>
 
+
+      <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
+            Go to Website
+          </Button>
+
+
+</Box>
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
           <CircularProgress />

@@ -21,7 +21,6 @@ const ChangePassword = () => {
   };
 
   const { enqueueSnackbar } = useSnackbar();
-
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -59,15 +58,31 @@ const ChangePassword = () => {
   return (
     <>
       <Box>
-        <Typography
-          sx={{
-            color: theme.palette.primary.main,
-            fontWeight: "550",
-            fontSize: "2rem",
-          }}
-        >
+
+
+
+        <Box sx={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+<Typography
+        sx={{
+          color: theme.palette.primary.main,
+          fontWeight: '550',
+          fontSize: '2rem',
+        }}
+      >
           Change Password
-        </Typography>
+
+      </Typography>
+
+
+      <Button sx={{ textTransform: "none" }} variant="outlined" onClick={() => navigate("/")}>
+            Go to Website
+          </Button>
+
+
+</Box>
+
+
+
       </Box>
       <Box
         sx={{

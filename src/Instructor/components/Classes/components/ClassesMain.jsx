@@ -51,18 +51,40 @@ const ClassesMain = () => {
     setIsAddingCourse(false);
   };
 
-  const formatDateAndTime = (timestamp) => {
-    const date = new Date(timestamp);
-    const formattedDate = date.toLocaleDateString();
-console.log(formattedDate, 'formatted date')
-    const formattedTime = date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
+//   const formatDateAndTime = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const formattedDate = date.toLocaleDateString();
+// console.log(formattedDate, 'formatted date')
+//     const formattedTime = date.toLocaleTimeString([], {
+//       hour: "2-digit",
+//       minute: "2-digit",
+//       hour12: true,
+//     });
 
-    return { formattedDate, formattedTime };
-  };
+//     return { formattedDate, formattedTime };
+//   };
+
+
+const formatDateAndTime = (timestamp) => {
+  const date = new Date(timestamp);
+  const formattedDate = date.toLocaleDateString();
+
+  const formattedTime = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  // Calculate end time by adding 2 hours to start time
+  const endTime = new Date(date.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
+  const formattedEndTime = endTime.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return { formattedDate, formattedTime, formattedEndTime };
+};
 
   const isJoinable = (startTime, endTime) => {
     const now = new Date();
@@ -147,6 +169,7 @@ console.log(formattedDate, 'formatted date')
                   <TableRow>
                     <TableCell>Course Name</TableCell>
                     <TableCell>Group/Student</TableCell>
+                    <TableCell>Class Name</TableCell>
                     <TableCell>Date</TableCell>
                     <TableCell>Time</TableCell>
                     <TableCell>Lecture</TableCell>
@@ -154,13 +177,24 @@ console.log(formattedDate, 'formatted date')
                 </TableHead>
                 <TableBody>
                   {classData.map((row) => {
-                    const { formattedDate, formattedTime: formattedStartTime } =
+                    {/* const { formattedDate, formattedTime: formattedStartTime } =
                       formatDateAndTime(row.startTime);
                     const { formattedTime: formattedEndTime } =
                       formatDateAndTime(row.endTime);
 
-                    const joinable = isJoinable(row.startTime, row.endTime);
+                    const joinable = isJoinable(row.startTime, row.endTime); */}
 
+
+
+                    const { formattedDate, formattedTime: formattedStartTime, formattedEndTime } =
+      formatDateAndTime(row.startTime);
+
+    const now = new Date();
+    const start = new Date(row.startTime);
+    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // Calculate end time
+
+    const isPastEndTime = now > end;
+    const joinable = now >= start && now <= end;
                     return (
                       <TableRow
                         key={row._id}
@@ -180,14 +214,42 @@ console.log(formattedDate, 'formatted date')
                             ? row.group.name
                             : `${row.studentId.firstName} ${row.studentId.lastName}`}
                         </TableCell>
+
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.title}
+                        </TableCell>
+
+
                         <TableCell sx={{ color: "grey" }}>
                           {formattedDate}
                         </TableCell>
                         <TableCell sx={{ color: "grey" }}>
                           {formattedStartTime} - {formattedEndTime}
                         </TableCell>
-
                         <TableCell>
+          {isPastEndTime ? (
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ borderRadius: "0px", textTransform: "none" }}
+
+              disabled={!joinable}
+            >
+              Finished
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ borderRadius: "0px", textTransform: "none" }}
+              onClick={() => joinable && handleRedirect(row.zoomLink)}
+              disabled={!joinable}
+            >
+              Join
+            </Button>
+          )}
+        </TableCell>
+                        {/* <TableCell>
                           <Button
                             variant="contained"
                             color="primary"
@@ -199,7 +261,7 @@ console.log(formattedDate, 'formatted date')
                           >
                             Join
                           </Button>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}

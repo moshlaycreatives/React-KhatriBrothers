@@ -6,7 +6,7 @@ import EditAdvanceCourse from "./EditCustomCourse";
 import EditCustomCourse from "./EditCustomCourse";
 
 const ViewCustomCourse = ({courseId}) => {
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +40,7 @@ const ViewCustomCourse = ({courseId}) => {
     setIsEditing(false);
     // Add logic to navigate back to the courses list or handle the back action
   };
-  console.log(isEditing, 'editinggggg')
+  
 
   if (loading) {
     return (
@@ -64,9 +64,14 @@ const ViewCustomCourse = ({courseId}) => {
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
              Name
           </Typography>
-          <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+          {/* <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
             {courseData.customList[0]}
-          </Typography>
+          </Typography> */}
+          {courseData.customList.map((item, index) => (
+  <Typography key={index} sx={{ marginTop: "0.2rem", color: "grey" }}>
+    {item}
+  </Typography>
+))}
 
           <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
             Course Overview

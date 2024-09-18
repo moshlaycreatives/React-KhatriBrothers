@@ -631,7 +631,7 @@ const AddClass = () => {
       title: formValues.title,
       date: startDateTime,
       startTime: startDateTime,
-      endTime: endDateTime,
+      // endTime: endDateTime,
        // Include time zone information
     };
 
@@ -839,7 +839,7 @@ const AddClass = () => {
 
                 <br />
 
-                <Box>
+                {/* <Box>
                   <Typography variant="subtitle1">End Time</Typography>
                   <TextField
                     type="time"
@@ -855,10 +855,10 @@ const AddClass = () => {
                   />
                 </Box>
 
-                <br />
+                <br /> */}
 
                 <Box>
-                  <Typography variant="subtitle1">Zoom Link</Typography>
+                  <Typography variant="subtitle1">Online Class Link</Typography>
                   <TextField
                     type="text"
                     variant="outlined"
@@ -867,7 +867,7 @@ const AddClass = () => {
                     name="zoomLink"
                     value={formValues.zoomLink}
                     onChange={handleFormData}
-                    placeholder="Zoom link"
+                    placeholder="Online Class link"
                   />
                 </Box>
                 <br />

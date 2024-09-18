@@ -72,7 +72,7 @@ const RecentAssignedStudents = () => {
                   <TableCell>Course Type</TableCell>
                   <TableCell>Gender</TableCell>
                   <TableCell>Country</TableCell>
-                  <TableCell>Action</TableCell>
+                  {/* <TableCell>Action</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -85,15 +85,15 @@ const RecentAssignedStudents = () => {
                       {row.courseId.title}
                     </TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.firstName}</TableCell>
-                    <TableCell sx={{ color: 'grey' }}>{row.courseId.title}</TableCell>
+                    <TableCell sx={{ color: 'grey' }}>{row.courseId.courseType}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.gender}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.country}</TableCell>
-                    <TableCell sx={{ color: theme.palette.primary.main }}>
+                    {/* <TableCell sx={{ color: theme.palette.primary.main }}>
                       <FaEye
                         style={{ fontSize: '1.5rem', cursor: 'pointer' }}
                         onClick={() => handleViewClick(row.studentId._id)} // Pass the student ID to the handler
                       />
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

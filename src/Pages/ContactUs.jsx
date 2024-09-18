@@ -107,17 +107,28 @@ const ContactUs = () => {
                   <br />
                   <br />
                   <Typography color={"grey"}>
-                  If you have any kind of queries regarding the admission process feel free to contact us. Our admissions counselors are here to help you at any time. 
+                  If you have any kind of queries regarding the admission process feel free to contact us. Our admissions counselors are here to help you at any time.
                   </Typography>
+                  <br />
+                  <br />
                   <br />
                   <br />
                   <br />
                   <br />
                   <br />
 
-                  <Typography sx={{ fontWeight: 600, fontSize: "3rem" }}>
-                    Logo
-                  </Typography>
+
+
+                  <Box sx={{}}>
+            <img
+              src="/loginlogo.svg"
+              width="45%"
+              // style={{ display: isRoot ? "none" : "block" }}
+              alt="Logo"
+            />
+          </Box>
+
+
                 </Box>
               </Grid>
 
@@ -131,7 +142,7 @@ const ContactUs = () => {
               >
                 <Box sx={{ display: "flex", justifyContent: "end" }}>
                   <IoMdClose
-                    style={{ fontSize: "1.8rem" }}
+                    style={{ fontSize: "1.8rem", cursor:'pointer' }}
                     onClick={handleClick}
                   />
                 </Box>

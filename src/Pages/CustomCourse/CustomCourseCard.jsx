@@ -25,7 +25,7 @@ useEffect(() => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`);
@@ -45,7 +45,7 @@ useEffect(() => {
 <CiMicrophoneOn style={{fontSize:'5rem', color:theme.palette.primary.main}}/>
 
     <Typography sx={{fontSize:'2rem' , fontWeight:600, color:theme.palette.primary.main}}>
-        Do Not Have any Customized Course
+        Didn't Have any Customized Course
     </Typography>
 </Box>
 

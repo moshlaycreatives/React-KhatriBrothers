@@ -114,6 +114,8 @@ const LectureInstructureMain = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Course Name</TableCell>
+                    <TableCell>Class Name</TableCell>
+
                     <TableCell>Group/Student</TableCell>
                     <TableCell>Created Date</TableCell>
 
@@ -131,6 +133,9 @@ const LectureInstructureMain = () => {
                       >
                         <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
                           {row.courseId.title}
+                        </TableCell>
+                        <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
+                          {row.title}
                         </TableCell>
                         <TableCell sx={{ color: 'grey' }}>
                           {row.courseType === 'group' ? row?.group?.name : `${row?.studentId?.firstName} ${row?.studentId?.lastName}`}

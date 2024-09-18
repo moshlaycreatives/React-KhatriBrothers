@@ -32,6 +32,8 @@ const CustomCourse = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
+    <Page title= {`customized ${displayCourseType}`}>
+
       <Box
         sx={{
           padding: "5rem 10% 0rem 10%",
@@ -41,13 +43,11 @@ const CustomCourse = () => {
         <Grid container sx={{ alignItems: "center" }}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Typography variant="h4" fontWeight="550" color="white">
-              Customized Course
+              Customized {displayCourseType}
             </Typography>
             <Box>
               <Typography sx={{ color: "white" }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a gal
+              Tailor your musical journey with our personalized courses! Explore a world of options, Choose whatever you want to learn that ignite your passion. Discover your unique sound and achieve your musical goals with our expert guidance.
               </Typography>
               {/* <Button
                 variant="contained"
@@ -102,6 +102,7 @@ const CustomCourse = () => {
           <AddCustomCourse courseType={originalCourseType} bhajjanType= {displayCourseType}/>
         </Box>
       </Box>
+    </Page>
     </>
   );
 };

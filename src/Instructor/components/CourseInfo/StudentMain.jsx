@@ -202,7 +202,7 @@ setSearchTerm(e.target.value);
                       <TableRow>
                         <TableCell>Course Name</TableCell>
                         <TableCell>Student Name</TableCell>
-                        <TableCell>Course Type</TableCell>
+                        <TableCell>Class Type</TableCell>
                         <TableCell>Gender</TableCell>
                         <TableCell>Country</TableCell>
                         <TableCell>Action</TableCell>
