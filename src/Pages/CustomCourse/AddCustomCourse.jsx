@@ -113,7 +113,14 @@ const AddCustomCourse = ({ courseType }) => {
       "Hai apna dil to awara",
       "Yeh raatein yeh mausam",
     ],
-    oldSongs: [], // No longer used
+
+    ghazal: [
+      "Lord Swaminarayan bhajan - Swaminarayan naam mane vahlu lage",
+      "Lord Swaminarayan bhajan - Tari murti lage che mune pyari",
+
+    ],
+
+    oldSongs: [],
   };
 
   const courses = coursesByType[courseType] || [];
@@ -157,7 +164,6 @@ const AddCustomCourse = ({ courseType }) => {
   };
 
   const handleSubmit = (e) => {
-    setOpenModal(true);
 
     e.preventDefault();
     setIsLoading(true);
@@ -176,6 +182,7 @@ const AddCustomCourse = ({ courseType }) => {
         setIsLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setOpenModal(true);
+    
       })
       .catch((err) => {
         setIsLoading(false);

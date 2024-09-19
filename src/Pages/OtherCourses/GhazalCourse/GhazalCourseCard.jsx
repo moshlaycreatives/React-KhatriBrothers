@@ -13,10 +13,12 @@ const GhazalCourseCard = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const handleCardClick = (id) => {
-    navigate(`/course-details/${id}`);
+    navigate(`/course-details/${id}`,  {
+      state: { courseType: "ghazal" },
+    });
   };
 
 
@@ -26,7 +28,7 @@ const GhazalCourseCard = () => {
         {filteredCourses.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
-              <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />
+              <img  src={`${base}${course?.image?.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />
             </Box>
             <Box>
               <Typography sx={{ color: "grey" }}>{course.title}</Typography>

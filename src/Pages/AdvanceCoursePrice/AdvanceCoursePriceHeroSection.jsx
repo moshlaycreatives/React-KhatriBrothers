@@ -38,7 +38,7 @@ import FreeTrialButton from "../../components/FreeTrialButton";
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -408,6 +408,32 @@ const AdvanceCoursePriceHeroSection = () => {
                       onClick={() => handleButtonClick("bollywood")}
                     >
                       Customized Bollywood
+                    </Button>
+                  )}
+
+
+
+                  {courseType === "ghazal" && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "white",
+                        mt: 4,
+                        ml: 2,
+                        color: "#8d1851",
+                        borderRadius: "0px",
+                        // padding: "0.6rem 2.3rem",
+                        padding: isSmall ? "0.6rem 0.6rem" : "0.6rem 2.3rem",
+
+                        textTransform: "none",
+                        fontSize: "0.8rem",
+                        "&:hover": {
+                          backgroundColor: "white",
+                        },
+                      }}
+                      onClick={() => handleButtonClick("ghazal")}
+                    >
+                      Customized Ghazal
                     </Button>
                   )}
                 </Box>

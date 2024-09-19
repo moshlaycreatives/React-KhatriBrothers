@@ -6,7 +6,7 @@ import EditAdvanceCourse from "./EditCustomCourse";
 import EditCustomCourse from "./EditCustomCourse";
 
 const ViewCustomCourse = ({courseId}) => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +40,7 @@ const ViewCustomCourse = ({courseId}) => {
     setIsEditing(false);
     // Add logic to navigate back to the courses list or handle the back action
   };
-  
+
 
   if (loading) {
     return (

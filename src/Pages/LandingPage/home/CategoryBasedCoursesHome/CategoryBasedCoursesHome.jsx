@@ -33,11 +33,17 @@ const courses = [
     id: 5,
     title: "Guitar Courses",
     path: "/guitar-courses",
-    imageSrc: "/bhajjancourse.png",
+    imageSrc: "/GuitarCourse.jpg",
   },{
     id: 6,
     title: "Keyboard Courses",
     path: "/keyboard-courses",
+    imageSrc: "/KeyboardCourse.jpg",
+  },
+  {
+    id: 7,
+    title: "Bollywood Courses",
+    path: "/bollywood-course",
     imageSrc: "/bhajjancourse.png",
   },
 ];

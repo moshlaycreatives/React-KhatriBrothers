@@ -30,12 +30,12 @@ const MessageMain = () => {
 
   const [msgsData, setMsgsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const userId = useSelector((state) => state?.auth?.user?._id);
   const [selectedUser, setSelectedUser] = useState("");
   const socket = useMemo(
-    () => io("https://zh0k2dcj-4545.euw.devtunnels.ms"),
+    () => io("https://khatribrothersacademy.com:4545"),
     []
   );
 
@@ -237,7 +237,7 @@ const MessageMain = () => {
                 {val?.instructorId?.firstName} {val?.instructorId?.lastName}
               </Typography>
               <Typography sx={{ fontSize: "0.8rem", color: receiverId === val?.instructorId?._id ? "white" : "grey" }}>
-              
+
               </Typography>
             </Box>
           </Box>

@@ -118,7 +118,7 @@ const AddLecture = () => {
 
         <form onSubmit={handleSubmit}>
 
-<Box sx={inputStyles}>
+{/* <Box sx={inputStyles}>
 <Typography sx={{fontWeight:600, fontSize:'1rem'}}>Select Class</Typography>
 
   <TextField
@@ -131,7 +131,7 @@ size='small'
 name='name'
 
   />
-</Box>
+</Box> */}
 
 
           <Box sx={inputStyles} >

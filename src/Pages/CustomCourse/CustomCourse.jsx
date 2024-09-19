@@ -49,30 +49,25 @@ const CustomCourse = () => {
               <Typography sx={{ color: "white" }}>
               Tailor your musical journey with our personalized courses! Explore a world of options, Choose whatever you want to learn that ignite your passion. Discover your unique sound and achieve your musical goals with our expert guidance.
               </Typography>
-              {/* <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "white",
-                  mt: 4,
-                  color: "#8d1851",
-                  borderRadius: "0px",
-                  padding: "0.8rem 2rem",
-                  textTransform: "none",
-                  fontSize: "0.8rem",
-                  ":hover": {
-                    color: "white",
-                  },
-                }}
-              >
-                Start Learning
-              </Button> */}
+
             </Box>
           </Grid>
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Box sx={{ padding: "4rem" }}>
-              <img src="/BegginerImage.png" alt="image" width={"100%"} />
-            </Box>
+          <Box sx={{ padding: "4rem" }}>
+  <img
+    src={
+      displayCourseType === 'bhajan' ? '/BhajanCourseLogo.JPG' :
+      displayCourseType === 'bollywood' ? '/BhajanCourseLogo.JPG' :
+      displayCourseType === 'ghazal' ? '/GhazalCourseLogo.JPG' :
+      '/defaultImage.png' // fallback image if none match
+    }
+    alt="course type"
+    width={"100%"}
+    height={'300rem'}
+  />
+</Box>
+
           </Grid>
         </Grid>
       </Box>
