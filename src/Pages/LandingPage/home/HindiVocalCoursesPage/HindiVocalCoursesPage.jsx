@@ -15,7 +15,7 @@ window.scrollTo(0,0)
   return (
     <>
 
-<Page title = 'Hindustani Vocal'>
+<Page title = 'Hindustani Vocal Courses'>
 
 <Box
         sx={{
@@ -51,7 +51,7 @@ window.scrollTo(0,0)
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Box sx={{ padding: "5rem" }}>
-              <img src="/AdvanceImage.png" alt="image" width={"100%"} />
+              <img src="/advancecourse.png" alt="image" width={"100%"} height={'300rem'} />
             </Box>
           </Grid>
         </Grid>

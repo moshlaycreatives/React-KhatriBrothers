@@ -39,7 +39,7 @@ const navigate = useNavigate()
             fontSize: "2rem",
           }}
         >
-          Advance Level Courses
+          Advanced Level Courses
         </Typography>
         <Typography>
         This course is designed for those who are professionals in music and want to learn the advanced rhythm, tempo, and dynamics of music.

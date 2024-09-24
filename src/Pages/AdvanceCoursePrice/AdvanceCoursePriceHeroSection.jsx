@@ -383,7 +383,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                       onClick={() => handleButtonClick("bhajjan")}
                     >
-                      Customized Bhajan
+                      Customized Bhajan Course
                     </Button>
                   )}
 
@@ -407,7 +407,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                       onClick={() => handleButtonClick("bollywood")}
                     >
-                      Customized Bollywood
+                      Customized Bollywood Course
                     </Button>
                   )}
 
@@ -433,7 +433,7 @@ const AdvanceCoursePriceHeroSection = () => {
                       }}
                       onClick={() => handleButtonClick("ghazal")}
                     >
-                      Customized Ghazal
+                      Customized Ghazal Course
                     </Button>
                   )}
                 </Box>

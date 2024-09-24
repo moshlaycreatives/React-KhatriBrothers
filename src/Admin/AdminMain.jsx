@@ -85,7 +85,7 @@ const listData = [
     submenu: [
       { title: "Beginner Course", icon: <BiMessageAltDetail /> },
       { title: "Intermediate Course", icon: <BiMessageAltDetail /> },
-      { title: "Advance Course", icon: <BiMessageAltDetail /> },
+      { title: "Advanced Course", icon: <BiMessageAltDetail /> },
     ],
   },
 
@@ -491,7 +491,7 @@ const AdminMain = () => {
               "Hindustani Vocal Courses - Intermediate Course" && (
               <IntermediateCoursesMain />
             )}
-            {selectedItem === "Hindustani Vocal Courses - Advance Course" && (
+            {selectedItem === "Hindustani Vocal Courses - Advanced Course" && (
               <AdvanceCoursesMain />
             )}
 

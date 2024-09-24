@@ -115,9 +115,25 @@ const AddCustomCourse = ({ courseType }) => {
     ],
 
     ghazal: [
-      "Lord Swaminarayan bhajan - Swaminarayan naam mane vahlu lage",
-      "Lord Swaminarayan bhajan - Tari murti lage che mune pyari",
+      "Tum Ko Dekha To Yeh Khayal Aaya",
 
+      "Yeh Tera Ghar Ye Mera Ghar",
+
+      "Tum Itna Jo Muskura Rahe Ho",
+
+      "Aaj Jane Ki Zid Na Karo",
+
+      "Woh Kagaz Ki Kashti",
+
+      "Hazaron Khwahishen Aisi",
+
+      "Chithi Na Koi Sandesh",
+
+      "Jhuki Jhuki Si Nazar",
+
+       "Ek Pyar Ka Naghma Hai",
+
+       "Pyar Mujh Se Jo Kiya"
     ],
 
     oldSongs: [],
@@ -182,7 +198,7 @@ const AddCustomCourse = ({ courseType }) => {
         setIsLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setOpenModal(true);
-    
+
       })
       .catch((err) => {
         setIsLoading(false);
@@ -320,7 +336,7 @@ const AddCustomCourse = ({ courseType }) => {
         <br/>
         <br/>
         <br/>
-          <Typography sx={{textAlign:'center', fontSize:'1.5rem', }}>Your request is submitted, You will get notify by email from admin when course approved</Typography>
+          <Typography sx={{textAlign:'center', fontSize:'1.5rem', }}>Your request is submitted, You will get notify by email from admin when your customized course approved.</Typography>
         </DialogContent>
         <DialogActions>
           {/* <Button onClick={handleModalClose} color="primary">

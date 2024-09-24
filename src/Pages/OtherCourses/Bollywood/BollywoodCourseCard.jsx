@@ -35,6 +35,20 @@ const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?.
 
   console.log(filteredCourses, "filteredCourses");
 
+
+
+  const sortedCourses = filteredCourses.sort((a, b) => {
+    if (a.addedBy === "admin" && b.addedBy !== "admin") {
+      return -1;
+    }
+    if (a.addedBy !== "admin" && b.addedBy === "admin") {
+      return 1;
+    }
+    return 0;
+  });
+
+
+
   const theme = useTheme();
   const navigate = useNavigate();
   const base = "https://khatribrothersacademy.com:4545";
@@ -54,7 +68,7 @@ const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?.
   return (
     <Box sx={{ padding: "3rem 10%" }}>
       <Grid container spacing={5}>
-        {filteredCourses.map((course, index) => (
+        {sortedCourses.map((course, index) => (
           <Grid key={index} item lg={4} md={4} sm={12} xs={12}>
             <Box onClick={() => handleCardClick(course._id)} sx={{ cursor: 'pointer' }}>
               <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'250vh'} />

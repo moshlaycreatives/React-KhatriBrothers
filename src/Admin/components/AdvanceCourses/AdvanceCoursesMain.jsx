@@ -116,7 +116,7 @@ fetchData()
                 fontSize: '2rem',
               }}
             >
-              Advance Courses
+              Advanced Courses
             </Typography>
 
             <Button variant='outlined' onClick={handleAddCourseClick}>

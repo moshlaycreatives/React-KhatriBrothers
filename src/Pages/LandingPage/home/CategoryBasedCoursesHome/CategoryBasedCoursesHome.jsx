@@ -44,7 +44,7 @@ const courses = [
     id: 7,
     title: "Bollywood Courses",
     path: "/bollywood-course",
-    imageSrc: "/bhajjancourse.png",
+    imageSrc: "/bollywoodcourse.jpeg",
   },
 ];
 
