@@ -54,7 +54,7 @@ const PendingCustomCoursesMain = () => {
       const filterCustomCourses = data.filter(
         (course) =>
           course.addedBy === 'user' &&
-         ( course.courseType === 'bhajjan' || course.courseType === 'bollywood') &&
+         ( course.courseType === 'bhajjan' || course.courseType === 'bollywood' || course.courseType === 'ghazal') &&
           !(course.ukPrice ||
             course.indianPrice ||
             course.usaPrice ||

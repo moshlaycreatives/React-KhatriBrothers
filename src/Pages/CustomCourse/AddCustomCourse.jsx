@@ -1,7 +1,5 @@
-
-
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Card,
@@ -34,11 +32,11 @@ const checkboxContainerStyles = {
 };
 
 const chipDeleteIconStyles = {
-  color: 'white',
+  color: "white",
 };
 
 const AddCustomCourse = ({ courseType }) => {
-  const theme = useTheme()
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [topics, setTopics] = useState([]);
@@ -46,7 +44,7 @@ const AddCustomCourse = ({ courseType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
-
+  const userRole = useSelector((state) => state?.auth?.user?.role);
   const coursesByType = {
     bhajjan: [
       "Lord Swaminarayan bhajan - Swaminarayan naam mane vahlu lage",
@@ -131,9 +129,9 @@ const AddCustomCourse = ({ courseType }) => {
 
       "Jhuki Jhuki Si Nazar",
 
-       "Ek Pyar Ka Naghma Hai",
+      "Ek Pyar Ka Naghma Hai",
 
-       "Pyar Mujh Se Jo Kiya"
+      "Pyar Mujh Se Jo Kiya",
     ],
 
     oldSongs: [],
@@ -180,8 +178,20 @@ const AddCustomCourse = ({ courseType }) => {
   };
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
+
+
+    if (userRole === "admin" || userRole === "instructor") {
+      enqueueSnackbar("You cannot enroll course as your role is " + userRole, { variant: "error" });
+      return;
+    }
+
+    // Check if at least one course is selected or topics are added
+    if (selectedCourses.length === 0 && topics.length === 0) {
+      enqueueSnackbar("Please select at least one course", { variant: "warning" });
+      return;
+    }
+
     setIsLoading(true);
 
     const combinedList = [...selectedCourses, ...topics];
@@ -198,7 +208,6 @@ const AddCustomCourse = ({ courseType }) => {
         setIsLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setOpenModal(true);
-
       })
       .catch((err) => {
         setIsLoading(false);
@@ -207,7 +216,7 @@ const AddCustomCourse = ({ courseType }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault(); // Prevent form submission on Enter key press
     }
   };
@@ -264,10 +273,15 @@ const AddCustomCourse = ({ courseType }) => {
 
           {/* Topics Section */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" sx={{ fontSize: "1.5rem", fontWeight: 600, mb: 1 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontSize: "1.5rem", fontWeight: 600, mb: 1 }}
+            >
               Enter your choice
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', marginBottom: '1rem' }}>
+            <Box
+              sx={{ display: "flex", flexWrap: "wrap", marginBottom: "1rem" }}
+            >
               {topics.map((topic, index) => (
                 <Chip
                   key={index}
@@ -275,21 +289,25 @@ const AddCustomCourse = ({ courseType }) => {
                   onDelete={handleTopicDelete(topic)}
                   deleteIcon={
                     <IconButton size="small" sx={chipDeleteIconStyles}>
-                      <CancelIcon sx={{ color: 'white' }} />
+                      <CancelIcon sx={{ color: "white" }} />
                     </IconButton>
                   }
-                  sx={{ margin: '0.25rem', backgroundColor: 'primary.main', color: 'white' }}
+                  sx={{
+                    margin: "0.25rem",
+                    backgroundColor: "primary.main",
+                    color: "white",
+                  }}
                 />
               ))}
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <input
                 type="text"
                 value={newTopic}
                 onChange={(e) => setNewTopic(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter your choice"
-                style={{ flex: 1, padding: '0.5rem', marginRight: '0.5rem' }}
+                style={{ flex: 1, padding: "0.5rem", marginRight: "0.5rem" }}
               />
               <Button
                 variant="contained"
@@ -299,7 +317,11 @@ const AddCustomCourse = ({ courseType }) => {
                 Add
               </Button>
             </Box>
-            <span style={{ fontSize: '0.7rem', color: theme.palette.primary.main }}>(Click add button to add a multiple topics)</span>
+            <span
+              style={{ fontSize: "0.7rem", color: theme.palette.primary.main }}
+            >
+              (Click add button to add a multiple topics)
+            </span>
           </Box>
 
           <Box
@@ -325,18 +347,25 @@ const AddCustomCourse = ({ courseType }) => {
         </form>
       </Card>
 
-
       <Dialog open={openModal} onClose={handleModalClose}>
         {/* <DialogTitle>Success</DialogTitle> */}
         <DialogContent>
-
-        <Box sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-          <img src='/loginlogo.svg' width='30%'/>
-        </Box>
-        <br/>
-        <br/>
-        <br/>
-          <Typography sx={{textAlign:'center', fontSize:'1.5rem', }}>Your request is submitted, You will get notify by email from admin when your customized course approved.</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img src="/loginlogo.svg" width="30%" />
+          </Box>
+          <br />
+          <br />
+          <br />
+          <Typography sx={{ textAlign: "center", fontSize: "1.5rem" }}>
+            Your request is submitted, You will get notify by email from admin
+            when your customized course approved.
+          </Typography>
         </DialogContent>
         <DialogActions>
           {/* <Button onClick={handleModalClose} color="primary">
