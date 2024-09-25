@@ -119,6 +119,12 @@ function FreeTrialButton() {
         case "Bollywood/Filmy Songs":
           courseType = "Bollywood/Filmy Songs";
           break;
+          case "Guitar Course":
+          courseType = "Guitar Course";
+          break;
+          case "Keyboard Course":
+          courseType = "Keyboard Course";
+          break;
         default:
           courseType = "Not Selected";
           break;
@@ -293,6 +299,8 @@ fontSize:'1.1rem',
                 "Tabla",
                 "Ghazal",
                 "Bollywood/Filmy Songs",
+                "Guitar Course",
+                "Keyboard Course"
               ].map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
