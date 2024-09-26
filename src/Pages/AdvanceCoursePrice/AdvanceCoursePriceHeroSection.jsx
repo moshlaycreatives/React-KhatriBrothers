@@ -38,7 +38,7 @@ import FreeTrialButton from "../../components/FreeTrialButton";
 const AdvanceCoursePriceHeroSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const { id } = useParams();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -615,15 +615,18 @@ const AdvanceCoursePriceHeroSection = () => {
                     </Typography>
                   </Box>
                   <span
-                    style={{
-                      color: "grey",
-                      fontSize: "0.9rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Beginner to Professional
-                  </span>
-                </Box>
+  style={{
+    color: "grey",
+    fontSize: "0.9rem",
+    fontWeight: 600,
+  }}
+>
+  {courseData.courseType === "intermediate"
+    ? "Intermediate to Professional"
+    : courseData.courseType === "advanced"
+    ? "Advanced to Professional"
+    : "Beginner to Advance"}
+</span>                </Box>
                 <br />
                 <Box
                   sx={{
@@ -793,7 +796,7 @@ const AdvanceCoursePriceHeroSection = () => {
               Related Courses{" "}
             </Typography>
             <br />
-            <Grid container spacing={5}>
+            {/* <Grid container spacing={5}>
               {related.slice(0, 3).map((val, ind) => (
                 <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
                   <Box>
@@ -821,7 +824,46 @@ const AdvanceCoursePriceHeroSection = () => {
                   </Box>
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
+
+
+            <Grid container spacing={5}>
+  {related
+    .filter((val) => val._id !== id) // Exclude item matching params ID
+    .slice(0, 3) // Limit to first 3 items
+    .map((val, ind) => (
+      <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
+        <Box>
+          <img
+            src={`${base}${val?.image?.replace(/ /g, "%20")}`}
+            alt="alt image"
+            width={"100%"}
+            height={"250vh"}
+          />
+        </Box>
+        <Box>
+
+          <Typography sx={{ color: "grey" }}>{val.title}</Typography>
+          <br />
+          <Button
+          // onClick={()=>navigate(`/course-details/${val._id}`)}
+          onClick={() => window.location.href = `/course-details/${val._id}`}
+            variant="outlined"
+            sx={{
+              color: theme.palette.primary.main,
+              textTransform: "none",
+              borderRadius: "0px",
+              fontSize: "1.1rem",
+            }}
+          >
+            Start Learning &rarr;
+          </Button>
+        </Box>
+      </Grid>
+    ))}
+</Grid>
+
+
           </Box>
         </Box>
 

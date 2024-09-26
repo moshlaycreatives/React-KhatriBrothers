@@ -37,22 +37,13 @@ const isLarge = useMediaQuery(theme.breakpoints.down('sm'))
         },{
             title:'Can I get a trial class before enrolling?',
             desc:'Yes, we offer trial classes for prospective students to experience our teaching style and see if the course is a good fit for them.'
-        },{
-            title:'Do you offer online classes?',
-            desc:'Currently, our classes are offered in person at our academy. We are exploring options for online classes and will provide updates as they become available.'
         },
 
         {
             title:'How can I contact you for more information?',
-            desc:'You can contact us via email at [email@example.com] or phone at [Phone Number]. For more details, please visit our website or follow us on social media.'
+            desc:'You can contact us via email at khatribrothersacademy@gmail.com . For more details, please visit our website or follow us on social media.'
         },
         {
-            title:'What safety measures are in place for in-person classes?',
-            desc:'We follow all necessary health and safety guidelines to ensure a safe learning environment. This includes sanitation protocols and social distancing measures.'
-        },{
-            title:'Can I get a refund if I need to cancel my enrollment?',
-            desc:'Refund policies vary depending on the timing of the cancellation. Please refer to our refund policy on our website or contact us for more specific information.'
-        },{
             title:'Are there any additional materials I need for the courses?',
             desc:'Students may need to bring their notebooks and a recording device for practice. Specific requirements will be communicated upon enrollment.'
         },{

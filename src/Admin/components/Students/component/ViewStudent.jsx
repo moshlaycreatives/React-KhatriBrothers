@@ -499,7 +499,7 @@ const ViewStudent = ({ student_Id }) => {
               Class Type
             </Typography>
             <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-              Group
+              One to One
             </Typography>
           </Box>
           {/* <Button>click</Button> */}

@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { CleaningServices } from "@mui/icons-material";
 
 const ViewLecturesMain = ({ courseId }) => {
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const [playingIndex, setPlayingIndex] = useState(null);
   const [lectureData, setLectureData] = useState([]);
