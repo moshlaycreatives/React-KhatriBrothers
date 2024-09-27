@@ -39,15 +39,15 @@ position: relative;
 }
 .our-mission-text h3{
     font-size: 1.5rem;
-    font-weight:500; 
+    font-weight:500;
 }
 .our-mission-text h1{
     font-size: 2.5rem;
-    font-weight:700; 
+    font-weight:700;
 }
 .our-mission-text p{
     font-size: 1.2rem;
-    font-weight:400; 
+    font-weight:400;
 }
 .our_mission_image-1{
     display: flex;
@@ -65,6 +65,14 @@ position: relative;
 .our_mission_image-2 img{
     width: 12.6rem;
     height: 12.6rem;
+}
+
+.image22{
+border-radius: 0px 55px 55px 55px;
+}
+
+.image33{
+border-radius: 55px 55px 0px 55px;
 }
 
 /* media query  */
@@ -92,10 +100,10 @@ position: relative;
         width: 14rem;
         left: 10%;
         top: 45%;
-        transform: translate(20%,30%); 
-    
+        transform: translate(20%,30%);
+
     }
-    
+
 }
 
 @media(max-width:500px){

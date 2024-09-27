@@ -89,7 +89,7 @@ const CategoryBasedCoursesHome = () => {
                 />
               </Box>
               <Box>
-                <Typography sx={{ color: "grey", mt:1, fontSize:'1.2rem' }}>{course.title}</Typography>
+                <Typography sx={{ color: "black", mt:1, fontSize:'1.2rem' }}>{course.title}</Typography>
                 <br />
                 <Button
                   variant="outlined"

@@ -60,7 +60,7 @@ const BhajjanCoursesCard = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`, {
@@ -85,7 +85,7 @@ const BhajjanCoursesCard = () => {
               />
             </Box>
             <Box>
-              <Typography sx={{ color: "grey" }}>{course.title}</Typography>
+              <Typography sx={{ color: "black" }}>{course.title}</Typography>
               <br />
               <Button
                 variant="outlined"

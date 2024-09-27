@@ -24,6 +24,12 @@
 //   getAssignedCourses,
 // } from "../../../../store/actions/courseActions";
 // import dayjs from "dayjs";
+// import utc from 'dayjs/plugin/utc';
+// import timezone from 'dayjs/plugin/timezone';
+
+// // Extend dayjs with the plugins
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
 
 // const AddClass = () => {
 //   const theme = useTheme();
@@ -33,7 +39,6 @@
 
 //   const initialValues = {
 //     title: "",
-
 //     courseId: "",
 //     zoomLink: "",
 //     classType: "",
@@ -43,6 +48,7 @@
 //     startTime: "",
 //     endTime: "",
 //   };
+
 //   const InstructorId = useSelector((state) => state?.auth?.user?._id);
 
 //   const [isAdding, setIsAdding] = useState(false);
@@ -71,7 +77,7 @@
 //     };
 
 //     fetchData();
-//   }, [dispatch]);
+//   }, [dispatch, InstructorId]);
 
 //   useEffect(() => {
 //     const fetchGroupData = async () => {
@@ -95,40 +101,45 @@
 //     setIsAdding(false);
 //   };
 
+//   const getTimeZoneOffset = () => {
+//     const offset = dayjs().utcOffset(); // Returns the offset in minutes
+//     const sign = offset > 0 ? "+" : "-";
+//     const hours = Math.floor(Math.abs(offset) / 60);
+//     const minutes = Math.abs(offset) % 60;
+//     return `${sign}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+//   };
+
 //   const formatDateTime = (date, time) => {
 //     if (!date || !time) return "";
 
-//     const currentTimeZone = dayjs().format('Z'); // ISO 8601 time zone offset, e.g., +05:00
-
-
-//     console.log("Current Time Zone:", currentTimeZone);
-
-//     // Create a Date object from the provided date and time
 //     const [hours, minutes] = time.split(":");
-//     const dateTimeLocal = new Date(`${date}T${hours}:${minutes}:00 ${currentTimeZone}`);
-// console.log(dateTimeLocal, 'date time local')
-//     return dateTimeLocal;
+//     const timeZoneOffset = getTimeZoneOffset(); // Get the timezone offset
+
+//     // Create a dayjs object with the selected date and time
+//     const dateTimeLocal = dayjs(`${date}T${hours}:${minutes}:00`).format(`YYYY-MM-DDTHH:mm:ss${timeZoneOffset}`);
+
+//     return dateTimeLocal; // This will return a formatted date-time string with timezone offset
 //   };
+
 
 //   const handleSubmit = async () => {
 //     const startDateTime = formatDateTime(formValues.date, formValues.startTime);
 //     const endDateTime = formatDateTime(formValues.date, formValues.endTime);
-
-//     console.log(startDateTime, "start time");
-//     console.log(endDateTime, "end time");
+//     // Get the time zone
 
 //     const formData = {
-//       courseType: formValues.classType,
-//       group: formValues.classType === "group" ? formValues.group : undefined,
-//       studentId:
-//         formValues.classType === "one2one" ? formValues.student : undefined,
+//       courseType: 'one2one',
+//       // group: formValues.classType === "group" ? formValues.group : undefined,
+//       // studentId: formValues.classType === "one2one" ? formValues.student : undefined,
+//       studentId: formValues.student,
+
 //       courseId: formValues.courseId,
 //       zoomLink: formValues.zoomLink,
 //       title: formValues.title,
-
-//       date: startDateTime, // Use the formatted local time with time zone
+//       date: startDateTime,
 //       startTime: startDateTime,
-//       endTime: endDateTime,
+//       // endTime: endDateTime,
+//        // Include time zone information
 //     };
 
 //     // Remove undefined properties
@@ -141,53 +152,21 @@
 //       enqueueSnackbar("Class created successfully!", { variant: "success" });
 //       setFormValues(initialValues);
 //     } catch (error) {
-//       enqueueSnackbar(error.response.data.message, { variant: "error" });
+//       enqueueSnackbar(error.response?.data?.message || 'Error creating class', { variant: "error" });
 //     }
 //   };
 
-//   // const handleSubmit = async () => {
-//   //   const formatDateTime = (date, time) => {
-//   //     if (!date || !time) return "";
-//   //     const [hours, minutes] = time.split(":");
-//   //     const dateTimeLocal = new Date(`${date}T${hours}:${minutes}:00`);
-//   //     const localOffset = dateTimeLocal.getTimezoneOffset() * 60000;
-//   //     const localDateTime = new Date(dateTimeLocal.getTime() - localOffset);
-//   //     const formattedDateTime = localDateTime.toISOString().slice(0, -1); // Remove 'Z'
 
-//   //     return formattedDateTime;
-//   //   };
+// const handleStudentChange = (event) => {
+//   const selectedStudent = event.target.value;
+//   setFormValues((formValues) => ({ ...formValues, student: selectedStudent }));
+//   // Reset the courseId when the student changes
+//   setFormValues((formValues) => ({ ...formValues, courseId: "" }));
+// };
 
-//   //   const startDateTime = formatDateTime(formValues.date, formValues.startTime);
-//   //   const endDateTime = formatDateTime(formValues.date, formValues.endTime);
-
-//   //   console.log(startDateTime, 'd\te time start')
-
-//   //   const formData = {
-//   //     courseType: formValues.classType,
-//   //     group: formValues.classType === "group" ? formValues.group : undefined,
-//   //     studentId:
-//   //       formValues.classType === "one2one" ? formValues.student : undefined,
-//   //     courseId: formValues.courseId,
-//   //     zoomLink: formValues.zoomLink,
-//   //     title: formValues.title,
-
-//   //     date: startDateTime,
-//   //     startTime: startDateTime,
-//   //     endTime: endDateTime,
-//   //   };
-
-//   //   Object.keys(formData).forEach(
-//   //     (key) => formData[key] === undefined && delete formData[key]
-//   //   );
-
-//   //   try {
-//   //     await dispatch(createClass(formData));
-//   //     enqueueSnackbar("Class created successfully!", { variant: "success" });
-//   //     setFormValues(initialValues);
-//   //   } catch (error) {
-//   //     enqueueSnackbar(error.response.data.message, { variant: "error" });
-//   //   }
-//   // };
+// const filteredCourses = formValues.student
+// ? coursesData.filter(course => course.studentId._id === formValues.student)
+// : [];
 
 //   return (
 //     <Box>
@@ -253,7 +232,65 @@
 //                   />
 //                 </Box>
 //                 <br />
-//                 <Typography>Select Course</Typography>
+
+
+
+
+
+{/* <Box>
+<Typography>Select Student</Typography>
+<FormControl fullWidth size="small">
+  <Select name="student" value={formValues.student} onChange={handleStudentChange}>
+    {coursesData.map((student) => (
+      <MenuItem key={student.studentId._id} value={student.studentId._id}>
+        {student.studentId.firstName}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+</Box>
+<br />
+
+<Typography>Select Course</Typography>
+<FormControl fullWidth size="small">
+<Select
+  labelId="course-select-label"
+  id="course-select"
+  name="courseId"
+  value={formValues.courseId}
+  onChange={handleFormData}
+>
+  {filteredCourses.map((course) => (
+    <MenuItem key={course.courseId._id} value={course.courseId._id}>
+      {course.courseId.title}
+    </MenuItem>
+  ))}
+</Select>
+</FormControl> */}
+
+
+
+
+
+
+
+//                 <Box>
+//               <Typography>Select Student</Typography>
+//               <FormControl fullWidth size="small">
+//                 <Select name="student" value={formValues.student} onChange={handleFormData}>
+//                   {coursesData.map((student) => (
+//                     <MenuItem key={student.studentId._id} value={student.studentId._id}>
+//                       {student.studentId.firstName}
+//                     </MenuItem>
+//                   ))}
+//                 </Select>
+//               </FormControl>
+//             </Box>
+//                     <br/>
+//                     <br/>
+
+
+//                    <Typography>Select Course</Typography>
 
 //                 <FormControl fullWidth size="small">
 //                   <Select
@@ -277,7 +314,10 @@
 //                 <br />
 //                 <br />
 
-//                 <Box>
+
+
+
+//                 {/* <Box>
 //                   <Typography>Class Type</Typography>
 //                   <FormControl fullWidth size="small">
 //                     <Select
@@ -341,7 +381,7 @@
 //                   </Box>
 //                 )}
 
-//                 <br />
+//                 <br /> */}
 
 //                 <Box>
 //                   <Typography variant="subtitle1">Date</Typography>
@@ -379,7 +419,7 @@
 
 //                 <br />
 
-//                 <Box>
+//                 {/* <Box>
 //                   <Typography variant="subtitle1">End Time</Typography>
 //                   <TextField
 //                     type="time"
@@ -395,10 +435,10 @@
 //                   />
 //                 </Box>
 
-//                 <br />
+//                 <br /> */}
 
 //                 <Box>
-//                   <Typography variant="subtitle1">Zoom Link</Typography>
+//                   <Typography variant="subtitle1">Online Class Link</Typography>
 //                   <TextField
 //                     type="text"
 //                     variant="outlined"
@@ -407,7 +447,7 @@
 //                     name="zoomLink"
 //                     value={formValues.zoomLink}
 //                     onChange={handleFormData}
-//                     placeholder="Zoom link"
+//                     placeholder="Online Class link"
 //                   />
 //                 </Box>
 //                 <br />
@@ -493,6 +533,8 @@
 
 // export default AddClass;
 
+
+
 import { useTheme } from "@emotion/react";
 import {
   Box,
@@ -522,7 +564,6 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
-// Extend dayjs with the plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -597,7 +638,7 @@ const AddClass = () => {
   };
 
   const getTimeZoneOffset = () => {
-    const offset = dayjs().utcOffset(); // Returns the offset in minutes
+    const offset = dayjs().utcOffset();
     const sign = offset > 0 ? "+" : "-";
     const hours = Math.floor(Math.abs(offset) / 60);
     const minutes = Math.abs(offset) % 60;
@@ -608,34 +649,27 @@ const AddClass = () => {
     if (!date || !time) return "";
 
     const [hours, minutes] = time.split(":");
-    const timeZoneOffset = getTimeZoneOffset(); // Get the timezone offset
+    const timeZoneOffset = getTimeZoneOffset();
 
-    // Create a dayjs object with the selected date and time
     const dateTimeLocal = dayjs(`${date}T${hours}:${minutes}:00`).format(`YYYY-MM-DDTHH:mm:ss${timeZoneOffset}`);
 
-    return dateTimeLocal; // This will return a formatted date-time string with timezone offset
+    return dateTimeLocal;
   };
-
 
   const handleSubmit = async () => {
     const startDateTime = formatDateTime(formValues.date, formValues.startTime);
     const endDateTime = formatDateTime(formValues.date, formValues.endTime);
-    // Get the time zone
 
     const formData = {
-      courseType: formValues.classType,
-      group: formValues.classType === "group" ? formValues.group : undefined,
-      studentId: formValues.classType === "one2one" ? formValues.student : undefined,
+      courseType: 'one2one',
+      studentId: formValues.student,
       courseId: formValues.courseId,
       zoomLink: formValues.zoomLink,
       title: formValues.title,
       date: startDateTime,
       startTime: startDateTime,
-      // endTime: endDateTime,
-       // Include time zone information
     };
 
-    // Remove undefined properties
     Object.keys(formData).forEach(
       (key) => formData[key] === undefined && delete formData[key]
     );
@@ -648,6 +682,16 @@ const AddClass = () => {
       enqueueSnackbar(error.response?.data?.message || 'Error creating class', { variant: "error" });
     }
   };
+
+  const handleStudentChange = (event) => {
+    const selectedStudent = event.target.value;
+    setFormValues((formValues) => ({ ...formValues, student: selectedStudent }));
+    setFormValues((formValues) => ({ ...formValues, courseId: "" }));
+  };
+
+  const filteredCourses = formValues.student
+    ? coursesData.filter(course => course.studentId._id === formValues.student)
+    : [];
 
   return (
     <Box>
@@ -713,8 +757,22 @@ const AddClass = () => {
                   />
                 </Box>
                 <br />
-                <Typography>Select Course</Typography>
 
+                <Box>
+                  <Typography>Select Student</Typography>
+                  <FormControl fullWidth size="small">
+                    <Select name="student" value={formValues.student} onChange={handleStudentChange}>
+                      {coursesData.map((student) => (
+                        <MenuItem key={student.studentId._id} value={student.studentId._id}>
+                          {student.studentId.firstName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+                <br />
+
+                <Typography>Select Course</Typography>
                 <FormControl fullWidth size="small">
                   <Select
                     labelId="course-select-label"
@@ -723,11 +781,8 @@ const AddClass = () => {
                     value={formValues.courseId}
                     onChange={handleFormData}
                   >
-                    {coursesData.map((course) => (
-                      <MenuItem
-                        key={course.courseId._id}
-                        value={course.courseId._id}
-                      >
+                    {filteredCourses.map((course) => (
+                      <MenuItem key={course.courseId._id} value={course.courseId._id}>
                         {course.courseId.title}
                       </MenuItem>
                     ))}
@@ -735,72 +790,6 @@ const AddClass = () => {
                 </FormControl>
 
                 <br />
-                <br />
-
-                <Box>
-                  <Typography>Class Type</Typography>
-                  <FormControl fullWidth size="small">
-                    <Select
-                      labelId="class-type-select-label"
-                      id="class-type-select"
-                      name="classType"
-                      value={formValues.classType}
-                      onChange={handleClassTypeChange}
-                    >
-                      <MenuItem value={"group"}>Group</MenuItem>
-                      <MenuItem value={"one2one"}>One to One</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-
-                <br />
-                {formValues.classType === "group" && (
-                  <Box>
-                    <Typography>Select Group</Typography>
-                    <FormControl fullWidth size="small">
-                      <Select
-                        labelId="group-select-label"
-                        id="group-select"
-                        name="group"
-                        value={formValues.group}
-                        onChange={handleFormData}
-                      >
-                        {groupData
-                          .filter((group) => group.students.length > 0) // Filter groups where the number of students is greater than 0
-                          .map((group) => (
-                            <MenuItem key={group._id} value={group._id}>
-                              {group.name}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
-                  </Box>
-                )}
-
-                {formValues.classType === "one2one" && (
-                  <Box>
-                    <Typography>Select Student</Typography>
-                    <FormControl fullWidth size="small">
-                      <Select
-                        labelId="student-select-label"
-                        id="student-select"
-                        name="student"
-                        value={formValues.student}
-                        onChange={handleFormData}
-                      >
-                        {coursesData.map((student) => (
-                          <MenuItem
-                            key={student.studentId._id}
-                            value={student.studentId._id}
-                          >
-                            {student.studentId.firstName}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Box>
-                )}
-
                 <br />
 
                 <Box>
@@ -839,24 +828,6 @@ const AddClass = () => {
 
                 <br />
 
-                {/* <Box>
-                  <Typography variant="subtitle1">End Time</Typography>
-                  <TextField
-                    type="time"
-                    variant="outlined"
-                    fullWidth
-                    name="endTime"
-                    size="small"
-                    value={formValues.endTime}
-                    onChange={handleFormData}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </Box>
-
-                <br /> */}
-
                 <Box>
                   <Typography variant="subtitle1">Online Class Link</Typography>
                   <TextField
@@ -892,7 +863,7 @@ const AddClass = () => {
                   </Box>
                 </Box>
               </TableContainer>
-            </>
+              </>
           )}
         </>
       ) : (

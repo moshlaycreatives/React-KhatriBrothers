@@ -115,7 +115,7 @@ const listData = [
 ];
 
 const AdminMain = () => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);

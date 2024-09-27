@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { Typography } from "@mui/material";
 
 function Student_testimonials() {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
   const dispatch = useDispatch();
   const [publicTestimonial, setPublicTestimonial] = useState([]);
 

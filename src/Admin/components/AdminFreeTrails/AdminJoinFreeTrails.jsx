@@ -34,7 +34,6 @@ const AdminJoinFreeTrails = () => {
   const dispatch = useDispatch();
   const [selectedCourses, setSelectedCourses] = useState({});
 
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -121,15 +120,12 @@ const AdminJoinFreeTrails = () => {
       });
   };
 
-
-
   const handleCourseChange = (id) => (event) => {
     setSelectedCourses((prevState) => ({
       ...prevState,
       [id]: event.target.value,
     }));
   };
-
 
   const handleSetCourse = (id) => {
     const course = selectedCourses[id];
@@ -142,14 +138,11 @@ const AdminJoinFreeTrails = () => {
       .then((res) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
         fetchData();
-
       })
       .catch((err) => {
         enqueueSnackbar(err.response.data.message, { variant: "error" });
       });
   };
-
-
 
   return (
     <Box>
@@ -214,7 +207,6 @@ const AdminJoinFreeTrails = () => {
                     <TableCell>Free Trial</TableCell>
                     <TableCell>Suggest Course</TableCell>
                     <TableCell> Action </TableCell>
-
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -283,77 +275,66 @@ const AdminJoinFreeTrails = () => {
                             </Button>
                           </TableCell>
                           <TableCell>
+                            {!row.feedback ? (
+                              <>
+                                <FormControl fullWidth>
+                                  <Select
+                                    labelId="simple-select-label"
+                                    id="simple-select"
+                                    size="small"
+                                    value={selectedCourses[row._id] || ""}
+                                    onChange={handleCourseChange(row._id)}
+                                  >
+                                    <MenuItem value="Beginner Hindustani Vocal Course">
+                                      Beginner Hindustani Vocal
+                                    </MenuItem>
+                                    <MenuItem value="Intermediate Hindustani Vocal Course">
+                                      Intermediate Hindustani Vocal
+                                    </MenuItem>
+                                    <MenuItem value="Advance Hindustani Vocal Course">
+                                      Advance Hindustani Vocal
+                                    </MenuItem>
+                                    <MenuItem value="Bhajan Course">
+                                      Bhajan
+                                    </MenuItem>
+                                    <MenuItem value="Tabla Course">
+                                      Tabla
+                                    </MenuItem>
+                                    <MenuItem value="Ghazal Course">
+                                      Ghazal
+                                    </MenuItem>
+                                    <MenuItem value="Bollywood Course">
+                                      Bollywood songs
+                                    </MenuItem>
+                                    <MenuItem value="Guitar Course">
+                                      Guitar Course
+                                    </MenuItem>
+                                    <MenuItem value="Keyboard Course">
+                                      Keyboard course
+                                    </MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </>
+                            ) : (
+                              <>
+                                <Typography>{row.feedback}</Typography>
+                              </>
+                            )}
+                          </TableCell>
 
-{!row.feedback ? (
-<>
-<FormControl fullWidth>
-              <Select
-                labelId="simple-select-label"
-                id="simple-select"
-                size="small"
-                value={selectedCourses[row._id] || ""}
-                onChange={handleCourseChange(row._id)}
-              >
-                <MenuItem value="Beginner Hindustani Vocal Course">
-                  Beginner Hindustani Vocal
-                </MenuItem>
-                <MenuItem value="Intermediate Hindustani Vocal Course">
-                  Intermediate Hindustani Vocal
-                </MenuItem>
-                <MenuItem value="Advance Hindustani Vocal Course">
-                  Advance Hindustani Vocal
-                </MenuItem>
-                <MenuItem value="Bhajan Course">
-                  Bhajan
-                </MenuItem>
-                <MenuItem value="Tabla Course">Tabla</MenuItem>
-                <MenuItem value="Ghazal Course">
-                  Ghazal
-                </MenuItem>
-                <MenuItem value="Bollywood Course">
-                  Bollywood songs
-                </MenuItem>
-                <MenuItem value="Guitar Course">
-                  Guitar Course
-                </MenuItem>
-                <MenuItem value="Keyboard Course">
-                  Keyboard course
-                </MenuItem>
-              </Select>
-            </FormControl>
-</>
-):(
-  <>
-<Typography>
-  {row.feedback}
-</Typography>
-  </>
-)}
-
-
-
-
-          </TableCell>
-
-          <TableCell>
-
-{
-  !row.feedback ? (
-    <>
-
-    <Button
-              variant="contained"
-              onClick={() => handleSetCourse(row._id)}
-            sx={{textTransform:'none'}}
-            >
-              Suggest
-            </Button>
-
-    </>
-  ):null
-}
-
-    </TableCell>
+                          <TableCell>
+                            {!row.feedback ? (
+                              <>
+                                <Button
+                                  variant="contained"
+                                  onClick={() => handleSetCourse(row._id)}
+                                  sx={{ textTransform: "none" }}
+                                >
+                                  Suggest
+                                </Button>
+                              </>
+                            ) : null}
+                          </TableCell>
                         </TableRow>
                       );
                     })}

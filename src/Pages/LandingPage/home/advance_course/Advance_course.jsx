@@ -15,7 +15,7 @@ function Advance_course() {
 
   console.log(course, 'all course on advance code ')
   const theme = useTheme();
-  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+  const base = 'https://khatribrothersacademy.com:4545'
 
 const navigate = useNavigate()
 
@@ -62,7 +62,7 @@ const navigate = useNavigate()
                 <img  src={`${base}${val.image.replace(/ /g, "%20")}`} alt="alt image" width={"100%"} height='250vh' />
               </Box>
               <Box>
-                <Typography sx={{ color: "grey" }}>{val.title}</Typography>
+                <Typography sx={{ color: "black" }}>{val.title}</Typography>
                 <br />
                 <Button
                   variant="outlined"

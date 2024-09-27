@@ -63,7 +63,7 @@ const EditAdvanceCourse = ({ courseData }) => {
 
 
 
-    const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+    const base = 'https://khatribrothersacademy.com:4545'
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 

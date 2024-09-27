@@ -11,7 +11,7 @@ function IntermediateHomePage() {
 
   console.log(course, 'all course on advance code ')
   const theme = useTheme();
-  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms'
+  const base = 'https://khatribrothersacademy.com:4545'
 
 const navigate = useNavigate()
 

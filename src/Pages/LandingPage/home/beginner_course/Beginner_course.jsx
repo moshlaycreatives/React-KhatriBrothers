@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 function Beginner_course() {
   const theme = useTheme();
 
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const course = useSelector((state) => state?.courses?.allCourses);
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ function Beginner_course() {
                 />
               </Box>
               <Box>
-                <Typography sx={{ color: "grey" }}>{val.title}</Typography>
+                <Typography sx={{ color: "black" }}>{val.title}</Typography>
                 <br />
                 <Button
                   variant="outlined"

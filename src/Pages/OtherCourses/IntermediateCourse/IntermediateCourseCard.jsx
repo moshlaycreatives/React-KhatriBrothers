@@ -13,7 +13,7 @@ const IntermediateCourseCard = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`);
@@ -29,7 +29,7 @@ const IntermediateCourseCard = () => {
               <img  src={`${base}${course.image.replace(/ /g, "%20")}`} alt="course image" width={"80%"} height={'200vh'} />
             </Box>
             <Box>
-              <Typography sx={{ color: "grey" }}>{course.title}</Typography>
+              <Typography sx={{ color: "black" }}>{course.title}</Typography>
               <br />
               <Button
                 variant="outlined"

@@ -5,7 +5,7 @@ import {  getSingleCourse } from "../../../../store/actions/courseActions";
 import EditAdvanceCourse from "./EditGuitarCourse";
 
 const ViewGuitarCourse = ({courseId}) => {
-  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
+  const base = "https://khatribrothersacademy.com:4545";
 
   console.log(courseId, 'dddddddddddddddddddd')
   const [isEditing, setIsEditing] = useState(false);
