@@ -17,6 +17,12 @@ import {
   useTheme,
   Pagination,
   CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -42,7 +48,9 @@ const StudentMain = () => {
   const [isEdited, setIsEdited] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
-  const [loading, setLoading] = useState(true); // Loading status
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false); // For opening dialog
+  const [currentCustomList, setCurrentCustomList] = useState([]); // Loading status
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -70,11 +78,6 @@ const StudentMain = () => {
     }
   }, [isEdited]);
 
-
-
-
-
-
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm.trim()) {
@@ -86,9 +89,6 @@ const StudentMain = () => {
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
-
-
-
 
   const handleSearch = () => {
     const userType = "user";
@@ -134,7 +134,6 @@ const StudentMain = () => {
     setCurrentRowId(id);
     setIsEdited(true);
 
-    console.log("current student id:", currentRowId);
   };
 
   const handleEditClick = () => {
@@ -145,6 +144,18 @@ const StudentMain = () => {
   const handleBackClick = () => {
     setIsEdited(false);
     setCurrentRowId(null);
+  };
+
+
+  const handleOpenDialog = (customList) => {
+    if (customList.length > 0) {
+      setCurrentCustomList(customList);
+      setOpen(true);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
   };
 
   return (
@@ -181,9 +192,6 @@ const StudentMain = () => {
                 boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
               }}
             >
-
-
-
               <Box
                 sx={{
                   display: "flex",
@@ -215,7 +223,6 @@ const StudentMain = () => {
                   Search
                 </Button>
               </Box>
-
 
               {loading ? (
                 <Box
@@ -254,33 +261,40 @@ const StudentMain = () => {
                           <TableCell
                             component="th"
                             scope="row "
-                            sx={{ color:'grey' }}
+                            sx={{ color: "grey" }}
                           >
                             {`${row.studentId.firstName} ${row.studentId.lastName}`}
                           </TableCell>
-                          <TableCell sx={{ color: "gray" }}>
+                          <TableCell sx={{ color: "gray", cursor:'pointer' }}
+onClick={() => handleOpenDialog(row.courseId.customList)}
+                          >
                             {row.courseId.title}
                           </TableCell>
                           <TableCell sx={{ color: "gray" }}>
-                            {row.courseId.courseType}
+                            {row.courseId.courseType === 'bhajjan' ? 'Bhajan' : row.courseId.courseType}
                           </TableCell>
-                          <TableCell sx={{ color: "gray" }}>{row.classType}</TableCell>
+                          <TableCell sx={{ color: "gray" }}>
+                            {row.classType}
+                          </TableCell>
                           <TableCell sx={{ color: "gray" }}>
                             ₹ {row.courseId.indianPrice}
                           </TableCell>
 
-<TableCell>
-  {row.instructorId ? (
-<>
-<Typography sx={{color:'green'}}>Assigned</Typography>
-</>
-  ):(
-    <>
-    <Typography sx={{color:'red'}}>Pending</Typography>
-
-    </>
-  )}
-</TableCell>
+                          <TableCell>
+                            {row.instructorId ? (
+                              <>
+                                <Typography sx={{ color: "green" }}>
+                                  Assigned
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <Typography sx={{ color: "red" }}>
+                                  Pending
+                                </Typography>
+                              </>
+                            )}
+                          </TableCell>
 
                           <TableCell>
                             <IconButton
@@ -288,19 +302,13 @@ const StudentMain = () => {
                                 handleMenuClick(events, row._id)
                               }
                             >
-                              {/* <MoreVertIcon /> */}
 
-                              <BsEye style={{color:theme.palette.primary.main}}/>
+
+                              <BsEye
+                                style={{ color: theme.palette.primary.main }}
+                              />
                             </IconButton>
-                            {/* <Menu
-                              anchorEl={anchorEl}
-                              open={Boolean(anchorEl)}
-                              onClose={handleMenuClose}
-                            >
-                              <MenuItem onClick={handleEditClick}>
-                                View
-                              </MenuItem>
-                            </Menu> */}
+
                           </TableCell>
                         </TableRow>
                       ))}
@@ -324,6 +332,28 @@ const StudentMain = () => {
               )}
             </TableContainer>
           </Box>
+
+
+
+          <Dialog open={open} onClose={handleCloseDialog}>
+        <DialogTitle>Customized course List</DialogTitle>
+        <DialogContent>
+          {currentCustomList.length > 0 ? (
+            <List>
+              {currentCustomList.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography>No customized course data available</Typography>
+          )}
+        </DialogContent>
+      </Dialog>
+
+
+
         </Box>
       )}
     </>

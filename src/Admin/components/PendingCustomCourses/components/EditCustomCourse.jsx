@@ -59,7 +59,7 @@ const chipDeleteIconStyles = {
 const EditCustomCourse = ({ courseData }) => {
 
 
-
+console.log(courseData, 'coursedata')
 
 
 
@@ -67,7 +67,6 @@ const EditCustomCourse = ({ courseData }) => {
     const PictureUrl = base + courseData?.image;
     const topicss = courseData.topics.map((topic)=>topic)
 
-    console.log(topicss, 'ccccccccccccccccccccccc')
     const theme = useTheme()
 
 
@@ -175,7 +174,7 @@ const EditCustomCourse = ({ courseData }) => {
     formData.append('courseDuration', formValues.courseDuration);
     formData.append('lectureDuration', formValues.lectureDuration);
     // formData.append('price', formValues.price);
-    formData.append('courseType', 'bhajjan');
+    formData.append('courseType', courseData.courseType);
 
     formData.append('indianPrice', formValues.indianPrice);
     formData.append('ukPrice', formValues.ukPrice);

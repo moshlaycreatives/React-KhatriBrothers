@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, IconButton, Menu, MenuItem, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, IconButton, Menu, MenuItem, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -15,7 +15,8 @@ const BhajjanCoursesMain = () => {
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-
+  const [open, setOpen] = useState(false); // For opening dialog
+  const [currentCustomList, setCurrentCustomList] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [customCourseData, setCustomCourseData] = useState([]);
 
@@ -94,6 +95,19 @@ fetchData()
     setIsEditing(true);
     handleMenuClose();
   };
+
+
+const handleOpenDialog = (customList) => {
+  if (customList.length > 0) {
+    setCurrentCustomList(customList);
+    setOpen(true);
+  }
+};
+
+const handleCloseDialog = () => {
+  setOpen(false);
+};
+
 
   return (
     <Box>
@@ -192,7 +206,7 @@ fetchData()
                 fontSize: '2rem',
               }}
             >
-              Bhajan Customize Courses
+              Customized Bhajan Courses
             </Typography>
 
 
@@ -210,6 +224,7 @@ fetchData()
                 <TableHead>
                   <TableRow>
                     <TableCell>Course Name</TableCell>
+                    <TableCell>Course Approved for</TableCell>
                     <TableCell>Course Duration</TableCell>
                     <TableCell>Lecture Duration</TableCell>
                     <TableCell>Course Fee</TableCell>
@@ -222,9 +237,15 @@ fetchData()
                       key={row._id} // Use unique ID as key
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
+                      <TableCell component='th' scope='row' sx={{ color: 'grey', cursor:'pointer' }}
+                          onClick={() => handleOpenDialog(row.customList)}
+
+                      >
                         {row.title}
                       </TableCell>
+                      <TableCell sx={{ color: "grey" }}>
+                          {row.addedById.firstName}  {row.addedById.lastName}
+                        </TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.courseDuration} weeks</TableCell>
                       <TableCell sx={{ color: 'grey' }}>{row.lectureDuration} hours</TableCell>
                       {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
@@ -284,6 +305,27 @@ fetchData()
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
+
+      <Dialog open={open} onClose={handleCloseDialog}>
+        <DialogTitle>Customized course List</DialogTitle>
+        <DialogContent>
+          {currentCustomList.length > 0 ? (
+            <List>
+              {currentCustomList.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography>No customized course data available</Typography>
+          )}
+        </DialogContent>
+      </Dialog>
+
     </Box>
   );
 };

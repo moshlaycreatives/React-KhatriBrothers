@@ -1,12 +1,38 @@
-import { useTheme } from '@emotion/react';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, IconButton, Menu, MenuItem, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddBeginnerCourse from './components/AddGhazalCourse';
-import ViewBeginnerCourse from './components/ViewGhazalCourse';
-import { useDispatch } from 'react-redux';
-import { getBeginnerCourse, deleteSingleData, getAllCourse } from '../../../store/actions/courseActions';
+import { useTheme } from "@emotion/react";
+import {
+  Box,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Paper from "@mui/material/Paper";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddBeginnerCourse from "./components/AddGhazalCourse";
+import ViewBeginnerCourse from "./components/ViewGhazalCourse";
+import { useDispatch } from "react-redux";
+import {
+  getBeginnerCourse,
+  deleteSingleData,
+  getAllCourse,
+} from "../../../store/actions/courseActions";
 
 const GhazalCoursesMain = () => {
   const theme = useTheme();
@@ -18,7 +44,8 @@ const GhazalCoursesMain = () => {
 
   const [courseData, setCourseData] = useState([]);
   const [customCourseData, setCustomCourseData] = useState([]);
-
+  const [open, setOpen] = useState(false); // For opening dialog
+  const [currentCustomList, setCurrentCustomList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
@@ -27,18 +54,27 @@ const GhazalCoursesMain = () => {
     setLoading(true);
     try {
       const res = await dispatch(getAllCourse());
-      const data = res.data.data
-      const filteredCourses = data.filter(course => course.courseType === 'ghazal' && course.addedBy === 'admin')
+      const data = res.data.data;
+      const filteredCourses = data.filter(
+        (course) => course.courseType === "ghazal" && course.addedBy === "admin"
+      );
 
-      const filterCustomCourses = data.filter(course => course.courseType === 'ghazal' && course.addedBy === 'user' && (course.ukPrice || course.indianPrice || course.usaPrice || course.australiaPrice || course.ugandaPrice || course.uaePrice))
+      const filterCustomCourses = data.filter(
+        (course) =>
+          course.courseType === "ghazal" &&
+          course.addedBy === "user" &&
+          (course.ukPrice ||
+            course.indianPrice ||
+            course.usaPrice ||
+            course.australiaPrice ||
+            course.ugandaPrice ||
+            course.uaePrice)
+      );
       setCourseData(filteredCourses);
       setCustomCourseData(filterCustomCourses);
-
-
     } catch (err) {
       console.error("Failed to fetch beginner courses:", err);
       setLoading(false);
-
     } finally {
       setLoading(false);
     }
@@ -46,8 +82,6 @@ const GhazalCoursesMain = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-
 
   // Fetch instructor data after coming back from AddInstructor
   useEffect(() => {
@@ -74,7 +108,7 @@ const GhazalCoursesMain = () => {
     try {
       await dispatch(deleteSingleData(currentRowId));
       setConfirmDialogOpen(false);
-      fetchData()
+      fetchData();
     } catch (err) {
       console.error("Failed to delete course:", err);
     }
@@ -93,37 +127,66 @@ const GhazalCoursesMain = () => {
     setIsEditing(true);
     handleMenuClose();
   };
+console.log(customCourseData, 'custom course data ghazal')
+
+
+
+const handleOpenDialog = (customList) => {
+  if (customList.length > 0) {
+    setCurrentCustomList(customList);
+    setOpen(true);
+  }
+};
+
+const handleCloseDialog = () => {
+  setOpen(false);
+};
+
 
   return (
     <Box>
       {isAddingCourse ? (
         <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+          <Button
+            variant="outlined"
+            onClick={handleBackClick}
+            sx={{ marginBottom: "1rem" }}
+          >
             &lt; Back to Courses
           </Button>
           <AddBeginnerCourse />
         </>
       ) : isEditing && currentRowId ? (
         <>
-          <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
+          <Button
+            variant="outlined"
+            onClick={handleBackClick}
+            sx={{ marginBottom: "1rem" }}
+          >
             &lt; Back to Courses
           </Button>
           <ViewBeginnerCourse courseId={currentRowId} />
         </>
       ) : (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography
               sx={{
                 color: theme.palette.primary.main,
-                fontWeight: '550',
-                fontSize: '2rem',
+                fontWeight: "550",
+                fontSize: "2rem",
               }}
             >
               Ghazal Courses
             </Typography>
 
-            <Button variant='outlined' onClick={handleAddCourseClick}>
+            <Button variant="outlined" onClick={handleAddCourseClick}>
               + Add Course
             </Button>
           </Box>
@@ -131,55 +194,174 @@ const GhazalCoursesMain = () => {
           <br />
 
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "50vh",
+              }}
+            >
               <CircularProgress />
             </Box>
           ) : (
-            <TableContainer component={Paper} sx={{ padding: '1rem 1rem', boxShadow: '10px 0px 20px 1px rgba(0, 0, 0, 0.1)' }}>
-              <Table size='small' aria-label='a dense table'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Course Name</TableCell>
-                    <TableCell>Course Duration</TableCell>
-                    <TableCell>Lecture Duration</TableCell>
-                    <TableCell>Course Fee</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {courseData.map((row) => (
-                    <TableRow
-                      key={row._id} // Use unique ID as key
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
-                        {row.title}
-                      </TableCell>
-                      <TableCell sx={{ color: 'grey' }}>{row.courseDuration} weeks</TableCell>
-                      <TableCell sx={{ color: 'grey' }}>{row.lectureDuration} hours</TableCell>
-                      {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
-                      <TableCell sx={{ color: 'grey' }}>₹ {row.indianPrice}</TableCell>
-
-                      <TableCell>
-                        <IconButton onClick={(event) => handleMenuClick(event, row._id)}>
-                          <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={handleMenuClose}
-                        >
-                          <MenuItem onClick={handleEditClick}>View</MenuItem>
-                          <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
-                        </Menu>
-                      </TableCell>
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  padding: "1rem 1rem",
+                  boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <Table size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Course Duration</TableCell>
+                      <TableCell>Lecture Duration</TableCell>
+                      <TableCell>Course Fee</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
+                  </TableHead>
+                  <TableBody>
+                    {courseData.map((row) => (
+                      <TableRow
+                        key={row._id} // Use unique ID as key
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ color: "grey" }}
+                        >
+                          {row.title}
+                        </TableCell>
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.courseDuration} weeks
+                        </TableCell>
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.lectureDuration} hours
+                        </TableCell>
+                        {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
+                        <TableCell sx={{ color: "grey" }}>
+                          ₹ {row.indianPrice}
+                        </TableCell>
 
+                        <TableCell>
+                          <IconButton
+                            onClick={(event) => handleMenuClick(event, row._id)}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                          <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                          >
+                            <MenuItem onClick={handleEditClick}>View</MenuItem>
+                            <MenuItem onClick={handleDeleteClick}>
+                              Delete
+                            </MenuItem>
+                          </Menu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <br />
+              <br />
+
+              <Typography
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "550",
+                  fontSize: "2rem",
+                }}
+              >
+                Customized Ghazal Courses
+              </Typography>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  padding: "1rem 1rem",
+                  boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <Table size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Course Approved for</TableCell>
+
+                      <TableCell>Course Duration</TableCell>
+                      <TableCell>Lecture Duration</TableCell>
+                      <TableCell>Course Fee</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {customCourseData.map((row) => (
+                      <TableRow
+                        key={row._id} // Use unique ID as key
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ color: "grey", cursor:'pointer' }}
+
+                          onClick={() => handleOpenDialog(row.customList)}
+
+
+                        >
+                          {row.title}
+                        </TableCell>
+
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.addedById.firstName}  {row.addedById.lastName}
+                        </TableCell>
+
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.courseDuration} weeks
+                        </TableCell>
+                        <TableCell sx={{ color: "grey" }}>
+                          {row.lectureDuration} hours
+                        </TableCell>
+                        {/* <TableCell sx={{ color: 'grey' }}>$ {row.price}</TableCell> */}
+                        <TableCell sx={{ color: "grey" }}>
+                          ₹ {row.indianPrice}
+                        </TableCell>
+
+                        <TableCell>
+                          <IconButton
+                            onClick={(event) => handleMenuClick(event, row._id)}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                          <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                          >
+                            <MenuItem onClick={handleEditClick}>View</MenuItem>
+                            <MenuItem onClick={handleDeleteClick}>
+                              Delete
+                            </MenuItem>
+                          </Menu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
         </>
       )}
 
@@ -202,6 +384,28 @@ const GhazalCoursesMain = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
+      <Dialog open={open} onClose={handleCloseDialog}>
+        <DialogTitle>Customized course List</DialogTitle>
+        <DialogContent>
+          {currentCustomList.length > 0 ? (
+            <List>
+              {currentCustomList.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography>No customized course data available</Typography>
+          )}
+        </DialogContent>
+      </Dialog>
+
+
+
     </Box>
   );
 };

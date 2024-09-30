@@ -89,27 +89,6 @@ const AddCustomCourse = ({ courseType }) => {
       "Kinna Sona - Marjaavaan",
       "Soch Na Sake - Amaal Mallik, Arijit Singh & Tulsi Kumar",
       "Thodi Jagah - Arijit Singh",
-      // Old Songs
-      "Aap ki aankhon me kuch",
-      "Mere mehboob qayamat hogi",
-      "Lag ja gale",
-      "Kya hua tera vada",
-      "Aanewala pal jaane vala hai",
-      "Gaata rahe mera dill",
-      "Kahin door jab din dhal jaye",
-      "Do lafzo ki hai dil ki kahani",
-      "Aapki nazro ne samjha",
-      "Ehsaan tera hoga mujh par",
-      "Tu is tarah se meri zindagi",
-      "Maine tere liye hi saat rang",
-      "Tere bina zindagi se",
-      "Ek ajnabi hasina se",
-      "Dekha ek khwaab",
-      "Tum ko dekha",
-      "Bade acche lagte hain",
-      "Gaata rahe mera dil",
-      "Hai apna dil to awara",
-      "Yeh raatein yeh mausam",
     ],
 
     ghazal: [
@@ -134,29 +113,41 @@ const AddCustomCourse = ({ courseType }) => {
       "Pyar Mujh Se Jo Kiya",
     ],
 
-    oldSongs: [],
+    oldSongs: [
+      "Aap ki aankhon me kuch",
+      "Mere mehboob qayamat hogi",
+      "Lag ja gale",
+      "Kya hua tera vada",
+      "Aanewala pal jaane vala hai",
+      "Gaata rahe mera dill",
+      "Kahin door jab din dhal jaye",
+      "Do lafzo ki hai dil ki kahani",
+      "Aapki nazro ne samjha",
+      "Ehsaan tera hoga mujh par",
+      "Tu is tarah se meri zindagi",
+      "Maine tere liye hi saat rang",
+      "Tere bina zindagi se",
+      "Ek ajnabi hasina se",
+      "Dekha ek khwaab",
+      "Tum ko dekha",
+      "Bade acche lagte hain",
+      "Gaata rahe mera dil",
+      "Hai apna dil to awara",
+      "Yeh raatein yeh mausam",
+    ],
   };
 
   const courses = coursesByType[courseType] || [];
 
-  const bollywoodCourses =
-    courseType === "bollywood"
-      ? courses.filter(
-          (course) =>
-            ![
-              // old songs to filter out
-            ].includes(course)
-        )
-      : courses;
 
-  const oldSongs =
-    courseType === "bollywood"
-      ? courses.filter((course) =>
-          [
-            // old songs to include
-          ].includes(course)
-        )
-      : [];
+
+  const bollywoodCourses = coursesByType.bollywood;
+  const oldSongs = coursesByType.oldSongs;
+
+  const coursesToShow = courseType === "bollywood"
+    ? [...bollywoodCourses, ...oldSongs]
+    : coursesByType[courseType] || [];
+
 
   const handleCheckboxChange = (course) => {
     setSelectedCourses((prev) =>
@@ -180,15 +171,18 @@ const AddCustomCourse = ({ courseType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     if (userRole === "admin" || userRole === "instructor") {
-      enqueueSnackbar("You cannot enroll course as your role is " + userRole, { variant: "error" });
+      enqueueSnackbar("You cannot enroll course as your role is " + userRole, {
+        variant: "error",
+      });
       return;
     }
 
     // Check if at least one course is selected or topics are added
     if (selectedCourses.length === 0 && topics.length === 0) {
-      enqueueSnackbar("Please select at least one course", { variant: "warning" });
+      enqueueSnackbar("Please select at least one course", {
+        variant: "warning",
+      });
       return;
     }
 
@@ -217,7 +211,7 @@ const AddCustomCourse = ({ courseType }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission on Enter key press
+      e.preventDefault();
     }
   };
 
@@ -230,27 +224,28 @@ const AddCustomCourse = ({ courseType }) => {
       <Card sx={cardStyles}>
         <form onSubmit={handleSubmit}>
           <Box sx={{ mb: 2 }}>
-            {bollywoodCourses.map((course, index) => (
-              <FormControlLabel
-                key={index}
-                control={
-                  <Checkbox
-                    checked={selectedCourses.includes(course)}
-                    onChange={() => handleCheckboxChange(course)}
-                    color="primary"
-                  />
-                }
-                label={course}
-                sx={{ display: "block", marginBottom: "0.5rem" }}
-              />
-            ))}
-            {courseType === "bollywood" && oldSongs.length > 0 && (
+
+          {courseType === "bollywood" && (
               <>
-                <Divider sx={{ my: 2 }} />
-                <Typography
-                  variant="subtitle1"
-                  sx={{ fontSize: "1.5rem", fontWeight: 600, mt: 2, mb: 1 }}
-                >
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                 New Bollywood Songs
+                </Typography>
+                {bollywoodCourses.map((course, index) => (
+                  <FormControlLabel
+                    key={index}
+                    control={
+                      <Checkbox
+                        checked={selectedCourses.includes(course)}
+                        onChange={() => handleCheckboxChange(course)}
+                        color="primary"
+                      />
+                    }
+                    label={course}
+                    sx={{ display: "block", marginBottom: "0.5rem" }}
+                  />
+                ))}
+<Divider/>
+                <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                   Old Songs
                 </Typography>
                 {oldSongs.map((course, index) => (
@@ -269,6 +264,22 @@ const AddCustomCourse = ({ courseType }) => {
                 ))}
               </>
             )}
+
+            {courseType !== "bollywood" && coursesToShow.map((course, index) => (
+              <FormControlLabel
+                key={index}
+                control={
+                  <Checkbox
+                    checked={selectedCourses.includes(course)}
+                    onChange={() => handleCheckboxChange(course)}
+                    color="primary"
+                  />
+                }
+                label={course}
+                sx={{ display: "block", marginBottom: "0.5rem" }}
+              />
+            ))}
+
           </Box>
 
           {/* Topics Section */}
