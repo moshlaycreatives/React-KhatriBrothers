@@ -55,7 +55,6 @@ const AdvanceCoursePriceHeroSection = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingTrial, setLoadingTrial] = useState(false);
-
   const { courseType } = location.state || {};
 
   console.log(courseType, "course type of custom");
@@ -411,8 +410,6 @@ const AdvanceCoursePriceHeroSection = () => {
                     </Button>
                   )}
 
-
-
                   {courseType === "ghazal" && (
                     <Button
                       variant="contained"
@@ -481,9 +478,7 @@ const AdvanceCoursePriceHeroSection = () => {
               <Typography sx={{ color: "grey" }}>
                 {courseData?.prerequisites}
               </Typography>
-              <Typography sx={{ color: "grey", marginTop: "0.5rem" }}>
-                Tanpura app or Electronic Tanpura needed
-              </Typography>
+
               <br />
               <Typography
                 sx={{
@@ -615,18 +610,19 @@ const AdvanceCoursePriceHeroSection = () => {
                     </Typography>
                   </Box>
                   <span
-  style={{
-    color: "grey",
-    fontSize: "0.9rem",
-    fontWeight: 600,
-  }}
->
-  {courseData.courseType === "intermediate"
-    ? "Intermediate to Professional"
-    : courseData.courseType === "advanced"
-    ? "Advanced to Professional"
-    : "Beginner to Advance"}
-</span>                </Box>
+                    style={{
+                      color: "grey",
+                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {courseData.courseType === "intermediate"
+                      ? "Intermediate to Professional"
+                      : courseData.courseType === "advanced"
+                      ? "Advanced to Professional"
+                      : "Beginner to Advance"}
+                  </span>{" "}
+                </Box>
                 <br />
                 <Box
                   sx={{
@@ -786,84 +782,61 @@ const AdvanceCoursePriceHeroSection = () => {
           </Grid>
 
           <Box sx={{ marginTop: "1rem" }}>
-            <Typography
-              sx={{
-                fontSize: "1.5rem",
-                fontWeight: "600",
-                color: theme.palette.primary.main,
-              }}
-            >
-              Related Courses{" "}
-            </Typography>
-            <br />
-            {/* <Grid container spacing={5}>
-              {related.slice(0, 3).map((val, ind) => (
-                <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
-                  <Box>
-                    <img
-                      src={`${base}${val?.image?.replace(/ /g, "%20")}`}
-                      alt="alt image"
-                      width={"100%"}
-                      height={"250vh"}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography sx={{ color: "grey" }}>{val.title}</Typography>
-                    <br />
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        color: theme.palette.primary.main,
-                        textTransform: "none",
-                        borderRadius: "0px",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      Start Learning &rarr;
-                    </Button>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid> */}
 
+  {related.filter((val) => val._id !== id && val.addedBy === "admin").length > 0 && (
+    <>
+      <Typography
+        sx={{
+          fontSize: "1.5rem",
+          fontWeight: "600",
+          color: theme.palette.primary.main,
+        }}
+      >
+        Related Courses
+      </Typography>
+      <br />
+    </>
+  )}
+            <br />
 
             <Grid container spacing={5}>
-  {related
-    .filter((val) => val._id !== id) // Exclude item matching params ID
-    .slice(0, 3) // Limit to first 3 items
-    .map((val, ind) => (
-      <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
-        <Box>
-          <img
-            src={`${base}${val?.image?.replace(/ /g, "%20")}`}
-            alt="alt image"
-            width={"100%"}
-            height={"250vh"}
-          />
-        </Box>
-        <Box>
-
-          <Typography sx={{ color: "grey" }}>{val.title}</Typography>
-          <br />
-          <Button
-          // onClick={()=>navigate(`/course-details/${val._id}`)}
-          onClick={() => window.location.href = `/course-details/${val._id}`}
-            variant="outlined"
-            sx={{
-              color: theme.palette.primary.main,
-              textTransform: "none",
-              borderRadius: "0px",
-              fontSize: "1.1rem",
-            }}
-          >
-            Start Learning &rarr;
-          </Button>
-        </Box>
-      </Grid>
-    ))}
-</Grid>
-
-
+              {related
+                .filter((val) => val._id !== id && val.addedBy === "admin")
+                .slice(0, 3)
+                .map((val, ind) => (
+                  <Grid key={ind} item lg={4} md={4} sm={12} xs={12}>
+                    <Box>
+                      <img
+                        src={`${base}${val?.image?.replace(/ /g, "%20")}`}
+                        alt="alt image"
+                        width={"100%"}
+                        height={"250vh"}
+                      />
+                    </Box>
+                    <Box>
+                      <Typography sx={{ color: "grey" }}>
+                        {val.title}
+                      </Typography>
+                      <br />
+                      <Button
+                        // onClick={()=>navigate(`/course-details/${val._id}`)}
+                        onClick={() =>
+                          (window.location.href = `/course-details/${val._id}`)
+                        }
+                        variant="outlined"
+                        sx={{
+                          color: theme.palette.primary.main,
+                          textTransform: "none",
+                          borderRadius: "0px",
+                          fontSize: "1.1rem",
+                        }}
+                      >
+                        Start Learning &rarr;
+                      </Button>
+                    </Box>
+                  </Grid>
+                ))}
+            </Grid>
           </Box>
         </Box>
 

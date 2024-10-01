@@ -69,7 +69,7 @@ console.log(courseData, 'coursedata')
 
     const theme = useTheme()
 
-
+console.log(courseData.prerequisites, 'preeeeee')
 
   const courseId = courseData._id
   const initialValues = {

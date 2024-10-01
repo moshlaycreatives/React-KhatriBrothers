@@ -277,6 +277,9 @@ const ViewStudentDetails = ({ student_Id }) => {
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Type</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType}</Typography>
                         <br />
+                        <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Duration</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseDuration} weeks</Typography>
+                        <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Age</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.learnerType}</Typography>
 

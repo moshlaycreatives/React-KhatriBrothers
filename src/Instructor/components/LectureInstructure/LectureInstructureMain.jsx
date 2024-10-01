@@ -74,7 +74,7 @@ const LectureInstructureMain = () => {
       {isAddingCourse ? (
         <>
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
-            &lt; Back to Courses
+            &lt; Back to Lectures
           </Button>
           <AddLecture />
 
@@ -82,7 +82,7 @@ const LectureInstructureMain = () => {
       ) : isEdited ? (
         <>
           <Button variant='outlined' onClick={handleBackClick} sx={{ marginBottom: '1rem' }}>
-            &lt; Back to Courses
+            &lt; Back to Lectures
           </Button>
 
           <ViewInstructorLecture courseId={selectedCourseId}/>

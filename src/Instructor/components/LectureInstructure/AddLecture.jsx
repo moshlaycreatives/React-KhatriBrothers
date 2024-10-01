@@ -10,7 +10,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   Backdrop,
   useTheme,
 } from "@mui/material";
@@ -25,11 +24,6 @@ const inputStyles = {
   marginTop: "1.1rem",
 };
 
-const labelStyles = {
-  fontSize: "1rem",
-  fontWeight: "400",
-};
-
 const cardStyles = {
   padding: "1rem",
 };
@@ -38,19 +32,19 @@ const AddLecture = () => {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const [formValues, setFormValues] = useState({
-    classContent: [], // Initialize as an empty array to store the file
+    classContent: [],
     classId: "",
+    studentId: "", // Store the selected student ID
     name: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [name, setName] = useState("");
-
-  const [fileType, setFileType] = useState(""); // Added state to keep track of file type
+  const [fileType, setFileType] = useState("");
   const [classData, setClassData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [filteredClasses, setFilteredClasses] = useState([]); // State for filtered classes
 
   const dispatch = useDispatch();
 
@@ -74,17 +68,18 @@ const AddLecture = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Check if changing the student selection to combine first and last name
-    if (name === "classId") {
-      const selectedStudent = classData.find(
-        (student) => student.studentId._id === value
-      );
+    if (name === "studentId") {
+      const selectedStudent = classData.find(student => student.studentId._id === value);
       if (selectedStudent) {
         const fullName = `${selectedStudent.studentId.firstName} ${selectedStudent.studentId.lastName}`;
-        setFormValues((prev) => ({ ...prev, name: fullName, classId: value }));
+        setFormValues(prev => ({ ...prev, name: fullName, studentId: value }));
+
+        // Filter classes based on selected student
+        const studentClasses = classData.filter(classItem => classItem.studentId._id === value);
+        setFilteredClasses(studentClasses); // Update the filtered classes
       }
     } else {
-      setFormValues((prev) => ({ ...prev, [name]: value }));
+      setFormValues(prev => ({ ...prev, [name]: value }));
     }
   };
 
@@ -92,16 +87,14 @@ const AddLecture = () => {
     const file = e.target.files[0];
     if (file) {
       const fileType = file.type;
-      setFormValues((prev) => ({
+      setFormValues(prev => ({
         ...prev,
-        classContent: [file], // Store the file in an array
+        classContent: [file],
       }));
       setFileName(file.name);
       setFileType(fileType);
 
-      if (fileType.includes("video")) {
-        setFilePreview(URL.createObjectURL(file));
-      } else if (fileType.includes("pdf")) {
+      if (fileType.includes("video") || fileType.includes("pdf")) {
         setFilePreview(URL.createObjectURL(file));
       } else {
         setFilePreview(null);
@@ -115,17 +108,15 @@ const AddLecture = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    formData.append("classContent", formValues.classContent[0]); // Append the file directly from the array
-    formData.append("classId", formValues.classId);
-    formData.append("name", formValues.name); // This now contains the full name (first + last)
+    formData.append("classContent", formValues.classContent[0]);
+    formData.append("classId", formValues.classId); // Use classId
+    formData.append("name", formValues.name);
 
     dispatch(createLectureContent(formData))
       .then((res) => {
-        setFormValues({ classContent: [], classId: "", name: "" }); // Reset to an empty array
+        setFormValues({ classContent: [], classId: "", studentId: "", name: "" });
         setFilePreview(null);
         setFileName("");
-        setName("");
-
         setFileType("");
         setIsLoading(false);
         setIsUploading(false);
@@ -152,33 +143,33 @@ const AddLecture = () => {
             </Typography>
             <FormControl fullWidth>
               <Select
-                labelId="dropdown-label"
-                id="title"
-                name="classId"
+                labelId="student-dropdown-label"
+                id="student-select"
+                name="studentId"
                 size="small"
-                value={formValues.classId}
+                value={formValues.studentId}
                 onChange={handleChange}
               >
                 {loading ? (
                   <MenuItem disabled>Loading...</MenuItem>
                 ) : (
                   [
-                    ...new Map(
-                      classData.map((student) => [
-                        student.studentId._id,
-                        student,
-                      ])
-                    ).values(),
-                  ].map((student) => (
-                    <MenuItem
-                      key={student.studentId._id}
-                      value={student.studentId._id}
-                    >
-                      {student.studentId.firstName} {student.studentId.lastName}
-                    </MenuItem>
-                  ))
-                )}
-              </Select>
+                     ...new Map(
+                       classData.map((student) => [
+                         student.studentId._id,
+                         student,
+                       ])
+                     ).values(),
+                   ].map((student) => (
+                     <MenuItem
+                       key={student.studentId._id}
+                       value={student.studentId._id}
+                     >
+                       {student.studentId.firstName} {student.studentId.lastName}
+                     </MenuItem>
+                   ))
+                 )}
+               </Select>
             </FormControl>
           </Box>
 
@@ -188,8 +179,8 @@ const AddLecture = () => {
             </Typography>
             <FormControl fullWidth>
               <Select
-                labelId="dropdown-label"
-                id="title"
+                labelId="class-dropdown-label"
+                id="class-select"
                 name="classId"
                 size="small"
                 value={formValues.classId}
@@ -198,7 +189,7 @@ const AddLecture = () => {
                 {loading ? (
                   <MenuItem disabled>Loading...</MenuItem>
                 ) : (
-                  classData.map((classItem) => (
+                  filteredClasses.map((classItem) => (
                     <MenuItem key={classItem._id} value={classItem._id}>
                       {classItem.title}
                     </MenuItem>
@@ -219,7 +210,7 @@ const AddLecture = () => {
                 variant="outlined"
                 size="small"
                 type="file"
-                inputProps={{ accept: "video/*,application/pdf" }} // Accept both video and pdf
+                inputProps={{ accept: "video/*,application/pdf" }}
                 onChange={handleFileChange}
               />
             </Box>
@@ -291,15 +282,18 @@ const AddLecture = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isUploading}
       >
-<Box sx={{textAlign:'center'}}>
-<CircularProgress
-          sx={{ fontSize: "6rem", color: theme.palette.primary.main }}
-        />
-        <br/>
-        <Typography sx={{color:'white', fontSize:'1.2rem'}}>Please Wait, Lecture is uploading.</Typography>
-        <Typography sx={{color:'white',  fontSize:'1.2rem'}}>Uploading time depends on your Internet speed.</Typography>
-
-</Box>
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress
+            sx={{ fontSize: "6rem", color: theme.palette.primary.main }}
+          />
+          <br />
+          <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
+            Please Wait, Lecture is uploading.
+          </Typography>
+          <Typography sx={{ color: "white", fontSize: "1.2rem" }}>
+            Uploading time depends on your Internet speed.
+          </Typography>
+        </Box>
       </Backdrop>
     </Box>
   );
