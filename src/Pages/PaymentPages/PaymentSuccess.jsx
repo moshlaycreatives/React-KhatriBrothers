@@ -76,7 +76,7 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("Please wait while your enrollment is in process. It will take 10 seconds. Don't change the screen.");
+  const [message, setMessage] = useState("Please wait while your enrollment is in process. It will take few seconds. Don't change the screen.");
   const [error, setError] = useState('');
 
   const enrollCustomer = localStorage.getItem('paymentId2');
@@ -109,13 +109,13 @@ const PaymentSuccess = () => {
     };
 
     enroll();
-  }, [dispatch, enrollCustomer, Installment, classType]);
+  }, []);
 
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', flexDirection: 'column' }}>
         <CircularProgress />
-        <Typography sx={{ marginTop: '1rem', textAlign: 'center' }}>{message}</Typography>
+        <Typography sx={{ marginTop: '1rem', textAlign: 'center', fontSize:'1.5rem', fontWeight:600 }}>{message}</Typography>
       </Box>
     );
   }
@@ -125,8 +125,8 @@ const PaymentSuccess = () => {
       <Box sx={{ width: '20%' }}>
         <img src='/Green_tick.svg' alt='Success' width={'100%'} />
       </Box>
-      <Typography sx={{ fontSize: '2rem', fontWeight: '800' }}>{message}</Typography>
-      {error && <Typography sx={{ color: 'red', marginTop: '1rem' }}>{error}</Typography>}
+      <Typography sx={{ fontSize: '1.5rem', fontWeight: '600' }}>{message}</Typography>
+      {/* {error && <Typography sx={{ color: 'red', marginTop: '1rem' }}>{error}</Typography>} */}
       <br />
       <Button variant='contained' sx={{ textTransform: 'none', borderRadius: '0px', padding: '0.7rem 3rem' }} onClick={() => navigate('/')}>
         Go back to Website

@@ -20,6 +20,7 @@ import {
 import { useSnackbar } from "notistack";
 import { studentAddCourse } from "../../store/actions/courseActions";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useNavigate } from "react-router";
 
 const cardStyles = {
   padding: "1rem",
@@ -45,6 +46,10 @@ const AddCustomCourse = ({ courseType }) => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const userRole = useSelector((state) => state?.auth?.user?.role);
+  const userauth = useSelector((state) => state?.auth?.isAuthenticated);
+
+  
+const navigate = useNavigate()
   const coursesByType = {
     bhajjan: [
       "Lord Swaminarayan bhajan - Swaminarayan naam mane vahlu lage",
@@ -139,15 +144,13 @@ const AddCustomCourse = ({ courseType }) => {
 
   const courses = coursesByType[courseType] || [];
 
-
-
   const bollywoodCourses = coursesByType.bollywood;
   const oldSongs = coursesByType.oldSongs;
 
-  const coursesToShow = courseType === "bollywood"
-    ? [...bollywoodCourses, ...oldSongs]
-    : coursesByType[courseType] || [];
-
+  const coursesToShow =
+    courseType === "bollywood"
+      ? [...bollywoodCourses, ...oldSongs]
+      : coursesByType[courseType] || [];
 
   const handleCheckboxChange = (course) => {
     setSelectedCourses((prev) =>
@@ -170,6 +173,11 @@ const AddCustomCourse = ({ courseType }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!userauth) {
+      navigate("/sign-in");
+      return;
+    }
 
     if (userRole === "admin" || userRole === "instructor") {
       enqueueSnackbar("You cannot enroll course as your role is " + userRole, {
@@ -224,11 +232,10 @@ const AddCustomCourse = ({ courseType }) => {
       <Card sx={cardStyles}>
         <form onSubmit={handleSubmit}>
           <Box sx={{ mb: 2 }}>
-
-          {courseType === "bollywood" && (
+            {courseType === "bollywood" && (
               <>
                 <Typography variant="h6" sx={{ mb: 1 }}>
-                 New Bollywood Songs
+                  New Bollywood Songs
                 </Typography>
                 {bollywoodCourses.map((course, index) => (
                   <FormControlLabel
@@ -244,7 +251,7 @@ const AddCustomCourse = ({ courseType }) => {
                     sx={{ display: "block", marginBottom: "0.5rem" }}
                   />
                 ))}
-<Divider/>
+                <Divider />
                 <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                   Old Songs
                 </Typography>
@@ -265,21 +272,21 @@ const AddCustomCourse = ({ courseType }) => {
               </>
             )}
 
-            {courseType !== "bollywood" && coursesToShow.map((course, index) => (
-              <FormControlLabel
-                key={index}
-                control={
-                  <Checkbox
-                    checked={selectedCourses.includes(course)}
-                    onChange={() => handleCheckboxChange(course)}
-                    color="primary"
-                  />
-                }
-                label={course}
-                sx={{ display: "block", marginBottom: "0.5rem" }}
-              />
-            ))}
-
+            {courseType !== "bollywood" &&
+              coursesToShow.map((course, index) => (
+                <FormControlLabel
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={selectedCourses.includes(course)}
+                      onChange={() => handleCheckboxChange(course)}
+                      color="primary"
+                    />
+                  }
+                  label={course}
+                  sx={{ display: "block", marginBottom: "0.5rem" }}
+                />
+              ))}
           </Box>
 
           {/* Topics Section */}
