@@ -687,3 +687,43 @@ export const adminsendSuggestedCourse = (freetrialId, feedback) => async (dispat
     throw err;
   }
 };
+
+
+
+
+// -------------------------razorpay API -------------------
+
+export const createRazorpayOrder = (paymentDetails) => async (dispatch) => {
+  try {
+    const res = await api.post(`/createOrder`, paymentDetails);
+console.log(res, 'rezorpay response')
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+
+// export const createRazorpayOrder = (paymentDetails) => async (dispatch) => {
+//   try {
+//     dispatch({ type: "RAZORPAY_ORDER_REQUEST" });
+
+//     const { data } = await axios.post("/createOrder", paymentDetails); // Call backend to create Razorpay order
+
+//     dispatch({
+//       type: "RAZORPAY_ORDER_SUCCESS",
+//       payload: data,
+//     });
+
+//     return data; // Return data to handle Razorpay payment
+//   } catch (error) {
+//     dispatch({
+//       type: "RAZORPAY_ORDER_FAIL",
+//       payload: error.response && error.response.data.message
+//         ? error.response.data.message
+//         : error.message,
+//     });
+//     throw error; // Throw error to handle it in the component
+//   }
+// };

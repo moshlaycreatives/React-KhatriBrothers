@@ -20,6 +20,7 @@ import { MdDateRange } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router";
 import {
+  createRazorpayOrder,
   firstPaymentApi,
   getRelatedCourses,
   getSingleCourse,
@@ -43,7 +44,7 @@ const AdvanceCoursePriceHeroSection = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [selectedClassType, setSelectedClassType] = useState("one2one"); // New state for class type
-
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("stripe");
   const dispatch = useDispatch();
   const [courseData, setCourseData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -55,9 +56,17 @@ const AdvanceCoursePriceHeroSection = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingTrial, setLoadingTrial] = useState(false);
-  const { courseType } = location.state || {};
+  const { courseType, ss } = location.state || {};
 
-  console.log(courseType, "course type of custom");
+
+
+
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [related, setRelated] = useState([]);
+  const userData = useSelector((state) => state?.auth?.user);
+  const auth = useSelector((state) => state?.auth?.isAuthenticated);
+
   const availableTimes = [
     "6:00 AM",
     "7:00 AM",
@@ -89,6 +98,140 @@ const AdvanceCoursePriceHeroSection = () => {
     setSelectedClassType(event.target.value);
     localStorage.setItem("classType", event.target.value); // Save selected class type to local storage
   };
+
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+
+  // const handleEnroll = (installment) => {
+  //   if (auth === true) {
+  //     if (userData.role === "admin") {
+  //       enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
+  //       return;
+  //     }
+
+  //     setLoadingEnroll(true);
+
+  //     if (selectedPaymentMethod === "stripe") {
+  //       // Existing Stripe payment logic
+  //       dispatch(firstPaymentApi({ name, email }))
+  //         .then((res) => {
+  //           const paymentId = res.data.data.id;
+  //           localStorage.setItem("paymentId2", id);
+  //           localStorage.setItem("installment", installment);
+  //           localStorage.setItem("classType", selectedClassType);
+  //           if (paymentId) {
+  //             dispatch(payment(price, paymentId, installment, currency)).then(
+  //               (res) => {
+  //                 localStorage.setItem("currency", currency);
+  //                 const testCheckoutUrl = res.data.session.url;
+  //                 window.location.href = testCheckoutUrl;
+  //               }
+  //             );
+  //           }
+  //           setLoadingEnroll(false);
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //           enqueueSnackbar(err.response.data.message, { variant: "error" });
+  //           setLoadingEnroll(false);
+  //         });
+  //     } else if (selectedPaymentMethod === "razorpay") {
+  //       // Razorpay payment logi
+
+  //       loadRazorpayScript().then((scriptLoaded) => {
+  //         if (!scriptLoaded) {
+  //           enqueueSnackbar("Failed to load Razorpay. Please try again later.", {
+  //             variant: "error",
+  //           });
+  //           setLoadingEnroll(false);
+  //           return;
+  //         }
+
+  //         // Razorpay payment logic with Redux dispatch
+  //         dispatch(createRazorpayOrder({
+  //           name,
+  //           email,
+  //           // contact: '030000000000',
+  //           product_name: "Course Enrollment",
+  //           description: "Enroll in a course",
+  //           amount: price * 100, // Convert price to paise (INR)
+  //           currency: currency,
+  //         }))
+  //           .then((res) => {
+  //             const {
+  //               key_id,
+  //               amount,
+  //               product_name,
+  //               description,
+  //               order_id,
+  //               contact,
+  //               name,
+  //               email,
+  //             } = res;
+
+  //             const options = {
+  //               key: key_id,
+  //               amount: amount,
+  //               currency: currency,
+  //               name: product_name,
+  //               description: description,
+  //               // image: "https://dummyimage.com/600x400/000/fff", // Change this to your logo
+  //               order_id: order_id,
+  //               handler: function (response) {
+  //                 console.log("Razorpay Payment ID:", response.razorpay_payment_id);
+  //                 enqueueSnackbar("Payment succeeded!", { variant: "success" });
+  //                 setLoadingEnroll(false);
+  //               },
+  //               prefill: {
+  //                 contact: contact,
+  //                 name: name,
+  //                 email: email,
+  //               },
+  //               notes: {
+  //                 description: description,
+  //               },
+  //               theme: {
+  //                 color: "#2300a3",
+  //               },
+  //             };
+
+  //             const razorpayObject = new window.Razorpay(options);
+
+  //             razorpayObject.on("payment.failed", function (response) {
+  //               console.log("Payment failed", response);
+  //               enqueueSnackbar("Payment failed. Please try again.", {
+  //                 variant: "error",
+  //               });
+  //               setLoadingEnroll(false);
+  //             });
+
+  //             razorpayObject.open();
+  //           })
+  //           .catch((err) => {
+  //             enqueueSnackbar("Error creating Razorpay order. Please try again.", {
+  //               variant: "error",
+  //             });
+  //             setLoadingEnroll(false);
+  //           });
+  //       });
+  //     }
+  //   } else {
+  //     navigate("/sign-in", { state: { from: location.pathname } });
+  //   }
+  // };
+
+
+
+
 
   const handleEnroll = (installment) => {
     if (auth === true) {
@@ -220,11 +363,6 @@ const AdvanceCoursePriceHeroSection = () => {
     fetchData();
   }, [dispatch]);
 
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [related, setRelated] = useState([]);
-  const userData = useSelector((state) => state?.auth?.user);
-  const auth = useSelector((state) => state?.auth?.isAuthenticated);
 
   const email = userData?.email;
   const name = userData?.firstName;
@@ -620,6 +758,8 @@ const AdvanceCoursePriceHeroSection = () => {
                       ? "Intermediate to Professional"
                       : courseData.courseType === "advanced"
                       ? "Advanced to Professional"
+                      : courseData.courseType === "guitar" && courseData.title.toLowerCase().includes("advance")
+                      ? "Advanced to Professional"
                       : "Beginner to Advance"}
                   </span>{" "}
                 </Box>
@@ -857,13 +997,6 @@ const AdvanceCoursePriceHeroSection = () => {
                 control={<Radio />}
                 label="One to One"
               />
-              {/* <FormControlLabel
-                value="group"
-                control={<Radio />}
-                label="Group"
-
-
-              /> */}
 
               {!disableInstallment ? (
                 <>
@@ -888,6 +1021,7 @@ const AdvanceCoursePriceHeroSection = () => {
             </Button>
           </DialogActions>
         </Dialog>
+
 
         <Dialog open={openModal} onClose={handleCloseModal}>
           <DialogTitle>Select Date and Time</DialogTitle>
@@ -977,3 +1111,12 @@ const AdvanceCoursePriceHeroSection = () => {
 };
 
 export default AdvanceCoursePriceHeroSection;
+
+
+// m chahta hu k stripe k sath sath razorpay bhi integrate kru
+
+// jb enroll now py click kru to popup m 2 radio button ho
+// 1. Pay with strip
+// 2. pay with Razorpay
+
+// jb razorpay selecyted ho to razorpay wala function run ho jis m console ho.

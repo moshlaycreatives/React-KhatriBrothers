@@ -272,10 +272,10 @@ const ViewStudentDetails = ({ student_Id }) => {
                 <Card sx={{ padding: '3rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                     <Box>
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Student Name</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.firstName}</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{studentData.firstName} {studentData.lastName}</Typography>
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Type</Typography>
-                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType}</Typography>
+                        <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseType === 'bhajjan' ? 'Bhajan' : courseData.courseType}</Typography>
                         <br />
                         <Typography sx={{ fontWeight: 600, fontSize: '1.1rem' }}>Course Duration</Typography>
                         <Typography sx={{ marginTop: '0.2rem', color: 'grey' }}>{courseData.courseDuration} weeks</Typography>

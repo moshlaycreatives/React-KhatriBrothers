@@ -45,7 +45,7 @@ const courseAdded = useSelector((state)=>state?.courses?.allCourses?.addedById?.
 
   const handleCardClick = (id) => {
     navigate(`/course-details/${id}`, {
-      state: { courseType: 'bollywood' },
+      state: { courseType: 'guitar', ss:'advance' },
     });
   };
 

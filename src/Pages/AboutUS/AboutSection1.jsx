@@ -55,7 +55,7 @@ const AboutSection1 = () => {
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Box sx={{ padding: isSmall ? "4rem 0rem 0rem 0rem" : "3rem" }}>
-              <img src="/aboutimage.svg" alt="image" width={"100%"} />
+              <img src="/khatrilogowhite.svg" alt="image" width={"80%"} />
             </Box>
           </Grid>
         </Grid>

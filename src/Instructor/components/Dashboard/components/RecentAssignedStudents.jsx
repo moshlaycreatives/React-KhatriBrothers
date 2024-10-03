@@ -84,8 +84,8 @@ const RecentAssignedStudents = () => {
                     <TableCell component="th" scope="row" sx={{ color: 'grey' }}>
                       {row.courseId.title}
                     </TableCell>
-                    <TableCell sx={{ color: 'grey' }}>{row.studentId.firstName}</TableCell>
-                    <TableCell sx={{ color: 'grey' }}>{row.courseId.courseType}</TableCell>
+                    <TableCell sx={{ color: 'grey' }}>{row.studentId.firstName} {row.studentId.lastName}</TableCell>
+                    <TableCell sx={{ color: 'grey' }}>{row.courseId.courseType === 'bhajjan' ? 'Bhajan' : row.courseId.courseType}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.gender}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.country}</TableCell>
                     {/* <TableCell sx={{ color: theme.palette.primary.main }}>

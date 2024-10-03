@@ -63,7 +63,7 @@ const listData = [
   { title: "Dashboard", icon: <RxDashboard /> },
   { title: "Students", icon: <PiStudent /> },
   { title: "Message", icon: <BiMessageAltDetail /> },
-  { title: "Groups", icon: <FaLayerGroup /> },
+  // { title: "Groups", icon: <FaLayerGroup /> },
   { title: "Classes", icon: <SiGoogleclassroom /> },
   { title: "Lectures", icon: <PiVideo /> },
   { title: "Terms & Conditions", icon: <CgFileDocument /> },
@@ -385,7 +385,7 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
             {selectedItem === "Dashboard" && <Dashboard />}
             {selectedItem === "Students" && <StudentMain />}
             {selectedItem === "Message" && <MessagesMain />}
-            {selectedItem === "Groups" && <Testimonials />}
+            {/* {selectedItem === "Groups" && <Testimonials />} */}
             {selectedItem === "Classes" && <ClassesMain />}
             {selectedItem === "Lectures" && <LectureInstructureMain />}
             {selectedItem === "Terms & Conditions" && <TermsConditionsMain />}
