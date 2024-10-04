@@ -9,7 +9,7 @@ import Loader from '../../../components/Loader/Loader';
 const ShowProfileData = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const base = 'https://khatribrothersacademy.com:4545';
+  const base = 'https://zh0k2dcj-4545.euw.devtunnels.ms';
   const userData = useSelector((state) => state?.auth?.user);
 
   // const profilePictureUrl = `${base}${userData.profilePicture.replace(/ /g, '%20')}`;

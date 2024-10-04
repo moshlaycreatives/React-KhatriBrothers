@@ -79,7 +79,7 @@ const listData = [
 ];
 
 const StudentMain = () => {
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedItem, setSelectedItem] = useState(listData[0].title);
@@ -90,27 +90,13 @@ const StudentMain = () => {
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-const [loading, setLoading] = useState(false); // State for loader
-const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const [loading, setLoading] = useState(false); // State for loader
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   console.log(userData, "data");
   const dispatch = useDispatch();
 
   const profilePictureUrl = base + userData.profilePicture;
-
-  // const handleItemClick = (title) => {
-  //   if (title === "Logout") {
-  //     setLogoutModalOpen(true);
-  //   } else if (title === "ManageProfile") {
-  //     setSelectedItem(title);
-  //   } else {
-  //     setSelectedItem(title);
-  //   }
-  //   if (isMobile) {
-  //     setDrawerOpen(false);
-  //   }
-  // };
-
   const handleItemClick = (title) => {
     const unrestrictedItems = [
       "Dashboard",
@@ -121,7 +107,8 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
       "Logout",
     ];
 
-    if (unrestrictedItems.includes(title) || courseData.length > 0) {
+    // Check if the item is unrestricted or if the user has completed the payment
+    if (unrestrictedItems.includes(title) || (courseData.length > 0 && paymentfalse)) {
       if (title === "Logout") {
         setLogoutModalOpen(true);
       } else if (title === "ManageProfile") {
@@ -133,10 +120,36 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
         setDrawerOpen(false);
       }
     } else {
+      // If the item is restricted and payment is incomplete, show the popup
       setShowPopup(true);
-      // enqueueSnackbar('Pleaase Enroll course to access this section',{variant:'error'})
     }
   };
+
+  // const handleItemClick = (title) => {
+  //   const unrestrictedItems = [
+  //     "Dashboard",
+  //     "Join Free Trial Class",
+  //     "Terms & Conditions",
+  //     "Settings",
+  //     "ManageProfile",
+  //     "Logout",
+  //   ];
+
+  //   if (unrestrictedItems.includes(title) || courseData.length > 0) {
+  //     if (title === "Logout") {
+  //       setLogoutModalOpen(true);
+  //     } else if (title === "ManageProfile") {
+  //       setSelectedItem(title);
+  //     } else {
+  //       setSelectedItem(title);
+  //     }
+  //     if (isMobile) {
+  //       setDrawerOpen(false);
+  //     }
+  //   } else {
+  //     setShowPopup(true);
+  //   }
+  // };
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -158,7 +171,6 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
-
     dispatch(getNotification()).then((response) => {
       console.log(response.data.data, "haha");
       setNotifications(response.data.data);
@@ -177,13 +189,13 @@ const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
     const fetchData = async () => {
-setLoading(true)
- try {
+      setLoading(true);
+      try {
         const res = await dispatch(getStudentEnrolledCourses());
         const data = res.data.data;
         console.log(data, "data on mains tudent");
         setCourseData(data);
-setLoading(false)
+        setLoading(false);
       } catch (err) {
         console.error("Failed to fetch courses:", err);
       }
@@ -191,6 +203,8 @@ setLoading(false)
 
     fetchData();
   }, [dispatch]);
+
+  const paymentfalse = courseData.every((val) => val.payment);
 
   return (
     <>
@@ -228,9 +242,12 @@ setLoading(false)
                 alignItems: "center",
               }}
             >
-<Box>
-                  <img src='/loginlogo.svg' style={{width:isSmall?"100%":"25%"}}/>
-                </Box>
+              <Box>
+                <img
+                  src="/loginlogo.svg"
+                  style={{ width: isSmall ? "100%" : "25%" }}
+                />
+              </Box>
 
               <Box
                 sx={{
@@ -425,7 +442,7 @@ setLoading(false)
                         </ListItemIcon>
                       </Box>
                       {restrictedRoutes.includes(val.title) &&
-                        courseData.length === 0 && (
+                        (courseData.length === 0 || paymentfalse === false) && (
                           <LockIcon
                             color="white"
                             style={{ fontSize: "1.1rem" }}
@@ -464,25 +481,24 @@ setLoading(false)
         </Box>
       </Box>
 
-
-{loading && (
-<Box
-   sx={{
-    position: "fixed",
-     top: 0,
-     left: 0,
-     right: 0,
-     bottom: 0,
-     backgroundColor: "rgba(255, 255, 255, 0.8)",
-     display: "flex",
-     alignItems: "center",
-     justifyContent: "center",
-     zIndex: theme.zIndex.modal + 1, // Ensure it is above other components
-   }}
- >
-   <CircularProgress />
- </Box>
-)}
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: theme.zIndex.modal + 1, // Ensure it is above other components
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
 
       <Dialog
         open={logoutModalOpen}

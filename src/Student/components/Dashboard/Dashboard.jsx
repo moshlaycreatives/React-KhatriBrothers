@@ -6,11 +6,15 @@ import PrevLectures from "./components/PrevLectures";
 import { useDispatch } from "react-redux";
 import { getStudentDashboardDetail, getStudentEnrolledCourses } from "../../../store/actions/courseActions";
 import { useNavigate } from "react-router";
+import LockIcon from "@mui/icons-material/Lock";
+
 
 const Dashboard = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [detail, setDetail] = useState({});
+  const [message, setMessage] = useState('');
+
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(true); // New state for loading
 
@@ -38,7 +42,8 @@ const Dashboard = () => {
         const data = res.data;
         setDetail(data);
       } catch (err) {
-        console.error("Failed to fetch dashboard details:", err);
+        console.error("Failed to fetch dashboard details:", err.response.data.message);
+setMessage(err.response.data.message)
       } finally {
         setLoading(false); // Stop loading after both requests are done
       }
@@ -83,10 +88,11 @@ const Dashboard = () => {
      </Box>
     )}
 
-  const duration = courseData.length === 0 ? 0 : detail.duration;
-  const lectureRem = courseData.length === 0 ? 0 : detail.lectureRem;
-  const totalEnrollment = courseData.length === 0 ? 0 : detail.totalEnrollment;
+  const duration = (courseData.length === 0) ? 0 : detail.duration || message && <LockIcon/>;
+  const lectureRem = courseData.length === 0 ? 0 : detail.lectureRem || message && <LockIcon/>;
+  const totalEnrollment = courseData.length === 0 ? 0 : detail.totalEnrollment || message && <LockIcon/>;
 
+  console.log(detail.lectureRem, ';')
   return (
     <>
       <Box sx={{ width: "100%" }}>
@@ -134,7 +140,15 @@ const Dashboard = () => {
 
                 <br />
 
-                <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>{duration} {" "} <span style={{fontSize:'1rem'}}>weeks</span></Typography>
+                <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>{duration}
+
+{!message || courseData.length === 0 ? (
+  <>
+  <span style={{fontSize:'1rem'}}>weeks</span>
+  </>
+):null}
+
+                 </Typography>
               </Box>
             </Grid>
 

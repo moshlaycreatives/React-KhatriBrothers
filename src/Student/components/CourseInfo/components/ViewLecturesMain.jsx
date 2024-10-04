@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { CleaningServices } from "@mui/icons-material";
 
 const ViewLecturesMain = ({ courseId }) => {
-  const base = "https://khatribrothersacademy.com:4545";
+  const base = "https://zh0k2dcj-4545.euw.devtunnels.ms";
   const theme = useTheme();
   const [playingIndex, setPlayingIndex] = useState(null);
   const [lectureData, setLectureData] = useState([]);
@@ -43,6 +43,7 @@ const ViewLecturesMain = ({ courseId }) => {
     fetchData();
   }, [courseId, dispatch]);
 
+  console.log(lectureData, 'lec data')
   // Function to normalize file path separators and check file extension
   const normalizePath = (path) => path.replace(/\\/g, "/");
   const isPDF = (url) => normalizePath(url).endsWith(".pdf");
@@ -116,11 +117,30 @@ const ViewLecturesMain = ({ courseId }) => {
             alignItems: "center",
           }}
         >
-          <Box>
+          {/* <Box>
             <Typography sx={{ fontWeight: 600 }}>Course Name</Typography>
             <br />
             <Typography>{lectureData[0]?.courseId?.title}</Typography>
-          </Box>
+          </Box> */}
+
+          <Box>
+  <Typography sx={{ fontWeight: 600 }}>Course Name</Typography>
+  <br />
+  <Typography>{lectureData[0]?.courseId?.title}</Typography>
+
+  {lectureData[0]?.courseId?.addedBy === 'user' && (
+    <Box sx={{ mt: 2 }}>
+      <Typography sx={{ fontWeight: 600 }}>Customized List</Typography>
+      <br/>
+      <ul>
+        {lectureData[0]?.courseId?.customList?.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </Box>
+  )}
+</Box>
+
           <br />
           <Box>
             <Typography sx={{ fontWeight: 600 }}>Course Fee</Typography>
