@@ -1,75 +1,9 @@
-// import { Box, Button, Typography } from "@mui/material";
-// import React, { useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router";
-// import { EnrollCustomer } from "../../store/actions/authActions";
-
-// const PaymentSuccess = () => {
-//   const dispatch = useDispatch();
-
-//   const enrollCustomer = localStorage.getItem("paymentId2");
-//   const Installment = localStorage.getItem("installment");
-//   const classType = localStorage.getItem("classType");
-
-//   useEffect(() => {
-//     dispatch(EnrollCustomer(enrollCustomer, Installment, classType));
-//   }, [""]);
-//   const navigate = useNavigate();
-//   return (
-//     <>
-//       <Box
-//         sx={{
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//           height: "90vh",
-//         }}
-//       >
-//         <Box
-//           sx={{
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             flexDirection: "column",
-//           }}
-//         >
-//           <Box sx={{ width: "20%" }}>
-//             <img src="/Green_tick.svg" alt="Success" width={"100%"} />
-//           </Box>
-
-//           <Typography sx={{ fontSize: "2rem", fontWeight: "800" }}>
-//             Payment Successful
-//           </Typography>
-
-//           <br />
-//           <Button
-//             variant="contained"
-//             sx={{
-//               textTransform: "none",
-//               borderRadius: "0px",
-//               padding: "0.7rem 3rem",
-//             }}
-//             onClick={() => navigate("/")}
-//           >
-//             {" "}
-//             Go back to Webiste{" "}
-//           </Button>
-//         </Box>
-//       </Box>
-//     </>
-//   );
-// };
-
-// export default PaymentSuccess;
-
-
-
-
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { EnrollCustomer } from '../../store/actions/authActions';
+import Page from '../../components/page/page';
 
 const PaymentSuccess = () => {
   const dispatch = useDispatch();
@@ -78,38 +12,46 @@ const PaymentSuccess = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Please wait while your enrollment is in process. It will take few seconds. Don't change the screen.");
   const [error, setError] = useState('');
-
   const enrollCustomer = localStorage.getItem('paymentId2');
   const Installment = localStorage.getItem('installment');
   const classType = localStorage.getItem('classType');
   const currency = localStorage.getItem('currency');
+  const amount = localStorage.getItem('price');
 
+  const enroll = async () => {
+    try {
+
+      await dispatch(EnrollCustomer(enrollCustomer, Installment, classType, currency, amount))
+      localStorage.removeItem('paymentId2');
+      localStorage.removeItem('installment');
+      localStorage.removeItem('classType');
+      localStorage.removeItem('currency');
+      localStorage.removeItem('price');
+
+
+      setLoading(false);
+      setMessage('Your enrollment has been successfully completed');
+
+
+    } catch (err) {
+
+      setLoading(false);
+      setError('There was an error processing your enrollment. Please try again later.');
+    }
+  };
 
   useEffect(() => {
-    const enroll = async () => {
-      try {
-        // Dispatch the action and wait for the result
-        await dispatch(EnrollCustomer(enrollCustomer, Installment, classType, currency));
+    let isMounted = true;
 
-        // On success, remove data from localStorage
-        localStorage.removeItem('paymentId2');
-        localStorage.removeItem('installment');
-        localStorage.removeItem('classType');
-        localStorage.removeItem('currency');
+    if (isMounted && enrollCustomer) {
+      enroll();
+    }
 
-
-        // Update the state to hide the loader and message
-        setLoading(false);
-        setMessage('Your enrollment was successful!');
-      } catch (err) {
-        // Handle the error case
-        setLoading(false);
-        setError('There was an error processing your enrollment. Please try again later.');
-      }
+    // Cleanup function to prevent memory leaks
+    return () => {
+      isMounted = false;
     };
-
-    enroll();
-  }, []);
+  }, [dispatch, enrollCustomer]);
 
   if (loading) {
     return (
@@ -121,7 +63,8 @@ const PaymentSuccess = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex',textAlign:'center', justifyContent: 'center', alignItems: 'center', height: '90vh', flexDirection: 'column' }}>
+    <Page title= 'Payment successfull'>
+      <Box sx={{ display: 'flex',textAlign:'center', justifyContent: 'center', alignItems: 'center', height: '90vh', flexDirection: 'column' }}>
       <Box sx={{ width: '20%' }}>
         <img src='/Green_tick.svg' alt='Success' width={'100%'} />
       </Box>
@@ -132,6 +75,7 @@ const PaymentSuccess = () => {
         Go back to Website
       </Button>
     </Box>
+    </Page>
   );
 };
 

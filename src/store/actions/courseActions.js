@@ -529,6 +529,16 @@ export const getAdminDashboardDetail = () => async (dispatch) => {
   }
 };
 
+export const getAllPayments = () => async (dispatch) => {
+  try {
+    const res = await api.get(`/getAllPayments`);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const getInstructorDashboardDetail = () => async (dispatch) => {
   try {
     const res = await api.get(`/instructorReporting`);

@@ -249,10 +249,13 @@ const AdvanceCoursePriceHeroSection = () => {
           localStorage.setItem("paymentId2", id);
           localStorage.setItem("installment", installment);
           localStorage.setItem("classType", selectedClassType);
+
           if (paymentId) {
             dispatch(payment(price, paymentId, installment, currency)).then(
               (res) => {
                 localStorage.setItem("currency", currency);
+                localStorage.setItem("price", price);
+
 
                 const testCheckoutUrl = res.data.session.url;
                 window.location.href = testCheckoutUrl;
@@ -600,7 +603,7 @@ const AdvanceCoursePriceHeroSection = () => {
               >
                 Overview:{" "}
               </Typography>
-              <Typography sx={{ color: "grey" }}>
+              <Typography sx={{ color: "black" }}>
                 {courseData?.overview}
               </Typography>
               <br />
@@ -613,7 +616,7 @@ const AdvanceCoursePriceHeroSection = () => {
               >
                 Prerequisites:
               </Typography>
-              <Typography sx={{ color: "grey" }}>
+              <Typography sx={{ color: "black" }}>
                 {courseData?.prerequisites}
               </Typography>
 
@@ -628,7 +631,7 @@ const AdvanceCoursePriceHeroSection = () => {
                 Topics covered:{" "}
               </Typography>
               {courseData?.topics?.map((topic, index) => (
-                <Typography sx={{ color: "grey", mb: 1 }} key={index}>
+                <Typography sx={{ color: "black", mb: 1 }} key={index}>
                   ● {topic}
                 </Typography>
               ))}
