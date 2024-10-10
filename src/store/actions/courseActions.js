@@ -698,6 +698,29 @@ export const adminsendSuggestedCourse = (freetrialId, feedback) => async (dispat
   }
 };
 
+//=========================================paypal payment===================
+
+
+
+export const PaypalPayment =
+  (PaypalValues) => async (dispatch) => {
+    const {price, installment, currency} = PaypalValues
+    try {
+      const res = await api.post("/createOrderPaypal", {
+        amount: price,
+        // customer_id: paymentId,
+        installment: installment,
+        currency: currency,
+      });
+
+      console.log(res, "urlllll");
+      return res;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+
 
 
 

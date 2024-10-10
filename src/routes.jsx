@@ -39,6 +39,7 @@ import UserCustomCourseView from "./Pages/CustomCourse/UserCustomCourseView";
 import EmailOTPConfirmation from "./Pages/Authentication_Page/Components/EmailOTPConfirmation";
 import GuitarCoursesMain from "./Pages/OtherCourses/GuitarCourses/GuitarCoursesMain";
 import KeyboardCoursesMain from "./Pages/OtherCourses/KeyboardCourses/KeyboardCoursesMain";
+import PaypalSuccess from "./Pages/PaymentPages/PaypalSuccess";
 
 export default function Router() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -152,6 +153,11 @@ export default function Router() {
     {
       path: "/success",
       element: <PaymentSuccess />,
+    },
+
+    {
+      path: "/paypalsuccess",
+      element: <PaypalSuccess />,
     },
 
     {

@@ -209,6 +209,20 @@ export const EnrollCustomer = (courseId, installment, classType, currency, amoun
 };
 
 
+export const EnrollPaypalCustomer = (paypalId) => async (dispatch) => {
+  try {
+
+    const res = await api.post(`/capturePaymentPaypal?orderId=${paypalId}`);
+
+    console.log('Response from API:', res);
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
 
 export const getAllConversations = () => async (dispatch) => {
   try {
