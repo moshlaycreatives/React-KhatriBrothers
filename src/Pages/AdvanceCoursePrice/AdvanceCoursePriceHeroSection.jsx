@@ -26,7 +26,6 @@ import {
   getSingleCourse,
   getStudentJoinFreeTrails,
   payment,
-  PaypalPayment,
   studentApplyFreeTrails,
 } from "../../store/actions/courseActions";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -112,129 +111,94 @@ const AdvanceCoursePriceHeroSection = () => {
   // };
 
 
-  const handleEnroll = async (installment) => {
-    if (auth === true) {
-      if (userData.role === "admin") {
-        enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
-        return;
-      }
-
-      setLoadingEnroll(true);
-
-      if (selectedPaymentMethod === "stripe") {
-        // Existing Stripe payment logic
-        dispatch(firstPaymentApi({ name, email }))
-          .then((res) => {
-            const paymentId = res.data.data.id;
-            localStorage.setItem("paymentId2", id);
-            localStorage.setItem("installment", installment);
-            localStorage.setItem("classType", selectedClassType);
-            if (paymentId) {
-              dispatch(payment(price, paymentId, installment, currency)).then(
-                (res) => {
-                  localStorage.setItem("currency", currency);
-                  const testCheckoutUrl = res.data.session.url;
-                  window.location.href = testCheckoutUrl;
-                }
-              );
-            }
-            setLoadingEnroll(false);
-          })
-          .catch((err) => {
-            console.log(err);
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-            setLoadingEnroll(false);
-          });
-      } else if (selectedPaymentMethod === "paypal") {
-
-const PaypalValues = {price, installment, currency}
-localStorage.setItem("installment", installment);
-localStorage.setItem("classType", selectedClassType);
-localStorage.setItem("currency", currency);
-localStorage.setItem("price", price);
-localStorage.setItem("courseId", id);
-
-    try {
-      const res = await dispatch(PaypalPayment(PaypalValues)); // Await the dispatch to get the response
-      console.log('Response:', res.data.link);
-      // localStorage.setItem("paymentId2", id);
-
-      localStorage.setItem("installment", installment);
-      localStorage.setItem("classType", selectedClassType);
-      localStorage.setItem("currency", currency);
-      localStorage.setItem("price", price);
-      localStorage.setItem("courseId", id);
-
-
-
-
-      window.location.replace(res.data.link);
-      const paypalid = res.data.data.id;
-
-      localStorage.setItem('paypalcustomerId', paypalid);
-
-    } catch (error) {
-      enqueueSnackbar(error.response?.data?.message || 'An error occurred', { variant: 'error' });
-      console.error('API error:', error); // Log the error object
-      setLoadingEnroll(false);
-
-    } finally {
-      setLoadingEnroll(false);
-      
-      setLoading(false); // Ensure loading is set to false in both success and error cases
-    }
-
-
-
-      }
-    } else {
-      navigate("/sign-in", { state: { from: location.pathname } });
-    }
-  };
-
-
-
-
   // const handleEnroll = (installment) => {
   //   if (auth === true) {
   //     if (userData.role === "admin") {
-  //       enqueueSnackbar("Admin cannot enroll in a course", {
-  //         variant: "error",
-  //       });
+  //       enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
   //       return;
   //     }
 
   //     setLoadingEnroll(true);
-  //     dispatch(firstPaymentApi({ name, email }))
-  //       .then((res) => {
-  //         const paymentId = res.data.data.id;
-  //         localStorage.setItem("paymentId2", id);
-  //         localStorage.setItem("installment", installment);
-  //         localStorage.setItem("classType", selectedClassType);
 
-  //         if (paymentId) {
-  //           dispatch(payment(price, paymentId, installment, currency)).then(
-  //             (res) => {
-  //               localStorage.setItem("currency", currency);
-  //               localStorage.setItem("price", price);
+  //     if (selectedPaymentMethod === "stripe") {
+  //       // Existing Stripe payment logic
+  //       dispatch(firstPaymentApi({ name, email }))
+  //         .then((res) => {
+  //           const paymentId = res.data.data.id;
+  //           localStorage.setItem("paymentId2", id);
+  //           localStorage.setItem("installment", installment);
+  //           localStorage.setItem("classType", selectedClassType);
+  //           if (paymentId) {
+  //             dispatch(payment(price, paymentId, installment, currency)).then(
+  //               (res) => {
+  //                 localStorage.setItem("currency", currency);
+  //                 const testCheckoutUrl = res.data.session.url;
+  //                 window.location.href = testCheckoutUrl;
+  //               }
+  //             );
+  //           }
+  //           setLoadingEnroll(false);
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //           enqueueSnackbar(err.response.data.message, { variant: "error" });
+  //           setLoadingEnroll(false);
+  //         });
+  //     } else if (selectedPaymentMethod === "paypal") {
 
 
-  //               const testCheckoutUrl = res.data.session.url;
-  //               window.location.href = testCheckoutUrl;
-  //             }
-  //           );
-  //         }
-  //         setLoadingEnroll(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         enqueueSnackbar(err.response.data.message, { variant: "error" });
-  //         setLoadingEnroll(false);
-  //       });
+
+
+  //     }
   //   } else {
   //     navigate("/sign-in", { state: { from: location.pathname } });
   //   }
   // };
+
+
+
+
+
+  const handleEnroll = (installment) => {
+    if (auth === true) {
+      if (userData.role === "admin") {
+        enqueueSnackbar("Admin cannot enroll in a course", {
+          variant: "error",
+        });
+        return;
+      }
+
+      setLoadingEnroll(true);
+      dispatch(firstPaymentApi({ name, email }))
+        .then((res) => {
+          const paymentId = res.data.data.id;
+          localStorage.setItem("paymentId2", id);
+          localStorage.setItem("installment", installment);
+          localStorage.setItem("classType", selectedClassType);
+
+          if (paymentId) {
+            dispatch(payment(price, paymentId, installment, currency)).then(
+              (res) => {
+                localStorage.setItem("currency", currency);
+                localStorage.setItem("price", price);
+
+
+                const testCheckoutUrl = res.data.session.url;
+                window.location.href = testCheckoutUrl;
+              }
+            );
+          }
+          setLoadingEnroll(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
+          setLoadingEnroll(false);
+        });
+    } else {
+      navigate("/sign-in", { state: { from: location.pathname } });
+    }
+  };
 
   const [trailData, setTrialData] = useState({});
 
@@ -904,54 +868,44 @@ localStorage.setItem("courseId", id);
         </Box>
 
         <Dialog open={open} onClose={() => handleDialogClose(null)}>
-  <DialogTitle>Select Payment Option</DialogTitle>
-  <DialogContent>
-    <DialogContentText>
-      Please select your preferred payment option.
-    </DialogContentText>
+          <DialogTitle>Select Payment Option</DialogTitle>
+          <DialogContent>
+                
+            <RadioGroup
+              value={selectedClassType}
+              onChange={handleClassTypeChange}
+              sx={{ marginBottom: 2 }}
+            >
+              <FormControlLabel
+                value="one2one"
+                sx={{ display: "none" }}
+                control={<Radio />}
+                label="One to One"
+              />
 
-    {/* Radio group for selecting payment method */}
-    <RadioGroup
-      value={selectedPaymentMethod}
-      onChange={(e) => setSelectedPaymentMethod(e.target.value)} // Update selectedPaymentMethod
-      sx={{ marginBottom: 2 }}
-    >
-      <FormControlLabel
-        value="stripe"
-        control={<Radio />}
-        label="Pay with Visa/Master card"
-      />
-      <FormControlLabel
-        value="paypal"
-        control={<Radio />}
-        label="Pay with PayPal"
-      />
-    </RadioGroup>
-
-    {/* Optional installment text */}
-    {!disableInstallment ? (
-      <Typography sx={{ color: "grey" }}>
-        For installment pay {currencySymbol} {(price / 3).toFixed(2)}
-      </Typography>
-    ) : null}
-  </DialogContent>
-
-  <DialogActions>
-    <Button
-      onClick={() => handleEnroll(true)} // Installment option
-      color="primary"
-      disabled={disableInstallment}
-    >
-      Installment
-    </Button>
-    <Button
-      onClick={() => handleEnroll(false)} // Full fee option
-      color="primary"
-    >
-      Full Fee
-    </Button>
-  </DialogActions>
-</Dialog>
+              {!disableInstallment ? (
+                <>
+                  <Typography sx={{ color: "grey" }}>
+                    For installment pay {currencySymbol}{" "}
+                    {(price / 3).toFixed(2)}
+                  </Typography>
+                </>
+              ) : null}
+            </RadioGroup>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleEnroll(true)}
+              color="primary"
+              disabled={disableInstallment}
+            >
+              Installment
+            </Button>
+            <Button onClick={() => handleEnroll(false)} color="primary">
+              Full Fee
+            </Button>
+          </DialogActions>
+        </Dialog>
 
 
 
