@@ -870,7 +870,7 @@ const AdvanceCoursePriceHeroSection = () => {
         <Dialog open={open} onClose={() => handleDialogClose(null)}>
           <DialogTitle>Select Payment Option</DialogTitle>
           <DialogContent>
-                
+
             <RadioGroup
               value={selectedClassType}
               onChange={handleClassTypeChange}

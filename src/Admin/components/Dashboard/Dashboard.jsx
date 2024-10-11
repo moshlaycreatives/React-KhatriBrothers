@@ -250,7 +250,7 @@ const Dashboard = () => {
           </Grid>
         </Box>
 
-        {/* <RecentEnrollments/> */}
+        <RecentEnrollments/>
 
 
 

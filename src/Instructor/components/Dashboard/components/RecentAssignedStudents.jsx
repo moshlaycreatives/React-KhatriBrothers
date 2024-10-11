@@ -72,6 +72,8 @@ const RecentAssignedStudents = () => {
                   <TableCell>Course Type</TableCell>
                   <TableCell>Gender</TableCell>
                   <TableCell>Country</TableCell>
+                  <TableCell>Status</TableCell>
+
                   {/* <TableCell>Action</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -88,6 +90,8 @@ const RecentAssignedStudents = () => {
                     <TableCell sx={{ color: 'grey' }}>{row.courseId.courseType === 'bhajjan' ? 'Bhajan' : row.courseId.courseType}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.gender}</TableCell>
                     <TableCell sx={{ color: 'grey' }}>{row.studentId.country}</TableCell>
+                    <TableCell sx={{ color:row.payment ? 'green': 'red' }}>{row.payment ? 'paid':'unpaid'}</TableCell>
+
                     {/* <TableCell sx={{ color: theme.palette.primary.main }}>
                       <FaEye
                         style={{ fontSize: '1.5rem', cursor: 'pointer' }}

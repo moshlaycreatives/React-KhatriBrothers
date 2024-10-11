@@ -205,6 +205,8 @@ setSearchTerm(e.target.value);
                         <TableCell>Class Type</TableCell>
                         <TableCell>Gender</TableCell>
                         <TableCell>Country</TableCell>
+                        <TableCell>Status</TableCell>
+
                         <TableCell>Action</TableCell>
                       </TableRow>
                     </TableHead>
@@ -232,6 +234,10 @@ setSearchTerm(e.target.value);
 
                             <TableCell sx={{ color: 'gray' }}>
                               {row.studentId.country}
+                            </TableCell>
+
+                            <TableCell sx={{ color:row.payment ? 'green': 'red' }}>
+                              {row.payment ? 'Paid':'Unpaid'}
                             </TableCell>
                             <TableCell>
                               <IconButton

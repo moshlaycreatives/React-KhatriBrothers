@@ -62,7 +62,9 @@ const RecentEnrollments = () => {
                 <TableCell>Student Name</TableCell>
                 <TableCell>Class Type</TableCell>
                 <TableCell>Enrollment Date</TableCell>
+                <TableCell>Payment Status</TableCell>
                 <TableCell>Fee Status</TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
@@ -75,7 +77,7 @@ const RecentEnrollments = () => {
                     {row.courseId.title}
                   </TableCell>
                   <TableCell sx={{ color: "grey" }}>
-                    {row.studentId.firstName}
+                    {row.studentId.firstName}  {row.studentId.lastName}
                   </TableCell>
                   {/* <TableCell sx={{color:'grey'}}>{row.classType}</TableCell> */}
 
@@ -85,6 +87,10 @@ const RecentEnrollments = () => {
 
                   <TableCell sx={{ color: "grey" }}>
                     {new Date(row.createdAt).toLocaleDateString()}
+                  </TableCell>
+
+                  <TableCell component="th" scope="row" sx={{ color:row.payment ? 'green': "red" }}>
+                    {row.payment === true ? "Paid" : "Unpaid"}
                   </TableCell>
 
                   <TableCell component="th" scope="row" sx={{ color: "grey" }}>

@@ -245,6 +245,7 @@ const StudentMain = () => {
                         <TableCell>Course Type</TableCell>
                         <TableCell>Class Type</TableCell>
                         <TableCell>Course Fee</TableCell>
+                        <TableCell>Payment Status</TableCell>
                         <TableCell>Instructor Status</TableCell>
 
                         <TableCell>Action</TableCell>
@@ -278,6 +279,10 @@ onClick={() => handleOpenDialog(row.courseId.customList)}
                           </TableCell>
                           <TableCell sx={{ color: "gray" }}>
                             ₹ {row.courseId.indianPrice}
+                          </TableCell>
+
+                          <TableCell sx={{ color: row.payment ? 'green' : "red" }}>
+                             {row.payment === true ? 'Paid':'Unpaid'}
                           </TableCell>
 
                           <TableCell>
