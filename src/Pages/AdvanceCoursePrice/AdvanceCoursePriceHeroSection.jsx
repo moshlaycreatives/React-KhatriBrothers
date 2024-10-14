@@ -597,7 +597,24 @@ const AdvanceCoursePriceHeroSection = () => {
                       fontWeight: 600,
                     }}
                   >
-                    24+ Students
+                    {courseData.courseType === "intermediate"
+                      ? "12+ students"
+                      : courseData.courseType === "advanced"
+                      ? "14+ students"
+                                            : courseData.courseType === "beginner"
+                      ? "19+ students"
+                                            : courseData.courseType === "bollywood"
+                      ? "17+ students"
+                                            : courseData.courseType === "keyboard"
+                      ? "16+ students"
+                                            : courseData.courseType === "bhajjan"
+                      ? "22+ students"
+                                            : courseData.courseType === "tabla"
+                      ? "21+ students"
+
+                      : courseData.courseType === "guitar" && courseData.title.toLowerCase().includes("advance")
+                      ? "11+ students"
+                      : "26+ students"}
                   </span>
                 </Box>
                 <br />

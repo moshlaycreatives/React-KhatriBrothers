@@ -10,6 +10,7 @@ import { AiOutlineFacebook } from "react-icons/ai";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { FaWhatsapp } from "react-icons/fa6";
 
 function Footer() {
   const location = useLocation();
@@ -83,21 +84,27 @@ const theme = useTheme()
 
             // target="_blank" rel="noopener noreferrer"
             >
-              <i style={{alignItems:'center'}}>
-                <IoLocationOutline style={{marginRight:'0.5rem'}} />
+              <i style={{alignItems:'center', display:'flex'}}>
+                <IoLocationOutline style={{marginRight:'0.5rem', fontSize:'1.4rem'}} />
                 Dehli, India
               </i>
             </a>
             <a  href="mailto:Khatribrothersacademy@gmail.com" target="_blank" rel="noopener noreferrer">
-              <i style={{alignItems:'center', }}>
-                <MdOutlineEmail style={{marginRight:'0.5rem'}}/> Khatribrothersacademy@gmail.com
+              <i style={{alignItems:'center', display:'flex' }}>
+                <MdOutlineEmail style={{marginRight:'0.5rem', fontSize:'1.4rem'}}/> Khatribrothersacademy@gmail.com
               </i>
             </a>
             {/* <a href="tel:+923076589234" target="_blank" rel="noopener noreferrer">
               <i>
-                <FaPhoneVolume /> +923076589234
+                <FaPhoneVolume /> +917897329508
               </i>
             </a> */}
+            <a href="https://wa.me/917897329508" target="_blank" rel="noopener noreferrer">
+  <i style={{alignItems:'center', display:'flex'}}>
+    <FaWhatsapp style={{fontSize:'1.4rem' , marginRight:'0.5rem'}} />  +917897329508
+  </i>
+</a>
+
           </div>
           <div className="footer-social-btn">
 

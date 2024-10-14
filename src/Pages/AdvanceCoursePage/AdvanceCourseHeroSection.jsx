@@ -43,7 +43,7 @@ const theme = useTheme()
 
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Box sx={{ padding:isSmall ? "2rem": "5rem" }}>
-              <img src="/AdvanceImage.png" alt="image" width={"100%"} />
+              <img src="/advancecourse.png" alt="image" width={"100%"} height={'300rem'} />
             </Box>
           </Grid>
         </Grid>

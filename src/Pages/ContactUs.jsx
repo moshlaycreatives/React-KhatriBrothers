@@ -15,6 +15,10 @@ import { useDispatch } from "react-redux";
 import { contactUser } from "../store/actions/authActions";
 import PhoneInput from "react-phone-input-2";
 import { IoMdClose } from "react-icons/io";
+import { FaWhatsapp } from "react-icons/fa6";
+import { MdOutlineEmail } from "react-icons/md";
+
+
 const ContactUs = () => {
   const history = useNavigate();
 
@@ -126,6 +130,18 @@ const ContactUs = () => {
               // style={{ display: isRoot ? "none" : "block" }}
               alt="Logo"
             />
+
+<a  href="mailto:Khatribrothersacademy@gmail.com" target="_blank" rel="noopener noreferrer" style={{textDecoration:'none', color:'black', fontWeight:'600'}}>
+              <i style={{alignItems:'center', display:'flex' }}>
+                <MdOutlineEmail style={{marginRight:'0.5rem', fontSize:'1.4rem'}}/> Khatribrothersacademy@gmail.com
+              </i>
+            </a>
+
+            <a style={{textDecoration:'none', color:'black', fontWeight:'600'}} href="https://wa.me/917897329508" target="_blank" rel="noopener noreferrer">
+  <i style={{alignItems:'center', display:'flex'}}>
+    <FaWhatsapp style={{fontSize:'1.4rem' , marginRight:'0.5rem'}} />  +917897329508
+  </i>
+</a>
           </Box>
 
 
