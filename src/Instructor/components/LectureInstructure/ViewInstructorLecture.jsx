@@ -319,10 +319,7 @@ const ViewInstructorLecture = ({ courseId }) => {
                       <Typography>{val.courseId.title}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{ fontWeight: 600 }}>
-                        Course Fee
-                      </Typography>
-                      <Typography>{val.courseId.indianPrice}</Typography>
+
                     </Box>
                     <Box>
                       <Typography sx={{ fontWeight: 600 }}>Duration</Typography>
