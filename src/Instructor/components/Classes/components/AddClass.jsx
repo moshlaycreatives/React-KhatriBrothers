@@ -250,6 +250,7 @@ const AddClass = () => {
                         <MenuItem
                           key={student.studentId._id}
                           value={student.studentId._id}
+                          disabled={!student.payment}
                         >
                           {student.studentId.firstName}
                         </MenuItem>

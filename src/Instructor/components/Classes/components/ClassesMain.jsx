@@ -118,7 +118,7 @@ const formatDateAndTime = (timestamp) => {
             onClick={handleBackClick}
             sx={{ marginBottom: "1rem" }}
           >
-            &lt; Back to Courses
+            &lt; Back to Classes
           </Button>
           <AddClass />
         </>
