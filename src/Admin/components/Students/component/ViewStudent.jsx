@@ -24,6 +24,8 @@ const ViewStudent = ({ student_Id }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [studentData, setStudentData] = useState({});
   const [courseData, setCourseData] = useState({});
+  const [data32, setData] = useState({});
+console.log(data32, 'data43')
   const [anchorEl, setAnchorEl] = useState(null);
   const [instructorId, setInstructorId] = useState("");
   const [loading, setLoading] = useState(true);
@@ -41,6 +43,7 @@ const ViewStudent = ({ student_Id }) => {
         setStudentData(res.data.data.studentId);
         setCourseData(res.data.data.courseId);
         setInstructorId(res.data.data.instructorId);
+        setData(res.data.data);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch student:", err);
@@ -229,6 +232,27 @@ const ViewStudent = ({ student_Id }) => {
             <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
               One to One
             </Typography>
+
+
+
+
+
+
+
+
+
+            <Typography sx={{ fontWeight: 600, fontSize: "1.1rem" }}>
+              Join on
+            </Typography>
+            <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
+
+
+              {new Date(data32.createdAt).toLocaleDateString()} (MM/DD/YY)
+
+
+              <br />
+            </Typography>
+            <br />
           </Box>
 
           <div></div>

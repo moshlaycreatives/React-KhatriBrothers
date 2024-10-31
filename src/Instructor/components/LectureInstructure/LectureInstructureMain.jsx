@@ -117,7 +117,7 @@ const LectureInstructureMain = () => {
                     <TableCell>Class Name</TableCell>
 
                     <TableCell>Group/Student</TableCell>
-                    <TableCell>Created Date</TableCell>
+                    <TableCell>Created Date (MM/DD/YY)</TableCell>
 
 
                     <TableCell>Action</TableCell>

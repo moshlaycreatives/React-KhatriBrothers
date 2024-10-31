@@ -170,7 +170,7 @@ const formatDateAndTime = (timestamp) => {
                     <TableCell>Course Name</TableCell>
                     <TableCell>Group/Student</TableCell>
                     <TableCell>Class Name</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>Date (MM/DD/YY)</TableCell>
                     <TableCell>Time</TableCell>
                     <TableCell>Lecture</TableCell>
                   </TableRow>

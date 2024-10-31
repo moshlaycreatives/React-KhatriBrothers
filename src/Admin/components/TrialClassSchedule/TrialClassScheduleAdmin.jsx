@@ -144,7 +144,7 @@ const TrialClassScheduleAdmin = () => {
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
+                      <TableCell>Date (MM/DD/YY)</TableCell>
                       <TableCell>Time</TableCell>
                       <TableCell>Status</TableCell>
                     </TableRow>

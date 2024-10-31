@@ -34,7 +34,8 @@ function Home() {
         <About/>
 
 
-
+<br/>
+<br/>
 
 <CategoryBasedCoursesHome/>
 

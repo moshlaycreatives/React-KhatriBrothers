@@ -201,7 +201,7 @@ const AdminJoinFreeTrails = () => {
                   <TableRow>
                     <TableCell>Student Name</TableCell>
                     <TableCell>Course Type</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>Date (MM/DD/YY)</TableCell>
                     <TableCell>Time</TableCell>
                     <TableCell>Class Joining</TableCell>
                     <TableCell>Free Trial</TableCell>

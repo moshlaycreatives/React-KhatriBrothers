@@ -43,11 +43,7 @@ const SignUp = () => {
     dob: "",
     country: "",
 
-    // dob: {
-    //   month: "",
-    //   day: "",
-    //   year: "",
-    // },
+
     password: "",
     confirmPassword: "",
   };
@@ -56,15 +52,27 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false); // New state for loading
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [showOtherCountryField, setShowOtherCountryField] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
 
+    if (name === "country") {
+      setShowOtherCountryField(value === "Others");
+      setFormValues({
+        ...formValues,
+        country: value === "Others" ? "" : value, // Reset if "Others" selected
+      });
+    } else {
+      setFormValues({ ...formValues, [name]: value });
+    }
+
+  };
+  const handleOtherCountryChange = (e) => {
+    setFormValues({ ...formValues, country: e.target.value });
+  };
   const handlePhoneChange = (value) => {
     setFormValues({ ...formValues, phone: value });
   };
@@ -76,64 +84,7 @@ const SignUp = () => {
     });
   };
 
-  // const handleRegisterSubmit = (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const alphabetRegex = /[a-zA-Z]/;
-  //   const numberRegex = /\d/;
-  //   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-  //   // Check if password meets complexity requirements
-  //   if (
-  //     !alphabetRegex.test(formValues.password) ||
-  //     !numberRegex.test(formValues.password) ||
-  //     !specialCharRegex.test(formValues.password)
-  //   ) {
-  //     enqueueSnackbar(
-  //       "Password must contain alphabets, numbers, and special characters",
-  //       { variant: "error" }
-  //     );
-  //     setLoading(false);
-  //     return;
-  //   }
-
-  //   if (formValues.password !== formValues.confirmPassword) {
-  //     enqueueSnackbar("Passwords do not match", { variant: "error" });
-  //     setLoading(false);
-  //     return;
-  //   }
-  //   const dobString = `${formValues.dob.month} ${formValues.dob.day}, ${formValues.dob.year}`;
-  //   const dataToSubmit = {
-  //     ...formValues,
-  //     dob: dobString,
-  //   };
-
-  //   dispatch(userRegister(dataToSubmit))
-  //     .then((res) => {
-  //       // setFormValues(res?.data?.payload);
-
-  //       enqueueSnackbar(res?.data?.message, { variant: "success" });
-
-  //       setFormValues(initialValues);
-  //       dispatch(userRegister(email)).then((res)=>{
-  //         navigate("/email-confirmation");
-
-  //       }).catch((error)=>(
-  //       enqueueSnackbar(error?.response?.data?.message, { variant: "error" });
-
-  //       ))
-
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       // console.log(res.data.payload, 'payloaddddddd')
-  //       console.log(err, "errorrrrrr");
-  //       enqueueSnackbar(err?.response?.data?.message, { variant: "error" });
-  //     })
-  //     .finally(() => {
-  //       setLoading(false); // Ensure loading is stopped
-  //     });
-  // };
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -225,26 +176,11 @@ const SignUp = () => {
     "Kenya",
     "Uganda",
     "Canada",
+    "Others",
   ];
 
   const [countries, setCountries] = useState([]);
-  // useEffect(() => {
-  //   fetch(
-  //     "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCountries(data.countries);
-  //       console.log(data.countries, "countries");
-  //     });
-  // }, []);
 
-  //  const name = countries.map((country)=>country.label.split(' ').at(1))
-
-  // const hh = [name]
-  // const variable = countries[0]?.label?.split(' ').at(1)
-
-  // console.log(hh, 'jack ')
 
   const transformedCountries = countries.map((country) => {
     const name = country.label.split(" ").slice(1).join(" ");
@@ -534,7 +470,7 @@ const SignUp = () => {
                         </Box>
                       </Box>
                     </Box>
-                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
                       <label style={{ fontSize: "1rem" }}>Country</label>
                       <FormControl fullWidth>
                         <Select
@@ -553,40 +489,41 @@ const SignUp = () => {
                           ))}
                         </Select>
                       </FormControl>
-                    </Box>
-
-                    {/* <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography
-                        sx={{ fontSize: "1.1rem", fontWeight: "400" }}
-                      >
-                        Password
-                      </Typography>
-                      <TextField
-                        placeholder="Password"
-                        fullWidth
-                        size="small"
-                        name="password"
-                        type="password"
-                        value={formValues.password}
-                        onChange={handleChange}
-                      />
-                    </Box>
-                    <Box sx={{ marginBottom: ".5rem" }}>
-                      <Typography
-                        sx={{ fontSize: "1.1rem", fontWeight: "400" }}
-                      >
-                        Confirm Password
-                      </Typography>
-                      <TextField
-                        placeholder="Confirm password"
-                        fullWidth
-                        size="small"
-                        name="confirmPassword"
-                        type="password"
-                        value={formValues.confirmPassword}
-                        onChange={handleChange}
-                      />
                     </Box> */}
+
+                    <Box>
+                  <InputLabel sx={{ color: "black" }}>Country</InputLabel>
+                  <FormControl fullWidth>
+                    <Select
+                      name="country"
+                      value={formValues.country || ""}
+                      onChange={handleChange}
+                      displayEmpty
+                      size="small"
+                    >
+                      {country.map((co, ind) => (
+                        <MenuItem key={ind} value={co}>
+                          {co}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+
+                {/* Show text field if "Others" is selected */}
+                {showOtherCountryField && (
+                  <Box sx={{ mt: 2 }}>
+                    <TextField
+                      placeholder="Enter Country"
+                      fullWidth
+                      size="small"
+                      value={formValues.country}
+                      onChange={handleOtherCountryChange}
+                    />
+                  </Box>
+                )}
+
+
 
                     <Box sx={{ marginBottom: ".5rem" }}>
                       <Typography

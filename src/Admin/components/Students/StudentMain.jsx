@@ -50,7 +50,10 @@ const StudentMain = () => {
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false); // For opening dialog
-  const [currentCustomList, setCurrentCustomList] = useState([]); // Loading status
+  const [currentCustomList, setCurrentCustomList] = useState([]);
+  const [currencyType, setCurrencyType] = useState(''); // Loading status
+
+  // Loading status
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -60,6 +63,8 @@ const StudentMain = () => {
       setStudentData(res.data.data);
       setTotalPages(Math.ceil(res.data.total / ITEMS_PER_PAGE)); // Calculate total pages
       console.log("Student data:", res.data);
+      setCurrencyType(res.data.data);
+
     } catch (error) {
       console.error("Failed to fetch student data", error);
     } finally {
@@ -156,6 +161,34 @@ const StudentMain = () => {
 
   const handleCloseDialog = () => {
     setOpen(false);
+  };
+
+
+
+
+  const getFeeByCurrency = (course, currency) => {
+    switch (currency) {
+      case currencyType.USD:
+        return course.amount;
+      case currencyType.INR:
+        return course.indianPrice;
+      case currencyType.GB:
+        return course.ukPrice;
+      case currencyType.KE:
+        return course.kenyaPrice;
+      case currencyType.UG:
+        return course.ugandaPrice;
+      case currencyType.AE:
+        return course.uaePrice;
+      case currencyType.CAN:
+      case currencyType.CA:
+        return course.canadaPrice;
+      case currencyType.AU:
+      case currencyType.AUS:
+        return course.australiaPrice;
+      default:
+        return course.indianPrice; // Default to Indian Price if currency type is unrecognized
+    }
   };
 
   return (
@@ -278,7 +311,8 @@ onClick={() => handleOpenDialog(row.courseId.customList)}
                             {row.classType}
                           </TableCell>
                           <TableCell sx={{ color: "gray" }}>
-                            ₹ {row.courseId.indianPrice}
+                            {row.amount} {row.currency}
+                            {/* {getFeeByCurrency(row.courseId, row.currency)} {row.currency} */}
                           </TableCell>
 
                           <TableCell sx={{ color: row.payment ? 'green' : "red" }}>

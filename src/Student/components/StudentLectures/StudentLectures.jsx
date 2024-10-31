@@ -370,7 +370,7 @@ const StudentLectures = () => {
                     <TableCell>Course Name</TableCell>
                     <TableCell>Class Name</TableCell>
                     <TableCell>Instructor</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>Date (MM/DD/YY)</TableCell>
                     <TableCell>Time</TableCell>
                     <TableCell>Lecture</TableCell>
                   </TableRow>

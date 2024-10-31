@@ -61,7 +61,7 @@ const RecentEnrollments = () => {
                 <TableCell>Course Name</TableCell>
                 <TableCell>Student Name</TableCell>
                 <TableCell>Class Type</TableCell>
-                <TableCell>Enrollment Date</TableCell>
+                <TableCell>Enrollment Date (MM/DD/YY)</TableCell>
                 <TableCell>Payment Status</TableCell>
                 <TableCell>Fee Status</TableCell>
 

@@ -125,7 +125,7 @@ const ViewBhajjanCourse = ({courseId}) => {
           Australia Price
           </Typography>
           <Typography sx={{ marginTop: "0.2rem", color: "grey" }}>
-          A$ {courseData.ukPrice}
+          A$ {courseData.australiaPrice}
           </Typography>
 
 

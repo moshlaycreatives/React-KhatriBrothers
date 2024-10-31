@@ -145,7 +145,7 @@ const StudentTrailJoin = () => {
                 <TableRow>
                   <TableCell>Admin</TableCell>
                   <TableCell>Course Type</TableCell>
-                  <TableCell>Date</TableCell>
+                  <TableCell>Date (MM/DD/YY)</TableCell>
                   <TableCell>Time</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
