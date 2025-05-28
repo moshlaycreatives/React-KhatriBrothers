@@ -10,11 +10,12 @@ import { AiOutlineFacebook } from "react-icons/ai";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { FaWhatsapp } from "react-icons/fa6";
 
 function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
-const theme = useTheme()
+  const theme = useTheme()
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
   const currentPath = location.pathname;
 
@@ -43,11 +44,11 @@ const theme = useTheme()
       <div className="footer-main-div">
         <div className="footer-logo-text">
 
-          <br/>
+          <br />
           <Box>
-            <img src="/khatrilogoblack.svg" style={{width :isSmall ? '100%':"50%"}}/>
+            <img src="/khatrilogoblack.svg" style={{ width: isSmall ? '100%' : "50%" }} />
           </Box>
-          <br/>
+          <br />
           <p>
             Welcome to Khatri Brothers Academy, where the beauty of music meets
             tradition. Our goal is to create a vibrant musical community in
@@ -83,14 +84,14 @@ const theme = useTheme()
 
             // target="_blank" rel="noopener noreferrer"
             >
-              <i style={{alignItems:'center'}}>
-                <IoLocationOutline style={{marginRight:'0.5rem'}} />
+              <i style={{ alignItems: 'center' }}>
+                <IoLocationOutline style={{ marginRight: '0.5rem' }} />
                 Dehli, India
               </i>
             </a>
-            <a  href="mailto:Khatribrothersacademy@gmail.com" target="_blank" rel="noopener noreferrer">
-              <i style={{alignItems:'center', }}>
-                <MdOutlineEmail style={{marginRight:'0.5rem'}}/> Khatribrothersacademy@gmail.com
+            <a href="mailto:Khatribrothersacademy@gmail.com" target="_blank" rel="noopener noreferrer">
+              <i style={{ alignItems: 'center', }}>
+                <MdOutlineEmail style={{ marginRight: '0.5rem' }} /> Khatribrothersacademy@gmail.com
               </i>
             </a>
             {/* <a href="tel:+923076589234" target="_blank" rel="noopener noreferrer">
@@ -98,19 +99,24 @@ const theme = useTheme()
                 <FaPhoneVolume /> +923076589234
               </i>
             </a> */}
+            <a href="https://wa.me/917897329508" target="_blank" rel="noopener noreferrer">
+              <i style={{ alignItems: 'center', display: 'flex' }}>
+                <FaWhatsapp style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} />  +917897329508
+              </i>
+            </a>
           </div>
           <div className="footer-social-btn">
 
-          <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+            <a style={{ color: 'white' }} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
               <FaYoutube />
             </a>
-            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+            <a style={{ color: 'white' }} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
               <AiOutlineFacebook />
             </a>
-            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+            <a style={{ color: 'white' }} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
               <FaInstagram />
             </a>
-            <a style = {{color:'white'}} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
+            <a style={{ color: 'white' }} href="https://youtube.com/@anmolkhatrimusic?si=h4RvROE3sbhMM3_3" target="_blank" rel="noopener noreferrer" className="footer-social-links">
               <LiaTwitterSquare />
             </a>
 
