@@ -316,7 +316,6 @@ const AdvanceCoursePriceHeroSection = () => {
   const getCurrencySymbol = (countryCode) => {
     const currencyMap = {
       US: "$",
-
       IN: "₹",
       GB: "£",
       KE: "KSh",
@@ -333,7 +332,6 @@ const AdvanceCoursePriceHeroSection = () => {
   const getCurrencyType = (countryCode) => {
     const currencyType = {
       US: "USD",
-
       IN: "INR",
       GB: "GBP",
       KE: "KES",
@@ -686,10 +684,10 @@ const AdvanceCoursePriceHeroSection = () => {
                     {courseData.courseType === "intermediate"
                       ? "Intermediate to Professional"
                       : courseData.courseType === "advanced"
-                      ? "Advanced to Professional"
-                      : courseData.courseType === "guitar" && courseData.title.toLowerCase().includes("advance")
-                      ? "Advanced to Professional"
-                      : "Beginner to Advance"}
+                        ? "Advanced to Professional"
+                        : courseData.courseType === "guitar" && courseData.title.toLowerCase().includes("advance")
+                          ? "Advanced to Professional"
+                          : "Beginner to Advance"}
                   </span>{" "}
                 </Box>
                 <br />
@@ -810,20 +808,20 @@ const AdvanceCoursePriceHeroSection = () => {
 
           <Box sx={{ marginTop: "1rem" }}>
 
-  {related.filter((val) => val._id !== id && val.addedBy === "admin").length > 0 && (
-    <>
-      <Typography
-        sx={{
-          fontSize: "1.5rem",
-          fontWeight: "600",
-          color: theme.palette.primary.main,
-        }}
-      >
-        Related Courses
-      </Typography>
-      <br />
-    </>
-  )}
+            {related.filter((val) => val._id !== id && val.addedBy === "admin").length > 0 && (
+              <>
+                <Typography
+                  sx={{
+                    fontSize: "1.5rem",
+                    fontWeight: "600",
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Related Courses
+                </Typography>
+                <br />
+              </>
+            )}
             <br />
 
             <Grid container spacing={5}>

@@ -17,14 +17,46 @@ import {
 import { useDispatch } from "react-redux";
 import { getInstructorClass } from "../../../../store/actions/courseActions";
 import { enqueueSnackbar } from "notistack";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import DeleteClass from "./DeleteClass";
+import axios from "axios";
+
+
 
 const ClassesMain = () => {
   const theme = useTheme();
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [classData, setClassData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [MianID, setMianID] = useState(null);
+  const [StudentID, setStudentID] = useState(null);
+  const [InStructorID, setInStructorID] = useState(null);
+
+
+
 
   const dispatch = useDispatch();
+
+
+
+     const handleUpdate = async () => {
+          try {
+              const token = localStorage.getItem('token');
+              await axios.patch(`https://khatribrothersacademy.com:4545/api/v1/updateClassStatus/`, {
+                  headers: { Authorization: `Bearer ${token}` }
+              });
+             
+          } catch (error) {
+              console.error("Error update class:", error);
+  
+          }
+      };
+
+
+
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -51,40 +83,46 @@ const ClassesMain = () => {
     setIsAddingCourse(false);
   };
 
-//   const formatDateAndTime = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const formattedDate = date.toLocaleDateString();
-// console.log(formattedDate, 'formatted date')
-//     const formattedTime = date.toLocaleTimeString([], {
-//       hour: "2-digit",
-//       minute: "2-digit",
-//       hour12: true,
-//     });
-
-//     return { formattedDate, formattedTime };
-//   };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
 
 
-const formatDateAndTime = (timestamp) => {
-  const date = new Date(timestamp);
-  const formattedDate = date.toLocaleDateString();
 
-  const formattedTime = date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+  //   const formatDateAndTime = (timestamp) => {
+  //     const date = new Date(timestamp);
+  //     const formattedDate = date.toLocaleDateString();
+  // console.log(formattedDate, 'formatted date')
+  //     const formattedTime = date.toLocaleTimeString([], {
+  //       hour: "2-digit",
+  //       minute: "2-digit",
+  //       hour12: true,
+  //     });
 
-  // Calculate end time by adding 2 hours to start time
-  const endTime = new Date(date.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
-  const formattedEndTime = endTime.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+  //     return { formattedDate, formattedTime };
+  //   };
 
-  return { formattedDate, formattedTime, formattedEndTime };
-};
+
+  const formatDateAndTime = (timestamp) => {
+    const date = new Date(timestamp);
+    const formattedDate = date.toLocaleDateString();
+
+    const formattedTime = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    // Calculate end time by adding 2 hours to start time
+    const endTime = new Date(date.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
+    const formattedEndTime = endTime.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return { formattedDate, formattedTime, formattedEndTime };
+  };
 
   const isJoinable = (startTime, endTime) => {
     const now = new Date();
@@ -99,7 +137,7 @@ const formatDateAndTime = (timestamp) => {
       new URL(url);
       window.open(url, "_blank");
     } catch (err) {
-      enqueueSnackbar('Invalid URL ', {variant:'error'})
+      enqueueSnackbar('Invalid URL ', { variant: 'error' })
     }
   };
 
@@ -110,74 +148,86 @@ const formatDateAndTime = (timestamp) => {
   }, [isAddingCourse]);
 
   return (
-    <Box>
-      {isAddingCourse ? (
-        <>
-          <Button
-            variant="outlined"
-            onClick={handleBackClick}
-            sx={{ marginBottom: "1rem" }}
-          >
-            &lt; Back to Courses
-          </Button>
-          <AddClass />
-        </>
-      ) : (
-        <>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: "550",
-                fontSize: "2rem",
-              }}
+    <>
+
+      <DeleteClass
+        open={showPopup}
+        onClose={handleClosePopup}
+        SendID={MianID}
+        StudentIDs={StudentID}
+        InStructorIDs={InStructorID}
+        onDeleteSuccess={fetchData}
+      />
+
+      <Box>
+        {isAddingCourse ? (
+          <>
+            <Button
+              variant="outlined"
+              onClick={handleBackClick}
+              sx={{ marginBottom: "1rem" }}
             >
-              All Classes
-            </Typography>
-            <Button variant="outlined" onClick={handleAddCourseClick}>
-              + Add Class
+              &lt; Back to Courses
             </Button>
-          </Box>
-          <br />
-          {loading ? (
+            <AddClass />
+          </>
+        ) : (
+          <>
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "space-between",
                 alignItems: "center",
-                height: "50vh",
               }}
             >
-              <CircularProgress />
+              <Typography
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "550",
+                  fontSize: "2rem",
+                }}
+              >
+                All Classes
+              </Typography>
+              <Button variant="outlined" onClick={handleAddCourseClick}>
+                + Add Class
+              </Button>
             </Box>
-          ) : (
-            <TableContainer
-              component={Paper}
-              sx={{
-                padding: "1rem 1rem",
-                boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <Table size="small" aria-label="a dense table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Course Name</TableCell>
-                    <TableCell>Group/Student</TableCell>
-                    <TableCell>Class Name</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time</TableCell>
-                    <TableCell>Lecture</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {classData.map((row) => {
-                    {/* const { formattedDate, formattedTime: formattedStartTime } =
+            <br />
+            {loading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "50vh",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : (
+              <TableContainer
+                component={Paper}
+                sx={{
+                  padding: "1rem 1rem",
+                  boxShadow: "10px 0px 20px 1px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <Table size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Group/Student</TableCell>
+                      <TableCell>Class Name</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Time</TableCell>
+                      <TableCell>Lecture</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {classData.map((row) => {
+                      {/* const { formattedDate, formattedTime: formattedStartTime } =
                       formatDateAndTime(row.startTime);
                     const { formattedTime: formattedEndTime } =
                       formatDateAndTime(row.endTime);
@@ -186,70 +236,87 @@ const formatDateAndTime = (timestamp) => {
 
 
 
-                    const { formattedDate, formattedTime: formattedStartTime, formattedEndTime } =
-      formatDateAndTime(row.startTime);
+                      const { formattedDate, formattedTime: formattedStartTime, formattedEndTime } =
+                        formatDateAndTime(row.startTime);
 
-    const now = new Date();
-    const start = new Date(row.startTime);
-    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // Calculate end time
+                      const now = new Date();
+                      const start = new Date(row.startTime);
+                      const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // Calculate end time
 
-    const isPastEndTime = now > end;
-    const joinable = now >= start && now <= end;
-                    return (
-                      <TableRow
-                        key={row._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ color: "grey" }}
+                      const isPastEndTime = now > end;
+                      const joinable = now >= start && now <= end;
+                      return (
+                        <TableRow
+                          key={row._id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
                         >
-                          {row.courseId.title}
-                        </TableCell>
-                        <TableCell sx={{ color: "grey" }}>
-                          {row.courseType === "group"
-                            ? row.group.name
-                            : `${row.studentId.firstName} ${row.studentId.lastName}`}
-                        </TableCell>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ color: "grey" }}
+                          >
+                            {row.courseId.title}
+                          </TableCell>
+                          <TableCell sx={{ color: "grey" }}>
+                            {row.courseType === "group"
+                              ? row.group.name
+                              : `${row.studentId.firstName} ${row.studentId.lastName}`}
+                          </TableCell>
 
-                        <TableCell sx={{ color: "grey" }}>
-                          {row.title}
-                        </TableCell>
+                          <TableCell sx={{ color: "grey" }}>
+                            {row.title}
+                          </TableCell>
 
 
-                        <TableCell sx={{ color: "grey" }}>
-                          {formattedDate}
-                        </TableCell>
-                        <TableCell sx={{ color: "grey" }}>
-                          {formattedStartTime} - {formattedEndTime}
-                        </TableCell>
-                        <TableCell>
-          {isPastEndTime ? (
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ borderRadius: "0px", textTransform: "none" }}
+                          <TableCell sx={{ color: "grey" }}>
+                            {formattedDate}
+                          </TableCell>
+                          <TableCell sx={{ color: "grey" }}>
+                            {formattedStartTime} - {formattedEndTime}
+                          </TableCell>
+                          <TableCell>
+                            {isPastEndTime ? (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ borderRadius: "0px", textTransform: "none" }}
 
-              disabled={!joinable}
-            >
-              Finished
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ borderRadius: "0px", textTransform: "none" }}
-              onClick={() => joinable && handleRedirect(row.zoomLink)}
-              disabled={!joinable}
-            >
-              Join
-            </Button>
-          )}
-        </TableCell>
-                        {/* <TableCell>
+                                disabled={!joinable}
+                              >
+                                Finished
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ borderRadius: "0px", textTransform: "none" }}
+                                onClick={() => joinable && handleRedirect(row.zoomLink)}
+                                disabled={!joinable}
+                              >
+                                Join
+                              </Button>
+                            )}
+                          </TableCell>
+
+                          <TableCell>
+                            <IconButton
+
+                              onClick={() => {
+                                console.log("Delete icon clicked");
+                                setMianID(row._id)
+                                setStudentID(row.studentId?._id)
+                                setInStructorID(row.instructorId)
+                                setShowPopup(true);  // Open the delete popup
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
+
+
+                          {/* <TableCell>
                           <Button
                             variant="contained"
                             color="primary"
@@ -262,17 +329,26 @@ const formatDateAndTime = (timestamp) => {
                             Join
                           </Button>
                         </TableCell> */}
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </>
-      )}
-    </Box>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </>
+        )}
+      </Box>
+    </>
+
   );
 };
 
 export default ClassesMain;
+
+
+
+
+
+
+

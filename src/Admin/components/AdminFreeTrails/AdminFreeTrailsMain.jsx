@@ -29,6 +29,10 @@ const AdminFreeTrailsMain = () => {
     }
   };
 
+
+  console.log("this is class data", classData)
+
+
   useEffect(() => {
 
     fetchData();
@@ -111,7 +115,7 @@ const AdminFreeTrailsMain = () => {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component='th' scope='row' sx={{ color: 'grey' }}>
-                        {row.studentId.firstName} {row.studentId.lastName}
+                        {row?.studentId?.firstName} {row?.studentId?.lastName}
                       </TableCell>
                       <TableCell sx={{ color: 'grey' }}>
                         {row.courseType}
