@@ -41,18 +41,46 @@ const ClassesMain = () => {
 
 
 
-     const handleUpdate = async () => {
-          try {
-              const token = localStorage.getItem('token');
-              await axios.patch(`https://khatribrothersacademy.com:4545/api/v1/updateClassStatus/`, {
-                  headers: { Authorization: `Bearer ${token}` }
-              });
-             
-          } catch (error) {
-              console.error("Error update class:", error);
-  
-          }
-      };
+  //  const handleUpdate = async () => {
+  //       try {
+  //           const token = localStorage.getItem('token');
+  //           await axios.patch(`https://khatribrothersacademy.com:4545/api/v1/updateClassStatus/`, {
+  //               headers: { Authorization: `Bearer ${token}` }
+  //           });
+
+  //       } catch (error) {
+  //           console.error("Error update class:", error);
+
+  //       }
+  //   };
+
+
+
+
+  const handleUpdate = async (classId, studentId, instructorId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.patch(
+        `https://m7fgzfrz-4545.inc1.devtunnels.ms/api/v1/updateClassStatus/`,
+        {
+          classId,
+          instructorId,
+          studentId,
+         
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchData(); // Refresh the data
+      enqueueSnackbar('Class marked as finished.', { variant: 'success' });
+    } catch (error) {
+      console.error("Error updating class:", error);
+      enqueueSnackbar('Failed to update class status.', { variant: 'error' });
+    }
+  };
+
+
 
 
 
@@ -276,7 +304,7 @@ const ClassesMain = () => {
                           <TableCell sx={{ color: "grey" }}>
                             {formattedStartTime} - {formattedEndTime}
                           </TableCell>
-                          <TableCell>
+                          {/* <TableCell>
                             {isPastEndTime ? (
                               <Button
                                 variant="contained"
@@ -298,7 +326,35 @@ const ClassesMain = () => {
                                 Join
                               </Button>
                             )}
+                          </TableCell> */}
+
+                          <TableCell>
+                            {isPastEndTime ? (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ borderRadius: "0px", textTransform: "none" }}
+                                onClick={() =>
+                                  handleUpdate(row._id, row.studentId?._id, row.instructorId)
+                                }
+                              >
+                                Finished
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ borderRadius: "0px", textTransform: "none" }}
+                                onClick={() => joinable && handleRedirect(row.zoomLink)}
+                                disabled={!joinable}
+                              >
+                                Join
+                              </Button>
+                            )}
                           </TableCell>
+
+
+
 
                           <TableCell>
                             <IconButton
@@ -345,8 +401,6 @@ const ClassesMain = () => {
 };
 
 export default ClassesMain;
-
-
 
 
 

@@ -140,7 +140,7 @@ if(loading){
                   <br />
 
                   <Typography sx={{ fontSize: "2rem", fontWeight: 400 }}>
-                    {detail.lectureRem}
+                    {detail?.lectureRem}
                   </Typography>
                 </Box>
               </Grid>

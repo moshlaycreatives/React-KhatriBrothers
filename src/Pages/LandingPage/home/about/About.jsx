@@ -37,7 +37,7 @@ navigate('about-us')
         <div className='home-about-image-main-div'>
             <img src="./assets/about/tabla.png" alt="" />
             <div  className=' home-about-inner-div'>
-                <img src="/bhai.JPG" alt=""  />
+                <img src="/Pic2.jpg" alt="no Image"  />
             </div>
         </div>
     </div>

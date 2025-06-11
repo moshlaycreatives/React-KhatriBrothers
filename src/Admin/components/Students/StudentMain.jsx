@@ -246,6 +246,7 @@ const StudentMain = () => {
                         <TableCell>Class Type</TableCell>
                         <TableCell>Course Fee</TableCell>
                         <TableCell>Payment Status</TableCell>
+                        <TableCell>Instalment paid</TableCell>
                         <TableCell>Instructor Status</TableCell>
 
                         <TableCell>Action</TableCell>
@@ -266,8 +267,8 @@ const StudentMain = () => {
                           >
                             {`${row.studentId.firstName} ${row.studentId.lastName}`}
                           </TableCell>
-                          <TableCell sx={{ color: "gray", cursor:'pointer' }}
-onClick={() => handleOpenDialog(row.courseId.customList)}
+                          <TableCell sx={{ color: "gray", cursor: 'pointer' }}
+                            onClick={() => handleOpenDialog(row.courseId.customList)}
                           >
                             {row.courseId.title}
                           </TableCell>
@@ -278,12 +279,18 @@ onClick={() => handleOpenDialog(row.courseId.customList)}
                             {row.classType}
                           </TableCell>
                           <TableCell sx={{ color: "gray" }}>
-                            ₹ {row.courseId.indianPrice}
+                            {`${row.currency} ${row.amount}`}
+                            {/* ₹ {row.courseId.indianPrice} */}
                           </TableCell>
 
                           <TableCell sx={{ color: row.payment ? 'green' : "red" }}>
-                             {row.payment === true ? 'Paid':'Unpaid'}
+                            {row.payment === true ? 'Paid' : 'Unpaid'}
                           </TableCell>
+
+                          <TableCell sx={{ color: "gray" }}>
+                            {row.installmentRemCount}
+                          </TableCell>
+
 
                           <TableCell>
                             {row.instructorId ? (
@@ -341,21 +348,21 @@ onClick={() => handleOpenDialog(row.courseId.customList)}
 
 
           <Dialog open={open} onClose={handleCloseDialog}>
-        <DialogTitle>Customized course List</DialogTitle>
-        <DialogContent>
-          {currentCustomList.length > 0 ? (
-            <List>
-              {currentCustomList.map((item, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={item} />
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <Typography>No customized course data available</Typography>
-          )}
-        </DialogContent>
-      </Dialog>
+            <DialogTitle>Customized course List</DialogTitle>
+            <DialogContent>
+              {currentCustomList.length > 0 ? (
+                <List>
+                  {currentCustomList.map((item, index) => (
+                    <ListItem key={index}>
+                      <ListItemText primary={item} />
+                    </ListItem>
+                  ))}
+                </List>
+              ) : (
+                <Typography>No customized course data available</Typography>
+              )}
+            </DialogContent>
+          </Dialog>
 
 
 

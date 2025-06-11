@@ -12,12 +12,20 @@ const PaymentSuccess = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Please wait while your enrollment is in process. It will take a few seconds. Don't change the screen.");
   const [error, setError] = useState('');
-  
+
   const enrollCustomer = localStorage.getItem('paymentId2');
   const Installment = localStorage.getItem('installment');
   const classType = localStorage.getItem('classType');
   const currency = localStorage.getItem('currency');
   const amount = localStorage.getItem('price');
+
+
+  console.log("payment page enrollcustomer", enrollCustomer)
+  console.log("payment page Installment", Installment)
+  console.log("payment page classType", classType)
+  console.log("payment page currency", currency)
+  console.log("payment page  amount",  amount)
+
 
   const enroll = async () => {
     try {
@@ -27,14 +35,14 @@ const PaymentSuccess = () => {
       }
 
       await dispatch(EnrollCustomer(enrollCustomer, Installment, classType, currency, amount));
-      
+
       // Clear the localStorage after successful enrollment
       localStorage.removeItem('paymentId2');
       localStorage.removeItem('installment');
       localStorage.removeItem('classType');
       localStorage.removeItem('currency');
       localStorage.removeItem('price');
-      
+
       setLoading(false);
       setMessage('Your enrollment has been successfully completed');
     } catch (err) {
@@ -80,6 +88,7 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;
+
 
 
 

@@ -23,7 +23,7 @@ const DeleteClass = ({ open, onClose, SendID, StudentIDs, InStructorIDs, onDelet
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`https://khatribrothersacademy.com:4545/api/v1/deleteClass/${SendID}/${InStructorIDs}/${StudentIDs}`, {
+            await axios.delete(`https://m7fgzfrz-4545.inc1.devtunnels.ms/api/v1/deleteClass/${SendID}/${InStructorIDs}/${StudentIDs}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             onDeleteSuccess();
@@ -66,7 +66,7 @@ const DeleteClass = ({ open, onClose, SendID, StudentIDs, InStructorIDs, onDelet
             >
 
                 <img className={classes.img}
-                    src="/image/DeleteImage.png"
+                    src="/DeleteImage.png"
                     alt="popup image"
                 />
                 <h6 className={classes.heading}>
@@ -82,8 +82,8 @@ const DeleteClass = ({ open, onClose, SendID, StudentIDs, InStructorIDs, onDelet
                             width: "90px",
                             height: "30px"
                         }}
-                    // onClick={handleBack}
-                    >Skip</Button>
+                    onClick={onClose}
+                    >Cancel</Button>
                     <Button
                         variant="contained"
                         style={{

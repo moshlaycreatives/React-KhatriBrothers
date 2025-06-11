@@ -159,46 +159,93 @@ const AdvanceCoursePriceHeroSection = () => {
 
 
 
-  const handleEnroll = (installment) => {
-    if (auth === true) {
-      if (userData.role === "admin") {
-        enqueueSnackbar("Admin cannot enroll in a course", {
-          variant: "error",
-        });
-        return;
-      }
+  // const handleEnroll = (installment) => {
+  //   if (auth === true) {
+  //     if (userData.role === "admin") {
+  //       enqueueSnackbar("Admin cannot enroll in a course", {
+  //         variant: "error",
+  //       });
+  //       return;
+  //     }
 
-      setLoadingEnroll(true);
-      dispatch(firstPaymentApi({ name, email }))
-        .then((res) => {
-          const paymentId = res.data.data.id;
-          localStorage.setItem("paymentId2", id);
-          localStorage.setItem("installment", installment);
-          localStorage.setItem("classType", selectedClassType);
+  //     setLoadingEnroll(true);
+  //     dispatch(firstPaymentApi({ name, email }))
+  //       .then((res) => {
+  //         const paymentId = res.data.data.id;
+  //         localStorage.setItem("paymentId2", id);
+  //         localStorage.setItem("installment", installment);
+  //         localStorage.setItem("classType", selectedClassType);
 
-          if (paymentId) {
-            dispatch(payment(price, paymentId, installment, currency)).then(
-              (res) => {
-                localStorage.setItem("currency", currency);
-                localStorage.setItem("price", price);
+  //         if (paymentId) {
+  //           dispatch(payment(price, paymentId, installment, currency)).then(
+  //             (res) => {
+  //               localStorage.setItem("currency", currency);
+  //               localStorage.setItem("price", price);
 
 
-                const testCheckoutUrl = res.data.session.url;
-                window.location.href = testCheckoutUrl;
-              }
-            );
-          }
-          setLoadingEnroll(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-          setLoadingEnroll(false);
-        });
-    } else {
-      navigate("/sign-in", { state: { from: location.pathname } });
+  //               const testCheckoutUrl = res.data.session.url;
+  //               window.location.href = testCheckoutUrl;
+  //             }
+  //           );
+  //         }
+  //         setLoadingEnroll(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         enqueueSnackbar(err.response.data.message, { variant: "error" });
+  //         setLoadingEnroll(false);
+  //       });
+  //   } else {
+  //     navigate("/sign-in", { state: { from: location.pathname } });
+  //   }
+  // };
+
+
+const handleEnroll = (installment) => {
+  if (auth === true) {
+    if (userData.role === "admin") {
+      enqueueSnackbar("Admin cannot enroll in a course", { variant: "error" });
+      return;
     }
-  };
+
+    setLoadingEnroll(true);
+
+    dispatch(firstPaymentApi({ name, email }))
+      .then((res) => {
+        const paymentId = res.data.data.id;
+        localStorage.setItem("paymentId2", paymentId); // Store payment ID
+        localStorage.setItem("installment", installment);
+        localStorage.setItem("classType", selectedClassType);
+        localStorage.setItem("price", price); // Store the price
+        localStorage.setItem("currency", currency); // Store the currency
+
+        if (paymentId) {
+          dispatch(payment(price, paymentId, installment, currency)).then(
+            (res) => {
+              localStorage.setItem("currency", currency);
+              localStorage.setItem("price", price);
+
+              const testCheckoutUrl = res.data.session.url;
+              window.location.href = testCheckoutUrl; // Redirect to Stripe payment page
+            }
+          );
+        }
+        setLoadingEnroll(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+        setLoadingEnroll(false);
+      });
+  } else {
+    navigate("/sign-in", { state: { from: location.pathname } });
+  }
+};
+
+
+
+
+
 
   const [trailData, setTrialData] = useState({});
 
